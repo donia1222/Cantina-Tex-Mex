@@ -1,6 +1,7 @@
-# Welcome to Remix!
+# Cantina Tex-Mex Homepage whit Remix
 
-- 📖 [Remix docs](https://remix.run/docs)
+
+-  https://cantina-tex-mex.vercel.app
 
 ## Development
 
