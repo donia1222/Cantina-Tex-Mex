@@ -172,10 +172,10 @@ export default function Component({ children }: { children: React.ReactNode }) {
             <div className="md:hidden">
               <motion.button
                 onClick={toggleMenu}
-                className="text-red-500 hover:text-gray-500 focus:outline-none rounded-full p-2 bg-gray-900 bg-opacity-70  "
+                className="text-red-500 hover:text-gray-500 focus:outline-none rounded-full p-2 bg-gray-900 bg-opacity-70"
                 whileTap={{ scale: 0.95 }}
               >
-                <Menu size={32} />
+                {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
               </motion.button>
             </div>
           </div>
@@ -322,46 +322,44 @@ export default function Component({ children }: { children: React.ReactNode }) {
 
       {/* Aviso de Consentimiento de Cookies */}
       <AnimatePresence>
-      {cookieConsent && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-  >
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.8, opacity: 0 }}
-      className="bg-white rounded-lg p-6 max-w-lg w-full"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <h2 className="text-2xl font-bold mb-4 text-center">Cookie-Einwilligung</h2>
-      <p className="text-gray-700 mb-4">
-        Wir verwenden Cookies, um Ihre Erfahrung auf unserer Webseite zu verbessern. Durch das Akzeptieren stimmen Sie der Verwendung von Cookies zu.
-      </p>
-      <div className="flex justify-center space-x-4">
-      <button
-  onClick={() => {
-    localStorage.setItem("cookieConsent", "true"); // Cambiado a localStorage
-    setCookieConsent(false);
-  }}
-  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
->
-  Akzeptieren
-</button>
-
-        <button
-          onClick={() => window.location.href = "https://google.ch"}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
-        >
-          Ablehnen
-        </button>
-      </div>
-    </motion.div>
-  </motion.div>
-)}
-
+        {cookieConsent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-white rounded-lg p-6 max-w-lg w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-2xl font-bold mb-4 text-center">Cookie-Einwilligung</h2>
+              <p className="text-gray-700 mb-4">
+                Wir verwenden Cookies, um Ihre Erfahrung auf unserer Webseite zu verbessern. Durch das Akzeptieren stimmen Sie der Verwendung von Cookies zu.
+              </p>
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={() => {
+                    localStorage.setItem("cookieConsent", "true"); // Guardar consentimiento en localStorage
+                    setCookieConsent(false);
+                  }}
+                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+                >
+                  Akzeptieren
+                </button>
+                <button
+                  onClick={() => window.location.href = "https://google.ch"}
+                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
+                >
+                  Ablehnen
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       {/* Impressum Modal */}
@@ -400,35 +398,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
       )}
 
       {/* Datenschutz Modal */}
-      {datenschutzOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
-            <h2 className="text-2xl font-bold mb-4 text-center">Datenschutzerklärung</h2>
-            <div className="mt-2 max-h-[80vh] overflow-y-auto px-4">
-              <section className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">DATENSCHUTZ</h3>
-                <p className="text-gray-700 mb-4">
-                  Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.
-                </p>
-                <p className="text-gray-700 mb-4">
-                  Die Nutzung unserer Website ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder E-Mail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.
-                </p>
-                <p className="text-gray-700 mb-4">
-                  Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.
-                </p>
-                <p className="text-gray-700 mb-4">
-                  Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:
-                </p>
-                <p className="text-gray-700">
-                  Cantina Bad Rans GmbH<br />
-                  Badstrasse 44<br />
-                  9475 / Sevelen<br />
-                  Schweiz<br />
-                  Telefon: 081 750 19 11
-                </p>
-              </section>
-
-          {/* Datenschutz Modal */}
       {datenschutzOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
@@ -526,19 +495,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   Wenn Ihr Browser Web Fonts nicht unterstützt, wird eine Standardschrift von Ihrem Computer genutzt. Weitere Informationen zu Google Web Fonts finden Sie unter <a href="https://developers.google.com/fonts/faq" className="text-blue-600 underline">https://developers.google.com/fonts/faq</a> und in der Datenschutzerklärung von Google: <a href="https://www.google.com/policies/privacy/" className="text-blue-600 underline">https://www.google.com/policies/privacy/</a>.
                 </p>
               </section>
-            </div>
-            <div className="flex justify-center mt-6">
-              <button
-                onClick={() => setDatenschutzOpen(false)}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
-              >
-                Schließen
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
             </div>
             <div className="flex justify-center mt-6">
               <button
