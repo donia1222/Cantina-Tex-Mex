@@ -105,7 +105,15 @@ export default function Header() {
             <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins rounded-lg">
           <AnimatedText text="CANTINA SEIT 2010 IM SEVELEN" />
         </div>
- 
+        <a
+  href="https://cantinatexmex.ch/reservierung/index-4.html"
+  className="relative px-6 py-3 font-bold text-gray-100 group max-w-[80%] mx-auto block"
+>
+  <span className="absolute inset-0 transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-500 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+  <span className="absolute inset-0 border-2 border-gray-300"></span>
+  <span className="relative">Jetzt Reservieren</span>
+</a>
+
           </motion.div>
         </div>
         
