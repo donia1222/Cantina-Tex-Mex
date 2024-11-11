@@ -66,7 +66,7 @@ export default function Component() {
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
             <div className="max-w-3xl space-y-4 text-white">
-              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Authentische mexikanische Aromen</h1>
+              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Authentische Mexikanische Aromen</h1>
 
             </div>
           </div>

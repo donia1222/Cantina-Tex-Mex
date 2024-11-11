@@ -6,7 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import Layout from "./components/Layout";
 
 import "./tailwind.css";
@@ -22,7 +22,20 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
   },
+  { rel: "icon", href: "/favicon.ico" },
 ];
+
+
+export const meta: MetaFunction = () => {
+  return [
+    { charset: "utf-8" },
+    { title: "Cantina Tex-Mex " },
+    { name: "description", content: "Cantina Sevelen" },
+    { name: "keywords", content: "restaurant Sevelen" },
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { name: "theme-color", content: "#000000" },
+  ];
+};
 
 export default function App() {
   return (
