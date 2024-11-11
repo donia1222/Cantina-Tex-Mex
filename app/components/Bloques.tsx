@@ -47,7 +47,7 @@ export default function Component() {
                 <Utensils className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-3xl font-medium leading-tight">
-                Genießen Sie authentische mexikanische Küche in jedem Bissen.
+                Genießen Sie authentische Mexikanische Küche in jedem Bissen.
               </h2>
             </div>
           </div>
@@ -128,8 +128,8 @@ export default function Component() {
             <Calendar className="w-8 h-8 text-red-500 mb-4" />
             <h2 className="text-2xl font-medium">
               Probieren Sie unser<br />
-              Tagesmenü donnerstags<br />
-              und freitags von<br />
+              Tagesmenü Donnerstags<br />
+              und Freitags von<br />
               11:30 bis 13:00 Uhr.
             </h2>
           </div>

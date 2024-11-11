@@ -54,7 +54,7 @@ export default function Component() {
             Reservieren Sie Ihren Tisch
           </h1>
           <p className="text-1xl mb-4 text-white text-center">
-            Genießen Sie authentische mexikanische Küche in El Sabor Mexicano.
+            Genießen Sie authentische mexikanische Küche.
             Reservieren Sie jetzt!
           </p>
           <a
