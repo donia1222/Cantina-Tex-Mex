@@ -89,7 +89,7 @@ export default function Header() {
   <img 
     src="https://cantinatexmex.ch/images/2022/03/05/logo3-copia1.png" 
     alt="Plato mexicano" 
-    className="rounded-lg  h-34 object-cover "
+    className="rounded-lg  h-34 object-cover bg-gray-100 "
   />
 </div>
 

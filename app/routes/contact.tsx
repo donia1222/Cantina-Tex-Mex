@@ -129,7 +129,7 @@ export default function Contact() {
           <img 
             src="https://cantinatexmex.ch/images/2022/03/05/logo3-copia1.png" 
             alt="Plato mexicano" 
-            className="rounded-lg shadow-md h-34 object-cover bg-gray-300"
+            className="rounded-lg shadow-md h-34 object-cover bg-gray-100"
           />
         </div>
 
