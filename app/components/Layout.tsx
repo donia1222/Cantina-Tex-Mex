@@ -256,7 +256,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
 
       {/* Main content */}
       <main className="relative z-10 py-4 sm:px-6 lg:px-8 flex-grow">
-        <div className="px-2 py-6 sm:px-0">
+        <div className="px-2 py-0 sm:px-0">
           {children}
         </div>
       </main>
