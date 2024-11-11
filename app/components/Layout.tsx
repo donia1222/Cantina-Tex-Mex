@@ -172,10 +172,10 @@ export default function Component({ children }: { children: React.ReactNode }) {
             <div className="md:hidden">
               <motion.button
                 onClick={toggleMenu}
-                className="text-gray-200 hover:text-red-600 focus:outline-none rounded-md p-2"
+                className="text-red-500 hover:text-gray-500 focus:outline-none rounded-full p-2 bg-gray-900 bg-opacity-70  "
                 whileTap={{ scale: 0.95 }}
               >
-                <Menu size={24} />
+                <Menu size={32} />
               </motion.button>
             </div>
           </div>
