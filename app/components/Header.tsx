@@ -37,7 +37,7 @@ export default function Header() {
   }, [])
 
   return (
-    <header className="bg-gray-800 text-gray-400 p-6 rounded-xl shadow-2xl overflow-hidden" style={{ maxWidth: '1000px', margin: '1rem auto' }}>
+    <header className=" text-gray-400 p-6 rounded-xl  overflow-hidden" style={{ maxWidth: '1000px', margin: '1rem auto' }}>
       <div className="relative">
       <div className="absolute inset-0 z-0 opacity-20">
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">

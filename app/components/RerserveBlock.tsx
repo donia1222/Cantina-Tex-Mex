@@ -11,8 +11,8 @@ export default function Component() {
   return (
     <div className="flex items-center justify-center p-4">
       <div
-        className={`bg-gray-800 text-red-500 rounded-3xl relative overflow-hidden transition-all duration-1000 ease-out ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        className={`bg-gray-800 text-red-500 mb-20 rounded-3xl relative overflow-hidden transition-all duration-1000 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 "
         }`}
         style={{ width: "650px", height: "450px" }}
       >
