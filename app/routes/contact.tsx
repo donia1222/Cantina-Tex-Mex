@@ -31,35 +31,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-gray-800 text-gray-400 bg-opacity-90 py-12 px-4 sm:px-6 lg:px-8">
-       <div className="absolute inset-0 z-0 opacity-20">
-          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <pattern
-              id="pattern-circles"
-              x="0"
-              y="0"
-              width="30"
-              height="40"
-              patternUnits="userSpaceOnUse"
-              patternContentUnits="userSpaceOnUse"
-            >
-              <circle
-                id="pattern-circle"
-                cx="5"
-                cy="5"
-                r="1"
-                fill="#fff"
-              ></circle>
-            </pattern>
-            <rect
-              id="rect"
-              x="0"
-              y="0"
-              width="100%"
-              height="100%"
-              fill="url(#pattern-circles)"
-            ></rect>
-          </svg>
-        </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -104,7 +76,7 @@ export default function Contact() {
               <h3 className="text-xl font-semibold mb-4">Reservierung</h3>
               <div className="space-y-4">
                 <motion.a
-                  href="#"
+                  href="https://cantinatexmex.ch/reservierung/index-4.html"
                   className="block w-full bg-white text-red-600 py-2 px-4 rounded-md shadow-sm text-center font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out flex items-center justify-center"
                   variants={buttonVariants}
                   whileHover="hover"
