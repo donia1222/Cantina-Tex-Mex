@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Bloques from '~/components/Bloques'; 
+import Bloques from '~/components/Bloques'
+
 export default function Component() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const containerRef1 = useRef<HTMLDivElement>(null)
@@ -60,15 +61,15 @@ export default function Component() {
         >
           <img
             src="https://cantinatexmex.ch/images/2022/01/29/pexels-alleksana-6400028-2.jpg"
-            alt="Hero image 1"
+            alt="Bunte mexikanische Gerichte"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
             <div className="max-w-3xl space-y-4 text-white">
-              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Liquid Retina XDR Display</h1>
+              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Authentische mexikanische Aromen</h1>
               <p className="text-lg sm:text-xl">
-                Go from the sunniest terrace to the darkest studio with more ease than ever. The eye-popping display offers
-                1,600 nits peak HDR brightness.
+                Erleben Sie die lebendigen Geschmäcker Mexikos direkt hier. Unsere Gerichte strotzen vor authentischen Aromen,
+                von den sonnigsten Salsas bis zu den reichhaltigsten Moles.
               </p>
             </div>
           </div>
@@ -89,24 +90,23 @@ export default function Component() {
         >
           <img
             src="https://cantinatexmex.ch/images/2022/01/29/18936025_m-1.jpg"
-            alt="Hero image 2"
+            alt="Mexikanischer Koch bei der Essenszubereitung"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
             <div className="max-w-2xl space-y-4 text-white">
-              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Powerful Performance</h1>
+              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Kulinarische Expertise</h1>
               <p className="text-lg sm:text-xl">
-                Experience unparalleled speed and efficiency with our latest processor. Multitask like never before and 
-                push your creativity to new heights.
+                Unsere erfahrenen Köche bringen jahrelange Erfahrung und Leidenschaft in jedes Gericht. Erleben Sie die Kunstfertigkeit
+                der mexikanischen Küche, während wir jede Mahlzeit mit Präzision und Sorgfalt zubereiten.
               </p>
             </div>
           </div>
         </div>
       </div>
       <div className="relative z-20 ">
-      <Bloques />
+        <Bloques />
         <div className="mx-auto max-w-4xl p-8">
-      
         </div>
       </div>
       <div
@@ -124,15 +124,15 @@ export default function Component() {
         >
           <img
             src="https://cantinatexmex.ch/images/speasyimagegallery/albums/1/images/res1.png"
-            alt="Hero image 3"
+            alt="Innenraum des mexikanischen Restaurants"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
             <div className="max-w-2xl space-y-4 text-white">
-              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Innovative Design</h1>
+              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Lebendige Atmosphäre</h1>
               <p className="text-lg sm:text-xl">
-                Sleek, elegant, and built to last. Our cutting-edge design combines form and function
-                to create a device that's not just powerful, but beautiful too.
+                Tauchen Sie ein in die Farben und Klänge Mexikos. Das Design unseres Restaurants erweckt die 
+                Wärme und Energie einer mexikanischen Cantina zum Leben und schafft den perfekten Rahmen für Ihre Mahlzeit.
               </p>
             </div>
           </div>
