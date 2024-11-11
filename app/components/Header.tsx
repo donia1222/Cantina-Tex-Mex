@@ -37,7 +37,7 @@ export default function Header() {
   }, [])
 
   return (
-    <header className="bg-gray-800 text-gray-400 p-6 rounded-xl shadow-2xl overflow-hidden" style={{ maxWidth: '1000px', margin: '2rem auto' }}>
+    <header className="bg-gray-800 text-gray-400 p-6 rounded-xl shadow-2xl overflow-hidden" style={{ maxWidth: '1000px', margin: '1rem auto' }}>
       <div className="relative">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}

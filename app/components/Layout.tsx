@@ -24,7 +24,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
       } else if (scrollPosition < (windowHeight * 2) / 3) {
         setCurrentBg(1)
       } else {
-        setCurrentBg(2)
+        setCurrentBg(2) 
       }
     }
 
