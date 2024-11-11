@@ -36,7 +36,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
   }, [])
 
   useEffect(() => {
-    const consent = sessionStorage.getItem("cookieConsent");
+    const consent = localStorage.getItem("cookieConsent");
     if (!consent) {
       setCookieConsent(true);
     }
@@ -341,15 +341,16 @@ export default function Component({ children }: { children: React.ReactNode }) {
         Wir verwenden Cookies, um Ihre Erfahrung auf unserer Webseite zu verbessern. Durch das Akzeptieren stimmen Sie der Verwendung von Cookies zu.
       </p>
       <div className="flex justify-center space-x-4">
-        <button
-          onClick={() => {
-            sessionStorage.setItem("cookieConsent", "true");
-            setCookieConsent(false);
-          }}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
-        >
-          Akzeptieren
-        </button>
+      <button
+  onClick={() => {
+    localStorage.setItem("cookieConsent", "true"); // Cambiado a localStorage
+    setCookieConsent(false);
+  }}
+  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+>
+  Akzeptieren
+</button>
+
         <button
           onClick={() => window.location.href = "https://google.ch"}
           className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"

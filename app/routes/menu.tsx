@@ -1,14 +1,10 @@
-// app/routes/Menu.tsx
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { X, Leaf, Flame, Baby, IceCream, Diff } from 'lucide-react';
-import AnimatedGradientText from '~/components/AnimatedGradientText'; // Asegúrate de que la ruta sea correcta
-
-import HeaderSpe from '~/components/HeaderSpe'; 
+import { X, Diff } from 'lucide-react';
+import HeaderSpe from '~/components/HeaderSpe';
 
 const menuSections = [
   { id: 'vorspeisen', name: 'Vorspeisen', color: '#FF6B6B', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/13/3_copia-1-copia.jpg' },
@@ -16,7 +12,7 @@ const menuSections = [
   { id: 'mexico', name: 'Mexico', color: '#45B7D1', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/13/3_copia-11.jpg' },
   { id: 'kinder', name: 'Kinder', color: '#FFA07A', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/07/16/pexels-alleksana-6400028-2.jpg' },
   { id: 'desserts', name: 'Desserts', color: '#C06C84', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/13/3_copia-14.jpg' },
-  { id: 'mittagsmenu', name: 'Mittagsmenu', color: '#FFD700', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/speasyimagegallery/albums/1/images/chili.jpeg' }, // Nueva sección
+  { id: 'mittagsmenu', name: 'Mittagsmenu', color: '#FFD700', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/speasyimagegallery/albums/1/images/chili.jpeg' },
 ] as const;
 
 type SectionId = typeof menuSections[number]['id'];
@@ -28,9 +24,9 @@ type SubMenuItem = {
 
 type MenuItem = {
   name: string;
-  price?: number; // Precio opcional
+  price?: number;
   description?: string;
-  subItems?: SubMenuItem[]; // Subcategorías opcionales
+  subItems?: SubMenuItem[];
   vegi?: boolean;
 };
 
@@ -88,9 +84,7 @@ export const loader: LoaderFunction = async () => {
       { name: 'Mexican Coffee', price: 12.50, description: 'Kaffeeglace gemischt mit heissem Espresso, Kahlúa Likör und Schlagrahm' },
     ],
     mittagsmenu: [
-      // Cocktails mit Alkohol
       { name: 'Donnerstags', description: 'Menü 1, Menü Vegui und Menü Spezial zur Auswahl', price: undefined },
-      // Alkoholfreie Cocktails
       { name: 'Freitags', description: 'Menü 1 (Fajitas), Menü Vegui und Menü Spezial zur Auswahl', price: undefined },
     ],
   };
@@ -101,6 +95,7 @@ export const loader: LoaderFunction = async () => {
 export default function Menu() {
   const menuItems = useLoaderData<MenuData>();
   const [activeSection, setActiveSection] = useState<SectionId | null>(null);
+  const modalHeaderRef = useRef<HTMLDivElement>(null);
 
   const handleSectionClick = (sectionId: SectionId) => {
     setActiveSection(sectionId);
@@ -110,7 +105,15 @@ export default function Menu() {
     setActiveSection(null);
   };
 
-  // Variants para las animaciones de entrada de las tarjetas
+  useEffect(() => {
+    if (activeSection) {
+      const modalContent = document.querySelector('.modal-content');
+      if (modalContent) {
+        modalContent.scrollTop = 0;
+      }
+    }
+  }, [activeSection]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -128,9 +131,7 @@ export default function Menu() {
   };
 
   return (
-    <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins  bg-gradient-to-br from-gray-900 to-gray-700 text-red-500 p-8 rounded-lg">
-
-
+    <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gradient-to-br from-gray-900 to-gray-700 text-red-500 p-8 rounded-lg">
       <HeaderSpe />
       <motion.div
         className="w-full max-w-6xl px-4 py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
@@ -152,10 +153,7 @@ export default function Menu() {
                 alt={section.name}
                 className="w-full h-48 object-cover opacity-90 transition-opacity duration-300"
               />
-              {/* Overlay de gradiente al hacer hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-30 transition-opacity duration-300 rounded-t-lg"></div>
-              
-              {/* Contenedor del texto y el icono con fondo semi-transparente */}
               <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 rounded p-2 text-white">
                 <div className="flex items-center space-x-2">
                   <span>{section.icon}</span>
@@ -167,8 +165,6 @@ export default function Menu() {
         ))}
       </motion.div>
 
-
-      {/* Modal de sección activa */}
       <AnimatePresence>
         {activeSection && (
           <motion.div
@@ -182,14 +178,14 @@ export default function Menu() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-lg overflow-hidden max-w-2xl w-full max-h-[80vh]"
+              className="bg-white rounded-lg overflow-hidden max-w-2xl w-full max-h-[80vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative h-48 overflow-hidden ">
+              <div ref={modalHeaderRef} className="relative h-48 flex-shrink-0">
                 <img
                   src={menuSections.find((s) => s.id === activeSection)?.image}
                   alt={menuSections.find((s) => s.id === activeSection)?.name}
-                  className="w-full h-full object-cover "
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
                 <h2 className="absolute bottom-4 left-4 text-3xl font-bold text-white">
@@ -202,8 +198,8 @@ export default function Menu() {
                   <X size={24} />
                 </button>
               </div>
-              <div className="overflow-y-auto max-h-[calc(80vh-12rem)] p-6">
-                <div className="grid gap-6">
+              <div className="overflow-y-auto flex-grow modal-content">
+                <div className="p-6 grid gap-6">
                   {menuItems[activeSection].map((item, index) => (
                     <motion.div
                       key={item.name}
@@ -241,7 +237,6 @@ export default function Menu() {
           </motion.div>
         )}
       </AnimatePresence>
-      
     </div>
   );
 }
