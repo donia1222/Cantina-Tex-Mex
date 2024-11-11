@@ -16,7 +16,7 @@ const menuSections = [
   { id: 'mexico', name: 'Mexico', color: '#45B7D1', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/13/3_copia-11.jpg' },
   { id: 'kinder', name: 'Kinder', color: '#FFA07A', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/07/16/pexels-alleksana-6400028-2.jpg' },
   { id: 'desserts', name: 'Desserts', color: '#C06C84', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/13/3_copia-14.jpg' },
-  { id: 'bebidas', name: 'Bebidas', color: '#FFD700', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/06/40867849_l1.jpg' }, // Nueva sección
+  { id: 'mittagsmenu', name: 'Mittagsmenu', color: '#FFD700', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/speasyimagegallery/albums/1/images/chili.jpeg' }, // Nueva sección
 ] as const;
 
 type SectionId = typeof menuSections[number]['id'];
@@ -87,11 +87,11 @@ export const loader: LoaderFunction = async () => {
       { name: 'Don Chocolate', price: 10.50, description: 'Schokoladenglace, Moccaglace, Tobleronestückchen und Schlagrahm' },
       { name: 'Mexican Coffee', price: 12.50, description: 'Kaffeeglace gemischt mit heissem Espresso, Kahlúa Likör und Schlagrahm' },
     ],
-    bebidas: [
+    mittagsmenu: [
       // Cocktails mit Alkohol
-      { name: 'Cocktails mit Alkohol', description: 'Sex on the Beach, Margarita, Caipirinha, Mojito, Piña Colada, Tequila Sunrise, Pitufa...', price: undefined },
+      { name: 'Donnerstags', description: 'Menü 1, Menü Vegui und Menü Spezial zur Auswahl', price: undefined },
       // Alkoholfreie Cocktails
-      { name: 'Alkoholfreie Cocktails', description: 'Caipirohne, Stress Killer, Malibu Dreams, Pitufo, Santa Fresana...', price: undefined },
+      { name: 'Freitags', description: 'Menü 1 (Fajitas), Menü Vegui und Menü Spezial zur Auswahl', price: undefined },
     ],
   };
 

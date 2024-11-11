@@ -1,13 +1,14 @@
 import { useState } from "react"
-import { Utensils, Martini, Ham, ChevronLeft, ChevronRight } from "lucide-react"
+import { Utensils, Calendar, Ham, ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function Component() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const reviews = [
-    { id: 1, name: "Carlos", rating: 5, comment: "¡La mejor comida mexicana que he probado!", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=faces&q=80" },
-    { id: 2, name: "María", rating: 4, comment: "Sabores auténticos y ambiente acogedor.", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=faces&q=80" },
-    { id: 3, name: "Juan", rating: 5, comment: "Los tacos son increíbles, volveré pronto.", avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&h=150&fit=crop&crop=faces&q=80" },
+    { id: 1, name: "Roland Vogler", rating: 5, comment: "Preiswerte Mittagsmenüs. Gutes Essen (Tex-Mex) und Cocktails.", avatar: "https://cantinatexmex.ch/images/2022/04/14/unnamed.png" },
+    { id: 2, name: "Ralph Heeb", rating: 5, comment: "Reservation von Vorteil ... gute Auswahl an Gerichten und Getränke. Sehr nette und Aufmerksame Bedienungen.", avatar: "https://cantinatexmex.ch/images/2022/03/07/unnamed.png" },
+    { id: 3, name: "Garry Cane", rating: 5, comment: "A very pleasant dining experience with good food. Not the place to go for a quiet meal. Really busy and very loud. Will be going again. Ive lived in the area for twenty years and didn't know about it until a friend suggested we go there.", avatar: "https://cantinatexmex.ch/images/2022/04/14/unnamed-2.png" },
+    { id: 4, name: "C.Mullis", rating: 5, comment: "Dieses Restaurant zeigt was Professionalität heisst. Von Anfang bis zum Schluss einfach nur Top", avatar: "https://cantinatexmex.ch/images/2022/03/07/unnamed-1.png" },
   ]
 
   const nextReview = () => {
@@ -30,15 +31,15 @@ export default function Component() {
       </div>
       <div className="relative z-10">
         <h1 className="text-4xl font-medium text-center mb-8 text-gray-800">
-          Esto es lo que obtienes en El Sabor Mexicano.
+          Das erwartet Sie in El Sabor Mexicano.
         </h1>
       
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
-          {/* Carta de Sabores Auténticos */}
+          {/* Karte für authentische Aromen */}
           <div className="relative rounded-3xl overflow-hidden">
             <img 
               src="https://cantinatexmex.ch/images/2023/07/13/img_45701.jpeg" 
-              alt="Platos mexicanos coloridos" 
+              alt="Bunte mexikanische Gerichte" 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-6 flex flex-col justify-end">
@@ -46,12 +47,12 @@ export default function Component() {
                 <Utensils className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-3xl font-medium leading-tight">
-                Saborea la auténtica cocina mexicana en cada bocado.
+                Genießen Sie authentische mexikanische Küche in jedem Bissen.
               </h2>
             </div>
           </div>
 
-          {/* Sección de Reseñas */}
+          {/* Bewertungsabschnitt */}
           <div className="rounded-3xl bg-black p-6 relative overflow-hidden flex flex-col justify-center h-full">
             <div className="relative z-10">
               {/* Google My Business Logo */}
@@ -66,12 +67,13 @@ export default function Component() {
                 <div className="w-16 h-16 rounded-full overflow-hidden">
                   <img 
                     src={reviews[currentIndex].avatar} 
-                    alt={`Avatar de ${reviews[currentIndex].name}`} 
+                    alt={`Avatar von ${reviews[currentIndex].name}`} 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div>
                   <h3 className="text-xl font-medium">{reviews[currentIndex].name}</h3>
+
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
                       <svg
@@ -94,39 +96,51 @@ export default function Component() {
                 <button 
                   onClick={prevReview} 
                   className="text-blue-500 hover:text-gray-300 transition duration-300"
-                  aria-label="Reseña anterior"
+                  aria-label="Vorherige Bewertung"
                 >
                   <ChevronLeft className="w-10 h-10" />
                 </button>
                 <button 
                   onClick={nextReview} 
                   className="text-blue-500 hover:text-gray-300 transition duration-300"
-                  aria-label="Siguiente reseña"
+                  aria-label="Nächste Bewertung"
                 >
                   <ChevronRight className="w-10 h-10" />
                 </button>
               </div>
             </div>
+            
             <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-green-500/10 rounded-3xl" />
+
+            <button
+  type="button" // Cambié "submit" a "button" para evitar que se envíe un formulario.
+  onClick={() => window.location.href = 'https://www.google.com/search?client=safari&rls=en&q=cantina+sevelen&ie=UTF-8&oe=UTF-8#'}
+  className="px-6 py-3 bg-transparent text-blue-600 font-semibold border-2 border-blue-600 mt-10 rounded-md relative overflow-hidden group transition-colors duration-300 ease-in-out hover:text-white"
+>
+  <span className="relative z-10">Sehen Sie sich alle 469 Bewertungen</span>
+  <span className="absolute inset-0 bg-blue-600 transform -translate-y-full transition-transform duration-300 ease-in-out group-hover:translate-y-0"></span>
+</button>
+
           </div>
 
-          {/* Carta del Plato Estrella */}
+          {/* Karte für das Hauptgericht */}
           <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
-            <Martini className="w-8 h-8 text-red-500 mb-4" />
+            <Calendar className="w-8 h-8 text-red-500 mb-4" />
             <h2 className="text-2xl font-medium">
-              Prueba nuestro<br />
-              picante Mole<br />
-              Poblano.
+              Probieren Sie unser<br />
+              Tagesmenü donnerstags<br />
+              und freitags von<br />
+              11:30 bis 13:00 Uhr.
             </h2>
           </div>
 
-          {/* Carta de Tacos Frescos */}
+          {/* Karte für frische Tacos */}
           <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
             <Ham className="w-8 h-8 text-yellow-500 mb-4" />
             <h2 className="text-2xl font-medium">
-              <span className="text-yellow-500">Tacos frescos</span> 
-              hechos al momento.
-              <span className="text-gray-500"> (Con tortillas recién hechas)</span>
+              <span className="text-yellow-500">Frische Tacos</span> 
+              frisch zubereitet.
+              <span className="text-gray-500"> (Mit frisch gebackenen Tortillas)</span>
             </h2>
           </div>
         </div>

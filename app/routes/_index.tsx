@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Link } from "@remix-run/react"
 import ImagenScroll from '~/components/ImagenScroll'
 import Header from '~/components/Header'
-import ReviewsCarousel from '~/components/ReviewsCarousel'
+import ReviewsCarousel from '~/components/RerserveBlock'
 
 const Loader = () => (
   <motion.div

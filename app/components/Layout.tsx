@@ -36,8 +36,8 @@ export default function Component({ children }: { children: React.ReactNode }) {
     { to: "/", icon: Home, label: "Startseite" },
     { to: "/menu", icon: UtensilsCrossed, label: "Speisekarte" },
     { to: "/drinks", icon: Beer, label: "Getränke" },
+    { to: "/contact", icon: Phone, label: "Kontakt" },
     { to: "https://cantinatexmex.ch/reservierung/index-4.html", icon: Utensils, label: "Reservierung", external: true },
-    { to: "/contact", icon: Phone, label: "Kontakt" }
   ]
 
   return (
@@ -290,7 +290,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
             transition={{ delay: 0.8 }}
           >
             <p className="text-center text-gray-400 text-sm">
-              © 2023 Cantina Tex-Mex. Alle Rechte vorbehalten.
+              © 2024 Cantina Tex-Mex. Alle Rechte vorbehalten.
             </p>
           </motion.div>
         </div>

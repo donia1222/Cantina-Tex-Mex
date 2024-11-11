@@ -67,10 +67,7 @@ export default function Component() {
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
             <div className="max-w-3xl space-y-4 text-white">
               <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Authentische mexikanische Aromen</h1>
-              <p className="text-lg sm:text-xl">
-                Erleben Sie die lebendigen Geschmäcker Mexikos direkt hier. Unsere Gerichte strotzen vor authentischen Aromen,
-                von den sonnigsten Salsas bis zu den reichhaltigsten Moles.
-              </p>
+
             </div>
           </div>
         </div>
@@ -96,10 +93,7 @@ export default function Component() {
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
             <div className="max-w-2xl space-y-4 text-white">
               <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Kulinarische Expertise</h1>
-              <p className="text-lg sm:text-xl">
-                Unsere erfahrenen Köche bringen jahrelange Erfahrung und Leidenschaft in jedes Gericht. Erleben Sie die Kunstfertigkeit
-                der mexikanischen Küche, während wir jede Mahlzeit mit Präzision und Sorgfalt zubereiten.
-              </p>
+     
             </div>
           </div>
         </div>
@@ -130,10 +124,7 @@ export default function Component() {
           <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
             <div className="max-w-2xl space-y-4 text-white">
               <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Lebendige Atmosphäre</h1>
-              <p className="text-lg sm:text-xl">
-                Tauchen Sie ein in die Farben und Klänge Mexikos. Das Design unseres Restaurants erweckt die 
-                Wärme und Energie einer mexikanischen Cantina zum Leben und schafft den perfekten Rahmen für Ihre Mahlzeit.
-              </p>
+       
             </div>
           </div>
         </div>
