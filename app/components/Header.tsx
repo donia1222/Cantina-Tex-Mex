@@ -17,7 +17,7 @@ export default function Header() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-1xl font-bold text-center text-yellow-500 mb-8"
+        className="text-1xs font-bold text-center text-yellow-500 mb-8"
       >
         {text.split('').map((char, index) => (
           <motion.span
@@ -65,7 +65,7 @@ export default function Header() {
   <img 
     src="https://cantinatexmex.ch/images/2022/03/05/logo3-copia1.png" 
     alt="Plato mexicano" 
-    className="rounded-lg shadow-md h-40 object-cover bg-gray-300"
+    className="rounded-lg shadow-md h-30 object-cover bg-gray-300"
   />
 </div>
 
@@ -77,7 +77,7 @@ export default function Header() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col justify-center"
           >
-            <h2 className="text-5xl font-semibold mb-8  text-center ">Bienvenidos</h2>
+            <h2 className="text-4xl font-semibold mb-8  text-center ">Bienvenidos</h2>
             <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins rounded-lg">
           <AnimatedText text="CANTINA SEIT 2010 IM SEVELEN" />
         </div>

@@ -47,7 +47,7 @@ export default function Header() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col justify-center"
           >
-            <h2 className="text-5xl font-semibold mb-8  text-center ">Drinks</h2>
+            <h2 className="text-4xl font-semibold mb-90  text-center ">Drinks</h2>
             <p className="text-white mb-4"></p>
            
           </motion.div>

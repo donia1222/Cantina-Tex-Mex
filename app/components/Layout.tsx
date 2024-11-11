@@ -45,34 +45,34 @@ export default function Component({ children }: { children: React.ReactNode }) {
       {/* Background Images */}
       <div className="fixed inset-0 z-0">
         {[0, 1, 2].map((index) => (
-        <motion.div
-        key={index}
-        className="absolute inset-0 bg-cover bg-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: currentBg === index ? 1 : 0 }}
-        transition={{ duration: 1 }}
-        style={{ backgroundImage: `url('${
-          location.pathname === "/drinks"
-            ? (index === 0
-                ? '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg'
-                : index === 1
-                ? '/fajitas.jpg' // Reemplazado con imagen local
-                : 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85')
-            : location.pathname === "/menu"
-            ? (index === 0
-                ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
-                : index === 1
-                ? '/fajitas.jpg' // Reemplazado con imagen local
-                : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
-            : (index === 0
-                ? '/fajitas.jpg' // Reemplazado con imagen local
-                : index === 1
-                ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
-                : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
-        }')` }}
-      />
-    ))}
-  </div>
+          <motion.div
+            key={index}
+            className="absolute inset-0 bg-cover bg-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: currentBg === index ? 1 : 0 }}
+            transition={{ duration: 1 }}
+            style={{ backgroundImage: `url('${
+              location.pathname === "/drinks"
+                ? (index === 0
+                    ? '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg'
+                    : index === 1
+                    ? '/fajitas.jpg'
+                    : 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85')
+                : location.pathname === "/menu"
+                ? (index === 0
+                    ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
+                    : index === 1
+                    ? '/fajitas.jpg'
+                    : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
+                : (index === 0
+                    ? '/fajitas.jpg'
+                    : index === 1
+                    ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
+                    : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
+            }')` }}
+          />
+        ))}
+      </div>
 
       {/* SVG Pattern Overlay */}
       <div className="fixed inset-0 z-0 opacity-10 pointer-events-none">
@@ -85,7 +85,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 bg-gradient-to-br from-gray-900 to-gray-800 backdrop-blur-md shadow-md">
+      <header className="relative z-10 backdrop-blur-md shadow-md bg-transparent md:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             
@@ -162,10 +162,10 @@ export default function Component({ children }: { children: React.ReactNode }) {
             <div className="md:hidden">
               <motion.button
                 onClick={toggleMenu}
-                className="text-gray-200 hover:text-red-600 focus:outline-none"
+                className="text-gray-200 hover:text-red-600 focus:outline-none rounded-md p-2"
                 whileTap={{ scale: 0.95 }}
               >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                <Menu size={24} />
               </motion.button>
             </div>
           </div>

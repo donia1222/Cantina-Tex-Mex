@@ -129,25 +129,14 @@ export default function MenuPage() {
       <AnimatePresence>
         {loading && <Loader />}
       </AnimatePresence>
-      <div className="min-h-[300vh] p-8 font-sans bg-gray-900 bg-opacity-70 rounded-lg">
+      <div className="min-h-[300vh]  font-sans bg-gray-900 bg-opacity-70 rounded-lg">
         <Header />
 
         <div className="h-[10vh]" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto mb-20">
-          {items.map((item, index) => (
-            <AnimatedElement 
-              key={index}
-              index={index}
-              image={foodImages[index]}
-              title={item.title}
-              description={item.description}
-            />
-          ))}
-        </div>
 
-
-
+        <ImagenScroll />
+        <ReviewsCarousel />
       </div>
     </>
   )

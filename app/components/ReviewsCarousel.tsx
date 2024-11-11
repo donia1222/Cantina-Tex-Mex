@@ -10,10 +10,10 @@ export default function Component() {
 
   return (
     <div className=" flex items-center justify-center p-4">
-      <div className={`bg-gray-800 text-red-500 rounded-3xl relative overflow-hidden transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ width: '600px', height: '300px' }}>
+      <div className={`bg-gray-800 text-red-500 rounded-3xl relative overflow-hidden transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ width: '650px', height: '450px' }}>
         <div className="absolute inset-0 z-0 opacity-20">
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <pattern id="pattern-circles" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse">
+            <pattern id="pattern-circles" x="0" y="0" width="30" height="40" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse">
               <circle id="pattern-circle" cx="5" cy="5" r="1" fill="#fff"></circle>
             </pattern>
             <rect id="rect" x="0" y="0" width="100%" height="100%" fill="url(#pattern-circles)"></rect>

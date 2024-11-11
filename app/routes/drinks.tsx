@@ -60,7 +60,7 @@ export default function Component() {
         transition={{ duration: 20, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
       />
 
-      <div className="absolute inset-0 flex items-center justify-center mt-60 ">
+      <div className="absolute inset-0 flex items-center justify-center mt-80 ">
         <motion.div
           className="relative w-[320px] h-[320px] sm:w-[400px] sm:h-[400px]"
           animate={{ rotate: 360 }}
