@@ -146,8 +146,8 @@ export default function MenuPage() {
           ))}
         </div>
 
-        <ImagenScroll />
-        <ReviewsCarousel />
+
+
       </div>
     </>
   )
