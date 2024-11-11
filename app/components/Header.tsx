@@ -11,6 +11,27 @@ const iconVariants = {
 export default function Header() {
   const [isVisible, setIsVisible] = useState(false)
 
+  const AnimatedText = ({ text }: { text: string }) => {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="text-1xl font-bold text-center text-yellow-500 mb-8"
+      >
+        {text.split('').map((char, index) => (
+          <motion.span
+            key={index}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+          >
+            {char}
+          </motion.span>
+        ))}
+      </motion.div>
+    )
+  }
   useEffect(() => {
     setIsVisible(true)
   }, [])
@@ -24,7 +45,7 @@ export default function Header() {
           transition={{ duration: 0.5 }}
           className="flex justify-between items-center mb-6"
         >
-<div className="flex justify-center items-center ml-14">
+<div className="flex justify-center items-center ml-20">
   <AnimatedGradientText 
     texts={['Lust auf Tex-Mex', ' und Cocktails?']} 
     className="text-white" 
@@ -57,17 +78,10 @@ export default function Header() {
             className="flex flex-col justify-center"
           >
             <h2 className="text-5xl font-semibold mb-8  text-center ">Bienvenidos</h2>
-            <p className="text-gray-300 mb-10  text-center">CANTINA SEIT 2010 IM SEVELEN</p>
-            <button
-    type="submit"
-    name="action"
-    value="animated-border"
-    className="relative px-6 py-3 font-bold text-gray-100 group"
-  >
-    <span className="absolute inset-0 transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-500 group-hover:translate-x-0 group-hover:translate-y-0"></span>
-    <span className="absolute inset-0 border-2 border-gray-300"></span>
-    <span className="relative">  Jetzt Reservieren</span>
-  </button>
+            <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins rounded-lg">
+          <AnimatedText text="CANTINA SEIT 2010 IM SEVELEN" />
+        </div>
+ 
           </motion.div>
         </div>
         

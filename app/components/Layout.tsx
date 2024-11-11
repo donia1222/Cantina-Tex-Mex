@@ -45,34 +45,34 @@ export default function Component({ children }: { children: React.ReactNode }) {
       {/* Background Images */}
       <div className="fixed inset-0 z-0">
         {[0, 1, 2].map((index) => (
-          <motion.div
-            key={index}
-            className="absolute inset-0 bg-cover bg-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: currentBg === index ? 1 : 0 }}
-            transition={{ duration: 1 }}
-            style={{ backgroundImage: `url('${
-              location.pathname === "/drinks"
-                ? (index === 0
-                    ? '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg'
-                    : index === 1
-                    ? 'https://img.freepik.com/free-photo/fajitas_23-2148024795.jpg?t=st=1731284262~exp=1731287862~hmac=d3e1ae0980f755782d29e2e74a5fd0c73ef622c71b422e783220b3b57978b608&w=1380'
-                    : 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85')
-                : location.pathname === "/menu"
-                ? (index === 0
-                    ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
-                    : index === 1
-                    ? 'https://img.freepik.com/free-photo/fajitas_23-2148024795.jpg?t=st=1731284262~exp=1731287862~hmac=d3e1ae0980f755782d29e2e74a5fd0c73ef622c71b422e783220b3b57978b608&w=1380'
-                    : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
-                : (index === 0
-                    ? 'https://img.freepik.com/free-photo/fajitas_23-2148024795.jpg?t=st=1731284262~exp=1731287862~hmac=d3e1ae0980f755782d29e2e74a5fd0c73ef622c71b422e783220b3b57978b608&w=1380'
-                    : index === 1
-                    ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
-                    : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
-            }')` }}
-          />
-        ))}
-      </div>
+        <motion.div
+        key={index}
+        className="absolute inset-0 bg-cover bg-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: currentBg === index ? 1 : 0 }}
+        transition={{ duration: 1 }}
+        style={{ backgroundImage: `url('${
+          location.pathname === "/drinks"
+            ? (index === 0
+                ? '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg'
+                : index === 1
+                ? '/fajitas.jpg' // Reemplazado con imagen local
+                : 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85')
+            : location.pathname === "/menu"
+            ? (index === 0
+                ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
+                : index === 1
+                ? '/fajitas.jpg' // Reemplazado con imagen local
+                : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
+            : (index === 0
+                ? '/fajitas.jpg' // Reemplazado con imagen local
+                : index === 1
+                ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
+                : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
+        }')` }}
+      />
+    ))}
+  </div>
 
       {/* SVG Pattern Overlay */}
       <div className="fixed inset-0 z-0 opacity-10 pointer-events-none">

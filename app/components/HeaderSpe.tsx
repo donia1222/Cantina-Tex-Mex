@@ -24,7 +24,7 @@ export default function Header() {
           transition={{ duration: 0.5 }}
           className="flex justify-between items-center mb-6"
         >
-   <AnimatedGradientText texts={['Lust auf Tex-mex',  ' und Cocktails?']} className="text-white" />
+   <AnimatedGradientText texts={['Fajitas',  ' Quesadillas',  'Burritos',  'Tacos',  'Enchiladas']} className="text-white"  />
 
         </motion.div>
         

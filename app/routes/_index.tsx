@@ -8,6 +8,22 @@ import ImagenScroll from '~/components/ImagenScroll'
 import Header from '~/components/Header'
 import ReviewsCarousel from '~/components/ReviewsCarousel'
 
+const Loader = () => (
+  <motion.div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"
+    initial={{ opacity: 1 }}
+    animate={{ opacity: 0 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5, ease: "easeInOut" }}
+  >
+    <motion.div
+      className="w-20 h-20 border-t-4 border-red-500 border-solid rounded-full"
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+    />
+  </motion.div>
+)
+
 const colors = [
   'bg-gray-800', 'bg-gray-800',
 ]
@@ -21,63 +37,6 @@ const foodImages = [
   'https://cantinatexmex.ch/images/speasyimagegallery/albums/1/images/mojito.jpeg',
 ]
 
-const AnimatedHeader = () => {
-  const [showImage, setShowImage] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowImage(true), 3000)
-    return () => clearTimeout(timer)
-  }, [])
-
-  return (
-    <div className="relative h-60 mb-16">
-      <AnimatePresence>
-        {!showImage && (
-          <motion.h1
-            className="text-7xl font-bold text-center text-red-500 absolute w-full top-1/2 transform -translate-y-1/2"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            transition={{
-              duration: 1,
-              ease: "easeInOut",
-              times: [0, 0.5, 1],
-              scale: {
-                type: "spring",
-                damping: 5,
-                stiffness: 100,
-                restDelta: 0.001
-              }
-            }}
-            key="text"
-          >
-            El Sabor de México
-          </motion.h1>
-        )}
-        {showImage && (
-          <motion.div
-            className="absolute w-full h-full flex justify-center items-center"
-            initial={{ opacity: 0, scale: 0, rotate: -180 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 260, 
-              damping: 20,
-              duration: 1.5
-            }}
-            key="image"
-          >
-            <img
-              src="https://cantinatexmex.ch/images/logo3-copia.png"
-              alt="Sombrero mexicano"
-              className="w-60 h-30 bg-red-50/40 bg-gradient-to-br from-red-50/50 to-yellow-50/50 rounded-lg"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  )
-}
 
 interface AnimatedElementProps {
   index: number;
@@ -129,49 +88,67 @@ const AnimatedElement: React.FC<AnimatedElementProps> = ({ index, image, title, 
       className={`p-6 rounded-lg shadow-lg transition-all duration-300 ease-out ${colors[index % colors.length]} overflow-hidden w-full`}
     >
       <img src={image} alt="Comida mexicana" className="w-full h-48 object-cover rounded-t-lg mb-4" />
-      <h2 className={`text-2xl font-semibold mb-2 ${index % 2 === 1 ? 'text-green-600' : 'text-red-500'}`}>
+      <motion.h2 
+        className={`text-2xl font-semibold mb-2 ${index % 2 === 1 ? 'text-green-600' : 'text-red-500'}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         {title}
-      </h2>
-      <p className={`${index % 2 === 1 ? 'text-gray-100' : 'text-green-100'}`}>
+      </motion.h2>
+      <motion.p 
+        className={`${index % 2 === 1 ? 'text-gray-100' : 'text-green-100'}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
         {description}
-      </p>
+      </motion.p>
     </motion.div>
   ) 
 }
 
+
 export default function MenuPage() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 500)
+    return () => clearTimeout(timer)
+  }, [])
+
   const items = [
     { title: "Enchiladas Verdes", description: "Tortillas rellenas bañadas en salsa verde." },
     { title: "Quesadillas de Queso", description: "Con queso Oaxaca derretido y tortilla crujiente." },
     { title: "Mole Poblano", description: "Salsa compleja con chocolate y chiles." },
     { title: "Torta Mexicana", description: "Sándwich tradicional con diversos ingredientes." },
-
   ]
 
   return (
-    <div className="min-h-[300vh] p-8 font-sans bg-gray-900 bg-opacity-50 rounded-lg">
-      <Header />
-      <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins rounded-lg mt-20 mb-10">
-    
+    <>
+      <AnimatePresence>
+        {loading && <Loader />}
+      </AnimatePresence>
+      <div className="min-h-[300vh] p-8 font-sans bg-gray-900 bg-opacity-70 rounded-lg">
+        <Header />
+
+        <div className="h-[10vh]" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto mb-20">
+          {items.map((item, index) => (
+            <AnimatedElement 
+              key={index}
+              index={index}
+              image={foodImages[index]}
+              title={item.title}
+              description={item.description}
+            />
+          ))}
+        </div>
+
+        <ImagenScroll />
+        <ReviewsCarousel />
       </div>
-
-      <div className="h-[10vh]" />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto mb-20">
-        {items.map((item, index) => (
-          <AnimatedElement 
-            key={index}
-            index={index}
-            image={foodImages[index]}
-            title={item.title}
-            description={item.description}
-          />
-        ))}
-      </div>
-
-      <ImagenScroll />
-      <ReviewsCarousel />
-
-    </div>
+    </>
   )
 }
