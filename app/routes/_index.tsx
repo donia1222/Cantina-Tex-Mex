@@ -129,7 +129,7 @@ export default function MenuPage() {
       <AnimatePresence>
         {loading && <Loader />}
       </AnimatePresence>
-      <div className="min-h-[300vh]  font-sans bg-gray-900 bg-opacity-70 rounded-lg">¨
+      <div className="min-h-[300vh]  font-sans bg-gray-900 bg-opacity-80 rounded-lg">¨
    
         <Header />
 
