@@ -19,8 +19,8 @@ const AnimatedGradientText: React.FC<AnimatedGradientTextProps> = ({
   });
 
   return (
-    <div className={`text-4xl sm:text-4xl md:text-4xl font-bold ml-4 ${className}`}>
-      <span className="bg-gradient-to-r from-gray-200 via-gray-500 to-red-500 text-transparent bg-clip-text">
+    <div className={`text-5xl sm:text-5xl md:text-5xl  font-poppins font-bold ml-4 ${className}`}>
+      <span className="bg-gradient-to-r from-gray-200 via-gray-500 to-red-500 text-transparent bg-clip-text  font-poppins ">
         {text}
       </span>
       <Cursor cursorColor="#fff" />

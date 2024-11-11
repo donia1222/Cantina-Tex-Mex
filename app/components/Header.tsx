@@ -39,18 +39,42 @@ export default function Header() {
   return (
     <header className="bg-gray-800 text-gray-400 p-6 rounded-xl shadow-2xl overflow-hidden" style={{ maxWidth: '1000px', margin: '1rem auto' }}>
       <div className="relative">
+      <div className="absolute inset-0 z-0 opacity-20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <pattern
+              id="pattern-circles"
+              x="0"
+              y="0"
+              width="30"
+              height="40"
+              patternUnits="userSpaceOnUse"
+              patternContentUnits="userSpaceOnUse"
+            >
+              <circle
+                id="pattern-circle"
+                cx="5"
+                cy="5"
+                r="1"
+                fill="#fff"
+              ></circle>
+            </pattern>
+            <rect
+              id="rect"
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="url(#pattern-circles)"
+            ></rect>
+          </svg>
+        </div>
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="flex justify-between items-center mb-6"
         >
-<div className="flex justify-center items-center ">
-  <AnimatedGradientText 
-    texts={['Tex-Mex', ' Cocktails', ' Ambiente']} 
-    className="text-white" 
-  />
-</div>
+
 
 
         </motion.div>
@@ -65,7 +89,7 @@ export default function Header() {
   <img 
     src="https://cantinatexmex.ch/images/2022/03/05/logo3-copia1.png" 
     alt="Plato mexicano" 
-    className="rounded-lg shadow-md h-30 object-cover bg-gray-300"
+    className="rounded-lg shadow-md h-34 object-cover "
   />
 </div>
 
@@ -77,7 +101,7 @@ export default function Header() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col justify-center"
           >
-            <h2 className="text-4xl font-semibold mb-8  text-center ">Bienvenidos</h2>
+            <h2 className="text-5xl font-semibold mb-8  text-center ">Bienvenidos</h2>
             <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins rounded-lg">
           <AnimatedText text="CANTINA SEIT 2010 IM SEVELEN" />
         </div>

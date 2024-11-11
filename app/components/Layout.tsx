@@ -252,7 +252,8 @@ export default function Component({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="relative bg-gradient-to-br from-gray-900 to-gray-800 text-white mt-8 py-12">
+      <footer className="relative bg-gradient-to-br from-gray-900 to-gray-600 text-white mt-8 py-12">
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[

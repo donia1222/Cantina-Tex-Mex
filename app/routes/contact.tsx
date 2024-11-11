@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Calendar, PhoneCall, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Calendar, PhoneCall, Facebook, Instagram } from 'lucide-react';
 
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -31,6 +31,35 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-gray-800 text-gray-400 bg-opacity-90 py-12 px-4 sm:px-6 lg:px-8">
+       <div className="absolute inset-0 z-0 opacity-20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <pattern
+              id="pattern-circles"
+              x="0"
+              y="0"
+              width="30"
+              height="40"
+              patternUnits="userSpaceOnUse"
+              patternContentUnits="userSpaceOnUse"
+            >
+              <circle
+                id="pattern-circle"
+                cx="5"
+                cy="5"
+                r="1"
+                fill="#fff"
+              ></circle>
+            </pattern>
+            <rect
+              id="rect"
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="url(#pattern-circles)"
+            ></rect>
+          </svg>
+        </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -39,67 +68,7 @@ export default function Contact() {
       >
         <h1 className="text-4xl font-bold text-center text-gray-300 mb-12">Kontakt 👋</h1>
         
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact form */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-gradient-to-br from-red-800 to-red-500 shadow-xl rounded-lg p-8"
-          >
-            <h2 className="text-2xl font-semibold text-white mb-6">Senden Sie uns eine Nachricht</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formState.name}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300">E-Mail</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formState.email}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300">Nachricht</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  value={formState.message}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
-                ></textarea>
-              </div>
-              <div>
-                <motion.button
-                  type="submit"
-                  className="w-full flex justify-center items-center py-2 px-4 border border-transparent mt-10 rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out"
-                  variants={buttonVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                >
-                  <Send className="w-5 h-5 mr-2 text-red-500" />
-                  Nachricht senden
-                </motion.button>
-              </div>
-            </form>
-          </motion.div>
-
+        <div className="flex justify-center items-center">
           {/* Contact information */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -108,7 +77,6 @@ export default function Contact() {
             className="bg-gradient-to-br from-gray-900 to-gray-700 text-white shadow-xl rounded-lg p-8 flex flex-col justify-between"
           >
             <div>
-              <h2 className="text-2xl font-semibold mb-6">Kontaktinformationen</h2>
               <ul className="space-y-4">
                 <li className="flex items-center">
                   <MapPin className="h-6 w-6 mr-3 text-red-500" />
@@ -157,7 +125,40 @@ export default function Contact() {
                 </motion.a>
               </div>
             </div>
+            {/* Social Media Icons */}
+            <div className="mt-8 flex justify-center space-x-4">
+              <motion.a
+                href="https://www.facebook.com/cantinasevelen"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-red-500 transition-colors duration-200"
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <Facebook className="w-8 h-8" />
+              </motion.a>
+              <motion.a
+                href="https://www.instagram.com/cantina_badrans/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-red-500 transition-colors duration-200"
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+              >
+                <Instagram className="w-8 h-8" />
+              </motion.a>
+            </div>
           </motion.div>
+        </div>
+
+        <div className="flex justify-center items-center mb-10 mt-20 ">
+          <img 
+            src="https://cantinatexmex.ch/images/2022/03/05/logo3-copia1.png" 
+            alt="Plato mexicano" 
+            className="rounded-lg shadow-md h-34 object-cover bg-gray-300"
+          />
         </div>
 
         {/* Map */}

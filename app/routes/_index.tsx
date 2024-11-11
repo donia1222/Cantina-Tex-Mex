@@ -129,12 +129,18 @@ export default function MenuPage() {
       <AnimatePresence>
         {loading && <Loader />}
       </AnimatePresence>
-      <div className="min-h-[300vh]  font-sans bg-gray-900 bg-opacity-70 rounded-lg">
+      <div className="min-h-[300vh]  font-sans bg-gray-900 bg-opacity-70 rounded-lg">¨
+   
         <Header />
 
-        <div className="h-[10vh]" />
+        <div className="h-[5vh]" />
 
-
+        <div className="flex justify-center items-center mb-10  ">
+  <AnimatedGradientText 
+    texts={['Tex-Mex', ' Cocktails', ' Ambiente']} 
+    className="text-white" 
+  />
+</div>
         <ImagenScroll />
         <ReviewsCarousel />
       </div>
