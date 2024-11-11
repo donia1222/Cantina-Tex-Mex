@@ -138,7 +138,7 @@ export default function Component() {
           <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
             <Ham className="w-8 h-8 text-yellow-500 mb-4" />
             <h2 className="text-2xl font-medium">
-              <span className="text-yellow-500">Frische Tacos</span> 
+              <span className="text-yellow-500">Quesadillas </span> 
               frisch zubereitet.
               <span className="text-gray-500"> (Mit frisch gebackenen Tortillas)</span>
             </h2>
