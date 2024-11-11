@@ -140,7 +140,7 @@ export default function Contact() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mt-12"
         >
-          <h2 className="text-2xl font-semibold text-gray-100 mb-6">Unser Standort</h2>
+          <h2 className="text-2xl font-semibold text-gray-100 mb-6 text-center">Unser Standort</h2>
           <div className="aspect-w-16 aspect-h-9">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2724.4866543537747!2d9.494731315591655!3d47.11466397915501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b3168f6b9d0c3%3A0x4b7a1d5b6a7b0f0a!2sBahnhofstrasse%2046%2C%209475%20Sevelen%2C%20Switzerland!5e0!3m2!1sen!2sus!4v1635794729872!5m2!1sen!2sus"
