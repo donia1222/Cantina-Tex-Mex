@@ -16,7 +16,7 @@ export default function Header() {
   }, [])
 
   return (
-    <header className="bg-gray-800 text-gray-400 p-6 rounded-xl shadow-2xl overflow-hidden" style={{ maxWidth: '1000px', margin: '2rem auto' }}>
+    <header className=" p-6 rounded-xl shadow-2xl overflow-hidden " style={{ maxWidth: '1000px', margin: '2rem auto' }}>
       <div className="relative">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -47,7 +47,7 @@ export default function Header() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col justify-center"
           >
-            <h2 className="text-4xl font-semibold mb-90  text-center ">Drinks</h2>
+            <h2 className="text-3xl font-semibold mb-90  text-white text-center ">Unsere Getränkekarte</h2>
             <p className="text-white mb-4"></p>
            
           </motion.div>

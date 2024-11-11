@@ -128,7 +128,7 @@ export default function Menu() {
   };
 
   return (
-    <div className="min-h-screen bg-cover bg-center flex flex-col items-center justify-start font-poppins  bg-gray-900 bg-opacity-80 rounded-lg">
+    <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins  bg-gradient-to-br from-gray-900 to-gray-700 text-red-500 p-8 rounded-lg">
 
 
       <HeaderSpe />

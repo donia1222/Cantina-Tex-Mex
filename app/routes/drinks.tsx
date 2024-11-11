@@ -32,7 +32,7 @@ export default function Menu() {
   };
 
   return (
-    <div className="  bg-gray-900 bg-opacity-80 rounded-lg">
+    <div className="  bg-gradient-to-br from-gray-900 to-gray-700 text-red-500 p-8 rounded-lg">
 
 
       <HeaderDrin />

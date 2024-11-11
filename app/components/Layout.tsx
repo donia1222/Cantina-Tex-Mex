@@ -33,11 +33,11 @@ export default function Component({ children }: { children: React.ReactNode }) {
   }, [])
 
   const menuItems = [
-    { to: "/", icon: Home, label: "Inicio" },
-    { to: "/menu", icon: UtensilsCrossed, label: "Menú" },
-    { to: "/drinks", icon: Beer, label: "Drinks" },
+    { to: "/", icon: Home, label: "Startseite" },
+    { to: "/menu", icon: UtensilsCrossed, label: "Speisekarte" },
+    { to: "/drinks", icon: Beer, label: "Getränke" },
     { to: "https://cantinatexmex.ch/reservierung/index-4.html", icon: Utensils, label: "Reservierung", external: true },
-    { to: "/contact", icon: Phone, label: "Contacto" }
+    { to: "/contact", icon: Phone, label: "Kontakt" }
   ]
 
   return (
@@ -89,18 +89,18 @@ export default function Component({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             
-            {/* Logo a la izquierda */}
+            {/* Logo on the left */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center">
                 <img 
                   src="/logo3-copia1.png" 
-                  alt="Plato mexicano" 
+                  alt="Mexikanisches Gericht" 
                   className="h-10 w-auto"
                 />
               </Link>
             </div>
             
-            {/* Menú de navegación centrado en pantallas grandes */}
+            {/* Navigation menu centered on large screens */}
             <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
               {menuItems.map((item, index) => (
                 <motion.div
@@ -158,7 +158,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
               ))}
             </nav>
             
-            {/* Botón del menú móvil a la derecha */}
+            {/* Mobile menu button on the right */}
             <div className="md:hidden">
               <motion.button
                 onClick={toggleMenu}
@@ -171,7 +171,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         
-        {/* Menú móvil */}
+        {/* Mobile menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -252,13 +252,13 @@ export default function Component({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 bg-gradient-to-br from-gray-900 to-gray-800 text-white mt-8 py-12">
+      <footer className="relative bg-gradient-to-br from-gray-900 to-gray-800 text-white mt-8 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: MapPin, title: "Dirección", content: "Calle Principal 123\nCiudad de México, 12345\nMéxico" },
-              { icon: Phone, title: "Teléfono", content: "+52 55 1234 5678" },
-              { icon: Clock, title: "Horario", content: "Lunes a Viernes: 11:00 - 22:00\nSábado y Domingo: 12:00 - 23:00" }
+              { icon: MapPin, title: "Adresse", content: "Cantina Tex-Mex\nBahnhofstrasse 46\n9475 Sevelen" },
+              { icon: Clock, title: "Öffnungszeiten", content: "Di-Mi: 18:00-22:00\nDo-Fr: 11:30-13:30, 18:00-22:00\nSamstag: 18:00-22:00" },
+              { icon: Phone, title: "Kontakt", content: "Telefon: 0817501911\nE-Mail: info@cantiantextmex.ch" }
             ].map((item, index) => (
               <motion.div
                 key={item.title}
@@ -290,7 +290,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
             transition={{ delay: 0.8 }}
           >
             <p className="text-center text-gray-400 text-sm">
-              © 2023 El Sabor Mexicano. Todos los derechos reservados.
+              © 2023 Cantina Tex-Mex. Alle Rechte vorbehalten.
             </p>
           </motion.div>
         </div>
