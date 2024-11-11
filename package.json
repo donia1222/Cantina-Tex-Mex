@@ -16,11 +16,14 @@
     "@remix-run/serve": "^2.13.1",
     "@types/canvas-confetti": "^1.6.4",
     "canvas-confetti": "^1.9.3",
+    "flatpickr": "^4.6.13",
     "framer-motion": "^11.11.10",
     "isbot": "^4.1.0",
     "lucide-react": "^0.453.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-simple-typewriter": "^5.0.1",
+    "react-typing-effect": "^2.0.5"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.13.1",

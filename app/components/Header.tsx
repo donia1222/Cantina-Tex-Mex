@@ -1,0 +1,84 @@
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { ChefHat, Coffee, UtensilsCrossed } from 'lucide-react'
+import AnimatedGradientText from '~/components/AnimatedGradientText';
+
+const iconVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+}
+
+export default function Header() {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
+
+  return (
+    <header className="bg-gray-800 text-gray-400 p-6 rounded-xl shadow-2xl overflow-hidden" style={{ maxWidth: '1000px', margin: '2rem auto' }}>
+      <div className="relative">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex justify-between items-center mb-6"
+        >
+<div className="flex justify-center items-center ml-14">
+  <AnimatedGradientText 
+    texts={['Lust auf Tex-Mex', ' und Cocktails?']} 
+    className="text-white" 
+  />
+</div>
+
+
+        </motion.div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+        <div className="flex justify-center items-center">
+  <img 
+    src="https://cantinatexmex.ch/images/2022/03/05/logo3-copia1.png" 
+    alt="Plato mexicano" 
+    className="rounded-lg shadow-md h-40 object-cover bg-gray-300"
+  />
+</div>
+
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col justify-center"
+          >
+            <h2 className="text-5xl font-semibold mb-8  text-center ">Bienvenidos</h2>
+            <p className="text-gray-300 mb-10  text-center">CANTINA SEIT 2010 IM SEVELEN</p>
+            <button
+    type="submit"
+    name="action"
+    value="animated-border"
+    className="relative px-6 py-3 font-bold text-gray-100 group"
+  >
+    <span className="absolute inset-0 transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-500 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+    <span className="absolute inset-0 border-2 border-gray-300"></span>
+    <span className="relative">  Jetzt Reservieren</span>
+  </button>
+          </motion.div>
+        </div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-6 text-center"
+        >
+        </motion.div>
+      </div>
+    </header>
+  )
+}

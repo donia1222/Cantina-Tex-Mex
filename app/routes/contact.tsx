@@ -23,14 +23,14 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-yellow-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-900 bg-opacity-70 py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-7xl mx-auto"
       >
-        <h1 className="text-4xl font-bold text-center text-red-800 mb-12">Contáctanos</h1>
+        <h1 className="text-4xl font-bold text-center text-gray-300 mb-12">Kontakt 👋 </h1>
         
         <div className="grid md:grid-cols-2 gap-12">
           {/* Formulario de contacto */}
