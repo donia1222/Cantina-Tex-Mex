@@ -322,7 +322,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {[
         { icon: MapPin, title: "Adresse", content: "Cantina Tex-Mex\nBahnhofstrasse 46\n9475 Sevelen" },
-        { icon: Clock, title: "Öffnungszeiten", content: "Di-Mi: 18:00-22:00\nDo-Fr: 11:30-13:30, 18:00-22:00\nSamstag: 18:00-22:00" },
+        { icon: Clock, title: "Öffnungszeiten", content: "Di-Mi: 18:00-21:30\nDo-Fr: 11:30-13:30, 18:00-22:00\nSamstag: 18:00-22:30" },
         { icon: Phone, title: "Kontakt", content: "Telefon: 0817501911\nE-Mail: info@cantiantextmex.ch" }
       ].map((item, index) => (
         <motion.div
