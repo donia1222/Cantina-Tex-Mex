@@ -9,7 +9,7 @@ import { X, Leaf, Flame, Baby, IceCream, Diff } from 'lucide-react';
 import AnimatedGradientText from '~/components/AnimatedGradientText'; // Asegúrate de que la ruta sea correcta
 import HeaderDrin from '~/components/HeaderDrin'; 
 import Drinksblock from '~/components/Drinksblock'; 
-
+import BannerDrinks from '~/components/BannerDrinks'; 
 
 
 export default function Menu() {
@@ -33,12 +33,10 @@ export default function Menu() {
 
   return (
     <div className=" bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
-
-
       <HeaderDrin />
       <Drinksblock />
 
-      {/* Modal de sección activa */}
+      <BannerDrinks />
 
     </div>
   );

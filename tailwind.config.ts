@@ -16,6 +16,15 @@ export default {
           '"Noto Color Emoji"',
         ],
       },
+      keyframes: {
+        shake: {
+          '0%, 100%': { transform: 'rotate(-5deg)' },
+          '50%': { transform: 'rotate(5deg)' },
+        }
+      },
+      animation: {
+        shake: 'shake 0.5s ease-in-out infinite',
+      }
     },
   },
   plugins: [],
