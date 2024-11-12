@@ -316,63 +316,72 @@ export default function Component({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="relative bg-gradient-to-br from-gray-900 to-gray-600 text-white mt-8 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { icon: MapPin, title: "Adresse", content: "Cantina Tex-Mex\nBahnhofstrasse 46\n9475 Sevelen" },
-              { icon: Clock, title: "Öffnungszeiten", content: "Di-Mi: 18:00-22:00\nDo-Fr: 11:30-13:30, 18:00-22:00\nSamstag: 18:00-22:00" },
-              { icon: Phone, title: "Kontakt", content: "Telefon: 0817501911\nE-Mail: info@cantiantextmex.ch" }
-            ].map((item, index) => (
-              <motion.div
-                key={item.title}
-                className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg shadow-lg overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.2 }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="p-6">
-                  <motion.div
-                    className="flex items-center justify-center mb-4"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300, delay: index * 0.2 + 0.3 }}
-                  >
-                    <item.icon className="h-12 w-12 text-red-500" />
-                  </motion.div>
-                  <h3 className="text-2xl font-bold text-center mb-4">{item.title}</h3>
-                  <p className="text-gray-300 text-center whitespace-pre-line">{item.content}</p>
-                </div>
-              </motion.div>
-            ))}
+{/* Footer */}
+<footer className="relative bg-gradient-to-br from-gray-900 to-gray-600 text-white mt-8 py-12">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {[
+        { icon: MapPin, title: "Adresse", content: "Cantina Tex-Mex\nBahnhofstrasse 46\n9475 Sevelen" },
+        { icon: Clock, title: "Öffnungszeiten", content: "Di-Mi: 18:00-22:00\nDo-Fr: 11:30-13:30, 18:00-22:00\nSamstag: 18:00-22:00" },
+        { icon: Phone, title: "Kontakt", content: "Telefon: 0817501911\nE-Mail: info@cantiantextmex.ch" }
+      ].map((item, index) => (
+        <motion.div
+          key={item.title}
+          className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg shadow-lg overflow-hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.2 }}
+          whileHover={{ scale: 1.05 }}
+        >
+          <div className="p-6">
+            <motion.div
+              className="flex items-center justify-center mb-4"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 300, delay: index * 0.2 + 0.3 }}
+            >
+              <item.icon className="h-12 w-12 text-red-500" />
+            </motion.div>
+            <h3 className="text-2xl font-bold text-center mb-4">{item.title}</h3>
+            <p className="text-gray-300 text-center whitespace-pre-line">{item.content}</p>
           </div>
-          <motion.div 
-            className="mt-12 border-t border-gray-700 pt-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-          >
-            <p className="text-center text-gray-400 text-sm mb-4">
-              © 2024 Cantina Tex-Mex. Alle Rechte vorbehalten.
-            </p>
-            <div className="flex justify-center space-x-4">
-              <button
-                onClick={() => setImpressumOpen(true)}
-                className="text-sm text-gray-400 hover:text-white transition-colors"
-              >
-                Impressum
-              </button>
-              <button
-                onClick={() => setDatenschutzOpen(true)}
-                className="text-sm text-gray-400 hover:text-white transition-colors"
-              >
-                Datenschutz
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </footer>
+        </motion.div>
+      ))}
+    </div>
+    <motion.div 
+      className="mt-12 border-t border-gray-700 pt-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.8 }}
+    >
+      <p className="text-center text-gray-400 text-sm mb-4">
+        © 2024 Cantina Tex-Mex. Alle Rechte vorbehalten.
+      </p>
+      <div className="flex justify-center space-x-4">
+        <button
+          onClick={() => setImpressumOpen(true)}
+          className="text-sm text-gray-400 hover:text-white transition-colors"
+        >
+          Impressum
+        </button>
+        <button
+          onClick={() => setDatenschutzOpen(true)}
+          className="text-sm text-gray-400 hover:text-white transition-colors"
+        >
+          Datenschutz
+        </button>
+      </div>
+      {/* Nuevo Texto Añadido */}
+      <div className="mt-6 text-center">
+        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-red-500">
+          Website Design: <a href="https://lweb.ch" className="underline">Lweb.ch</a>
+        </p>
+    
+      </div>
+    </motion.div>
+  </div>
+</footer>
+
 
       {/* Aviso de Consentimiento de Cookies */}
       <AnimatePresence>
