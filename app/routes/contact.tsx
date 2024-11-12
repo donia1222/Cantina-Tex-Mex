@@ -41,6 +41,35 @@ export default function Contact() {
         <h1 className="text-4xl font-bold text-center text-gray-300 mb-12">Kontakt 👋</h1>
         
         <div className="flex justify-center items-center">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <pattern
+              id="pattern-circles"
+              x="0"
+              y="0"
+              width="30"
+              height="40"
+              patternUnits="userSpaceOnUse"
+              patternContentUnits="userSpaceOnUse"
+            >
+              <circle
+                id="pattern-circle"
+                cx="5"
+                cy="5"
+                r="1"
+                fill="#fff"
+              ></circle>
+            </pattern>
+            <rect
+              id="rect"
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="url(#pattern-circles)"
+            ></rect>
+          </svg>
+        </div>
           {/* Contact information */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
