@@ -298,7 +298,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
           >
             <motion.button
               onClick={scrollToTop}
-              className="bg-black text-red-500 p-3 rounded-full shadow-lg flex items-center justify-center"
+              className="bg-gray5600 text-red-500 p-3 rounded-full shadow-lg flex items-center justify-center"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
