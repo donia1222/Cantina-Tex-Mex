@@ -83,7 +83,7 @@ export default function Component() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 100 }}
               transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-              className="absolute inset-x-0 bottom-0 bg-white p-4 rounded-t-3xl shadow-2xl"
+              className="absolute inset-x-0 bottom-0 bg-gradient-to-br from-gray-900 to-gray-800 p-4 rounded-t-3xl shadow-2xl"
             >
               <button
                 onClick={toggleInfo}
@@ -92,7 +92,7 @@ export default function Component() {
                 <X size={20} />
               </button>
               <h2 className="text-xl font-bold mb-1 ">{products[currentIndex].name}</h2>
-              <p className="text-gray-600 text-sm">{products[currentIndex].description}</p>
+              <p className="text-gray-300 text-sm">{products[currentIndex].description}</p>
             </motion.div>
           )}
         </AnimatePresence>
