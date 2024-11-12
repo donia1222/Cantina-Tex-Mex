@@ -84,7 +84,7 @@ export const loader: LoaderFunction = async () => {
       { name: 'Mexican Coffee', price: 12.50, description: 'Kaffeeglace gemischt mit heissem Espresso, Kahlúa Likör und Schlagrahm' },
     ],
     mittagsmenu: [
-      { name: 'Donnerstags', description: 'Menü 1, Menü Vegui und Menü Spezial zur Auswahl', price: undefined },
+      { name: 'Donnerstags', description: 'Menü 1, Menü Vegui und Menü Spezial zur Auswahl ', price: undefined },
       { name: 'Freitags', description: 'Menü 1 (Fajitas), Menü Vegui und Menü Spezial zur Auswahl', price: undefined },
     ],
   };

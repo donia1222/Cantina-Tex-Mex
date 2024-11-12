@@ -54,7 +54,7 @@ const TextImageScroll: React.FC = () => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }} // Ajuste de duración
             >
-              Entdecken Sie in unserem Restaurant eine perfekte Mischung aus traditionellen und modernen Aromen. 
+             Genießen Sie in unserem Restaurant eine perfekte Kombination aus traditionellen und modernen Aromen aus Texas & Mexiko
             </motion.p>
           </div>
         </motion.div>
