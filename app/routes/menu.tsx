@@ -134,7 +134,7 @@ export default function Menu() {
     <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
 
       <HeaderSpe />
-               <BannerFood />
+
       <motion.div
         className="w-full max-w-6xl px-4 py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
         variants={containerVariants}
