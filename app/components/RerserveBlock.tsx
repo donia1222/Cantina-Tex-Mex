@@ -50,7 +50,7 @@ export default function Component() {
           <div className="w-16 h-16 mb-4 rounded-full bg-white flex items-center justify-center border-4 border-red-500 animate-pulse">
             <CalendarDays className="w-8 h-8 text-red-500" />
           </div>
-          <h1 className="text-3xl font-bold mb-2 text-red-500">
+          <h1 className="text-3xl font-bold mb-2 text-red-500 text-center ">
             Reservieren Sie Ihren Tisch
           </h1>
           <p className="text-1xl mb-4 text-white text-center">
