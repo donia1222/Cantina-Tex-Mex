@@ -5,7 +5,7 @@ import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { X, Diff } from 'lucide-react';
 import HeaderSpe from '~/components/HeaderSpe';
-
+import BannerFood from '~/components/BannerFood';
 const menuSections = [
   { id: 'vorspeisen', name: 'Vorspeisen', color: '#FF6B6B', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/13/3_copia-1-copia.jpg' },
   { id: 'texas', name: 'Texas', color: '#4ECDC4', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2023/02/24/3_copia-11.jpg' },
@@ -132,7 +132,9 @@ export default function Menu() {
 
   return (
     <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
+
       <HeaderSpe />
+               <BannerFood />
       <motion.div
         className="w-full max-w-6xl px-4 py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
         variants={containerVariants}
