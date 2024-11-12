@@ -73,7 +73,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
     { to: "/menu", icon: UtensilsCrossed, label: "Speisekarte" },
     { to: "/drinks", icon: Beer, label: "Getränke" },
     { to: "/contact", icon: Phone, label: "Kontakt" },
-    { to: "https://cantinatexmex.ch/reservierung/index-4.html", icon: Utensils, label: "Reservierung", external: true },
+    { to: "https://reservierung.cantinatexmex.ch", icon: Utensils, label: "Reservierung", external: true },
   ]
 
   return (

@@ -130,7 +130,7 @@ export default function Header() {
               <AnimatedText text="CANTINA SEIT 2010 IN SEVELEN" />
             </div>
             <a
-              href="https://cantinatexmex.ch/reservierung/index-4.html"
+              href="https://reservierung.cantinatexmex.ch"
               className="relative px-6 py-3 font-bold text-gray-100 group max-w-[80%] mx-auto block"
             >
               <span className="absolute inset-0 transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-500 group-hover:translate-x-0 group-hover:translate-y-0"></span>
