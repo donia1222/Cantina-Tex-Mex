@@ -26,8 +26,8 @@ const menuCategories = [
   {
     id: 'sussgetranke',
     title: 'Süßgetränke',
-    image: '/colorful-soda-drinks-macro-shot.jpg',
-    items: ['Shorley', 'Rivella', 'Fanta', 'Cola', 'Cola 0', 'Icetea', 'Jarritos']
+    image: '/IMG_1696.jpeg',
+    items: ['Jarritos', 'Shorley', 'Rivella', 'Fanta', 'Cola', 'Cola 0', 'Icetea']
   },
 ]
 
@@ -39,8 +39,8 @@ export default function DrinkMenu() {
   }
 
   return (
-    <div className=" r  text-red-500 p-2">
-      <h1 className="text-4xl font-bold text-center mb-12 "></h1>
+    <div className=" r  text-red-500 p-8">
+      <h1 className="text-4xl font-bold text-center mb-12  "></h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {menuCategories.map((category) => (
           <motion.div

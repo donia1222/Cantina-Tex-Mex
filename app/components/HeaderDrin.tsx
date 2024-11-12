@@ -64,7 +64,7 @@ export default function Header() {
             transition={{ duration: 0.5 }}
           >
             <img 
-              src="IMG_1696.jpeg" 
+              src="IMG_0898.jpeg" 
               alt="Plato mexicano" 
               className="rounded-lg shadow-md w-full h-48 object-cover"
             />

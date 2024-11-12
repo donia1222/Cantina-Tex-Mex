@@ -1,12 +1,6 @@
 // app/routes/Menu.tsx
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useLoaderData } from '@remix-run/react';
-import type { LoaderFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { X, Leaf, Flame, Baby, IceCream, Diff } from 'lucide-react';
-import AnimatedGradientText from '~/components/AnimatedGradientText'; // Asegúrate de que la ruta sea correcta
+
 import HeaderDrin from '~/components/HeaderDrin'; 
 import Drinksblock from '~/components/Drinksblock'; 
 import BannerDrinks from '~/components/BannerDrinks'; 
