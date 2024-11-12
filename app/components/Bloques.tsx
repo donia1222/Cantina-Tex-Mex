@@ -76,17 +76,18 @@ export default function Component() {
 
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className={`w-5 h-5 ${
-                          i < reviews[currentIndex].rating ? "text-yellow-400" : "text-gray-600"
-                        }`}
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
+            <svg
+            key={i}
+            className={`w-5 h-5 ${
+              i < reviews[currentIndex].rating ? "text-red-500" : "text-gray-100"
+            }`}
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          
                     ))}
                   </div>
                 </div>
@@ -117,7 +118,7 @@ export default function Component() {
   onClick={() => window.location.href = 'https://www.google.com/search?client=safari&rls=en&q=cantina+sevelen&ie=UTF-8&oe=UTF-8#'}
   className="px-6 py-3 bg-transparent text-blue-600 font-semibold border-2 border-blue-600 mt-10 rounded-md relative overflow-hidden group transition-colors duration-300 ease-in-out hover:text-white"
 >
-  <span className="relative z-10">Sehen Sie sich alle 469 Bewertungen</span>
+  <span className="relative z-10">Bewertungen auf Google Maps </span>
   <span className="absolute inset-0 bg-blue-600 transform -translate-y-full transition-transform duration-300 ease-in-out group-hover:translate-y-0"></span>
 </button>
 

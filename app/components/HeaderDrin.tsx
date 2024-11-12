@@ -16,7 +16,7 @@ export default function Header() {
   }, [])
 
   return (
-    <header className=" p-6 rounded-xl shadow-2xl overflow-hidden " style={{ maxWidth: '1000px', margin: '2rem auto' }}>
+    <header className=" p-6 rounded-xl shadow-2xl overflow-hidden bg-gray-900 bg-opacity-90 " style={{ maxWidth: '1000px', margin: '2rem auto' }}>
       <div className="relative">
       <div className="absolute inset-0 z-0 opacity-20">
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
