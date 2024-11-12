@@ -349,7 +349,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
       ))}
     </div>
     <motion.div 
-      className="mt-12 border-t border-gray-700 pt-8"
+      className="mt-12 pt-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.8 }}
