@@ -2,7 +2,7 @@
 
 import { Link, useLocation } from "@remix-run/react"
 import { useState, useEffect } from "react"
-import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock } from "lucide-react"
+import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock, ArrowUp } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function Component({ children }: { children: React.ReactNode }) {
@@ -11,6 +11,8 @@ export default function Component({ children }: { children: React.ReactNode }) {
   const [impressumOpen, setImpressumOpen] = useState(false)
   const [datenschutzOpen, setDatenschutzOpen] = useState(false)
   const [cookieConsent, setCookieConsent] = useState(false) // Nuevo estado para el consentimiento de cookies
+  const [showIcon, setShowIcon] = useState(false) // Nuevo estado para el icono
+  const [showUpButton, setShowUpButton] = useState(false) // Nuevo estado para el botón de "Subir"
   const location = useLocation()
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
@@ -29,6 +31,13 @@ export default function Component({ children }: { children: React.ReactNode }) {
       } else {
         setCurrentBg(2) 
       }
+
+      // Mostrar el botón de "Subir" después de 300 píxeles de desplazamiento
+      if (scrollPosition > 300) {
+        setShowUpButton(true)
+      } else {
+        setShowUpButton(false)
+      }
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -41,6 +50,23 @@ export default function Component({ children }: { children: React.ReactNode }) {
       setCookieConsent(true);
     }
   }, []);
+
+  // Función para manejar el clic y mostrar el icono después de 500 ms
+  const handleClick = () => {
+    setShowIcon(true);
+    // Opcional: Ocultar el icono después de 3 segundos
+    setTimeout(() => {
+      setShowIcon(false);
+    }, 3000);
+  };
+
+  // Función para desplazar la página hacia arriba
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const menuItems = [
     { to: "/", icon: Home, label: "Startseite" },
@@ -254,6 +280,34 @@ export default function Component({ children }: { children: React.ReactNode }) {
         </AnimatePresence>
       </header>
 
+
+      {/* Icono que aparece al hacer clic */}
+      <AnimatePresence>
+        {showIcon && <ClickIcon />}
+      </AnimatePresence>
+
+      {/* Botón de "Subir" */}
+      <AnimatePresence>
+        {showUpButton && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-32 right-4 z-20"
+          >
+            <motion.button
+              onClick={scrollToTop}
+              className="bg-black text-red-500 p-3 rounded-full shadow-lg flex items-center justify-center"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <ArrowUp className="w-6 h-6" />
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Main content */}
       <main className="relative z-10 py-4 sm:px-6 lg:px-8 flex-grow">
         <div className="px-2 py-0 sm:px-0">
@@ -403,6 +457,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
           <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
             <h2 className="text-2xl font-bold mb-4 text-center">Datenschutzerklärung</h2>
             <div className="mt-2 max-h-[80vh] overflow-y-auto px-4">
+              {/* Secciones de la Datenschutzerklärung */}
               <section className="mb-6">
                 <h3 className="text-xl font-semibold mb-2">DATENSCHUTZ</h3>
                 <p className="text-gray-700 mb-4">
@@ -510,3 +565,16 @@ export default function Component({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
+
+// Componente del Icono que Aparece al Clicar
+const ClickIcon = () => (
+  <motion.div
+    initial={{ scale: 0, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    exit={{ scale: 0, opacity: 0 }}
+    transition={{ duration: 0.5 }}
+    className="fixed bottom-4 right-4 bg-black rounded-full p-4 flex items-center justify-center shadow-lg z-30"
+  >
+
+  </motion.div>
+)
