@@ -27,7 +27,7 @@ const menuCategories = [
     id: 'sussgetranke',
     title: 'Süßgetränke',
     image: '/colorful-soda-drinks-macro-shot.jpg',
-    items: ['Shorley', 'Rivella', 'Fanta', 'Cola', 'Cola 0', 'Icetea']
+    items: ['Shorley', 'Rivella', 'Fanta', 'Cola', 'Cola 0', 'Icetea', 'Jarritos']
   },
 ]
 
@@ -39,7 +39,7 @@ export default function DrinkMenu() {
   }
 
   return (
-    <div className=" bg-gradient-to-br  text-red-500 p-8">
+    <div className=" bg-gradient-to-br from-gray-900 to-gray-700 text-red-500 p-8">
       <h1 className="text-4xl font-bold text-center mb-12 "></h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {menuCategories.map((category) => (
