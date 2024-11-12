@@ -40,7 +40,35 @@ export default function Component() {
     <div className="space-y-8 mt-20">
 
       <div className="relative w-full h-[400px] bg-gradient-to-br from-gray-700 to-gray-600 overflow-hidden flex items-center justify-center">
-
+      <div className="absolute inset-0 z-0 opacity-20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <pattern
+              id="pattern-circles"
+              x="0"
+              y="0"
+              width="30"
+              height="40"
+              patternUnits="userSpaceOnUse"
+              patternContentUnits="userSpaceOnUse"
+            >
+              <circle
+                id="pattern-circle"
+                cx="5"
+                cy="5"
+                r="1"
+                fill="#fff"
+              ></circle>
+            </pattern>
+            <rect
+              id="rect"
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="url(#pattern-circles)"
+            ></rect>
+          </svg>
+        </div>
         <div className="relative w-[600px] h-[300px] rounded-lg">
           <AnimatePresence mode="wait">
             <motion.div
