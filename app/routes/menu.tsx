@@ -11,7 +11,7 @@ const menuSections = [
   { id: 'texas', name: 'Texas', color: '#4ECDC4', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2023/02/24/3_copia-11.jpg' },
   { id: 'mexico', name: 'Mexico', color: '#45B7D1', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/13/3_copia-11.jpg' },
   { id: 'kinder', name: 'Kinder', color: '#FFA07A', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/07/16/pexels-alleksana-6400028-2.jpg' },
-  { id: 'desserts', name: 'Desserts', color: '#C06C84', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/2022/03/13/3_copia-14.jpg' },
+  { id: 'desserts', name: 'Desserts', color: '#C06C84', icon: <Diff size={32} />, image: '/440017389_1038135447678958_7213220999231999312_n.jpg' },
   { id: 'mittagsmenu', name: 'Mittagsmenu', color: '#FFD700', icon: <Diff size={32} />, image: 'https://cantinatexmex.ch/images/speasyimagegallery/albums/1/images/chili.jpeg' },
 ] as const;
 

@@ -60,7 +60,7 @@ export default function Component() {
           }}
         >
           <img
-            src="https://cantinatexmex.ch/images/2022/01/29/pexels-alleksana-6400028-2.jpg"
+            src="/271248933_4690667767653344_444005926034541016_n.jpg"
             alt="Bunte mexikanische Gerichte"
             className="h-full w-full object-cover"
           />
@@ -86,7 +86,7 @@ export default function Component() {
           }}
         >
           <img
-            src="https://cantinatexmex.ch/images/2022/01/29/18936025_m-1.jpg"
+            src="/71090723_2437703966283080_832535812116578304_n.jpg"
             alt="Mexikanischer Koch bei der Essenszubereitung"
             className="h-full w-full object-cover"
           />

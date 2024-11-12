@@ -5,10 +5,10 @@ export default function Component() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const reviews = [
-    { id: 1, name: "Roland Vogler", rating: 5, comment: "Preiswerte Mittagsmenüs. Gutes Essen (Tex-Mex) und Cocktails.", avatar: "https://cantinatexmex.ch/images/2022/04/14/unnamed.png" },
-    { id: 2, name: "Ralph Heeb", rating: 5, comment: "Reservation von Vorteil ... gute Auswahl an Gerichten und Getränke. Sehr nette und Aufmerksame Bedienungen.", avatar: "https://cantinatexmex.ch/images/2022/03/07/unnamed.png" },
-    { id: 3, name: "Garry Cane", rating: 5, comment: "A very pleasant dining experience with good food. Not the place to go for a quiet meal. Really busy and very loud. Will be going again. Ive lived in the area for twenty years and didn't know about it until a friend suggested we go there.", avatar: "https://cantinatexmex.ch/images/2022/04/14/unnamed-2.png" },
-    { id: 4, name: "C.Mullis", rating: 5, comment: "Dieses Restaurant zeigt was Professionalität heisst. Von Anfang bis zum Schluss einfach nur Top", avatar: "https://cantinatexmex.ch/images/2022/03/07/unnamed-1.png" },
+    { id: 1, name: "Roland Vogler", rating: 5, comment: "Preiswerte Mittagsmenüs. Gutes Essen (Tex-Mex) und Cocktails.", avatar: "/unnamed.png" },
+    { id: 2, name: "Ralph Heeb", rating: 5, comment: "Reservation von Vorteil ... gute Auswahl an Gerichten und Getränke. Sehr nette und Aufmerksame Bedienungen.", avatar: "/unnamed-1.png" },
+    { id: 3, name: "Garry Cane", rating: 5, comment: "A very pleasant dining experience with good food. Not the place to go for a quiet meal. Really busy and very loud. Will be going again. Ive lived in the area for twenty years and didn't know about it until a friend suggested we go there.", avatar: "/unnamed-2.png" },
+    { id: 4, name: "C.Mullis", rating: 5, comment: "Dieses Restaurant zeigt was Professionalität heisst. Von Anfang bis zum Schluss einfach nur Top", avatar: "/unnamed-1-1.png" },
   ]
 
   const nextReview = () => {
@@ -39,7 +39,7 @@ export default function Component() {
           {/* Karte für authentische Aromen */}
           <div className="relative rounded-3xl overflow-hidden">
             <img 
-              src="https://cantinatexmex.ch/images/2023/07/13/img_45701.jpeg" 
+              src="/img_45701.jpg" 
               alt="Bunte mexikanische Gerichte" 
               className="w-full h-full object-cover"
             />

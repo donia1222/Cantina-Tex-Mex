@@ -128,7 +128,7 @@ export default function Contact() {
 
         <div className="flex justify-center items-center mb-10 mt-20 ">
           <img 
-            src="https://cantinatexmex.ch/images/2022/03/05/logo3-copia1.png" 
+            src="/logo3-copia1-1.png" 
             alt="Plato mexicano" 
             className="rounded-lg shadow-md h-34 object-cover bg-gray-100"
           />

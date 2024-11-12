@@ -92,7 +92,7 @@ export default function Header() {
           >
             <div className="flex justify-center items-center">
               <img 
-                src="https://cantinatexmex.ch/images/2022/03/05/logo3-copia1.png" 
+                src="/logo3-copia1-1.png" 
                 alt="Plato mexicano" 
                 className="rounded-lg bg-gray-200 h-34 object-cover mt-10"
               />
