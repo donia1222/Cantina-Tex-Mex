@@ -117,7 +117,7 @@ export default function Component() {
           }}
         >
           <img
-            src="https://cantinatexmex.ch/images/speasyimagegallery/albums/1/images/res1.png"
+            src="/IMG_1535.JPG"
             alt="Innenraum des mexikanischen Restaurants"
             className="h-full w-full object-cover"
           />
