@@ -54,7 +54,7 @@ export default function Component() {
             Reservieren Sie Ihren Tisch
           </h1>
           <p className="text-1xl mb-4 text-white text-center">
-            Genießen Sie authentische mexikanische Küche.
+            Genießen Sie authentische Mexikanische Küche.
             Reservieren Sie jetzt!
           </p>
           <a

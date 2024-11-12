@@ -7,6 +7,7 @@ import { Link } from "@remix-run/react"
 import ImagenScroll from '~/components/ImagenScroll'
 import Header from '~/components/Header'
 import ReviewsCarousel from '~/components/RerserveBlock'
+import CloudTextBlock from '~/components/CloudTextBlock'
 
 const Loader = () => (
   <motion.div
@@ -142,7 +143,9 @@ export default function MenuPage() {
   />
 </div>
         <ImagenScroll />
+        <CloudTextBlock/>
         <ReviewsCarousel />
+
       </div>
     </>
   )

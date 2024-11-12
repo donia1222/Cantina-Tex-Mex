@@ -103,7 +103,7 @@ export default function Header() {
           >
             <h2 className="text-5xl font-semibold mb-8  text-center ">Bienvenidos</h2>
             <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins rounded-lg">
-          <AnimatedText text="CANTINA SEIT 2010 IM SEVELEN" />
+          <AnimatedText text="CANTINA SEIT 2010 IN SEVELEN" />
         </div>
         <a
   href="https://cantinatexmex.ch/reservierung/index-4.html"
