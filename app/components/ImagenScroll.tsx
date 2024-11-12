@@ -64,7 +64,7 @@ export default function Component() {
             alt="Bunte mexikanische Gerichte"
             className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-2 text-center">
             <div className="max-w-3xl space-y-4 text-white">
               <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Authentische Mexikanische Aromen</h1>
 
@@ -90,7 +90,7 @@ export default function Component() {
             alt="Mexikanischer Koch bei der Essenszubereitung"
             className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-2 text-center">
             <div className="max-w-2xl space-y-4 text-white">
               <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Die besten Fajitas</h1>
      

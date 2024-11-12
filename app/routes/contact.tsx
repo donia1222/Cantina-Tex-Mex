@@ -30,7 +30,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-800 text-gray-400 bg-opacity-90 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-800 text-gray-400 bg-opacity-90 py-12 px-2 sm:px-6 lg:px-8">
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
