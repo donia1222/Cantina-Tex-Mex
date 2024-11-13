@@ -19,7 +19,6 @@ const Iframe: React.FC<IframeProps> = ({ src, width = "100%", title = "iframe" }
       }
     };
 
-
     // Ejecutar la función al cargar la página y al cambiar el tamaño de la pantalla
     updateHeight();
     window.addEventListener("resize", updateHeight);
@@ -34,7 +33,7 @@ const Iframe: React.FC<IframeProps> = ({ src, width = "100%", title = "iframe" }
       width={width}
       height={height}
       title={title}
-      style={{ border: "none" }}
+      style={{ border: "none", borderRadius: "20px" }} // Aquí se agrega el borderRadius
     />
   );
 };
