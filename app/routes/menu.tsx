@@ -343,7 +343,7 @@ export default function Menu() {
                                 {option.icon}
                                 <span className="font-semibold">{option.name}</span>
                               </div>
-                              <span className="font-bold text-gray-500">{option.preis.toFixed(2)} €</span>
+                              <span className="font-bold text-gray-500">{option.preis.toFixed(2)} CHF</span>
                             </motion.div>
                           ))}
                         </div>
@@ -422,7 +422,7 @@ export default function Menu() {
 
                     <div className="text-center mb-4">
                       <span className="inline-block bg-red-500 text-white px-4 py-2 rounded-full text-lg font-bold">
-                        {quesadillas.preis.toFixed(2)} €
+                        {quesadillas.preis.toFixed(2)} CHF
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-6">
