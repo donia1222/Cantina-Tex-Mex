@@ -14,13 +14,13 @@ const menuCategories = [
   {
     id: 'alkoholfrei',
     title: 'Alkoholfreie',
-    image: 'https://cantinatexmex.ch/images/speasyimagegallery/albums/1/images/mojito.jpeg',
+    image: '47403431_l-2-12.jpg',
     items: ['Caipirohne', 'Stress Killer', 'Malibu Dreams', 'Pitufo', 'Santa Fresana']
   },
   {
     id: 'biere',
     title: 'Biere',
-    image: 'https://cantinatexmex.ch/images/2023/07/13/img_45701.jpeg',
+    image: '/341036281_572225944890060_1041368497201730289_n.jpg',
     items: ['Feldschlösschen Flaschen', 'Alkoholfreies Bier', 'Paulaner Weissbier', 'Sol', 'Corona extra', 'Desperado', 'San Miguel']
   },
   {

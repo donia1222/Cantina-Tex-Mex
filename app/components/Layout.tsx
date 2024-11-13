@@ -315,7 +315,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
         </div>
       </main>
 
-      {/* Footer */}
 {/* Footer */}
 <footer className="relative bg-gradient-to-br from-gray-900 to-gray-600 text-white mt-8 py-12">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -324,29 +323,35 @@ export default function Component({ children }: { children: React.ReactNode }) {
         { icon: MapPin, title: "Adresse", content: "Cantina Tex-Mex\nBahnhofstrasse 46\n9475 Sevelen" },
         { icon: Clock, title: "Öffnungszeiten", content: "Di-Mi: 18:00-21:30\nDo-Fr: 11:30-13:30, 18:00-22:00\nSamstag: 18:00-22:30" },
         { icon: Phone, title: "Kontakt", content: "Telefon: 0817501911\nE-Mail: info@cantiantextmex.ch" }
-      ].map((item, index) => (
-        <motion.div
-          key={item.title}
-          className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg shadow-lg overflow-hidden"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.2 }}
-          whileHover={{ scale: 1.05 }}
-        >
-          <div className="p-6">
-            <motion.div
-              className="flex items-center justify-center mb-4"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 300, delay: index * 0.2 + 0.3 }}
-            >
-              <item.icon className="h-12 w-12 text-red-500" />
-            </motion.div>
-            <h3 className="text-2xl font-bold text-center mb-4">{item.title}</h3>
-            <p className="text-gray-300 text-center whitespace-pre-line">{item.content}</p>
-          </div>
-        </motion.div>
-      ))}
+      ].map((item, index) => {
+        // Define un array de colores
+        const colors = ["text-red-500", "text-yellow-500", "text-green-500"];
+
+        return (
+          <motion.div
+            key={item.title}
+            className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-lg shadow-lg overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.2 }}
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="p-6">
+              <motion.div
+                className="flex items-center justify-center mb-4"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 300, delay: index * 0.2 + 0.3 }}
+              >
+                {/* Aplica el color correspondiente */}
+                <item.icon className={`h-12 w-12 ${colors[index]}`} />
+              </motion.div>
+              <h3 className="text-2xl font-bold text-center mb-4">{item.title}</h3>
+              <p className="text-gray-300 text-center whitespace-pre-line">{item.content}</p>
+            </div>
+          </motion.div>
+        );
+      })}
     </div>
     <motion.div 
       className="mt-12 pt-8"
@@ -376,7 +381,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
         <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-red-500">
           Website Design: <a href="https://lweb.ch" className="underline">Lweb.ch</a>
         </p>
-    
       </div>
     </motion.div>
   </div>

@@ -26,7 +26,7 @@ export default function Menu() {
   };
 
   return (
-    <div className=" bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
+    <div className=" bg-gray-900 bg-opacity-80 text-red-500 p-2 rounded-lg">
       <HeaderDrin />
       <Drinksblock />
 
