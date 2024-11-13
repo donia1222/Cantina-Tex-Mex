@@ -32,30 +32,30 @@ const menuCategories = [
 ]
 
 export default function DrinkMenu() {
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null)
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const toggleCategory = (id: string) => {
-    setExpandedCategory(expandedCategory === id ? null : id)
-  }
+    setExpandedCategory(expandedCategory === id ? null : id);
+  };
 
   return (
-    <div className=" r  text-red-500 p-8">
-      <h1 className="text-4xl font-bold text-center mb-12  "></h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="text-red-500 p-8 flex justify-center">
+      <h1 className="text-4xl font-bold text-center mb-12"></h1>
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-1 gap-8">
         {menuCategories.map((category) => (
           <motion.div
             key={category.id}
-            className="bg-white bg-opacity-10 rounded-lg overflow-hidden shadow-lg"
+            className="bg-gray-900  rounded-lg overflow-hidden shadow-lg"
             whileHover={{ scale: 1.03 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
-            <div 
+            <div
               className="cursor-pointer"
               onClick={() => toggleCategory(category.id)}
             >
-              <img 
-                src={category.image} 
-                alt={category.title} 
+              <img
+                src={category.image}
+                alt={category.title}
                 className="w-full h-48 object-cover"
               />
               <div className="p-4 flex justify-between items-center">
@@ -96,5 +96,5 @@ export default function DrinkMenu() {
         ))}
       </div>
     </div>
-  )
+  );
 }

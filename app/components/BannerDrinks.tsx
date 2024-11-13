@@ -37,10 +37,11 @@ export default function Component() {
 
 
   return (
-    <div className="space-y-8 mt-20">
+    <div className="flex justify-center items-center mb-20">
+    <div className="space-y-8 mt-20 w-full max-w-4xl">
 
-      <div className="relative w-full h-[400px] bg-gradient-to-br from-gray-700 to-gray-600 overflow-hidden flex items-center justify-center">
-      <div className="absolute inset-0 z-0 opacity-20">
+      <div className="relative w-full h-[400px] bg-gradient-to-br from-gray-700 to-gray-600 overflow-hidden flex items-center justify-center rounded-3xl">
+      <div className="absolute inset-0 z-0 opacity-20 ">
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
             <pattern
               id="pattern-circles"
@@ -125,7 +126,7 @@ export default function Component() {
           )}
         </AnimatePresence>
       </div>
-
+      </div>
     </div>
   )
 }
