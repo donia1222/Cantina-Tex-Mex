@@ -23,7 +23,7 @@ const TextImageScroll: React.FC = () => {
 
   return (
     <div ref={containerRef} className="relative h-[200vh]"> {/* Altura reducida a 200vh */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0  h-screen overflow-hidden">
         <motion.div
           className="absolute inset-0 z-0"
           style={{ scale: imageScale, opacity: imageOpacity, willChange: "transform, opacity" }} // Añadir will-change
@@ -31,7 +31,7 @@ const TextImageScroll: React.FC = () => {
           <img
             src="pexels-diamond-multimedia-99937091.jpg"
             alt="Background"
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-cover rounded-3xl"
           />
         </motion.div>
         <motion.div
