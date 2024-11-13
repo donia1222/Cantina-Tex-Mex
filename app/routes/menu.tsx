@@ -379,10 +379,10 @@ export default function Menu() {
                   className="mt-8"
                 >
                   <div className="bg-gray-300 rounded-lg p-6">
-                    <h2 className="text-2xl font-bold text-center mb-4">Spezial Quesadillas</h2>
+                    <h2 className="text-3xl font-bold text-center mb-4">Quesadillas</h2>
                     <div className="flex justify-center">
   <img 
-    src="/close-up-woman-holding-tortilla-with-colorful-background.jpg" 
+    src="/chicken-quesadilla-tomato-corn-pepper-onion-cheese-sour-cream.jpg" 
     alt="Plato mexicano" 
     className="rounded-lg bg-gray-200 h-34 object-cover mb-10"
   />
