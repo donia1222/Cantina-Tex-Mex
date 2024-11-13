@@ -39,9 +39,9 @@ export default function DrinkMenu() {
   };
 
   return (
-    <div className="text-red-500 p-8 flex justify-center">
+    <div className="text-red-500 p-2 flex justify-center">
       <h1 className="text-4xl font-bold text-center mb-12"></h1>
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-1 gap-8">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-1 gap-8">
         {menuCategories.map((category) => (
           <motion.div
             key={category.id}

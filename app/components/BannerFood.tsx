@@ -31,7 +31,7 @@ const TextImageScroll: React.FC = () => {
           <img
             src="pexels-diamond-multimedia-99937091.jpg"
             alt="Background"
-            className="w-full h-min object-cover rounded-lg"
+            className="w-full h-full object-cover rounded-lg"
           />
         </motion.div>
         <motion.div
@@ -39,7 +39,7 @@ const TextImageScroll: React.FC = () => {
           className="relative z-10 h-full flex items-center justify-center"
           style={{ y: textY }}
         >
-          <div className="w-3/4 p-20 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg">
+          <div className="w-3/4 p-4 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg">
             <motion.h2
               className="text-5xl font-bold mb-4 w-full text-center"
               initial={{ opacity: 0, y: 20 }}
