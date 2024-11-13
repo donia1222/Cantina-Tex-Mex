@@ -33,7 +33,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
       }
 
       // Mostrar el botón de "Subir" después de 300 píxeles de desplazamiento
-      if (scrollPosition > 1800) {
+      if (scrollPosition > 3800) {
         setShowUpButton(true)
       } else {
         setShowUpButton(false)
