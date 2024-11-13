@@ -278,6 +278,7 @@ export default function Menu() {
         )}
 
         {showMittagsmenuModal && (
+          
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -307,6 +308,7 @@ export default function Menu() {
                 </AnimatePresence>
            
                 <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                
                 <h2 className="absolute bottom-4 left-4 text-3xl font-bold text-white">Mittagsmenu</h2>
                 <button
                   onClick={closeModal}
@@ -316,7 +318,9 @@ export default function Menu() {
                 </button>
               </div>
               <div className="overflow-y-auto flex-grow modal-content p-8 bg-gray-600">
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  
                   {wochentage.map((tag, index) => (
                     <motion.div
                       key={tag}
@@ -379,7 +383,35 @@ export default function Menu() {
                   className="mt-8"
                 >
                   <div className="bg-gray-600 rounded-lg p-6">
-                    <h2 className="text-4xl font-bold  text-gray-300 text-center mb-4  ">Quesadillas</h2>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <pattern
+              id="pattern-circles"
+              x="0"
+              y="0"
+              width="30"
+              height="40"
+              patternUnits="userSpaceOnUse"
+              patternContentUnits="userSpaceOnUse"
+            >
+              <circle
+                id="pattern-circle"
+                cx="15"
+                cy="15"
+                r="2"
+                fill="gray"
+              ></circle>
+            </pattern>
+            <rect
+              id="rect"
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="url(#pattern-circles)"
+            ></rect>
+          </svg>
+    
+                    <h2 className="text-4xl font-bold  text-gray-300 text-center mb-4 mt-10 ">Quesadillas</h2>
                     <div className="flex justify-center">
   <img 
     src="/chicken-quesadilla-tomato-corn-pepper-onion-cheese-sour-cream.jpg" 
