@@ -77,8 +77,8 @@ export default function Contact() {
               <h3 className="text-xl font-semibold mb-4">Reservierung</h3>
               <div className="space-y-4">
                 <motion.a
-                  href="https://reservierung.cantinatexmex.ch"
-                  className="block w-full bg-white text-red-600 py-2 px-4 rounded-md shadow-sm text-center font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out flex items-center justify-center"
+                  href="/reservierung"
+                  className="w-full bg-white text-red-600 py-2 px-4 rounded-md shadow-sm text-center font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out flex items-center justify-center"
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"
@@ -88,7 +88,7 @@ export default function Contact() {
                 </motion.a>
                 <motion.a
                   href="tel:0817501911"
-                  className="block w-full bg-white text-red-600 py-2 px-4 rounded-md shadow-sm text-center font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out flex items-center justify-center"
+                  className=" w-full bg-white text-red-600 py-2 px-4 rounded-md shadow-sm text-center font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out flex items-center justify-center"
                   variants={buttonVariants}
                   whileHover="hover"
                   whileTap="tap"
