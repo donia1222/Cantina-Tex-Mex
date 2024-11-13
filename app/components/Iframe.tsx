@@ -15,10 +15,10 @@ const Iframe: React.FC<IframeProps> = ({ src, width = "100%", title = "iframe" }
       if (window.matchMedia("(min-width: 1024px)").matches) {
         setHeight("900px");
       } else {
-        setHeight("1600px");
+        setHeight("1800px");
       }
     };
-    
+
 
     // Ejecutar la función al cargar la página y al cambiar el tamaño de la pantalla
     updateHeight();
