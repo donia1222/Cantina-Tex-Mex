@@ -139,8 +139,8 @@ export default function Component() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <h2 className="text-2xl lg:text-3xl font-bold mb-4 text-red-500">{slides[currentIndex].title}</h2>
-                <p className="text-base lg:text-lg text-gray-200">{slides[currentIndex].description}</p>
+                <h2 className="text-2xl lg:text-3xl font-bold mb-4 text-whie">{slides[currentIndex].title}</h2>
+                <p className="text-base lg:text-lg text-gray-300">{slides[currentIndex].description}</p>
               </motion.div>
             </AnimatePresence>
           </div>
