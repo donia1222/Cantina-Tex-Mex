@@ -3,17 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLoaderData } from '@remix-run/react';
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { X, Diff, Utensils, Salad, Coffee, Pizza, Beef, FishIcon as Shrimp, BirdIcon as Chicken, Carrot, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, CirclePlus, Utensils, Salad, Coffee, Pizza, Beef, FishIcon as Shrimp, BirdIcon as Chicken, Carrot, ChevronLeft, ChevronRight } from 'lucide-react';
 import HeaderSpe from '~/components/HeaderSpe';
 import BannerFood from '~/components/BannerFood';
 
 const menuSections = [
-  { id: 'vorspeisen', name: 'Vorspeisen', color: '#FF6B6B', icon: <Diff size={32} />, image: '96771444_3048192125224744_9026765579553341440_n.jpg' },
-  { id: 'texas', name: 'Texas', color: '#4ECDC4', icon: <Diff size={32} />, image: '439906677_1038135431012293_4590580434033471940_n.jpg' },
-  { id: 'mexico', name: 'Mexico', color: '#45B7D1', icon: <Diff size={32} />, image: '271206981_4690667750986679_6769410685630349301_n.jpg' },
-  { id: 'kinder', name: 'Kinder', color: '#FFA07A', icon: <Diff size={32} />, image: '/271248933_4690667767653344_444005926034541016_n.jpg' },
-  { id: 'desserts', name: 'Desserts', color: '#C06C84', icon: <Diff size={32} />, image: '/440017389_1038135447678958_7213220999231999312_n.jpg' },
-  { id: 'mittagsmenu', name: 'Mittagsmenu', color: '#FFD700', icon: <Diff size={32} />, image: '/340871282_193406080143735_4389703553709751881_n.jpg' },
+  { id: 'vorspeisen', name: 'Vorspeisen', color: '#FF6B6B', icon: <CirclePlus size={32} />, image: '96771444_3048192125224744_9026765579553341440_n.jpg' },
+  { id: 'texas', name: 'Texas', color: '#4ECDC4', icon: <CirclePlus size={32} />, image: '439906677_1038135431012293_4590580434033471940_n.jpg' },
+  { id: 'mexico', name: 'Mexico', color: '#45B7D1', icon: <CirclePlus size={32} />, image: '271206981_4690667750986679_6769410685630349301_n.jpg' },
+  { id: 'kinder', name: 'Kinder', color: '#FFA07A', icon: <CirclePlus size={32} />, image: '/271248933_4690667767653344_444005926034541016_n.jpg' },
+  { id: 'desserts', name: 'Desserts', color: '#C06C84', icon: <CirclePlus size={32} />, image: '/440017389_1038135447678958_7213220999231999312_n.jpg' },
+  { id: 'mittagsmenu', name: 'Mittagsmenu', color: '#FFD700', icon: <CirclePlus size={32} />, image: '/340871282_193406080143735_4389703553709751881_n.jpg' },
 ] as const;
 
 type SectionId = typeof menuSections[number]['id'];
@@ -174,7 +174,7 @@ export default function Menu() {
       <HeaderSpe />
       <BannerFood />
       <motion.div
-        className="w-full max-w-6xl px-4 py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+        className="w-full max-w-6xl px-4  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 mb-40"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
