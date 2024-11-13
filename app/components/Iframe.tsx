@@ -15,7 +15,7 @@ const Iframe: React.FC<IframeProps> = ({ src, width = "100%", title = "iframe" }
       if (window.matchMedia("(min-width: 1024px)").matches) {
         setHeight("900px");
       } else {
-        setHeight("2100px");
+        setHeight("1800px");
       }
     };
 
