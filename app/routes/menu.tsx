@@ -378,8 +378,8 @@ export default function Menu() {
                   transition={{ delay: 0.8 }}
                   className="mt-8"
                 >
-                  <div className="bg-gray-300 rounded-lg p-6">
-                    <h2 className="text-3xl font-bold text-center mb-4">Quesadillas</h2>
+                  <div className="bg-gray-600 rounded-lg p-6">
+                    <h2 className="text-4xl font-bold  text-gray-300 text-center mb-4  ">Quesadillas</h2>
                     <div className="flex justify-center">
   <img 
     src="/chicken-quesadilla-tomato-corn-pepper-onion-cheese-sour-cream.jpg" 
@@ -407,7 +407,7 @@ export default function Menu() {
                         </motion.div>
                       ))}
                     </div>
-                    <h3 className="text-xl font-bold text-center mb-4">Beilagen (zur Auswahl)</h3>
+                    <h3 className="text-xl  text-center mb-4 text-gray-300">Beilagen (zur Auswahl)</h3>
                     <div className="grid grid-cols-2 gap-4">
                       {beilagen.map((beilage, index) => (
                         <motion.div
