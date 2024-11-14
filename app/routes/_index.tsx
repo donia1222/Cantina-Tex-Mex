@@ -148,6 +148,7 @@ export default function MenuPage() {
   
         <Bloques />
         <ReviewsCarousel />
+        
       </div>
     </>
   )
