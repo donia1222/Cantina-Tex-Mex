@@ -18,7 +18,35 @@ export default function Contact() {
         className="max-w-3xl mx-auto"
       >
         <h1 className="text-4xl font-bold text-center mb-12">Kontakt <span aria-hidden="true">👋</span></h1>
-        
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+            <pattern
+              id="pattern-circles"
+              x="0"
+              y="0"
+              width="30"
+              height="40"
+              patternUnits="userSpaceOnUse"
+              patternContentUnits="userSpaceOnUse"
+            >
+              <circle
+                id="pattern-circle"
+                cx="5"
+                cy="5"
+                r="1"
+                fill="#fff"
+              ></circle>
+            </pattern>
+            <rect
+              id="rect"
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="url(#pattern-circles)"
+            ></rect>
+          </svg>
+   
         <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-6">
           <h2 className="text-2xl font-semibold mb-6">Kontaktinformationen</h2>
           <ul className="space-y-4">
