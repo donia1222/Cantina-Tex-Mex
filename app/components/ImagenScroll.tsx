@@ -4,11 +4,18 @@ import { useEffect, useRef, useState } from 'react'
 
 export default function Component() {
   const [scrollPosition, setScrollPosition] = useState(0)
-  const containerRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)]
+  const containerRefs = [
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollPosition(window.scrollY)
+      // Use requestAnimationFrame for smoother updates
+      requestAnimationFrame(() => {
+        setScrollPosition(window.scrollY)
+      })
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -18,8 +25,8 @@ export default function Component() {
   }, [])
 
   const getTranslateY = (index: number) => {
-    // Calculate a smooth vertical translation effect
-    const offset = (scrollPosition / 10) - (index * 50)
+    // Adjust translation speed for each element
+    const offset = (scrollPosition / 8) - (index * 30)
     return `translateY(${offset}px)`
   }
 
@@ -29,7 +36,7 @@ export default function Component() {
         <div
           key={index}
           ref={ref}
-          className="sticky top-20 z-10 flex items-center justify-center overflow-hidden mt-20"
+          className="sticky top-20 z-10 flex items-center justify-center overflow-hidden"
           style={{ height: '60vh' }} // Fixed height for stability
         >
           <div
