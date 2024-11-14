@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { Utensils, Calendar, Ham, ChevronLeft, ChevronRight } from "lucide-react"
+import GoogleBussines from '~/components/GoogleBussines'
+
 
 export default function Component() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -58,11 +60,7 @@ export default function Component() {
             <div className="relative z-10">
               {/* Google My Business Logo */}
               <div className="flex justify-center mb-20">
-                <img
-                  src="https://logos-world.net/wp-content/uploads/2023/12/Google-Review-Logo.png"
-                  alt="Google My Business Logo"
-                  className="h-20 w-auto"
-                />
+              <GoogleBussines />
               </div>
               <div className="flex items-center space-x-4 mb-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden">
@@ -113,15 +111,6 @@ export default function Component() {
             </div>
             
             <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-green-500/10 rounded-3xl" />
-
-            <button
-  type="button" // Cambié "submit" a "button" para evitar que se envíe un formulario.
-  onClick={() => window.location.href = 'https://www.google.com/search?client=safari&rls=en&q=cantina+sevelen&ie=UTF-8&oe=UTF-8#'}
-  className="px-6 py-3 bg-transparent text-blue-600 font-semibold border-2 border-blue-600 mt-10 rounded-md relative overflow-hidden group transition-colors duration-300 ease-in-out hover:text-white"
->
-  <span className="relative z-10">Bewertungen auf Google Maps </span>
-  <span className="absolute inset-0 bg-blue-600 transform -translate-y-full transition-transform duration-300 ease-in-out group-hover:translate-y-0"></span>
-</button>
 
           </div>
 
