@@ -5,9 +5,7 @@ import Bloques from '~/components/Bloques'
 
 export default function Component() {
   const [scrollProgress, setScrollProgress] = useState(0)
-  const containerRef1 = useRef<HTMLDivElement>(null)
-  const containerRef2 = useRef<HTMLDivElement>(null)
-  const containerRef3 = useRef<HTMLDivElement>(null)
+  const containerRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,10 +16,13 @@ export default function Component() {
       setScrollProgress(progress)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    // Use requestAnimationFrame to improve performance
+    const optimizedHandleScroll = () => requestAnimationFrame(handleScroll)
+    window.addEventListener('scroll', optimizedHandleScroll)
+
     handleScroll() // Initial call to set initial state
 
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', optimizedHandleScroll)
   }, [])
 
   const getScale = (ref: React.RefObject<HTMLDivElement>) => {
@@ -29,7 +30,7 @@ export default function Component() {
       const rect = ref.current.getBoundingClientRect()
       const viewportHeight = window.innerHeight
       const elementVisibility = Math.min(Math.max((viewportHeight - rect.top) / viewportHeight, 0), 1)
-      return 1 - (elementVisibility * 0.3) // Reduce by 30% at most
+      return 1 - elementVisibility * 0.3 // Reduce by 30% at most
     }
     return 1
   }
@@ -39,95 +40,46 @@ export default function Component() {
       const rect = ref.current.getBoundingClientRect()
       const viewportHeight = window.innerHeight
       const elementVisibility = Math.min(Math.max((viewportHeight - rect.top) / viewportHeight, 0), 1)
-      return 100 - (elementVisibility * 40) // Reduce height by 40% at most
+      return 100 - elementVisibility * 40 // Reduce height by 40% at most
     }
     return 100
   }
 
   return (
     <div className="min-h-[300vh]">
-      <div
-        ref={containerRef1}
-        className="sticky top-20 z-10 flex items-center justify-center overflow-hidden"
-        style={{
-          height: `${Math.max(getHeight(containerRef1), 60)}vh`, // Minimum height of 60vh
-        }}
-      >
-        <div 
-          className="relative h-full w-full transition-transform duration-300 ease-out will-change-transform"
+      {containerRefs.map((ref, index) => (
+        <div
+          key={index}
+          ref={ref}
+          className="sticky top-20 z-10 flex items-center justify-center overflow-hidden"
           style={{
-            transform: `scale(${getScale(containerRef1)})`,
+            height: `${Math.max(getHeight(ref), 60)}vh`, // Minimum height of 60vh
           }}
         >
-          <img
-            src="/271248933_4690667767653344_444005926034541016_n.jpg"
-            alt="Bunte mexikanische Gerichte"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-2 text-center">
-            <div className="max-w-3xl space-y-4 text-white">
-              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Authentische Mexikanische Aromen</h1>
-
+          <div
+            className="relative h-full w-full transition-transform duration-300 ease-out will-change-transform"
+            style={{
+              transform: `scale(${getScale(ref)})`,
+            }}
+          >
+            <img
+              src={index === 0 ? "/271248933_4690667767653344_444005926034541016_n.jpg" : index === 1 ? "/71090723_2437703966283080_832535812116578304_n.jpg" : "/IMG_1535.JPG"}
+              alt={index === 0 ? "Bunte mexikanische Gerichte" : index === 1 ? "Mexikanischer Koch bei der Essenszubereitung" : "Innenraum des mexikanischen Restaurants"}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-2 text-center">
+              <div className="max-w-3xl space-y-4 text-white">
+                <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">
+                  {index === 0 ? "Authentische Mexikanische Aromen" : index === 1 ? "Die Besten Fajitas" : "Lebendige Atmosphäre"}
+                </h1>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        ref={containerRef2}
-        className="sticky top-20 z-10 flex items-center justify-center overflow-hidden"
-        style={{
-          height: `${Math.max(getHeight(containerRef2), 60)}vh`, // Minimum height of 60vh
-        }}
-      >
-        <div 
-          className="relative h-full w-full transition-transform duration-300 ease-out will-change-transform"
-          style={{
-            transform: `scale(${getScale(containerRef2)})`,
-          }}
-        >
-          <img
-            src="/71090723_2437703966283080_832535812116578304_n.jpg"
-            alt="Mexikanischer Koch bei der Essenszubereitung"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-2 text-center">
-            <div className="max-w-2xl space-y-4 text-white">
-              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Die Besten Fajitas</h1>
-     
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="relative z-20 ">
+      ))}
+      <div className="relative z-20">
         <Bloques />
-        <div className="mx-auto max-w-4xl p-8">
-        </div>
-      </div>
-      <div
-        ref={containerRef3}
-        className="sticky top-20 z-10 flex items-center justify-center overflow-hidden"
-        style={{
-          height: `${Math.max(getHeight(containerRef3), 60)}vh`, // Minimum height of 60vh
-        }}
-      >
-        <div 
-          className="relative h-full w-full transition-transform duration-300 ease-out will-change-transform"
-          style={{
-            transform: `scale(${getScale(containerRef3)})`,
-          }}
-        >
-          <img
-            src="/IMG_1535.JPG"
-            alt="Innenraum des mexikanischen Restaurants"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
-            <div className="max-w-2xl space-y-4 text-white">
-              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Lebendige Atmosphäre</h1>
-       
-            </div>
-          </div>
-        </div>
+        <div className="mx-auto max-w-4xl p-8"></div>
       </div>
     </div>
   )
