@@ -22,7 +22,7 @@ export default function Component() {
   }
 
   return (
-    <div className="bg-gray-800 text-white p-2 min-h-screen rounded-3xl relative">
+    <div className="bg-gray-800 text-white p-2 min-h-screen rounded-3xl relative pb-24">
       <div className="absolute inset-0 z-0 opacity-20">
         
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">

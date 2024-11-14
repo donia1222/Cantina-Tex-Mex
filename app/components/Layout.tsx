@@ -121,7 +121,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 backdrop-blur-md shadow-md bg-transparent md:bg-gray-800">
+      <header className="relative z-10 backdrop-blur-md shadow-md bg-transparent md:bg-gray-800 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             
@@ -195,10 +195,10 @@ export default function Component({ children }: { children: React.ReactNode }) {
             </nav>
             
             {/* Mobile menu button on the right */}
-            <div className="md:hidden">
+            <div className="md:hidden ">
               <motion.button
                 onClick={toggleMenu}
-                className="text-red-500 hover:text-gray-500 focus:outline-none rounded-full p-2 bg-gray-900 bg-opacity-70"
+                className="text-red-500 hover:text-gray-500 focus:outline-none rounded-full p-2 bg-gray-900 bg-opacity-70 "
                 whileTap={{ scale: 0.95 }}
               >
                 {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
