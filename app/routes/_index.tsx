@@ -143,12 +143,12 @@ export default function MenuPage() {
     className="text-white" 
   />
 </div>
-        <ImagenScroll />
+
         <CloudTextBlock/>
   
         <Bloques />
         <ReviewsCarousel />
-        
+
       </div>
     </>
   )
