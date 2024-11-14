@@ -76,7 +76,7 @@ export default function Component() {
         ref={containerRef2}
         className="sticky top-20 z-10 flex items-center justify-center overflow-hidden"
         style={{
-          height: `${Math.max(getHeight(containerRef2), 60)}vh`, // Minimum height of 60vh
+          height: `${Math.max(getHeight(containerRef2), 40)}vh`, // Minimum height of 60vh
         }}
       >
         <div 
@@ -116,17 +116,8 @@ export default function Component() {
             transform: `scale(${getScale(containerRef3)})`,
           }}
         >
-          <img
-            src="/IMG_1535.JPG"
-            alt="Innenraum des mexikanischen Restaurants"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-6 text-center">
-            <div className="max-w-2xl space-y-4 text-white">
-              <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">Lebendige Atmosphäre</h1>
-       
-            </div>
-          </div>
+   
+    
         </div>
       </div>
     </div>
