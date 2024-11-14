@@ -45,7 +45,7 @@ export default function Header() {
   }, [])
 
   return (
-    <header className="text-gray-200 p-6 rounded-xl bg-gray-900 bg-opacity-90 overflow-hidden" style={{ maxWidth: '1000px', margin: '1rem auto' }}>
+    <header className="text-gray-200 p-6 rounded-xl bg-gray-900 bg-opacity-90 overflow-hidden mb-28" style={{ maxWidth: '1000px', margin: '1rem auto' }}>
       <div className="relative">
       <div className="absolute inset-0 z-0 opacity-20">
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
@@ -90,7 +90,16 @@ export default function Header() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
+                    <div className="flex justify-center items-center">
+              <AnimatedGradientText 
+    texts={['Tex-Mex', ' Cocktails', ' Ambiente']} 
+    className="text-white" 
+  />
+  </div>
             <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center mb-10  ">
+
+</div>
               <img 
                 src="/logo3-copia1-1.png" 
                 alt="Plato mexicano" 

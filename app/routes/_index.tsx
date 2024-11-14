@@ -136,12 +136,7 @@ export default function MenuPage() {
 
         <div className="h-[5vh]" />
 
-        <div className="flex justify-center items-center mb-10  ">
-  <AnimatedGradientText 
-    texts={['Tex-Mex', ' Cocktails', ' Ambiente']} 
-    className="text-white" 
-  />
-</div>
+
         <ImagenScroll />
         <Bloques />
         <CloudTextBlock/>
