@@ -8,7 +8,7 @@ import ImagenScroll from '~/components/ImagenScroll'
 import Header from '~/components/Header'
 import ReviewsCarousel from '~/components/RerserveBlock'
 import CloudTextBlock from '~/components/CloudTextBlock'
-
+import Bloques from '~/components/Bloques'
 const Loader = () => (
   <motion.div
     className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"
@@ -143,6 +143,7 @@ export default function MenuPage() {
   />
 </div>
         <ImagenScroll />
+        <Bloques />
         <CloudTextBlock/>
         <ReviewsCarousel />
 
