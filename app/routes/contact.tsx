@@ -1,148 +1,117 @@
 'use client'
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Calendar, PhoneCall, Facebook, Instagram } from 'lucide-react';
+import { motion } from 'framer-motion'
+import { MapPin, Phone, Mail, Clock, Calendar, PhoneCall, Facebook, Instagram } from 'lucide-react'
 
 export default function Contact() {
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormState(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const subject = encodeURIComponent('Neue Nachricht von der Website');
-    const body = encodeURIComponent(`Name: ${formState.name}\nEmail: ${formState.email}\nNachricht: ${formState.message}`);
-    window.location.href = `mailto:info@cantinatexmex.ch?subject=${subject}&body=${body}`;
-    setFormState({ name: '', email: '', message: '' });
-  };
-
   const buttonVariants = {
     hover: { scale: 1.05, transition: { duration: 0.2 } },
     tap: { scale: 0.95, transition: { duration: 0.2 } },
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-gray-800 text-gray-400 bg-opacity-90 py-12 px-2 sm:px-6 lg:px-8">
-
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-7xl mx-auto"
+        className="max-w-3xl mx-auto"
       >
-        <h1 className="text-4xl font-bold text-center text-gray-300 mb-12">Kontakt 👋</h1>
+        <h1 className="text-4xl font-bold text-center mb-12">Kontakt <span aria-hidden="true">👋</span></h1>
         
-        <div className="flex justify-center items-center">
-
-          {/* Contact information */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-gradient-to-br from-gray-900 to-gray-700 text-white shadow-xl rounded-lg p-8 flex flex-col justify-between"
-          >
-            <div>
-              <ul className="space-y-4">
-                <li className="flex items-center">
-                  <MapPin className="h-6 w-6 mr-3 text-red-500" />
-                  <span>Bahnhofstrasse 46, 9475 Sevelen</span>
-                </li>
-                <li className="flex items-center">
-                  <Phone className="h-6 w-6 mr-3 text-red-500" />
-                  <span>0817501911</span>
-                </li>
-                <li className="flex items-center">
-                  <Mail className="h-6 w-6 mr-3 text-red-500" />
-                  <span>info@cantinatexmex.ch</span>
-                </li>
-                <li className="flex items-start">
-                  <Clock className="h-6 w-6 mr-3 mt-1 text-red-500" />
-                  <span>
-                    Di-Mi: 18:00-21:30<br />
-                    Do-Fr: 11:30-13:30, 18:00-22:00<br />
-                    Samstag: 18:00-22:30
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold mb-4">Reservierung</h3>
-              <div className="space-y-4">
-                <motion.a
-                  href="https://reservierung.cantinatexmex.ch"
-                  className=" w-full bg-white text-red-600 py-2 px-4 rounded-md shadow-sm text-center font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out flex items-center justify-center"
-                  variants={buttonVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                >
-                  <Calendar className="w-5 h-5 mr-2 text-red-500" />
-                  Tisch online Reservieren
-                </motion.a>
-                <motion.a
-                  href="tel:0817501911"
-                  className=" w-full bg-white text-red-600 py-2 px-4 rounded-md shadow-sm text-center font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out flex items-center justify-center"
-                  variants={buttonVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                >
-                  <PhoneCall className="w-5 h-5 mr-2 text-red-500" />
-                  0817501911
-                </motion.a>
-              </div>
-            </div>
-            {/* Social Media Icons */}
-            <div className="mt-8 flex justify-center space-x-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-semibold mb-6">Kontaktinformationen</h2>
+          <ul className="space-y-4">
+            <li className="flex items-center">
+              <MapPin className="h-6 w-6 mr-3 text-red-500" />
+              <span>Bahnhofstrasse 46, 9475 Sevelen</span>
+            </li>
+            <li className="flex items-center">
+              <Phone className="h-6 w-6 mr-3 text-red-500" />
+              <a href="tel:0817501911" className="hover:underline">0817501911</a>
+            </li>
+            <li className="flex items-center">
+              <Mail className="h-6 w-6 mr-3 text-red-500" />
+              <a href="mailto:info@cantinatexmex.ch" className="hover:underline">info@cantinatexmex.ch</a>
+            </li>
+            <li className="flex items-start">
+              <Clock className="h-6 w-6 mr-3 mt-1 text-red-500" />
+              <span>
+                Di-Mi: 18:00-21:30<br />
+                Do-Fr: 11:30-13:30, 18:00-22:00<br />
+                Samstag: 18:00-22:30
+              </span>
+            </li>
+          </ul>
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold mb-4">Reservierung</h3>
+            <div className="space-y-4">
               <motion.a
-                href="https://www.facebook.com/cantinasevelen"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:text-red-500 transition-colors duration-200"
+                href="https://reservierung.cantinatexmex.ch"
+                className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
               >
-                <Facebook className="w-8 h-8" />
+                <Calendar className="w-5 h-5 mr-2" />
+                Tisch online Reservieren
               </motion.a>
               <motion.a
-                href="https://www.instagram.com/cantina_badrans/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:text-red-500 transition-colors duration-200"
+                href="tel:0817501911"
+                className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
               >
-                <Instagram className="w-8 h-8" />
+                <PhoneCall className="w-5 h-5 mr-2" />
+                0817501911
               </motion.a>
             </div>
-          </motion.div>
+          </div>
+          <div className="mt-8 flex justify-center space-x-4">
+            <motion.a
+              href="https://www.facebook.com/cantinasevelen"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-red-500 transition-colors duration-200"
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+              aria-label="Besuchen Sie uns auf Facebook"
+            >
+              <Facebook className="w-8 h-8" />
+            </motion.a>
+            <motion.a
+              href="https://www.instagram.com/cantina_badrans/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-red-500 transition-colors duration-200"
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+              aria-label="Folgen Sie uns auf Instagram"
+            >
+              <Instagram className="w-8 h-8" />
+            </motion.a>
+          </div>
         </div>
 
-        <div className="flex justify-center items-center mb-10 mt-20 ">
+        <div className="flex justify-center items-center my-12">
           <img 
             src="/logo3-copia1-1.png" 
-            alt="Plato mexicano" 
-            className="rounded-lg shadow-md h-34 object-cover bg-gray-100"
+            alt="Cantina Tex Mex Logo" 
+            className="rounded-lg shadow-md h-34 object-cover"
           />
         </div>
 
-        {/* Map */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mt-12"
         >
-          <h2 className="text-2xl font-semibold text-gray-100 mb-6 text-center">Unser Standort</h2>
-          <div className="aspect-w-16 aspect-h-9">
+          <h2 className="text-2xl font-semibold mb-6 text-center">Unser Standort</h2>
+          <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2724.4866543537747!2d9.494731315591655!3d47.11466397915501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b3168f6b9d0c3%3A0x4b7a1d5b6a7b0f0a!2sBahnhofstrasse%2046%2C%209475%20Sevelen%2C%20Switzerland!5e0!3m2!1sen!2sus!4v1635794729872!5m2!1sen!2sus"
               width="100%"
@@ -150,10 +119,11 @@ export default function Contact() {
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
+              title="Cantina Tex Mex Standort"
             ></iframe>
           </div>
         </motion.div>
       </motion.div>
     </div>
-  );
+  )
 }
