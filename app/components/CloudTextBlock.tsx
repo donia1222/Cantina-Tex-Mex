@@ -42,7 +42,7 @@ export default function Component() {
 
 
   return (
-    <div className="space-y-8 mb-10 mt-4">
+    <div className="space-y-8 mb-20 mt-4">
       
        <h1 className="text-4xl font-bold mb-6 text-gray-400 text-center">Cantina<span className="ml-2  text-4xl font-bold mb-6 text-red-500 text-center">
             News!
