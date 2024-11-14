@@ -83,7 +83,7 @@ export default function Component() {
         </div>
       ))}
       <div className="relative z-20">
-        <Bloques />
+
         <div className="mx-auto max-w-4xl p-8"></div>
       </div>
     </div>
