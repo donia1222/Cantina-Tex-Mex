@@ -21,7 +21,7 @@ export default function Component() {
   }
 
   return (
-    <div className="bg-gray-800 text-white p-2 min-h-screen rounded-3xl relative pb-24">
+    <div className="bg-gray-800 text-white p-2 min-h-screen rounded-3xl relative">
       <div className="absolute inset-0 z-0 opacity-20">
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
           <pattern id="pattern-circles" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse">
@@ -111,11 +111,12 @@ export default function Component() {
   {/* Nuevo Bloque de Video */}
 <div className="col-span-1 md:col-span-2 rounded-3xl overflow-hidden bg-gray-900">
   <video
-   className="w-full max-h-80 object-cover" // Limita la altura máxima del video
+    className="w-full max-h-80 object-cover" // max-h-80 para limitar la altura
+    controls
     autoPlay
     muted
     loop
-    playsInline // Asegura que se reproduzca en línea en dispositivos móviles
+        src="/IMG_1466.MOV" // Replace with your video path
   >
     Your browser does not support the video tag.
   </video>
