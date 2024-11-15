@@ -1,155 +1,113 @@
-import { useEffect } from "react";
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.css";
+import { useState } from "react"
+import { Utensils, Calendar, Ham, ChevronLeft, ChevronRight } from "lucide-react"
+import GoogleBussines from '~/components/GoogleBussines'
 
-export default function ReservationForm() {
-  useEffect(() => {
-    // Simula el equivalente de `DOMContentLoaded` en React
-    const form = document.getElementById("reservationForm") as HTMLFormElement;
-    const fechaInput = document.getElementById("fecha") as HTMLInputElement;
-    const horaSelect = document.getElementById("hora") as HTMLSelectElement;
-    const modal = document.getElementById("confirmationModal") as HTMLElement;
-    const closeButton = document.getElementById("closeModal") as HTMLElement;
-    const reservationDetails = document.getElementById("reservationDetails") as HTMLElement;
-    const addToCalendarButton = document.getElementById("addToCalendar") as HTMLElement;
-    const downloadVCardButton = document.getElementById("downloadVCard") as HTMLElement;
+export default function Component() {
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-    function updateRestaurantStatus() {
-      // Tu lógica original para el estado del restaurante
-      const now = new Date();
-      const day = now.getDay();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const currentTime = hours * 60 + minutes;
+  const reviews = [
+    { id: 1, name: "Roland Vogler", rating: 5, comment: "Preiswerte Mittagsmenüs. Gutes Essen (Tex-Mex) und Cocktails.", avatar: "/unnamed.png" },
+    { id: 2, name: "Ralph Heeb", rating: 5, comment: "Reservation von Vorteil ... gute Auswahl an Gerichten und Getränke. Sehr nette und Aufmerksame Bedienungen.", avatar: "/unnamed-1.png" },
+    { id: 3, name: "Garry Cane", rating: 5, comment: "A very pleasant dining experience with good food. Not the place to go for a quiet meal. Really busy and very loud. Will be going again. Ive lived in the area for twenty years and didn't know about it until a friend suggested we go there.", avatar: "/unnamed-2.png" },
+    { id: 4, name: "C.Mullis", rating: 5, comment: "Dieses Restaurant zeigt was Professionalität heisst. Von Anfang bis zum Schluss einfach nur Top", avatar: "/unnamed-1-1.png" },
+  ]
 
-      const statusIndicator = document.querySelector('.status-indicator') as HTMLElement;
-      const statusText = document.querySelector('.status-text') as HTMLElement;
+  const nextReview = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length)
+  }
 
-      let status = 'closed';
-      let nextOpeningTime = '';
-
-      if (day >= 2 && day <= 6) { // Martes a Sábado
-        if (day === 6 && currentTime >= 20 * 60) { // Sábado después de las 20:00
-          status = 'closed';
-          nextOpeningTime = 'Dienstag 18:00';
-        } else if (day === 4 || day === 5) { // Jueves y Viernes
-          if (currentTime >= 11 * 60 + 30 && currentTime < 13 * 60) {
-            status = 'open';
-          } else if (currentTime >= 13 * 60 && currentTime < 13 * 60 + 30) {
-            status = 'closing-soon';
-            nextOpeningTime = '18:00';
-          } else if (currentTime >= 18 * 60 && currentTime < 20 * 60) {
-            status = 'open';
-          } else if (currentTime >= 19 * 60 + 30 && currentTime < 20 * 60) {
-            status = 'closing-soon';
-          } else if (currentTime >= 11 * 60 && currentTime < 11 * 60 + 30) {
-            status = 'opening-soon';
-            nextOpeningTime = '11:30';
-          } else if (currentTime >= 17 * 60 && currentTime < 18 * 60) {
-            status = 'opening-soon';
-            nextOpeningTime = '18:00';
-          } else {
-            nextOpeningTime = (currentTime < 11 * 60 + 30) ? '11:30' : '18:00';
-          }
-        } else { // Martes, Miércoles, Sábado (antes de las 20:00)
-          if (currentTime >= 18 * 60 && currentTime < 20 * 60) {
-            status = 'open';
-          } else if (currentTime >= 19 * 60 + 30 && currentTime < 20 * 60) {
-            status = 'closing-soon';
-          } else if (currentTime >= 17 * 60 && currentTime < 18 * 60) {
-            status = 'opening-soon';
-            nextOpeningTime = '18:00';
-          } else {
-            nextOpeningTime = '18:00';
-          }
-        }
-      } else { // Domingo y Lunes
-        nextOpeningTime = 'Dienstag 18:00';
-      }
-
-      if (statusIndicator) statusIndicator.className = 'status-indicator status-' + status;
-      if (statusText) {
-        switch (status) {
-          case 'open':
-            statusText.textContent = 'Geöffnet';
-            break;
-          case 'closing-soon':
-            statusText.textContent = 'Schließt bald (20:00)';
-            break;
-          case 'opening-soon':
-            statusText.textContent = `Öffnet bald (${nextOpeningTime})`;
-            break;
-          default:
-            statusText.textContent = `Wir öffnen am: ${nextOpeningTime}`;
-        }
-      }
-    }
-
-    // Actualiza el estado cada minuto
-    updateRestaurantStatus();
-    const interval = setInterval(updateRestaurantStatus, 60000);
-
-    // Maneja el envío del formulario
-    form?.addEventListener("submit", (e) => {
-      e.preventDefault();
-      // Simula el envío del formulario
-      alert("Reserva realizada con éxito!");
-    });
-
-    // Inicializa flatpickr
-    flatpickr(fechaInput, {
-      dateFormat: "d.m.Y",
-      minDate: "today",
-    });
-
-    // Limpia el intervalo al desmontar el componente
-    return () => clearInterval(interval);
-  }, []);
+  const prevReview = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length)
+  }
 
   return (
-    <div className="p-4 bg-gray-100 rounded-lg">
-      {/* Estado del restaurante */}
-      <div className="p-4 bg-gray-800 text-white rounded mb-4">
-        <h2 className="text-2xl font-bold">Estado del Restaurante:</h2>
-        <p className="text-lg mt-2 status-text"></p>
-        <div className="status-indicator"></div>
+    <div className="bg-gray-800 text-white p-2 min-h-screen rounded-3xl relative pb-24">
+      <div className="absolute inset-0 z-0 opacity-20">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <pattern id="pattern-circles" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse">
+            <circle id="pattern-circle" cx="10" cy="10" r="1.6257413380501518" fill="#ffffff"></circle>
+          </pattern>
+          <rect id="rect" x="0" y="0" width="100%" height="100%" fill="url(#pattern-circles)"></rect>
+        </svg>
       </div>
+      <div className="relative z-10">
+        <h1 className="text-4xl font-medium text-center mb-8 text-gray-800">
+          Das erwartet Sie in El Sabor Mexicano.
+        </h1>
+      
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
+          {/* Existing Cards */}
+          <div className="relative rounded-3xl overflow-hidden">
+            <img src="/img_45701.jpg" alt="Bunte mexikanische Gerichte" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-6 flex flex-col justify-end">
+              <div className="mb-4">
+                <Utensils className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-3xl font-medium leading-tight">
+                Genießen Sie authentische Mexikanische Küche in jedem Bissen.
+              </h2>
+            </div>
+          </div>
 
-      {/* Formulario de reserva */}
-      <form id="reservationForm" className="space-y-4 bg-white p-6 rounded shadow">
-        <label htmlFor="fecha" className="block text-gray-700 font-medium">
-          Fecha:
-        </label>
-        <input
-          type="text"
-          id="fecha"
-          className="w-full border rounded px-3 py-2"
-          required
-        />
+          <div className="rounded-3xl bg-black p-6 relative overflow-hidden flex flex-col justify-center h-full">
+            <div className="relative z-10">
+              <div className="flex justify-center mb-20">
+                <GoogleBussines />
+              </div>
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="w-16 h-16 rounded-full overflow-hidden">
+                  <img src={reviews[currentIndex].avatar} alt={`Avatar von ${reviews[currentIndex].name}`} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-medium">{reviews[currentIndex].name}</h3>
+                  <div className="flex">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className={`w-5 h-5 ${i < reviews[currentIndex].rating ? "text-red-500" : "text-gray-100"}`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="text-lg italic mb-20">"{reviews[currentIndex].comment}"</p>
+              <div className="flex justify-between">
+                <button onClick={prevReview} className="text-blue-500 hover:text-gray-300 transition duration-300" aria-label="Vorherige Bewertung">
+                  <ChevronLeft className="w-10 h-10" />
+                </button>
+                <button onClick={nextReview} className="text-blue-500 hover:text-gray-300 transition duration-300" aria-label="Nächste Bewertung">
+                  <ChevronRight className="w-10 h-10" />
+                </button>
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-green-500/10 rounded-3xl" />
+          </div>
 
-        <label htmlFor="hora" className="block text-gray-700 font-medium">
-          Hora:
-        </label>
-        <select id="hora" className="w-full border rounded px-3 py-2" required>
-          <option value="">Seleccione una hora</option>
-          {/* Agrega las opciones de hora aquí */}
-        </select>
+          <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
+            <Calendar className="w-8 h-8 text-red-500 mb-4" />
+            <h2 className="text-2xl font-medium">
+              Probieren Sie unser<br />
+              Tagesmenü Donnerstags<br />
+              und Freitags von<br />
+              11:30 bis 13:00 Uhr.
+            </h2>
+          </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700"
-        >
-          Reservar
-        </button>
-      </form>
-
-      {/* Modal de confirmación (oculto por defecto) */}
-      <div id="confirmationModal" className="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-white p-6 rounded shadow">
-          <button id="closeModal" className="text-gray-700">&times;</button>
-          <div id="reservationDetails"></div>
+          <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
+            <Ham className="w-8 h-8 text-yellow-500 mb-4" />
+            <h2 className="text-2xl font-medium">
+              <span className="text-yellow-500">Quesadillas </span> 
+              frisch zubereitet.
+              <span className="text-gray-500"> (Mit frisch gebackenen Tortillas)</span>
+            </h2>
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

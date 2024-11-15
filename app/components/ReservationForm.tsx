@@ -166,7 +166,7 @@ const ReservationForm: React.FC = () => {
   
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-xl mx-auto p-6 bg-gray rounded-lg shadow-md">
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -180,7 +180,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="fecha"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-lg font-medium text-gray-100"
               >
                 Datum
               </label>
@@ -255,7 +255,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="hora"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-lg font-medium text-gray-100"
               >
                 Uhrzeit
               </label>
@@ -277,7 +277,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="personas"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-lg font-medium text-gray-100"
               >
                 Anzahl der Personen
               </label>
@@ -295,8 +295,8 @@ const ReservationForm: React.FC = () => {
                 ))}
               </select>
               {/* Mensaje para reservas de 15 o más personas */}
-              <p className="mt-2 text-sm text-gray-500">
-                Ab 15 Personen bitte telefonisch reservieren:{" "}
+              <p className=" text-sm text-gray-400 text-center mt-5">
+                Ab 15 Personen bitte telefonisch reservieren{" "}
                 <a
                   href="tel:0817501911"
                   className="text-indigo-600 underline"
@@ -309,7 +309,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="nombre"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-lg font-medium text-gray-100"
               >
                 Name
               </label>
@@ -326,7 +326,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="telefono"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-lg font-medium text-gray-100"
               >
                 Telefon
               </label>
@@ -343,7 +343,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-lg font-medium text-gray-100"
               >
                 E-Mail
               </label>
@@ -359,7 +359,7 @@ const ReservationForm: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200"
+              className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200"
             >
               Reservierung bestätigen
             </button>
