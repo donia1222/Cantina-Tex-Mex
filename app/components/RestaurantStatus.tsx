@@ -41,7 +41,7 @@ export default function RestaurantStatus() {
             currentStatus = 'opening-soon'
             nextTime = '18:00'
           } else {
-            nextTime = (currentTime < 11 * 60 + 30) ? '11:30' : '18:00'
+            nextTime = currentTime < 11 * 60 + 30 ? '11:30' : '18:00'
           }
         } else {
           if (currentTime >= 18 * 60 && currentTime < 20 * 60) {
@@ -86,8 +86,8 @@ export default function RestaurantStatus() {
 
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center gap-2 py-2 mt-10">
-      <h2 className="text-xl  text-gray-400 font-bold mr-2 ">Aktueller Status</h2>
-      <div 
+      <h2 className="text-xl text-gray-400 font-bold mr-2">Aktueller Status</h2>
+      <div
         className={`${bgColor} ${textColor} rounded-full py-2 px-3 flex items-center space-x-2 shadow-md transition-all duration-300 hover:shadow-lg`}
         role="status"
         aria-live="polite"
@@ -96,11 +96,11 @@ export default function RestaurantStatus() {
         <span className="text-sm font-medium">{text}</span>
         <Clock className="w-4 h-4" aria-hidden="true" />
       </div>
-      <span className={`text-sm ${status === 'closed' ? 'text-green-500 font-medium' : 'text-gray-600'}`}>
-        {status === 'closing-soon' ? '(20:00)' : 
-         status === 'opening-soon' ? `(${nextOpeningTime})` : 
-         `Öffnet am: ${nextOpeningTime}`}
-      </span>
+      {status === 'closed' && (
+        <span className="text-sm text-green-500 font-medium">
+          Öffnet am: {nextOpeningTime}
+        </span>
+      )}
     </div>
   )
 }
