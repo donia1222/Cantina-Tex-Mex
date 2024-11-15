@@ -85,15 +85,22 @@ export default function RestaurantStatus() {
   const { text, bgColor, textColor } = getStatusInfo()
 
   return (
-    <div className="flex justify-center items-center py-2 mt-10">
-      <div className={`${bgColor} ${textColor} rounded-full py-2 px-3 flex items-center space-x-2 shadow-md transition-all duration-300 hover:shadow-lg`}>
-        <span className={`w-2 h-2 rounded-full bg-current animate-pulse`} aria-hidden="true"></span>
+    <div className="flex flex-col sm:flex-row justify-center items-center gap-2 py-2 mt-10">
+      <h2 className="text-xl  text-gray-400 font-bold mr-2 ">Aktueller Status:</h2>
+      <div 
+        className={`${bgColor} ${textColor} rounded-full py-2 px-3 flex items-center space-x-2 shadow-md transition-all duration-300 hover:shadow-lg`}
+        role="status"
+        aria-live="polite"
+      >
+        <span className="w-2 h-2 rounded-full bg-current animate-pulse" aria-hidden="true"></span>
         <span className="text-sm font-medium">{text}</span>
-        <Clock className="w-4 h-4" />
+        <Clock className="w-4 h-4" aria-hidden="true" />
       </div>
-      <span className={`ml-2 text-sl ${status === 'closed' ? 'text-green-500 font-medium' : 'text-gray-600'}`}>
-          {status === 'closing-soon' ? '(20:00)' : status === 'opening-soon' ? `(${nextOpeningTime})` : `Öffnet am: ${nextOpeningTime}`}
-        </span>
+      <span className={`text-sm ${status === 'closed' ? 'text-green-500 font-medium' : 'text-gray-600'}`}>
+        {status === 'closing-soon' ? '(20:00)' : 
+         status === 'opening-soon' ? `(${nextOpeningTime})` : 
+         `Öffnet am: ${nextOpeningTime}`}
+      </span>
     </div>
   )
 }

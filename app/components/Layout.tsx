@@ -316,7 +316,9 @@ export default function Component({ children }: { children: React.ReactNode }) {
         );
       })}
     </div>
+
     <RestaurantStatus /> 
+    
     <motion.div 
       className="mt-12 pt-8"
       initial={{ opacity: 0 }}
