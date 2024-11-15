@@ -36,7 +36,7 @@ const CurrentMessage: React.FC = () => {
 
   return (
     <div
-      className="current-message rounded-lg p-4 text-gray-300  max-w-sm mx-auto"
+      className="current-message rounded-lg p-4 text-gray-300  max-w-sm mx-auto mt-5"
       dangerouslySetInnerHTML={{ __html: message }}
     ></div>
   );

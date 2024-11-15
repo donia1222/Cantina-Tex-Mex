@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 interface ConfirmationModalProps {
   details: {
@@ -14,8 +13,6 @@ interface ConfirmationModalProps {
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, onClose }) => {
-  const navigate = useNavigate();
-
   const handleAddToCalendar = () => {
     const [day, month, year] = details.fecha.split(".");
     const [hour, minute] = details.hora.split(":");
@@ -41,7 +38,8 @@ END:VCALENDAR`;
     link.click();
     document.body.removeChild(link);
 
-    window.location.href = "https://www.cantinatexmex.ch"; // Navegar después de guardar la cita
+    // Redirigir después de descargar el archivo
+    window.location.href = "https://www.cantinatexmex.ch";
   };
 
   const handleDownloadVCard = () => {
@@ -71,7 +69,8 @@ END:VCARD`;
           link.click();
           document.body.removeChild(link);
 
-          window.location.href = "https://www.cantinatexmex.ch"; // Navegar después de descargar la tarjeta
+          // Redirigir después de descargar la tarjeta
+          window.location.href = "https://www.cantinatexmex.ch";
         };
         reader.readAsDataURL(blob);
       })
@@ -96,7 +95,8 @@ END:VCARD`;
         link.click();
         document.body.removeChild(link);
 
-        window.location.href = "https://www.cantinatexmex.ch"; // Navegar después de descargar la tarjeta sin imagen
+        // Redirigir después de descargar la tarjeta sin imagen
+        window.location.href = "https://www.cantinatexmex.ch";
       });
   };
 
