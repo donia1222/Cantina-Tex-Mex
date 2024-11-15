@@ -359,10 +359,11 @@ const ReservationForm: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200"
+              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200"
             >
               Reservierung bestätigen
             </button>
+            
           </form>
         </>
       )}
