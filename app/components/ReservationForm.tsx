@@ -1,7 +1,7 @@
 // app/components/ReservationForm.tsx
 import React, { useEffect, useState } from "react";
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
+import "flatpickr/dist/themes/material_red.css";
 import ConfirmationModal from "./ConfirmationModal";
 
 interface BlockedDates {
