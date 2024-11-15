@@ -2,6 +2,8 @@ import React from "react";
 import ReservationForm from "~/components/ReservationForm";
 import AnimatedGradientText from '~/components/AnimatedGradientTextdos';
 import CurrentMessage from '~/components/CurrentMessage'; // Import the component
+import RestaurantStatus from '~/components/RestaurantStatus'; 
+
 
 const IndexPage: React.FC = () => {
   return (
@@ -19,7 +21,6 @@ const IndexPage: React.FC = () => {
 
         {/* Current Message Section */}
         <CurrentMessage /> {/* Display the current message */}
-
         {/* Reservation Form */}
         <ReservationForm />
       </div>

@@ -1,113 +1,99 @@
-// app/components/RestaurantStatus.tsx
+'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
+import { Clock } from 'lucide-react'
 
-type Status = 'open' | 'closing-soon' | 'opening-soon' | 'closed';
+type Status = 'open' | 'closing-soon' | 'opening-soon' | 'closed'
 
-const RestaurantStatus: React.FC = () => {
-  const [status, setStatus] = useState<Status>('closed');
-  const [nextOpeningTime, setNextOpeningTime] = useState<string>('');
+export default function RestaurantStatus() {
+  const [status, setStatus] = useState<Status>('closed')
+  const [nextOpeningTime, setNextOpeningTime] = useState<string>('')
 
   useEffect(() => {
     const updateStatus = () => {
-      const now = new Date();
-      const day = now.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const currentTime = hours * 60 + minutes; // Tiempo en minutos
+      const now = new Date()
+      const day = now.getDay()
+      const hours = now.getHours()
+      const minutes = now.getMinutes()
+      const currentTime = hours * 60 + minutes
 
-      let currentStatus: Status = 'closed';
-      let nextTime = '';
+      let currentStatus: Status = 'closed'
+      let nextTime = ''
 
-      if (day >= 2 && day <= 6) { // Martes a Sábado
-        if (day === 6 && currentTime >= 20 * 60) { // Sábado después de las 20:00
-          currentStatus = 'closed';
-          nextTime = 'Dienstag 18:00';
-        } else if (day === 4 || day === 5) { // Jueves y Viernes
+      if (day >= 2 && day <= 6) {
+        if (day === 6 && currentTime >= 20 * 60) {
+          currentStatus = 'closed'
+          nextTime = 'Dienstag 18:00'
+        } else if (day === 4 || day === 5) {
           if (currentTime >= 11 * 60 + 30 && currentTime < 13 * 60) {
-            currentStatus = 'open';
+            currentStatus = 'open'
           } else if (currentTime >= 13 * 60 && currentTime < 13 * 60 + 30) {
-            currentStatus = 'closing-soon';
-            nextTime = '18:00';
+            currentStatus = 'closing-soon'
+            nextTime = '18:00'
           } else if (currentTime >= 18 * 60 && currentTime < 20 * 60) {
-            currentStatus = 'open';
+            currentStatus = 'open'
           } else if (currentTime >= 19 * 60 + 30 && currentTime < 20 * 60) {
-            currentStatus = 'closing-soon';
+            currentStatus = 'closing-soon'
           } else if (currentTime >= 11 * 60 && currentTime < 11 * 60 + 30) {
-            currentStatus = 'opening-soon';
-            nextTime = '11:30';
+            currentStatus = 'opening-soon'
+            nextTime = '11:30'
           } else if (currentTime >= 17 * 60 && currentTime < 18 * 60) {
-            currentStatus = 'opening-soon';
-            nextTime = '18:00';
+            currentStatus = 'opening-soon'
+            nextTime = '18:00'
           } else {
-            nextTime = (currentTime < 11 * 60 + 30) ? '11:30' : '18:00';
+            nextTime = (currentTime < 11 * 60 + 30) ? '11:30' : '18:00'
           }
-        } else { // Martes, Miércoles, Sábado (antes de las 20:00)
+        } else {
           if (currentTime >= 18 * 60 && currentTime < 20 * 60) {
-            currentStatus = 'open';
+            currentStatus = 'open'
           } else if (currentTime >= 19 * 60 + 30 && currentTime < 20 * 60) {
-            currentStatus = 'closing-soon';
+            currentStatus = 'closing-soon'
           } else if (currentTime >= 17 * 60 && currentTime < 18 * 60) {
-            currentStatus = 'opening-soon';
-            nextTime = '18:00';
+            currentStatus = 'opening-soon'
+            nextTime = '18:00'
           } else {
-            nextTime = '18:00';
+            nextTime = '18:00'
           }
         }
-      } else { // Domingo y Lunes
-        nextTime = 'Dienstag 18:00';
+      } else {
+        nextTime = 'Dienstag 18:00'
       }
 
-      setStatus(currentStatus);
-      setNextOpeningTime(nextTime);
-    };
+      setStatus(currentStatus)
+      setNextOpeningTime(nextTime)
+    }
 
-    // Actualizar el estado al cargar el componente
-    updateStatus();
+    updateStatus()
+    const interval = setInterval(updateStatus, 60000)
+    return () => clearInterval(interval)
+  }, [])
 
-    // Configurar un intervalo para actualizar el estado cada minuto
-    const interval = setInterval(updateStatus, 60000);
-
-    // Limpiar el intervalo al desmontar el componente
-    return () => clearInterval(interval);
-  }, []);
-
-  const getStatusText = () => {
+  const getStatusInfo = () => {
     switch (status) {
       case 'open':
-        return 'Geöffnet';
+        return { text: 'Geöffnet', bgColor: 'bg-green-500', textColor: 'text-green-300' }
       case 'closing-soon':
-        return 'Schließt bald (20:00)';
+        return { text: 'Schließt bald', bgColor: 'bg-yellow-500', textColor: 'text-yellow-50' }
       case 'opening-soon':
-        return `Öffnet bald (${nextOpeningTime})`;
+        return { text: 'Öffnet bald', bgColor: 'bg-blue-500', textColor: 'text-blue-50' }
       case 'closed':
       default:
-        return `Wir öffnen am: ${nextOpeningTime}`;
+        return { text: 'Geschlossen', bgColor: 'bg-red-500', textColor: 'text-red-50' }
     }
-  };
+  }
 
-  const getStatusIndicatorClass = () => {
-    switch (status) {
-      case 'open':
-        return 'bg-green-500';
-      case 'closing-soon':
-        return 'bg-yellow-500';
-      case 'opening-soon':
-        return 'bg-blue-500';
-      case 'closed':
-      default:
-        return 'bg-red-500';
-    }
-  };
+  const { text, bgColor, textColor } = getStatusInfo()
 
   return (
-    <div className="mt-4 p-4 bg-white rounded shadow">
-      <div className="flex items-center">
-        <span className={`w-3 h-3 rounded-full mr-2 ${getStatusIndicatorClass()}`}></span>
-        <span className="text-lg font-semibold">{getStatusText()}</span>
+    <div className="flex justify-center items-center py-2 mt-10">
+      <div className={`${bgColor} ${textColor} rounded-full py-2 px-3 flex items-center space-x-2 shadow-md transition-all duration-300 hover:shadow-lg`}>
+        <span className={`w-2 h-2 rounded-full bg-current animate-pulse`} aria-hidden="true"></span>
+        <span className="text-sm font-medium">{text}</span>
+        <Clock className="w-4 h-4" />
       </div>
+      <span className={`ml-2 text-lg ${status === 'closed' ? 'text-green-500 font-medium' : 'text-gray-600'}`}>
+          {status === 'closing-soon' ? '(20:00)' : status === 'opening-soon' ? `(${nextOpeningTime})` : `Öffnet am: ${nextOpeningTime}`}
+        </span>
     </div>
-  );
-};
-
-export default RestaurantStatus;
+  )
+}
