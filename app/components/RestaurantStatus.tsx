@@ -91,7 +91,7 @@ export default function RestaurantStatus() {
         <span className="text-sm font-medium">{text}</span>
         <Clock className="w-4 h-4" />
       </div>
-      <span className={`ml-2 text-lg ${status === 'closed' ? 'text-green-500 font-medium' : 'text-gray-600'}`}>
+      <span className={`ml-2 text-sl ${status === 'closed' ? 'text-green-500 font-medium' : 'text-gray-600'}`}>
           {status === 'closing-soon' ? '(20:00)' : status === 'opening-soon' ? `(${nextOpeningTime})` : `Öffnet am: ${nextOpeningTime}`}
         </span>
     </div>
