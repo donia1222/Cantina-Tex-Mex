@@ -16,11 +16,6 @@ interface ConfirmationModalProps {
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, onClose }) => {
   const navigate = useNavigate();
 
-  const handleCloseAndNavigate = () => {
-    onClose(); // Cierra el modal
-    navigate("/_index"); // Navega a /_index
-  };
-
   const handleAddToCalendar = () => {
     const [day, month, year] = details.fecha.split(".");
     const [hour, minute] = details.hora.split(":");
@@ -46,7 +41,7 @@ END:VCALENDAR`;
     link.click();
     document.body.removeChild(link);
 
-    handleCloseAndNavigate();
+    window.location.href = "https://www.cantinatexmex.ch"; // Navegar después de guardar la cita
   };
 
   const handleDownloadVCard = () => {
@@ -76,7 +71,7 @@ END:VCARD`;
           link.click();
           document.body.removeChild(link);
 
-          handleCloseAndNavigate();
+          window.location.href = "https://www.cantinatexmex.ch"; // Navegar después de descargar la tarjeta
         };
         reader.readAsDataURL(blob);
       })
@@ -101,15 +96,20 @@ END:VCARD`;
         link.click();
         document.body.removeChild(link);
 
-        handleCloseAndNavigate();
+        window.location.href = "https://www.cantinatexmex.ch"; // Navegar después de descargar la tarjeta sin imagen
       });
+  };
+
+  const handleCloseModal = () => {
+    onClose();
+    window.location.href = "https://www.cantinatexmex.ch"; // Navegar al cerrar el modal
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
         <button
-          onClick={handleCloseAndNavigate}
+          onClick={handleCloseModal}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
         >
           &times;
