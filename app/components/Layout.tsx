@@ -73,7 +73,8 @@ export default function Component({ children }: { children: React.ReactNode }) {
     { to: "/menu", icon: UtensilsCrossed, label: "Speisekarte" },
     { to: "/drinks", icon: Beer, label: "Getränke" },
     { to: "/contact", icon: Phone, label: "Kontakt" },
-    { to: "https://reservierung.cantinatexmex.ch", icon: Utensils, label: "Reservierung", external: true },
+    { to: "/reservierung", icon: Phone, label: "Reservierung" },
+  
   ]
 
   return (
@@ -120,166 +121,126 @@ export default function Component({ children }: { children: React.ReactNode }) {
         </svg>
       </div>
 
-      {/* Header */}
-      <header className="relative z-10 backdrop-blur-md shadow-md bg-transparent md:bg-gray-800 ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            
-            {/* Logo on the left */}
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center">
-                <img 
-                  src="/logo3-copia1.png" 
-                  alt="Mexikanisches Gericht" 
-                  className="h-10 w-auto"
-                />
-              </Link>
-            </div>
-            
-            {/* Navigation menu centered on large screens */}
-            <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+      <header className="relative z-10 backdrop-blur-md shadow-md bg-transparent md:bg-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo a la izquierda */}
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/logo3-copia1.png" 
+                alt="Mexikanisches Gericht" 
+                className="h-10 w-auto"
+              />
+            </Link>
+          </div>
+
+          {/* Menú de navegación centrado en pantallas grandes */}
+          <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            {menuItems.map((item, index) => (
+              <motion.div
+                key={item.to}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link
+                  to={item.to}
+                  className={`flex items-center text-gray-200 hover:text-red-600 transition duration-150 ease-in-out group ${
+                    location.pathname === item.to ? "text-red-600 font-bold" : ""
+                  }`}
+                >
+                  <motion.div
+                    className="flex items-center"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <motion.div
+                      whileHover={{ rotate: 360 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    >
+                      <item.icon
+                        className={`h-5 w-5 mr-1 ${
+                          location.pathname === item.to
+                            ? "text-red-600"
+                            : "group-hover:text-red-600"
+                        }`}
+                      />
+                    </motion.div>
+                    <span>{item.label}</span>
+                  </motion.div>
+                </Link>
+              </motion.div>
+            ))}
+          </nav>
+
+          {/* Botón del menú móvil a la derecha */}
+          <div className="md:hidden">
+            <motion.button
+              onClick={toggleMenu}
+              className="text-red-500 hover:text-gray-500 focus:outline-none rounded-full p-2 bg-gray-900 bg-opacity-70"
+              whileTap={{ scale: 0.95 }}
+            >
+              {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
+            </motion.button>
+          </div>
+        </div>
+      </div>
+
+      {/* Menú móvil */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {menuItems.map((item, index) => (
                 <motion.div
                   key={item.to}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  {item.external ? (
-                    <a 
-                      href={item.to}
-                      target="_blank"
-                      rel="noopener noreferrer" 
-                      className="flex items-center text-gray-200 hover:text-red-600 transition duration-150 ease-in-out group"
+                  <Link
+                    to={item.to}
+                    onClick={closeMenu}
+                    className={`flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-100 hover:text-red-600 hover:bg-red-50 transition duration-150 ease-in-out group ${
+                      location.pathname === item.to
+                        ? "text-red-600 bg-red-50 font-bold"
+                        : ""
+                    }`}
+                  >
+                    <motion.div
+                      className="flex items-center"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
                       <motion.div
-                        className="flex items-center"
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        whileHover={{ rotate: 360 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
                       >
-                        <motion.div
-                          whileHover={{ rotate: 360 }}
-                          transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                        >
-                          <item.icon className="h-5 w-5 mr-1 group-hover:text-red-600" />
-                        </motion.div>
-                        <span>{item.label}</span>
+                        <item.icon
+                          className={`h-5 w-5 mr-2 ${
+                            location.pathname === item.to
+                              ? "text-red-600"
+                              : "group-hover:text-red-600"
+                          }`}
+                        />
                       </motion.div>
-                    </a>
-                  ) : (
-                    <Link 
-                      to={item.to} 
-                      className={`flex items-center text-gray-200 hover:text-red-600 transition duration-150 ease-in-out group ${
-                        location.pathname === item.to ? 'text-red-600 font-bold' : ''
-                      }`}
-                    >
-                      <motion.div
-                        className="flex items-center"
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      >
-                        <motion.div
-                          whileHover={{ rotate: 360 }}
-                          transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                        >
-                          <item.icon className={`h-5 w-5 mr-1 ${
-                            location.pathname === item.to ? 'text-red-600' : 'group-hover:text-red-600'
-                          }`} />
-                        </motion.div>
-                        <span>{item.label}</span>
-                      </motion.div>
-                    </Link>
-                  )}
+                      <span>{item.label}</span>
+                    </motion.div>
+                  </Link>
                 </motion.div>
               ))}
-            </nav>
-            
-            {/* Mobile menu button on the right */}
-            <div className="md:hidden ">
-              <motion.button
-                onClick={toggleMenu}
-                className="text-red-500 hover:text-gray-500 focus:outline-none rounded-full p-2 bg-gray-900 bg-opacity-70 "
-                whileTap={{ scale: 0.95 }}
-              >
-                {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
-              </motion.button>
             </div>
-          </div>
-        </div>
-        
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              className="md:hidden"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {menuItems.map((item, index) => (
-                  <motion.div
-                    key={item.to}
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    {item.external ? (
-                      <a
-                        href={item.to}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={closeMenu}
-                        className="flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-100 hover:text-red-600 hover:bg-red-50 transition duration-150 ease-in-out group"
-                      >
-                        <motion.div
-                          className="flex items-center"
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                        >
-                          <motion.div
-                            whileHover={{ rotate: 360 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                          >
-                            <item.icon className="h-5 w-5 mr-2 group-hover:text-red-600" />
-                          </motion.div>
-                          <span>{item.label}</span>
-                        </motion.div>
-                      </a>
-                    ) : (
-                      <Link
-                        to={item.to}
-                        onClick={closeMenu}
-                        className={`flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-100 hover:text-red-600 hover:bg-red-50 transition duration-150 ease-in-out group ${
-                          location.pathname === item.to ? 'text-red-600 bg-red-50 font-bold' : ''
-                        }`}
-                      >
-                        <motion.div
-                          className="flex items-center"
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                        >
-                          <motion.div
-                            whileHover={{ rotate: 360 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                          >
-                            <item.icon className={`h-5 w-5 mr-2 ${
-                              location.pathname === item.to ? 'text-red-600' : 'group-hover:text-red-600'
-                            }`} />
-                          </motion.div>
-                          <span>{item.label}</span>
-                        </motion.div>
-                      </Link>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
-
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
 
       {/* Icono que aparece al hacer clic */}
       <AnimatePresence>
@@ -378,10 +339,8 @@ export default function Component({ children }: { children: React.ReactNode }) {
       </div>
       {/* Nuevo Texto Añadido */}
       <div className="mt-6 text-center">
-        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-gray-200">
-        <a href="https://lweb.ch" className="underline">Website Design:<span className="ml-2 text-[#ff69b4] text-lg ">
-        lweb
-          </span> </a>
+        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-red-500">
+          Website Design: <a href="https://lweb.ch" className="underline">Lweb.ch</a>
         </p>
       </div>
     </motion.div>

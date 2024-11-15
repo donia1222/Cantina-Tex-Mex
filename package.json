@@ -1,6 +1,7 @@
 {
   "name": "cantina",
   "private": true,
+   "proxy": "https://reservierung.cantinatexmex.ch",
   "sideEffects": false,
   "type": "module",
   "scripts": {
