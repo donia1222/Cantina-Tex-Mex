@@ -37,9 +37,6 @@ END:VCALENDAR`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    // Redirigir después de descargar el archivo
-    window.location.href = "https://www.cantinatexmex.ch";
   };
 
   const handleDownloadVCard = () => {
@@ -68,9 +65,6 @@ END:VCARD`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-
-          // Redirigir después de descargar la tarjeta
-          window.location.href = "https://www.cantinatexmex.ch";
         };
         reader.readAsDataURL(blob);
       })
@@ -94,9 +88,6 @@ END:VCARD`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
-        // Redirigir después de descargar la tarjeta sin imagen
-        window.location.href = "https://www.cantinatexmex.ch";
       });
   };
 
