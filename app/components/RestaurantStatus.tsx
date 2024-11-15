@@ -86,7 +86,7 @@ export default function RestaurantStatus() {
 
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center gap-2 py-2 mt-10">
-      <h2 className="text-xl  text-gray-400 font-bold mr-2 ">Aktueller Status:</h2>
+      <h2 className="text-xl  text-gray-400 font-bold mr-2 ">Aktueller Status</h2>
       <div 
         className={`${bgColor} ${textColor} rounded-full py-2 px-3 flex items-center space-x-2 shadow-md transition-all duration-300 hover:shadow-lg`}
         role="status"
