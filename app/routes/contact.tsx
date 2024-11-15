@@ -17,7 +17,13 @@ export default function Contact() {
         transition={{ duration: 0.5 }}
         className="max-w-3xl mx-auto"
       >
-        <h1 className="text-4xl font-bold text-center mb-12">Kontakt <span aria-hidden="true">👋</span></h1>
+        <div className="flex justify-center items-center mt-5 mb-10">
+      <div className={`text-3xl sm:text-4xl md:text-4xl font-poppins font-bold ml-4 `}>
+      <span className="bg-gradient-to-r from-gray-200 via-gray-500 to-red-500 text-transparent bg-clip-text font-poppins">
+      Kontakt 👋
+      </span>
+    </div>
+  </div>
 
           <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
             <pattern
