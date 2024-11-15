@@ -342,8 +342,10 @@ export default function Component({ children }: { children: React.ReactNode }) {
       </div>
       {/* Nuevo Texto Añadido */}
       <div className="mt-6 text-center">
-        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-red-500">
-          Website Design: <a href="https://lweb.ch" className="underline">Lweb.ch</a>
+        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-gray-200">
+        <a href="https://lweb.ch" className="underline">Website Design:<span className="ml-2 text-[#ff69b4] text-lg ">
+        lweb
+          </span> </a>
         </p>
       </div>
     </motion.div>
