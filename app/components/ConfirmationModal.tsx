@@ -1,5 +1,5 @@
-// app/components/ConfirmationModal.tsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface ConfirmationModalProps {
   details: {
@@ -14,6 +14,13 @@ interface ConfirmationModalProps {
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ details, onClose }) => {
+  const navigate = useNavigate();
+
+  const handleCloseAndNavigate = () => {
+    onClose(); // Cierra el modal
+    navigate("/_index"); // Navega a /_index
+  };
+
   const handleAddToCalendar = () => {
     const [day, month, year] = details.fecha.split(".");
     const [hour, minute] = details.hora.split(":");
@@ -38,6 +45,8 @@ END:VCALENDAR`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    handleCloseAndNavigate();
   };
 
   const handleDownloadVCard = () => {
@@ -66,6 +75,8 @@ END:VCARD`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+
+          handleCloseAndNavigate();
         };
         reader.readAsDataURL(blob);
       })
@@ -89,6 +100,8 @@ END:VCARD`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        handleCloseAndNavigate();
       });
   };
 
@@ -96,7 +109,7 @@ END:VCARD`;
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
         <button
-          onClick={onClose}
+          onClick={handleCloseAndNavigate}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
         >
           &times;
