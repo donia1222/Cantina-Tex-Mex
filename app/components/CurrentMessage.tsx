@@ -27,23 +27,16 @@ const CurrentMessage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex items-center justify-center h-40">
         <p className="text-center text-gray-500">Lädt aktuelle Nachricht...</p>
       </div>
     );
   }
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <p className="text-center text-red-500">{error}</p>
-      </div>
-    );
-  }
 
   return (
     <div
-      className="current-message bg-gray-600  rounded-lg p-4 text-gray-300 shadow-md max-w-sm mx-auto"
+      className="current-message rounded-lg p-4 text-gray-300  max-w-sm mx-auto"
       dangerouslySetInnerHTML={{ __html: message }}
     ></div>
   );
