@@ -228,25 +228,7 @@ const ReservationForm: React.FC = () => {
         <p className="text-white">Loading...</p>
       ) : (
         <>
-          {/* Saludo de bienvenida si el usuario ha reservado antes */}
-          {reservations.length > 0 && (
-            <div className="mb-6 p-4 bg-green-500 text-white rounded">
-              <p className="text-xl font-semibold">Willkommen, {nombre}!</p>
-              <button
-                onClick={() => setShowPreviousReservationsModal(true)}
-                className="mt-3 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-200"
-              >
-                Ver meine vorherigen Reservierungen
-              </button>
-            </div>
-          )}
-
-          {error && (
-            <div className="mb-4 p-4 bg-red-500 text-white rounded">
-              {error}
-            </div>
-          )}
-
+  
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
@@ -443,18 +425,15 @@ const ReservationForm: React.FC = () => {
           </form>
         </>
       )}
+               {reservations.length > 0 && (
 
-      {/* Botón para ver reservas anteriores */}
-      {reservations.length > 0 && (
-        <div className="mt-6 text-center">
-          <button
-            onClick={() => setShowPreviousReservationsModal(true)}
-            className="bg-gray-800 text-gray-300 py-2 px-4 rounded-md hover:bg-gray-900 hover:text-white transition duration-200"
-          >
-            Ver meine vorherigen Reservierungen
-          </button>
-        </div>
-      )}
+              <button
+                onClick={() => setShowPreviousReservationsModal(true)}
+                className="mt-10 bg-gray-800 text-gray-400 py-1 px-3 rounded hover:bg-gray-900 transition duration-200 text-xm"
+              >
+                Ver meine vorherigen Reservierungen
+              </button>
+          )}
 
       {/* Modal para mostrar reservas anteriores */}
       {showPreviousReservationsModal && (
