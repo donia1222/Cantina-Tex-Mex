@@ -456,7 +456,7 @@ const ReservationForm: React.FC = () => {
       {reservations.length > 0 && (
         <button
           onClick={() => setShowPreviousReservationsModal(true)}
-          className="mt-10 bg-gray-600 text-blue-300 py-1 px-3 rounded hover:bg-gray-900 transition duration-200 text-xs"
+          className="mt-10 bg-gray-600 text-gray-300 py-1 px-3 rounded hover:bg-gray-900 transition duration-200 text-xs"
         >
           Ver meine vorherigen Reservierungen
         </button>

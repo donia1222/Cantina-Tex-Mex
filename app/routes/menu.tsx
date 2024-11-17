@@ -221,7 +221,7 @@ export default function Menu() {
               className="bg-white rounded-lg overflow-hidden max-w-2xl w-full max-h-[80vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              <div ref={modalHeaderRef} className="relative h-48 flex-shrink-0">
+              <div ref={modalHeaderRef} className="relative h-24 flex-shrink-0">
                 <img
                   src={menuSections.find((s) => s.id === activeSection)?.image}
                   alt={menuSections.find((s) => s.id === activeSection)?.name}
