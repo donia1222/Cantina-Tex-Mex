@@ -7,6 +7,9 @@ import ConfirmationModal from "./ConfirmationModal";
 // Importar el componente de modal para mostrar reservas anteriores
 import PreviousReservationsModal from "./PreviousReservationsModal";
 
+// Importar iconos de Lucide React
+import { Calendar, Clock, Users, User, Phone, Mail } from 'lucide-react';
+
 interface BlockedDates {
   [date: string]: string[];
 }
@@ -144,20 +147,20 @@ const ReservationForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null); // Resetear errores anteriores
-  
+
     console.log("Form submitted.");
     const form = e.currentTarget;
     const formData = new FormData(form);
-  
+
     // Validar si la cantidad de personas es mayor a 14
     const personas = parseInt(formData.get("personas") as string, 10);
     if (personas >= 15) {
       alert("Ab 15 Personen bitte telefonisch reservieren: 081 750 19 11");
       return;
     }
-  
+
     console.log("Sending reservation data to backend...");
-  
+
     try {
       const response = await fetch(
         "https://reservierung.cantinatexmex.ch/enviar_confirmacion.php",
@@ -168,22 +171,22 @@ const ReservationForm: React.FC = () => {
           // credentials: 'include', 
         }
       );
-  
+
       console.log("Response status:", response.status);
-  
+
       // Verifica si la respuesta es JSON válida
       const text = await response.text();
       console.log("Raw response text:", text);
-  
+
       let result;
       try {
         result = JSON.parse(text);
       } catch (parseError) {
         throw new Error("Respuesta del servidor no es JSON válido.");
       }
-  
+
       console.log("Parsed backend response:", result);
-  
+
       if (response.ok && result.success) {
         // Crear un objeto de reserva con los detalles y un timestamp
         const newReservation: Reservation = {
@@ -202,11 +205,11 @@ const ReservationForm: React.FC = () => {
 
         // Guardar el arreglo actualizado en localStorage
         localStorage.setItem("reservaciones", JSON.stringify(updatedReservations));
-  
+
         // Mostrar modal de confirmación
         setReservationDetails(newReservation);
         setShowModal(true);
-  
+
         // Actualizar los campos del formulario con los datos de la reserva
         setNombre(newReservation.nombre);
         setTelefono(newReservation.telefono);
@@ -228,15 +231,19 @@ const ReservationForm: React.FC = () => {
         <p className="text-white">Loading...</p>
       ) : (
         <>
-  
+
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Campo de Fecha */}
             <div>
-              <label
-                htmlFor="fecha"
-                className="block text-lg font-medium text-gray-200"
-              >
-                Datum
-              </label>
+              <div className="flex items-center mb-1">
+                <Calendar className="w-5 h-5 text-gray-400 mr-2" />
+                <label
+                  htmlFor="fecha"
+                  className="block text-lg font-medium text-gray-200"
+                >
+                  Datum
+                </label>
+              </div>
               <Flatpickr
                 id="fecha"
                 name="fecha"
@@ -305,18 +312,22 @@ const ReservationForm: React.FC = () => {
               />
             </div>
 
+            {/* Campo de Hora */}
             <div>
-              <label
-                htmlFor="hora"
-                className="block text-lg font-medium text-gray-200"
-              >
-                Uhrzeit
-              </label>
+              <div className="flex items-center mb-1">
+                <Clock className="w-5 h-5 text-gray-400 mr-2" />
+                <label
+                  htmlFor="hora"
+                  className="block text-lg font-medium text-gray-200"
+                >
+                  Uhrzeit
+                </label>
+              </div>
               <select
                 id="hora"
                 name="hora"
                 required
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center bg-gray-700"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center"
               >
                 <option value="">Wählen Sie die Uhrzeit</option>
                 {availableTimes.map((time) => (
@@ -327,18 +338,22 @@ const ReservationForm: React.FC = () => {
               </select>
             </div>
 
+            {/* Campo de Número de Personas */}
             <div>
-              <label
-                htmlFor="personas"
-                className="block text-lg font-medium text-gray-200"
-              >
-                Anzahl der Personen
-              </label>
+              <div className="flex items-center mb-1">
+                <Users className="w-5 h-5 text-gray-400 mr-2" />
+                <label
+                  htmlFor="personas"
+                  className="block text-lg font-medium text-gray-200"
+                >
+                  Anzahl der Personen
+                </label>
+              </div>
               <select
                 id="personas"
                 name="personas"
                 required
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center bg-gray-700"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center"
               >
                 <option value="">Wählen Sie die Anzahl der Personen</option>
                 {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
@@ -359,13 +374,17 @@ const ReservationForm: React.FC = () => {
               </p>
             </div>
 
+            {/* Campo de Nombre */}
             <div>
-              <label
-                htmlFor="nombre"
-                className="block text-lg font-medium text-gray-200"
-              >
-                Name
-              </label>
+              <div className="flex items-center mb-1">
+                <User className="w-5 h-5 text-gray-400 mr-2" />
+                <label
+                  htmlFor="nombre"
+                  className="block text-lg font-medium text-gray-200"
+                >
+                  Name
+                </label>
+              </div>
               <input
                 type="text"
                 id="nombre"
@@ -378,13 +397,17 @@ const ReservationForm: React.FC = () => {
               />
             </div>
 
+            {/* Campo de Teléfono */}
             <div>
-              <label
-                htmlFor="telefono"
-                className="block text-lg font-medium text-gray-200"
-              >
-                Telefon
-              </label>
+              <div className="flex items-center mb-1">
+                <Phone className="w-5 h-5 text-gray-400 mr-2" />
+                <label
+                  htmlFor="telefono"
+                  className="block text-lg font-medium text-gray-200"
+                >
+                  Telefon
+                </label>
+              </div>
               <input
                 type="tel"
                 id="telefono"
@@ -397,13 +420,17 @@ const ReservationForm: React.FC = () => {
               />
             </div>
 
+            {/* Campo de E-Mail */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-lg font-medium text-gray-200"
-              >
-                E-Mail
-              </label>
+              <div className="flex items-center mb-1">
+                <Mail className="w-5 h-5 text-gray-400 mr-2" />
+                <label
+                  htmlFor="email"
+                  className="block text-lg font-medium text-gray-200"
+                >
+                  E-Mail
+                </label>
+              </div>
               <input
                 type="email"
                 id="email"
@@ -425,20 +452,21 @@ const ReservationForm: React.FC = () => {
           </form>
         </>
       )}
-               {reservations.length > 0 && (
 
-              <button
-                onClick={() => setShowPreviousReservationsModal(true)}
-                className="mt-10 bg-gray-800 text-gray-400 py-1 px-3 rounded hover:bg-gray-900 transition duration-200 text-xm"
-              >
-                Ver meine vorherigen Reservierungen
-              </button>
-          )}
+      {reservations.length > 0 && (
+        <button
+          onClick={() => setShowPreviousReservationsModal(true)}
+          className="mt-10 bg-gray-600 text-blue-300 py-1 px-3 rounded hover:bg-gray-900 transition duration-200 text-xs"
+        >
+          Ver meine vorherigen Reservierungen
+        </button>
+      )}
 
       {/* Modal para mostrar reservas anteriores */}
       {showPreviousReservationsModal && (
         <PreviousReservationsModal
           reservations={reservations}
+          nombre={nombre} // Pasar el nombre al modal
           onClose={() => setShowPreviousReservationsModal(false)}
         />
       )}
