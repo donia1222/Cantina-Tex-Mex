@@ -223,22 +223,35 @@ const ReservationForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-gray rounded-lg shadow-md">
+    <div className="max-w-xl mx-auto p-6 bg-gray-800 rounded-lg shadow-md">
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-white">Loading...</p>
       ) : (
         <>
- 
+          {/* Saludo de bienvenida si el usuario ha reservado antes */}
+          {reservations.length > 0 && (
+            <div className="mb-6 p-4 bg-green-500 text-white rounded">
+              <p className="text-xl font-semibold">Willkommen, {nombre}!</p>
+              <button
+                onClick={() => setShowPreviousReservationsModal(true)}
+                className="mt-3 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition duration-200"
+              >
+                Ver meine vorherigen Reservierungen
+              </button>
+            </div>
+          )}
+
           {error && (
-            <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">
+            <div className="mb-4 p-4 bg-red-500 text-white rounded">
               {error}
             </div>
           )}
-          <form onSubmit={handleSubmit} className="space-y-4">
+
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
                 htmlFor="fecha"
-                className="block text-lg font-medium text-gray-100"
+                className="block text-lg font-medium text-gray-200"
               >
                 Datum
               </label>
@@ -305,7 +318,7 @@ const ReservationForm: React.FC = () => {
                     },
                   },
                 }}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-gray-700 text-white"
                 placeholder="TT.MM.JJJJ"
               />
             </div>
@@ -313,7 +326,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="hora"
-                className="block text-lg font-medium text-gray-100"
+                className="block text-lg font-medium text-gray-200"
               >
                 Uhrzeit
               </label>
@@ -321,7 +334,7 @@ const ReservationForm: React.FC = () => {
                 id="hora"
                 name="hora"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center bg-gray-700"
               >
                 <option value="">Wählen Sie die Uhrzeit</option>
                 {availableTimes.map((time) => (
@@ -335,7 +348,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="personas"
-                className="block text-lg font-medium text-gray-100"
+                className="block text-lg font-medium text-gray-200"
               >
                 Anzahl der Personen
               </label>
@@ -343,7 +356,7 @@ const ReservationForm: React.FC = () => {
                 id="personas"
                 name="personas"
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center bg-gray-700"
               >
                 <option value="">Wählen Sie die Anzahl der Personen</option>
                 {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
@@ -353,11 +366,11 @@ const ReservationForm: React.FC = () => {
                 ))}
               </select>
               {/* Mensaje para reservas de 15 o más personas */}
-              <p className="text-sm text-gray-400 text-center mt-5">
+              <p className="text-sm text-gray-300 text-center mt-5">
                 Ab 15 Personen bitte telefonisch reservieren{" "}
                 <a
                   href="tel:0817501911"
-                  className="text-indigo-600 underline"
+                  className="text-indigo-400 underline"
                 >
                   081 750 19 11
                 </a>
@@ -367,7 +380,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="nombre"
-                className="block text-lg font-medium text-gray-100"
+                className="block text-lg font-medium text-gray-200"
               >
                 Name
               </label>
@@ -378,7 +391,7 @@ const ReservationForm: React.FC = () => {
                 required
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-gray-700 text-white"
                 placeholder="Ihr Name"
               />
             </div>
@@ -386,7 +399,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="telefono"
-                className="block text-lg font-medium text-gray-100"
+                className="block text-lg font-medium text-gray-200"
               >
                 Telefon
               </label>
@@ -397,7 +410,7 @@ const ReservationForm: React.FC = () => {
                 required
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-gray-700 text-white"
                 placeholder="Ihre Telefonnummer"
               />
             </div>
@@ -405,7 +418,7 @@ const ReservationForm: React.FC = () => {
             <div>
               <label
                 htmlFor="email"
-                className="block text-lg font-medium text-gray-100"
+                className="block text-lg font-medium text-gray-200"
               >
                 E-Mail
               </label>
@@ -416,32 +429,32 @@ const ReservationForm: React.FC = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-gray-700 text-white"
                 placeholder="Ihre E-Mail-Adresse"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200"
+              className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-200"
             >
               Reservierung bestätigen
             </button>
-                     {/* Saludo de bienvenida si el usuario ha reservado antes */}
           </form>
-          
         </>
-        
       )}
-               {reservations.length > 0 && (
 
-              <button
-                onClick={() => setShowPreviousReservationsModal(true)}
-                className="mt-10 bg-gray-800 text-gray-400 py-1 px-3 rounded hover:bg-gray-900 transition duration-200 text-xm"
-              >
-                Ver meine vorherigen Reservierungen
-              </button>
-          )}
+      {/* Botón para ver reservas anteriores */}
+      {reservations.length > 0 && (
+        <div className="mt-6 text-center">
+          <button
+            onClick={() => setShowPreviousReservationsModal(true)}
+            className="bg-gray-800 text-gray-300 py-2 px-4 rounded-md hover:bg-gray-900 hover:text-white transition duration-200"
+          >
+            Ver meine vorherigen Reservierungen
+          </button>
+        </div>
+      )}
 
       {/* Modal para mostrar reservas anteriores */}
       {showPreviousReservationsModal && (
