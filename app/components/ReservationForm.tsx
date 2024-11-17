@@ -4,8 +4,21 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_red.css";
 import ConfirmationModal from "./ConfirmationModal";
 
+// Importar el componente de modal para mostrar reservas anteriores
+import PreviousReservationsModal from "./PreviousReservationsModal";
+
 interface BlockedDates {
   [date: string]: string[];
+}
+
+interface Reservation {
+  fecha: string;
+  hora: string;
+  personas: number;
+  nombre: string;
+  telefono: string;
+  email: string;
+  timestamp: number; // Para ordenar las reservas por fecha
 }
 
 const ReservationForm: React.FC = () => {
@@ -13,9 +26,18 @@ const ReservationForm: React.FC = () => {
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [showPreviousReservationsModal, setShowPreviousReservationsModal] = useState(false);
   const [reservationDetails, setReservationDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Estados para los campos del formulario
+  const [nombre, setNombre] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [email, setEmail] = useState("");
+
+  // Estado para almacenar todas las reservas
+  const [reservations, setReservations] = useState<Reservation[]>([]);
 
   // Función para formatear la fecha a YYYY-MM-DD
   const formatDate = (date: Date) => {
@@ -52,10 +74,27 @@ const ReservationForm: React.FC = () => {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchBlockedDates();
+
+    // Cargar reservas almacenadas desde localStorage
+    const storedReservations = localStorage.getItem("reservaciones");
+    if (storedReservations) {
+      try {
+        const parsedReservations: Reservation[] = JSON.parse(storedReservations);
+        setReservations(parsedReservations);
+        if (parsedReservations.length > 0) {
+          // Obtener el nombre de la última reserva para el saludo
+          const lastReservation = parsedReservations[parsedReservations.length - 1];
+          setNombre(lastReservation.nombre);
+          setTelefono(lastReservation.telefono);
+          setEmail(lastReservation.email);
+        }
+      } catch (e) {
+        console.error("Error parsing reservations from localStorage:", e);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -146,13 +185,32 @@ const ReservationForm: React.FC = () => {
       console.log("Parsed backend response:", result);
   
       if (response.ok && result.success) {
+        // Crear un objeto de reserva con los detalles y un timestamp
+        const newReservation: Reservation = {
+          fecha: formData.get("fecha") as string,
+          hora: formData.get("hora") as string,
+          personas: parseInt(formData.get("personas") as string, 10),
+          nombre: formData.get("nombre") as string,
+          telefono: formData.get("telefono") as string,
+          email: formData.get("email") as string,
+          timestamp: Date.now(),
+        };
+
+        // Actualizar el arreglo de reservas
+        const updatedReservations = [...reservations, newReservation];
+        setReservations(updatedReservations);
+
+        // Guardar el arreglo actualizado en localStorage
+        localStorage.setItem("reservaciones", JSON.stringify(updatedReservations));
+  
         // Mostrar modal de confirmación
-        const details: any = {};
-        formData.forEach((value, key) => {
-          details[key] = value;
-        });
-        setReservationDetails(details);
+        setReservationDetails(newReservation);
         setShowModal(true);
+  
+        // Actualizar los campos del formulario con los datos de la reserva
+        setNombre(newReservation.nombre);
+        setTelefono(newReservation.telefono);
+        setEmail(newReservation.email);
       } else {
         throw new Error(result.message || "Error al procesar la reserva.");
       }
@@ -163,7 +221,6 @@ const ReservationForm: React.FC = () => {
       );
     }
   };
-  
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-gray rounded-lg shadow-md">
@@ -171,6 +228,7 @@ const ReservationForm: React.FC = () => {
         <p>Loading...</p>
       ) : (
         <>
+ 
           {error && (
             <div className="mb-4 p-4 bg-red-100 text-red-700 rounded">
               {error}
@@ -295,7 +353,7 @@ const ReservationForm: React.FC = () => {
                 ))}
               </select>
               {/* Mensaje para reservas de 15 o más personas */}
-              <p className=" text-sm text-gray-400 text-center mt-5">
+              <p className="text-sm text-gray-400 text-center mt-5">
                 Ab 15 Personen bitte telefonisch reservieren{" "}
                 <a
                   href="tel:0817501911"
@@ -318,6 +376,8 @@ const ReservationForm: React.FC = () => {
                 id="nombre"
                 name="nombre"
                 required
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Ihr Name"
               />
@@ -335,6 +395,8 @@ const ReservationForm: React.FC = () => {
                 id="telefono"
                 name="telefono"
                 required
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Ihre Telefonnummer"
               />
@@ -352,6 +414,8 @@ const ReservationForm: React.FC = () => {
                 id="email"
                 name="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Ihre E-Mail-Adresse"
               />
@@ -363,10 +427,31 @@ const ReservationForm: React.FC = () => {
             >
               Reservierung bestätigen
             </button>
-            
+                     {/* Saludo de bienvenida si el usuario ha reservado antes */}
           </form>
+          
         </>
+        
       )}
+               {reservations.length > 0 && (
+
+              <button
+                onClick={() => setShowPreviousReservationsModal(true)}
+                className="mt-10 bg-gray-800 text-gray-400 py-1 px-3 rounded hover:bg-gray-900 transition duration-200 text-xm"
+              >
+                Ver meine vorherigen Reservierungen
+              </button>
+          )}
+
+      {/* Modal para mostrar reservas anteriores */}
+      {showPreviousReservationsModal && (
+        <PreviousReservationsModal
+          reservations={reservations}
+          onClose={() => setShowPreviousReservationsModal(false)}
+        />
+      )}
+
+      {/* Modal de confirmación */}
       {showModal && reservationDetails && (
         <ConfirmationModal
           details={reservationDetails}

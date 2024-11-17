@@ -51,7 +51,11 @@ const TextImageScroll: React.FC = () => {
           </span>
       
             </motion.h2>
-            
+            <img 
+              src="high-angle-colorful-sombrero-mexican-party.jpg" 
+              alt="Plato mexicano" 
+              className="rounded-lg shadow-md w-full h-48 object-cover mb-5"
+            />
 
             
             <motion.p

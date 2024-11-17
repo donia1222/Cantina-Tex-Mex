@@ -19,9 +19,9 @@ const IndexPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Current Message Section */}
-        <CurrentMessage /> {/* Display the current message */}
-        {/* Reservation Form */}
+
+        <CurrentMessage />
+
         <ReservationForm />
       </div>
 
