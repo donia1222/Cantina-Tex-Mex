@@ -464,7 +464,7 @@ export default function Menu() {
           </motion.div>
         )}
       </AnimatePresence>
-      <DayMenu />
+
     </div>
   );
 }
