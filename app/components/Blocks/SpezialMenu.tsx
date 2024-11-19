@@ -15,11 +15,7 @@ const menuItems = [
     description: '450 g Entrecote und Kalbsfilet mit Hähnchen und Chorizo, eine Geschmacksexplosion auf einem Teller.', 
     image: 'https://scontent-zrh1-1.xx.fbcdn.net/v/t39.30808-6/464391326_8516519911734758_243634951877597356_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=0b6b33&_nc_eui2=AeGVgYNJHHJG1yiBh71_l78Fo8hMUnYp8MOjyExSdinwwxMVP9RIEgDwr2NW2RFZtS2Ly29-C2dxijDO52rHFpwm&_nc_ohc=TR8X6_mjxBcQ7kNvgEd1xcL&_nc_zt=23&_nc_ht=scontent-zrh1-1.xx&_nc_gid=AAo9OG55LkM0zGWMhnTe8_m&oh=00_AYAzoNu1kYDRN8jxQUQuQjeqlX7Ifo5bqaLprtFx-0C4zg&oe=6741AC08' 
   },
-  { 
-    title: '🍫 Dubai Schokoladen-Brownie', 
-    description: 'Köstlicher Brownie mit exquisiter Dubai-Schokolade und heißem Karamell, direkt am Tisch serviert.', 
-    image: 'salted-caramel-poured-piece-cake_53876-105724.jpg' 
-  }
+
 ]
 export default function Component() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -84,7 +80,7 @@ export default function Component() {
             style={{ minHeight: '400px' }}
           >
             <div className="flex flex-col items-center justify-between h-full w-full">
-              <h3 className="text-2xl sm:text-3xl font-bold text-red-500 mb-4">{menuItems[currentIndex].title}</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-red-500 mb-4 text-center">{menuItems[currentIndex].title}</h3>
               <div className="w-full h-48 mb-4 relative overflow-hidden rounded-lg">
                 <img
                   src={menuItems[currentIndex].image}
