@@ -33,8 +33,8 @@ export default function Component() {
   }
 
   return (
-    <div className="bg-gray-800 flex flex-col justify-center items-center p-4 sm:p-8 mb-28 font-poppins relative overflow-hidden">
-      <div className="absolute inset-0 z-0 opacity-20">
+    <div className="flex flex-col justify-center items-center p-4 sm:p-8 mb-28 font-poppins relative overflow-hidden">
+      <div className="absolute inset-0 z-0 ">
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
           <pattern
             id="pattern-circles"
@@ -50,7 +50,7 @@ export default function Component() {
               cx="5"
               cy="5"
               r="1"
-              fill="#fff"
+              fill="green"
             ></circle>
           </pattern>
           <rect
@@ -65,9 +65,13 @@ export default function Component() {
       </div>
 
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-8 text-center relative z-10">
-  <span className="text-white">Neuheiten für diese</span>{' '}
-  <span className="text-green-600">Weihnachten 🎄</span>
+  <span className="text-white">Neuheiten!</span>{' '}
+
 </h1>
+      <p className="text-gray-400 text-sm text-center">
+   Entdecken Sie unsere kommenden kulinarischen Köstlichkeiten ab Dezember 2024
+</p>
+
       <div className="w-full max-w-3xl mx-auto relative overflow-hidden rounded-lg shadow-lg z-10">
         <AnimatePresence mode="wait">
           <motion.div
@@ -76,11 +80,11 @@ export default function Component() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.3 }}
-            className="bg-gray-700 rounded-lg shadow-md p-4 sm:p-6 mx-2 sm:mx-4 my-2 sm:my-4 flex flex-col items-center"
+            className="bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 mx-2 sm:mx-4 my-2 sm:my-4 flex flex-col items-center"
             style={{ minHeight: '400px' }}
           >
             <div className="flex flex-col items-center justify-between h-full w-full">
-              <h3 className="text-2xl sm:text-3xl font-bold text-gray-100 mb-4">{menuItems[currentIndex].title}</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-red-500 mb-4">{menuItems[currentIndex].title}</h3>
               <div className="w-full h-48 mb-4 relative overflow-hidden rounded-lg">
                 <img
                   src={menuItems[currentIndex].image}
@@ -122,11 +126,7 @@ export default function Component() {
           <ChevronRight size={24} className="text-gray-100" />
         </button>
       </div>
-      <div className="mt-4 text-center relative z-10">
-      <p className="text-gray-400 text-sm">
-   Entdecken Sie unsere kommenden kulinarischen Köstlichkeiten ab Dezember 2024
-</p>
       </div>
-    </div>
+
   )
 }
