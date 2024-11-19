@@ -47,7 +47,7 @@ export default function Component() {
     return [...images, ...images].map((src, i) => (
       <div
         key={i}
-        className="relative h-[200px] w-[300px] flex-shrink-0 overflow-hidden border-4 border-white shadow-md transform rotate-[-5deg] mx-[-20px]"
+        className="relative h-[200px] w-[200px] flex-shrink-0 overflow-hidden border-4 border-white shadow-md transform rotate-[-5deg] mx-[-20px]"
         style={{
           boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
         }}
