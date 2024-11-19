@@ -65,7 +65,8 @@ export default function Component() {
     <div className="w-full max-w-5xl mx-auto overflow-hidden bg-background py-12 mt-10">
       <h1 className="mb-12 text-center text-4xl font-bold">
         <span className="text-white">Delicious</span>{' '}
-        <span className="text-red-500">Mexican Food</span>
+        <span className="text-red-500">Mexican </span>
+        <span className="text-green-500">Food</span>
       </h1>
 
 
