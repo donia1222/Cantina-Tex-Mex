@@ -318,7 +318,7 @@ export default function Menu() {
                   <X size={24} />
                 </button>
               </div>
-              <div className="overflow-y-auto flex-grow modal-content p-8 bg-gray-600">
+              <div className="overflow-y-auto flex-grow modal-content p-8 bg-gray-800">
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   
@@ -329,7 +329,7 @@ export default function Menu() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.2 * (index + 1) }}
                     >
-                      <div className="bg-gray-300 rounded-lg p-6">
+                      <div className="bg-gray-800 rounded-lg p-6">
                         <h2 className="text-2xl font-bold text-center mb-4">{tag}</h2>
                         <div className="space-y-4">
                           {menuOptionen.map((option, optionIndex) => (
@@ -359,7 +359,7 @@ export default function Menu() {
                   transition={{ delay: 0.6 }}
                   className="mt-8"
                 >
-                  <div className="bg-gray-300 rounded-lg p-6">
+                  <div className="bg-gray-700 rounded-lg p-6">
                     <h2 className="text-2xl font-bold text-center mb-4">Vorspeisen (zur Auswahl)</h2>
                     <div className="grid grid-cols-2 gap-4">
                       {ersterGang.map((gericht, index) => (
@@ -383,7 +383,7 @@ export default function Menu() {
                   transition={{ delay: 0.8 }}
                   className="mt-8"
                 >
-                  <div className="bg-gray-600 rounded-lg p-6">
+                  <div className="bg-gray-800 rounded-lg p-6">
                   <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
             <pattern
               id="pattern-circles"
