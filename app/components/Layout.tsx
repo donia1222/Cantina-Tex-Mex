@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock, ArrowUp } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import RestaurantStatus from '~/components/Rerserve/RestaurantStatus'; 
+import BackgroundImages from '~/components/BackgroundImages'
 
 export default function Component({ children }: { children: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -82,34 +83,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-gradient-to-br from-green-100 to-red-100 relative flex flex-col">
       {/* Background Images */}
       <div className="fixed inset-0 z-0">
-        {[0, 1, 2].map((index) => (
-          <motion.div
-            key={index}
-            className="absolute inset-0 bg-cover bg-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: currentBg === index ? 1 : 0 }}
-            transition={{ duration: 1 }}
-            style={{ backgroundImage: `url('${
-              location.pathname === "/drinks"
-                ? (index === 0
-                    ? '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg'
-                    : index === 1
-                    ? '/fajitas.jpg'
-                    : 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85')
-                : location.pathname === "/menu"
-                ? (index === 0
-                    ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
-                    : index === 1
-                    ? '/fajitas.jpg'
-                    : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
-                : (index === 0
-                    ? '/fajitas.jpg'
-                    : index === 1
-                    ? 'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
-                    : '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg')
-            }')` }}
-          />
-        ))}
+      <BackgroundImages />
       </div>
 
       {/* SVG Pattern Overlay */}
