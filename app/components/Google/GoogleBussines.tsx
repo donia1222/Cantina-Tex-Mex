@@ -10,7 +10,7 @@ const Resenas: FC = () => {
   useEffect(() => {
     const animateCount = () => {
       const start = 0;
-      const end = 469;
+      const end = 470;
       const duration = 2000;
       const startTime = performance.now();
 
