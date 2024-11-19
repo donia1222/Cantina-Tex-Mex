@@ -112,18 +112,18 @@ export default function Component() {
                 }}
               />
             </AnimatePresence>
-            <div className="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
+            <div className="absolute inset-0 bg-black bg-opacity-10 z-10"></div>
             <div className="absolute inset-0 flex items-center justify-between p-4 z-20">
               <button
                 onClick={handlePrev}
-                className="bg-white bg-opacity-70 text-gray-800 rounded-full p-3 hover:bg-opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                className="bg-white bg-opacity-90 text-gray-800 rounded-full p-3 hover:bg-opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                 aria-label="Previous slide"
               >
                 <ChevronLeft size={28} />
               </button>
               <button
                 onClick={handleNext}
-                className="bg-white bg-opacity-70 text-gray-800 rounded-full p-3 hover:bg-opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                className="bg-white bg-opacity-90 text-gray-800 rounded-full p-3 hover:bg-opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                 aria-label="Next slide"
               >
                 <ChevronRight size={28} />
