@@ -345,7 +345,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
               className="bg-white rounded-lg p-6 max-w-lg w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-2xl font-bold mb-4 text-center">Cookie-Einwilligung</h2>
+              <h2 className="text-2xl font-bold mb-4 text-center">🍪 Cookie-Einwilligung</h2>
               <p className="text-gray-700 mb-4">
                 Wir verwenden Cookies, um Ihre Erfahrung auf unserer Webseite zu verbessern. Durch das Akzeptieren stimmen Sie der Verwendung von Cookies zu.
               </p>
