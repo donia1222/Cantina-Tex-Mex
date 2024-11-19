@@ -44,7 +44,7 @@ export default function Component() {
   return (
     <div className="space-y-8 mb-24 mt-24">
       
-       <h1 className="text-4xl font-bold mb-6 text-gray-400 text-center">Cantina<span className="ml-2  text-4xl font-bold mb-6 text-red-500 text-center">
+       <h1 className="text-4xl font-bold mb-6 text-gray-200 text-center">Cantina<span className="ml-2  text-4xl font-bold mb-6 text-red-500 text-center">
             News!
           </span></h1>
 
