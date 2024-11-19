@@ -4,7 +4,7 @@ import AnimatedGradientText from '~/components/AnimatedGradient/AnimatedGradient
 import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Link } from "@remix-run/react"
-import ImagenScroll from '~/components/ImagenScroll'
+import ImagenScroll from '~/components/Imagen/ImagenScroll'
 import Header from '~/components/Header/Header'
 import ReviewsCarousel from '~/components/Rerserve/RerserveBlock'
 import CloudTextBlock from '~/components/Blocks/CloudTextBlock'

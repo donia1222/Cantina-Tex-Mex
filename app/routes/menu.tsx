@@ -6,6 +6,7 @@ import { json } from '@remix-run/node';
 import { X, CirclePlus, Utensils, Salad, Coffee, Pizza, Beef, FishIcon as Shrimp, BirdIcon as Chicken, Carrot, ChevronLeft, ChevronRight } from 'lucide-react';
 import HeaderSpe from '~/components/Header/HeaderSpe';
 import BannerFood from '~/components/Banner/BannerFood';
+import DayMenu from '~/components/Blocks/SpezialMenu';
 
 const menuSections = [
   { id: 'vorspeisen', name: 'Vorspeisen', color: '#FF6B6B', icon: <CirclePlus size={32} />, image: '96771444_3048192125224744_9026765579553341440_n.jpg' },
@@ -463,6 +464,7 @@ export default function Menu() {
           </motion.div>
         )}
       </AnimatePresence>
+      <DayMenu />
     </div>
   );
 }

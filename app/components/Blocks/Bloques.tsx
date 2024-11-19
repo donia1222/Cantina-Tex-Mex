@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Utensils, Calendar, Ham, ChevronLeft, ChevronRight } from "lucide-react"
-import GoogleBussines from '~/components/GoogleBussines'
+import GoogleBussines from '~/components/Google/GoogleBussines'
 
 export default function Component() {
   const [currentIndex, setCurrentIndex] = useState(0)
