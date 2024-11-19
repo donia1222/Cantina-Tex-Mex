@@ -1,8 +1,9 @@
 import React from "react";
 import ReservationForm from "~/components/Rerserve/ReservationForm";
 import AnimatedGradientText from '~/components/AnimatedGradient/AnimatedGradientTextdos';
-import CurrentMessage from '~/components/Rerserve/CurrentMessage'; // Import the component
-import RestaurantStatus from '~/components/Rerserve/RestaurantStatus'; 
+import CurrentMessage from '~/components/Rerserve/CurrentMessage';
+import ContinuousScroll from '~/components/Rerserve/Continuous-Scroll'; 
+
 
 
 const IndexPage: React.FC = () => {
@@ -23,6 +24,8 @@ const IndexPage: React.FC = () => {
         <CurrentMessage />
 
         <ReservationForm />
+        <ContinuousScroll />
+
       </div>
 
       {/* Footer (if any) */}

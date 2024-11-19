@@ -9,6 +9,8 @@ import Header from '~/components/Header/Header'
 import ReviewsCarousel from '~/components/Rerserve/RerserveBlock'
 import CloudTextBlock from '~/components/Blocks/CloudTextBlock'
 import Bloques from '~/components/Blocks/Bloques'
+import ContinuousScroll from '~/components/Rerserve/Continuous-Scroll'; 
+
 const Loader = () => (
   <motion.div
     className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"
@@ -135,7 +137,7 @@ export default function MenuPage() {
         <Header />
 
         <div className="h-[5vh]" />
-
+        <ContinuousScroll />
 
         <ImagenScroll />
         <Bloques />
