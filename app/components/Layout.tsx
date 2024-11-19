@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock, ArrowUp } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import RestaurantStatus from '~/components/Rerserve/RestaurantStatus'; 
-import BackgroundImages from '~/components/BackgroundImages'
+import BackgroundImages from '~/components/Imagen/BackgroundImages'
 
 export default function Component({ children }: { children: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
