@@ -1,9 +1,9 @@
 // app/routes/Menu.tsx
 
 
-import HeaderDrin from '~/components/HeaderDrin'; 
-import Drinksblock from '~/components/Drinksblock'; 
-import BannerDrinks from '~/components/BannerDrinks'; 
+import HeaderDrin from '~/components/Header/HeaderDrin'; 
+import Drinksblock from '~/components/Blocks/Drinksblock'; 
+import BannerDrinks from '~/components/Banner/BannerDrinks'; 
 
 
 export default function Menu() {

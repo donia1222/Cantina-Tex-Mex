@@ -1,14 +1,14 @@
 'use client'
 
-import AnimatedGradientText from '~/components/AnimatedGradientText'
+import AnimatedGradientText from '~/components/AnimatedGradient/AnimatedGradientText'
 import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Link } from "@remix-run/react"
 import ImagenScroll from '~/components/ImagenScroll'
-import Header from '~/components/Header'
-import ReviewsCarousel from '~/components/RerserveBlock'
-import CloudTextBlock from '~/components/CloudTextBlock'
-import Bloques from '~/components/Bloques'
+import Header from '~/components/Header/Header'
+import ReviewsCarousel from '~/components/Rerserve/RerserveBlock'
+import CloudTextBlock from '~/components/Blocks/CloudTextBlock'
+import Bloques from '~/components/Blocks/Bloques'
 const Loader = () => (
   <motion.div
     className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"

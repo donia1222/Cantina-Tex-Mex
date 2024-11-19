@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Code, Check, Copy, X } from 'lucide-react'
-import AnimatedGradientText from '~/components/AnimatedGradientText'; 
+import AnimatedGradientText from '~/components/AnimatedGradient/AnimatedGradientText'; 
 const products = [
     { id: 1, name: "Margartita mit Mango", image: "/IMG_083w.jpeg", description: "Mit einem Hauch von Blue Curaçao" },
     { id: 2, name: "Klassisches Margartita", image: "/IMG_0897.jpeg", description: "Die klassischste und frischeste" },

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChefHat, Coffee, UtensilsCrossed } from 'lucide-react'
-import AnimatedGradientText from '~/components/AnimatedGradientText'
+import AnimatedGradientText from '~/components/AnimatedGradient/AnimatedGradientText'
 
 const iconVariants = {
   hidden: { opacity: 0, y: 20 },

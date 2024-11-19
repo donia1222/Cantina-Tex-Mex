@@ -4,7 +4,7 @@ import { Link, useLocation } from "@remix-run/react"
 import { useState, useEffect } from "react"
 import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock, ArrowUp } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import RestaurantStatus from '~/components/RestaurantStatus'; 
+import RestaurantStatus from '~/components/Rerserve/RestaurantStatus'; 
 
 export default function Component({ children }: { children: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)

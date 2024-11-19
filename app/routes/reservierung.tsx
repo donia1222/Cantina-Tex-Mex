@@ -1,8 +1,8 @@
 import React from "react";
-import ReservationForm from "~/components/ReservationForm";
-import AnimatedGradientText from '~/components/AnimatedGradientTextdos';
-import CurrentMessage from '~/components/CurrentMessage'; // Import the component
-import RestaurantStatus from '~/components/RestaurantStatus'; 
+import ReservationForm from "~/components/Rerserve/ReservationForm";
+import AnimatedGradientText from '~/components/AnimatedGradient/AnimatedGradientTextdos';
+import CurrentMessage from '~/components/Rerserve/CurrentMessage'; // Import the component
+import RestaurantStatus from '~/components/Rerserve/RestaurantStatus'; 
 
 
 const IndexPage: React.FC = () => {
