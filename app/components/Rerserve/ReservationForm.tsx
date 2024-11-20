@@ -3,11 +3,7 @@ import React, { useEffect, useState } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_red.css";
 import ConfirmationModal from "./ConfirmationModal";
-
-// Importar el componente de modal para mostrar reservas anteriores
 import PreviousReservationsModal from "./PreviousReservationsModal";
-
-// Importar iconos de Lucide React
 import { Calendar, Clock, Users, User, Phone, Mail } from 'lucide-react';
 
 interface BlockedDates {
@@ -24,9 +20,14 @@ interface Reservation {
   timestamp: number; // Para ordenar las reservas por fecha
 }
 
+interface TimeOption {
+  time: string;
+  blocked: boolean;
+}
+
 const ReservationForm: React.FC = () => {
   const [blockedDates, setBlockedDates] = useState<BlockedDates>({});
-  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [availableTimes, setAvailableTimes] = useState<TimeOption[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showPreviousReservationsModal, setShowPreviousReservationsModal] = useState(false);
@@ -116,12 +117,12 @@ const ReservationForm: React.FC = () => {
       console.log("Fetching available times for:", date);
       const day = new Date(date).getDay();
 
-      let times: string[] = [];
+      let allTimes: string[] = [];
 
       if (day === 2 || day === 3 || day === 6) { // Martes (2), Miércoles (3), Sábado (6)
-        times = ["18:00", "18:30", "19:00", "19:30", "20:00"];
+        allTimes = ["18:00", "18:30", "19:00", "19:30", "20:00"];
       } else if (day === 4 || day === 5) { // Jueves (4), Viernes (5)
-        times = [
+        allTimes = [
           "11:30",
           "12:00",
           "12:30",
@@ -135,10 +136,15 @@ const ReservationForm: React.FC = () => {
       }
 
       const blockedTimes = blockedDates[date] || [];
-      const filteredTimes = times.filter((time) => !blockedTimes.includes(time));
 
-      console.log("Available times:", filteredTimes);
-      setAvailableTimes(filteredTimes);
+      // Crear una lista de objetos TimeOption
+      const timesWithStatus: TimeOption[] = allTimes.map((time) => ({
+        time,
+        blocked: blockedTimes.includes(time),
+      }));
+
+      console.log("Times with status:", timesWithStatus);
+      setAvailableTimes(timesWithStatus);
     } catch (error) {
       console.error("Error fetching available times:", error);
     }
@@ -258,8 +264,8 @@ const ReservationForm: React.FC = () => {
                   disable: [
                     // Deshabilitar Domingo (0) y Lunes (1)
                     (date: Date) => [0, 1].includes(date.getDay()),
-                    // Deshabilitar fechas específicas desde blockedDates
-                    ...Object.keys(blockedDates).map((dateStr) => parseLocalDate(dateStr))
+                    // Eliminar la deshabilitación de fechas basadas en blockedDates
+                    // ...Object.keys(blockedDates).map((dateStr) => parseLocalDate(dateStr))
                   ],
                   locale: {
                     firstDayOfWeek: 1,
@@ -330,12 +336,24 @@ const ReservationForm: React.FC = () => {
                 className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center"
               >
                 <option value="">Wählen Sie die Uhrzeit</option>
-                {availableTimes.map((time) => (
-                  <option key={time} value={time}>
-                    {time}
+                {availableTimes.length > 0 ? (
+                  availableTimes.map(({ time, blocked }) => (
+                    <option key={time} value={time} disabled={blocked}>
+                      {time} {blocked ? "(Nicht verfügbar)" : ""}
+                    </option>
+                  ))
+                ) : (
+                  <option value="" disabled>
+                    Keine verfügbaren Zeiten
                   </option>
-                ))}
+                )}
               </select>
+              {/* Opcional: Mostrar mensaje si no hay horas disponibles */}
+              {selectedDate && availableTimes.every((opt) => opt.blocked) && (
+                <p className="text-sm text-red-500 mt-2">
+                  Keine verfügbaren Zeiten an diesem Tag.
+                </p>
+              )}
             </div>
 
             {/* Campo de Número de Personas */}
@@ -477,6 +495,13 @@ const ReservationForm: React.FC = () => {
           details={reservationDetails}
           onClose={() => setShowModal(false)}
         />
+      )}
+
+      {/* Mostrar errores si existen */}
+      {error && (
+        <div className="mt-4 p-4 bg-red-600 text-white rounded">
+          {error}
+        </div>
       )}
     </div>
   );
