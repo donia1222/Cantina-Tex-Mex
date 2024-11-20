@@ -2,7 +2,7 @@
 
 import { Link, useLocation } from "@remix-run/react"
 import { useState, useEffect } from "react"
-import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock, ArrowUp,Download } from "lucide-react"
+import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock, ArrowUp,Download,BookCheck } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import RestaurantStatus from '~/components/Rerserve/RestaurantStatus'; 
 import BackgroundImages from '~/components/Imagen/BackgroundImages'
@@ -76,7 +76,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
     { to: "/menu", icon: UtensilsCrossed, label: "Speisekarte" },
     { to: "/drinks", icon: Beer, label: "Getränke" },
     { to: "/contact", icon: Phone, label: "Kontakt" },
-    { to: "/reservierung", icon: Phone, label: "Reservierung" },
+    { to: "/reservierung", icon: BookCheck, label: "Reservierung" },
   
   ]
 
