@@ -2,10 +2,11 @@
 
 import { Link, useLocation } from "@remix-run/react"
 import { useState, useEffect } from "react"
-import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock, ArrowUp } from "lucide-react"
+import { Menu, X, Home, InfoIcon, Phone, UtensilsCrossed, Beer, Utensils, MapPin, Clock, ArrowUp,Download } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import RestaurantStatus from '~/components/Rerserve/RestaurantStatus'; 
 import BackgroundImages from '~/components/Imagen/BackgroundImages'
+import handleDownloadVCard from '~/utils/downloadVCard';
 
 export default function Component({ children }: { children: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -254,6 +255,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
 {/* Footer */}
 <footer className="relative bg-gradient-to-br from-gray-900 to-gray-600 text-white mt-8 py-12">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {[
         { icon: MapPin, title: "Adresse", content: "Cantina Tex-Mex\nBahnhofstrasse 46\n9475 Sevelen" },
@@ -273,6 +275,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
             whileHover={{ scale: 1.05 }}
           >
             <div className="p-6">
+              
               <motion.div
                 className="flex items-center justify-center mb-4"
                 initial={{ scale: 0 }}
@@ -285,12 +288,19 @@ export default function Component({ children }: { children: React.ReactNode }) {
               <h3 className="text-2xl font-bold text-center mb-4">{item.title}</h3>
               <p className="text-gray-300 text-center whitespace-pre-line">{item.content}</p>
             </div>
-   
+       
           </motion.div>
         );
       })}
     </div>
-
+    <button
+          id="downloadVCard"
+          className="w-full mt-10 inline-flex items-center justify-center px-4 py-2 border border-transparent text-base rounded-md text-gray-400  bg-gray-700 hover:bg-gray-800"
+          onClick={handleDownloadVCard} // Asignar la función de descarga
+        >
+          <Download className="w-5 h-5 mr-2" />
+          Visitenkarte herunterladen
+        </button>
     <RestaurantStatus /> 
     
     <motion.div 

@@ -2,7 +2,7 @@ import React from "react";
 import ReservationForm from "~/components/Rerserve/ReservationForm";
 import AnimatedGradientText from '~/components/AnimatedGradient/AnimatedGradientTextdos';
 import CurrentMessage from '~/components/Rerserve/CurrentMessage';
-import ContinuousScroll from '~/components/Imagen/Continuous-Scroll'; 
+import ContinuousScroll from '~/components/Imagen/Continuous-Scroll-Reserve'; 
 
 
 

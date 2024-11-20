@@ -1,9 +1,10 @@
 'use client'
 
 import { useRef, useEffect, useState } from 'react'
-
+import { Images } from 'lucide-react'
 export default function Component() {
   const [isVisible, setIsVisible] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const images = [
     'https://scontent-zrh1-1.xx.fbcdn.net/v/t1.6435-9/96771444_3048192125224744_9026765579553341440_n.jpg?stp=c0.79.720.720a_dst-jpg_s552x414&_nc_cat=101&ccb=1-7&_nc_sid=50ad20&_nc_ohc=HueD_G8fSEMQ7kNvgHIxehV&_nc_zt=23&_nc_ht=scontent-zrh1-1.xx&_nc_gid=ACsvFNo8Uxvb9lUKmJ9sW6s&oh=00_AYDazqqIcVAQedEImHDiOlstHEuoQVlryKKFPMPrIblhYg&oe=67640CD4',
     'https://scontent-zrh1-1.xx.fbcdn.net/v/t39.30808-6/332276678_729678142048349_6055069951294180526_n.jpg?stp=c0.45.405.405a_dst-jpg_p180x540&_nc_cat=102&ccb=1-7&_nc_sid=714c7a&_nc_ohc=YQcGMGGkE3UQ7kNvgFiu3YX&_nc_zt=23&_nc_ht=scontent-zrh1-1.xx&_nc_gid=AtcDxPfBiBZnSDLZQXdqPh6&oh=00_AYD1w0L_ChMBkYeAKhrrRbo4q2iYy-jTAlvfsiJ8WxKc3w&oe=67425096',
@@ -28,7 +29,6 @@ export default function Component() {
     'https://scontent-zrh1-1.xx.fbcdn.net/v/t1.6435-9/97083152_3048192061891417_4450445743475392512_n.jpg?stp=c0.79.720.720a_dst-jpg_s552x414&_nc_cat=104&ccb=1-7&_nc_sid=50ad20&_nc_ohc=nFewEo_GT6IQ7kNvgG_NOje&_nc_zt=23&_nc_ht=scontent-zrh1-1.xx&_nc_gid=AjVRDSIbsLkQcYYcv6f8QvL&oh=00_AYAjxxK7PYJSass8b9W_1iYx4wttrbjXX45Lwgds_UcioQ&oe=67653D56',
 
   ]
-
   const carouselRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -52,6 +52,28 @@ export default function Component() {
     }
   }, [])
 
+  // Manejar cierre del modal con ESC
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsModalOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => {
+      window.removeEventListener('keydown', handleEsc)
+    }
+  }, [])
+
+  // Prevenir scroll del body cuando el modal está abierto
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isModalOpen])
+
   const renderImages = () => {
     return [...images, ...images].map((src, i) => (
       <div
@@ -69,7 +91,6 @@ export default function Component() {
       </div>
     ))
   }
-  
 
   return (
     <div className="w-full max-w-5xl mx-auto overflow-hidden bg-background py-12 mt-10">
@@ -78,7 +99,6 @@ export default function Component() {
         <span className="text-red-500">Mexican </span>
         <span className="text-green-500">Food</span>
       </h1>
-
 
       <div className="relative w-full overflow-hidden" style={{ perspective: '1000px' }}>
         <div 
@@ -92,6 +112,46 @@ export default function Component() {
           {renderImages()}
         </div>
       </div>
+
+      {/* Botón con ícono de "+" */}
+      <div className="flex justify-center mt-6">
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="rounded-full  text-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors mt-5 "
+      >
+        <Images className="h-8 w-8" />
+        <span className="sr-only">Ver Todas las Fotos</span>
+      </button>
+      </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+          <div className= "bg-gray-800 rounded-lg overflow-auto max-w-3xl w-full max-h-full p-4 relative">
+            {/* Botón de cerrar */}
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="fixed top-5 right-4 bg-white text-gray-600 hover:text-gray-800 p-1 rounded-full z-50 "
+              aria-label="Cerrar Galería"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {images.map((src, index) => (
+                <div key={index} className="overflow-hidden rounded shadow-md">
+                  <img src={src} alt={`Imagen ${index + 1}`} className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
