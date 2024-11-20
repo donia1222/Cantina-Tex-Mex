@@ -57,6 +57,30 @@ const ReservationForm: React.FC = () => {
     return new Date(year, month - 1, day);
   };
 
+  // Función para verificar si una fecha es hoy
+  const isToday = (date: Date): boolean => {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
+  // Función para verificar si una hora está en el pasado
+  const isTimeInPast = (time: string): boolean => {
+    const [hour, minute] = time.split(":").map(Number);
+    const now = new Date();
+    const selectedTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      hour,
+      minute
+    );
+    return selectedTime < now;
+  };
+
   // Función para obtener las fechas bloqueadas
   const fetchBlockedDates = async () => {
     try {
@@ -115,7 +139,8 @@ const ReservationForm: React.FC = () => {
   const fetchAvailableTimes = async (date: string) => {
     try {
       console.log("Fetching available times for:", date);
-      const day = new Date(date).getDay();
+      const selectedDateObj = parseLocalDate(date);
+      const day = selectedDateObj.getDay();
 
       let allTimes: string[] = [];
 
@@ -133,6 +158,11 @@ const ReservationForm: React.FC = () => {
           "19:30",
           "20:00",
         ];
+      }
+
+      // Si la fecha seleccionada es hoy, filtrar las horas que ya han pasado
+      if (isToday(selectedDateObj)) {
+        allTimes = allTimes.filter(time => !isTimeInPast(time));
       }
 
       const blockedTimes = blockedDates[date] || [];
@@ -349,7 +379,12 @@ const ReservationForm: React.FC = () => {
                 )}
               </select>
               {/* Opcional: Mostrar mensaje si no hay horas disponibles */}
-              {selectedDate && availableTimes.every((opt) => opt.blocked) && (
+              {selectedDate && availableTimes.length > 0 && availableTimes.every((opt) => opt.blocked) && (
+                <p className="text-sm text-red-500 mt-2">
+                  Keine verfügbaren Zeiten an diesem Tag.
+                </p>
+              )}
+              {selectedDate && availableTimes.length === 0 && (
                 <p className="text-sm text-red-500 mt-2">
                   Keine verfügbaren Zeiten an diesem Tag.
                 </p>
