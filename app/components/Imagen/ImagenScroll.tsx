@@ -29,7 +29,7 @@ export default function Component() {
         <div
           key={index}
           ref={ref}
-          className="sticky top-20 z-10 flex items-center justify-center overflow-hidden mt-20"
+          className="sticky top-20 z-10 flex items-center justify-center overflow-hidden "
           style={{ height: '60vh' }} // Fixed height for stability
         >
           <div
