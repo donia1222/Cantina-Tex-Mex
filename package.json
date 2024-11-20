@@ -1,7 +1,7 @@
 {
   "name": "cantina",
   "private": true,
-   "proxy": "https://reservierung.cantinatexmex.ch",
+  "proxy": "https://reservierung.cantinatexmex.ch",
   "sideEffects": false,
   "type": "module",
   "scripts": {
@@ -17,6 +17,7 @@
     "@remix-run/serve": "^2.13.1",
     "@types/canvas-confetti": "^1.6.4",
     "@types/react-flatpickr": "^3.8.11",
+    "@vercel/analytics": "^1.4.1",
     "canvas-confetti": "^1.9.3",
     "flatpickr": "^4.6.13",
     "framer-motion": "^11.11.10",
