@@ -23,7 +23,10 @@ interface Reservation {
 const ReservationForm: React.FC = () => {
   const [blockedDates, setBlockedDates] = useState<BlockedDates>({});
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [blockedTimesForSelectedDate, setBlockedTimesForSelectedDate] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string>("");
+  const [personas, setPersonas] = useState<number>(0);
   const [showModal, setShowModal] = useState(false);
   const [showPreviousReservationsModal, setShowPreviousReservationsModal] = useState(false);
   const [reservationDetails, setReservationDetails] = useState<any>(null);
@@ -50,20 +53,6 @@ const ReservationForm: React.FC = () => {
   const parseLocalDate = (dateStr: string): Date => {
     const [year, month, day] = dateStr.split("-").map(Number);
     return new Date(year, month - 1, day);
-  };
-
-  // Función para verificar si una hora está en el pasado
-  const isTimeInPast = (time: string, date: Date): boolean => {
-    const [hours, minutes] = time.split(":").map(Number);
-    const reservationTime = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      hours,
-      minutes
-    );
-    const currentTime = new Date();
-    return reservationTime <= currentTime;
   };
 
   // Función para obtener todas las horas posibles para un día
@@ -140,6 +129,8 @@ const ReservationForm: React.FC = () => {
     } else {
       console.log("No date selected.");
       setAvailableTimes([]);
+      setBlockedTimesForSelectedDate([]);
+      setSelectedTime(""); // Reiniciar selectedTime
     }
   }, [selectedDate, blockedDates]); // Añadido blockedDates para actualizar cuando cambie
 
@@ -154,12 +145,12 @@ const ReservationForm: React.FC = () => {
         dateObj.getMonth() === today.getMonth() &&
         dateObj.getDate() === today.getDate();
 
-      let times: string[] = [];
+      let allTimes: string[] = [];
 
       if (day === 2 || day === 3 || day === 6) { // Dienstag (2), Mittwoch (3), Samstag (6)
-        times = ["18:00", "18:30", "19:00", "19:30", "20:00"];
+        allTimes = ["18:00", "18:30", "19:00", "19:30", "20:00"];
       } else if (day === 4 || day === 5) { // Donnerstag (4), Freitag (5)
-        times = [
+        allTimes = [
           "11:30",
           "12:00",
           "12:30",
@@ -172,22 +163,38 @@ const ReservationForm: React.FC = () => {
         ];
       }
 
-      // Filtrar las horas bloqueadas
+      // Obtener las horas bloqueadas para la fecha seleccionada
       const blockedTimes = blockedDates[date] || [];
-      let filteredTimes = times.filter((time) => !blockedTimes.includes(time));
+      setBlockedTimesForSelectedDate(blockedTimes);
+
+      // Filtrar las horas disponibles excluyendo las bloqueadas
+      let available = allTimes.filter(time => !blockedTimes.includes(time));
 
       // Si la fecha seleccionada es hoy, filtrar las horas que ya han pasado
       if (isToday) {
-        filteredTimes = filteredTimes.filter((time) => {
-          return !isTimeInPast(time, dateObj);
+        const currentTime = new Date();
+        available = available.filter(time => {
+          const [hours, minutes] = time.split(":").map(Number);
+          const reservationTime = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate(),
+            hours,
+            minutes
+          );
+          return reservationTime > currentTime;
         });
       }
 
-      console.log("Available times after filtering:", filteredTimes);
-      setAvailableTimes(filteredTimes);
+      console.log("Available times after filtering:", available);
+      setAvailableTimes(available);
     } catch (error) {
       console.error("Error fetching available times:", error);
     }
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTime(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -199,7 +206,6 @@ const ReservationForm: React.FC = () => {
     const formData = new FormData(form);
 
     // Validar si la cantidad de personas es mayor a 14
-    const personas = parseInt(formData.get("personas") as string, 10);
     if (personas >= 15) {
       alert("Ab 15 Personen bitte telefonisch reservieren: 081 750 19 11");
       return;
@@ -238,7 +244,7 @@ const ReservationForm: React.FC = () => {
         const newReservation: Reservation = {
           fecha: formData.get("fecha") as string,
           hora: formData.get("hora") as string,
-          personas: parseInt(formData.get("personas") as string, 10),
+          personas: personas, // Usar el estado 'personas' en lugar de formData
           nombre: formData.get("nombre") as string,
           telefono: formData.get("telefono") as string,
           email: formData.get("email") as string,
@@ -271,12 +277,13 @@ const ReservationForm: React.FC = () => {
     }
   };
 
-  // Definir isToday aquí para que esté disponible en todo el componente
-  const isToday = selectedDate
-    ? selectedDate.getFullYear() === new Date().getFullYear() &&
-      selectedDate.getMonth() === new Date().getMonth() &&
-      selectedDate.getDate() === new Date().getDate()
-    : false;
+  const renderButtonText = () => {
+    if (selectedDate && selectedTime && personas) {
+      const formattedDate = selectedDate.toLocaleDateString('de-DE'); // Formato alemán
+      return `Reservierung: ${formattedDate}, ${selectedTime}, ${personas} Personen`;
+    }
+    return "Reservierung bestätigen";
+  };
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-gray-800 rounded-lg shadow-md">
@@ -284,7 +291,6 @@ const ReservationForm: React.FC = () => {
         <p className="text-white">Loading...</p>
       ) : (
         <>
-
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Campo de Fecha */}
             <div>
@@ -387,32 +393,25 @@ const ReservationForm: React.FC = () => {
                 id="hora"
                 name="hora"
                 required
+                value={selectedTime}
+                onChange={handleTimeChange}
                 className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center"
-                disabled={availableTimes.length === 0} // Deshabilitar el select si no hay horas disponibles
+                disabled={availableTimes.length === 0 && blockedTimesForSelectedDate.length === 0}
               >
-                {selectedDate ? (
-                  availableTimes.length > 0 ? (
-                    <>
-                      <option value="">Wählen Sie die Uhrzeit</option>
-                      {getAllPossibleTimes(selectedDate).map((time) => {
-                        const isBlocked = blockedDates[formatDate(selectedDate)]?.includes(time);
-                        const isPast = isToday && isTimeInPast(time, selectedDate);
-                        return (
-                          <option
-                            key={time}
-                            value={time}
-                            disabled={isBlocked || isPast}
-                            className={isBlocked || isPast ? 'text-gray-500' : ''}
-                          >
-                            {isBlocked || isPast ? `${time} (Nicht verfügbar)` : time}
-                          </option>
-                        );
-                      })}
-                    </>
-                  ) : (
-                    <option disabled>Keine Verfügbarkeit</option> // Mensaje en alemán cuando no hay horas disponibles
-                  )
-                ) : null}
+                <option value="">Wählen Sie die Uhrzeit</option>
+                {/* Renderizar horas disponibles */}
+                {availableTimes.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+
+                {/* Renderizar horas bloqueadas */}
+                {blockedTimesForSelectedDate.map((time) => (
+                  <option key={time} value={time} disabled className="text-gray-500">
+                    {`${time} (Nicht verfügbar)`}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -431,6 +430,8 @@ const ReservationForm: React.FC = () => {
                 id="personas"
                 name="personas"
                 required
+                value={personas}
+                onChange={(e) => setPersonas(parseInt(e.target.value, 10))}
                 className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center"
               >
                 <option value="">Wählen Sie die Anzahl der Personen</option>
@@ -521,13 +522,25 @@ const ReservationForm: React.FC = () => {
               />
             </div>
 
+      {selectedDate && selectedTime && personas && (
+            <div className="mt-4 p-4 bg-gray-700 text-white rounded">
+              <p><strong>Datum</strong> {selectedDate.toLocaleDateString('de-DE')}</p>
+              <p><strong>Uhr:</strong> {selectedTime}</p>
+              <p><strong>Personen:</strong> {personas}</p>
+            </div>
+          )}
+
             <button
               type="submit"
               className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-200"
+              disabled={!(selectedDate && selectedTime && personas)}
             >
               Reservierung bestätigen
             </button>
           </form>
+
+
+    
         </>
       )}
 
