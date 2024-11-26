@@ -39,6 +39,23 @@ const carouselImages = [
 
 ];
 
+
+const Loadere = () => (
+  <motion.div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"
+    initial={{ opacity: 1 }}
+    animate={{ opacity: 0 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5, ease: "easeInOut" }}
+  >
+    <motion.div
+      className="w-20 h-20 border-t-4 border-red-500 border-solid rounded-full"
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+    />
+  </motion.div>
+)
+
 export const loader: LoaderFunction = async () => {
   const menuItems: MenuData = {
     vorspeisen: [
@@ -106,6 +123,14 @@ export default function Menu() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const modalHeaderRef = useRef<HTMLDivElement>(null);
 
+
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 500)
+    return () => clearTimeout(timer)
+  }, [])
+  
   const handleSectionClick = (sectionId: SectionId) => {
     if (sectionId === 'mittagsmenu') {
       setShowMittagsmenuModal(true);
@@ -174,7 +199,7 @@ export default function Menu() {
     <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
       <HeaderSpe />
       <BannerFood />
-
+      {loading && <Loadere />}
       <motion.div
         className="w-full max-w-6xl px-4  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 mb-40"
         variants={containerVariants}

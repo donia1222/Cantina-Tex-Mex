@@ -1,16 +1,46 @@
 'use client'
 
-import { motion } from 'framer-motion'
+
 import { MapPin, Phone, Mail, Clock, Calendar, PhoneCall, Facebook, Instagram, Download} from 'lucide-react'
 import handleDownloadVCard from '~/utils/downloadVCard';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+
+const Loadere = () => (
+  <motion.div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"
+    initial={{ opacity: 1 }}
+    animate={{ opacity: 0 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5, ease: "easeInOut" }}
+  >
+    <motion.div
+      className="w-20 h-20 border-t-4 border-red-500 border-solid rounded-full"
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+    />
+  </motion.div>
+)
+
+
 export default function Contact() {
   const buttonVariants = {
     hover: { scale: 1.05, transition: { duration: 0.2 } },
     tap: { scale: 0.95, transition: { duration: 0.2 } },
   }
 
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 500)
+    return () => clearTimeout(timer)
+  }, [])
+  
+
   return (
     <div className="min-h-screen bg-gray-900 bg-opacity-80 text-gray-100 py-12 px-4 sm:px-6 lg:px-8 rounded-lg">
+            {loading && <Loadere />}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
