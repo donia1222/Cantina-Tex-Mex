@@ -114,7 +114,7 @@ export default function Component() {
         onClick={() => setIsModalOpen(true)}
         className="rounded-full  text-red-500 bg-gray-800 hover:bg-gray-600 p-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors mt-5 "
       >
-        <Images className="h-8 w-8" />
+        <Images className="h-6 w-6" />
         <span className="sr-only">Ver Todas las Fotos</span>
       </button>
       </div>
@@ -123,10 +123,13 @@ export default function Component() {
       {isModalOpen && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
           <div className= "bg-gray-800 rounded-lg overflow-auto max-w-3xl w-full max-h-full p-4 relative">
-            {/* Botón de cerrar */}
+    
+
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-4  overflow-y-auto">
+                      {/* Botón de cerrar */}
             <button
               onClick={() => setIsModalOpen(false)}
-              className="fixed top-5 right-4 bg-white text-gray-600 hover:text-gray-800 p-1 rounded-full z-50 "
+              className="fixed  bg-white text-gray-600 hover:text-gray-800 p-1 rounded-full z-50 "
               aria-label="Cerrar Galería"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
@@ -136,9 +139,8 @@ export default function Component() {
               </svg>
             </button>
 
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {images.map((src, index) => (
+                
                 <div key={index} className="overflow-hidden rounded shadow-md">
                   <img src={src} alt={`Imagen ${index + 1}`} className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300" />
                 </div>

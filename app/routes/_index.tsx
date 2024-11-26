@@ -9,7 +9,7 @@ import Header from '~/components/Header/Header'
 import ReviewsCarousel from '~/components/Rerserve/RerserveBlock'
 import CloudTextBlock from '~/components/Blocks/CloudTextBlock'
 import Bloques from '~/components/Blocks/Bloques'
-import ContinuousScroll from '~/components/Imagen/Continuous-Scroll'; 
+import ContinuousScroll from '~/components/Imagen/Continuous-Scroll-Reserve'; 
 
 const Loader = () => (
   <motion.div
