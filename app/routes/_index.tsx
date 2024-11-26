@@ -137,7 +137,7 @@ export default function MenuPage() {
         <Header />
 
         <div className="h-[5vh]" />
- 
+        <ContinuousScroll />
 
         <ImagenScroll />
         <Bloques />
