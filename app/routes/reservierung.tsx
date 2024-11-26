@@ -44,6 +44,7 @@ useEffect(() => {
             <span className="bg-gradient-to-r from-gray-200 via-gray-500 to-red-500 text-transparent bg-clip-text font-poppins">
               Reservierung
             </span>
+  
           </div>
         </div>
 

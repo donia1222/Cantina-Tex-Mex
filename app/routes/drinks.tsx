@@ -1,10 +1,11 @@
 // app/routes/Menu.tsx
 
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import HeaderDrin from '~/components/Header/HeaderDrin'; 
 import Drinksblock from '~/components/Blocks/Drinksblock'; 
 import BannerDrinks from '~/components/Banner/BannerDrinks'; 
-import { motion, AnimatePresence } from 'framer-motion';
+
 
 
 

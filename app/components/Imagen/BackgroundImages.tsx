@@ -30,14 +30,14 @@ export default function BackgroundImages() {
     if (location.pathname === "/drinks") {
       return [
         '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg',
-        '/fajitas.jpg',
-        'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
+        '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg',
+        '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg'
       ][index]
     } else if (location.pathname === "/menu") {
       return [
         'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85',
-        '/fajitas.jpg',
-        '/fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg'
+        'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85',
+        'https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2ODY5NTM1OTB8&ixlib=rb-4.0.3&q=85'
       ][index]
     } else {
       return [

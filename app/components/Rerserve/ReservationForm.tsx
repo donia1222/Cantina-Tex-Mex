@@ -287,6 +287,7 @@ const ReservationForm: React.FC = () => {
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-gray-800 rounded-lg shadow-md">
+
       {loading ? (
         <p className="text-white">Loading...</p>
       ) : (
