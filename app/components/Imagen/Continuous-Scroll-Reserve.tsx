@@ -112,7 +112,7 @@ export default function Component() {
       <div className="flex justify-center mt-6">
       <button
         onClick={() => setIsModalOpen(true)}
-        className="rounded-full  text-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors mt-5 "
+        className="rounded-full  text-gray-300 bg-gray-800 hover:bg-gray-500 p-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors mt-5 "
       >
         <Images className="h-8 w-8" />
         <span className="sr-only">Ver Todas las Fotos</span>
