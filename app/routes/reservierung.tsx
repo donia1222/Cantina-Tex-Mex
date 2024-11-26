@@ -24,7 +24,7 @@ const IndexPage: React.FC = () => {
         <CurrentMessage />
 
         <ReservationForm />
-        <ContinuousScroll />
+
 
       </div>
 
