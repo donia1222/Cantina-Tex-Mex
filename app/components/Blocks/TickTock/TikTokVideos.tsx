@@ -14,7 +14,18 @@ const videos: Video[] = [
     poster: "/videos/video1-poster.jpg",
     description: "Primer video al estilo TikTok",
   },
-
+  {
+    id: "2",
+    src: "/video2.mp4",
+    poster: "/videos/video2-poster.jpg",
+    description: "Segundo video increíble",
+  },
+  {
+    id: "3",
+    src: "/video3.mp4",
+    poster: "/videos/video3-poster.jpg",
+    description: "Tercer video entretenido",
+  },
 ];
 
 const TikTokVideos: React.FC = () => {
