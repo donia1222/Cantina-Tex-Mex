@@ -25,7 +25,7 @@ export default function Header() {
             <span className="absolute inset-0 transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-gray-500 group-hover:translate-x-0 group-hover:translate-y-0"></span>
             <span className="absolute inset-0 border-2 border-gray-300"></span>
             <span className="relative flex items-center justify-center">
-              Ganzes Video auf <span className="text-red-400 mx-1">TikTok</span> ansehen
+             <span className="text-red-400 mx-1">TikTok</span> 
               <FlameKindling className="ml-2 h-8 w-8" />
             </span>
           </a>
