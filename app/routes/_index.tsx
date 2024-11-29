@@ -10,6 +10,8 @@ import ReviewsCarousel from '~/components/Rerserve/RerserveBlock'
 import CloudTextBlock from '~/components/Blocks/CloudTextBlock'
 import Bloques from '~/components/Blocks/Bloques'
 import ContinuousScroll from '~/components/Imagen/Continuous-Scroll-Reserve'; 
+import TikTokVideos from "~/components/Blocks/TickTock/TikTokVideos";
+import TikTokVideose from "~/components/Blocks/TickTock/TikTokButtom";
 
 const Loader = () => (
   <motion.div
@@ -143,6 +145,9 @@ export default function MenuPage() {
         <Bloques />
         <CloudTextBlock/>
         <ReviewsCarousel />
+        <TikTokVideos />
+        <TikTokVideose />
+      
 
       </div>
     </>
