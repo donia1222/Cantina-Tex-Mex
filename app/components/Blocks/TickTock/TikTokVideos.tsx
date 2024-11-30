@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Shuffle, Volume2, VolumeX } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Shuffle } from 'lucide-react';
 import TikTokVideose from "~/components/Blocks/TickTock/TikTokButtom";
 
 interface Video {
@@ -34,61 +34,61 @@ const initialVideos: Video[] = [
     id: "4",
     src: "/video4.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Cuarto video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "5",
     src: "/video5.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Quinto video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "6",
     src: "/video6.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Sexto video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "7",
     src: "/video7.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Séptimo video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "8",
     src: "/video8.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Octavo video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "9",
     src: "/video9.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Noveno video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "10",
     src: "/video10.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Décimo video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "11",
     src: "/video11.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Undécimo video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "12",
     src: "/video12.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Duodécimo video entretenido",
+    description: "Tercer video entretenido",
   },
   {
     id: "13",
     src: "/video13.mp4",
     poster: "/videos/video3-poster.jpg",
-    description: "Decimotercer video entretenido",
+    description: "Tercer video entretenido",
   },
 ];
 
@@ -117,10 +117,11 @@ const TikTokVideos: React.FC = () => {
   };
 
   const handleNext = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % videos.length);
+    setActiveIndex((prevIndex) => (prevIndex < videos.length - 1 ? prevIndex + 1 : 0));
   };
 
   const handleShuffle = () => {
+    setIsMuted(false);
     setVideos(prevVideos => {
       const shuffled = [...prevVideos];
       for (let i = shuffled.length - 1; i > 0; i--) {
@@ -132,12 +133,8 @@ const TikTokVideos: React.FC = () => {
     setActiveIndex(0);
   };
 
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
-
   return (
-    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-5">
+    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-10">
       <div className="relative w-full max-w-[500px] h-full max-h-[calc(100vh-80px)] aspect-[9/16] lg:aspect-video lg:max-w-[900px] lg:max-h-[600px]">
         {videos.map((video, index) => (
           <div
@@ -171,7 +168,7 @@ const TikTokVideos: React.FC = () => {
           <button
             className="p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
             onClick={handleShuffle}
-            aria-label="Reproducir aleatoriamente"
+            aria-label="Reproducir aleatoriamente y activar sonido"
           >
             <Shuffle className="h-6 w-6 text-white" />
           </button>
@@ -181,19 +178,6 @@ const TikTokVideos: React.FC = () => {
             aria-label="Siguiente video"
           >
             <ChevronRight className="h-6 w-6 text-white" />
-          </button>
-          <button
-            className={`p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 ${
-              isMuted ? 'text-red-500' : 'text-green-500'
-            }`}
-            onClick={toggleMute}
-            aria-label={isMuted ? "Activar sonido" : "Desactivar sonido"}
-          >
-            {isMuted ? (
-              <VolumeX className="h-6 w-6" />
-            ) : (
-              <Volume2 className="h-6 w-6" />
-            )}
           </button>
         </div>
         <TikTokVideose />
