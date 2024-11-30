@@ -137,8 +137,8 @@ const TikTokVideos: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-5">
-      <div className="relative w-full max-w-[500px] h-full max-h-[calc(100vh-80px)] aspect-[9/16] lg:aspect-video lg:max-w-[900px] lg:max-h-[600px]">
+    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-2 ">
+      <div className="relative w-full max-w-[500px] h-full max-h-[calc(80vh-80px)] aspect-[9/16] lg:aspect-video lg:max-w-[900px] lg:max-h-[600px] ring-2 ring-gray-400 ring-opacity-50 rounded-lg">
         {videos.map((video, index) => (
           <div
             key={video.id}
@@ -168,13 +168,7 @@ const TikTokVideos: React.FC = () => {
           >
             <ChevronLeft className="h-6 w-6 text-white" />
           </button>
-          <button
-            className="p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-            onClick={handleShuffle}
-            aria-label="Reproducir aleatoriamente"
-          >
-            <Shuffle className="h-6 w-6 text-white" />
-          </button>
+
           <button
             className="p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
             onClick={handleNext}
@@ -182,19 +176,7 @@ const TikTokVideos: React.FC = () => {
           >
             <ChevronRight className="h-6 w-6 text-white" />
           </button>
-          <button
-            className={`p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 ${
-              isMuted ? 'text-red-500' : 'text-green-500'
-            }`}
-            onClick={toggleMute}
-            aria-label={isMuted ? "Activar sonido" : "Desactivar sonido"}
-          >
-            {isMuted ? (
-              <VolumeX className="h-6 w-6" />
-            ) : (
-              <Volume2 className="h-6 w-6" />
-            )}
-          </button>
+   
         </div>
         <TikTokVideose />
       </div>
