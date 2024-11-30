@@ -137,7 +137,7 @@ const TikTokVideos: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-2 ">
+    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-4 mb-10">
       <div className="relative w-full max-w-[500px] h-full max-h-[calc(80vh-80px)] aspect-[9/16] lg:aspect-video lg:max-w-[900px] lg:max-h-[600px] ring-2 ring-gray-400 ring-opacity-50 rounded-lg">
         {videos.map((video, index) => (
           <div
