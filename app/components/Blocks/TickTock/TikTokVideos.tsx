@@ -14,13 +14,13 @@ interface Video {
 const initialVideos: Video[] = [
   {
     id: "1",
-    src: "/video1.mp4",
+    src: "/video2.mp4",
     poster: "/videos/video1-poster.jpg",
     description: "Primer video al estilo TikTok",
   },
   {
     id: "2",
-    src: "/video2.mp4",
+    src: "/video1.mp4",
     poster: "/videos/video2-poster.jpg",
     description: "Segundo video increíble",
   },
