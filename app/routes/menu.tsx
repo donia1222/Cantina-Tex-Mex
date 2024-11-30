@@ -198,10 +198,10 @@ export default function Menu() {
   return (
     <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
       <HeaderSpe />
-      <BannerFood />
+
       {loading && <Loadere />}
       <motion.div
-        className="w-full max-w-6xl px-4  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 mb-40"
+        className="w-full max-w-6xl px-4  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 mb-40 mt-20"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
