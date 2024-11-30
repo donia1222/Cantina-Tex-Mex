@@ -28,7 +28,7 @@ export default function Header() {
             href="https://www.tiktok.com/@lwebwebsitedesign"
             className="relative px-10 py-3 font-bold text-gray-100 group max-w-[80%] mx-auto block"
           >
-            <span className="absolute inset-0 transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-gray-500 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+            <span className="absolute inset-0 transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-gray-700 group-hover:translate-x-0 group-hover:translate-y-0"></span>
             <span className="absolute inset-0 border-2 border-gray-300"></span>
             <span className="relative flex items-center justify-center">
               <span className="text-white mx-2">TikTok</span> 
