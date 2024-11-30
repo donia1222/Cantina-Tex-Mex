@@ -117,7 +117,7 @@ const TikTokVideos: React.FC = () => {
   };
 
   const handleNext = () => {
-    setActiveIndex((prevIndex) => (prevIndex < videos.length - 1 ? prevIndex + 1 : 0));
+    setActiveIndex((prevIndex) => (prevIndex + 1) % videos.length);
   };
 
   const handleShuffle = () => {
@@ -137,7 +137,7 @@ const TikTokVideos: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-10">
+    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-5">
       <div className="relative w-full max-w-[500px] h-full max-h-[calc(100vh-80px)] aspect-[9/16] lg:aspect-video lg:max-w-[900px] lg:max-h-[600px]">
         {videos.map((video, index) => (
           <div
@@ -169,7 +169,21 @@ const TikTokVideos: React.FC = () => {
             <ChevronLeft className="h-6 w-6 text-white" />
           </button>
           <button
-            className={`p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none  focus:ring-opacity-50 ${
+            className="p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            onClick={handleShuffle}
+            aria-label="Reproducir aleatoriamente"
+          >
+            <Shuffle className="h-6 w-6 text-white" />
+          </button>
+          <button
+            className="p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            onClick={handleNext}
+            aria-label="Siguiente video"
+          >
+            <ChevronRight className="h-6 w-6 text-white" />
+          </button>
+          <button
+            className={`p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 ${
               isMuted ? 'text-red-500' : 'text-green-500'
             }`}
             onClick={toggleMute}
@@ -181,14 +195,6 @@ const TikTokVideos: React.FC = () => {
               <Volume2 className="h-6 w-6" />
             )}
           </button>
-          <button
-            className="p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-            onClick={handleNext}
-            aria-label="Siguiente video"
-          >
-            <ChevronRight className="h-6 w-6 text-white" />
-          </button>
- 
         </div>
         <TikTokVideose />
       </div>
