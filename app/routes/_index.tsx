@@ -11,8 +11,8 @@ import CloudTextBlock from '~/components/Blocks/CloudTextBlock'
 import Bloques from '~/components/Blocks/Bloques'
 import ContinuousScroll from '~/components/Imagen/Continuous-Scroll-Reserve'; 
 import TikTokVideos from "~/components/Blocks/TickTock/TikTokVideos";
-
-
+import { TikTokEmbed } from '~/components/Blocks/TickTock/TikTokEmbed';
+const tiktokUrl = "https://www.tiktok.com/@lwebwebsitedesign";
 const Loader = () => (
   <motion.div
     className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"
@@ -140,14 +140,14 @@ export default function MenuPage() {
 
         <div className="h-[5vh]" />
         <ContinuousScroll />
-
+        <TikTokVideos />
         <ImagenScroll />
         <Bloques />
         <CloudTextBlock/>
         <ReviewsCarousel />
-        <TikTokVideos />
+     
+        {/* <TikTokEmbed url={tiktokUrl} /> */}
 
-      
 
       </div>
     </>

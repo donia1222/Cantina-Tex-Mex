@@ -14,82 +14,11 @@ interface Video {
 const initialVideos: Video[] = [
   {
     id: "1",
-    src: "/video2.mp4",
+    src: "/e0d952bc-12c4-4425-8826-ee950532d457.mp4",
     poster: "/videos/video1-poster.jpg",
     description: "Primer video al estilo TikTok",
   },
-  {
-    id: "2",
-    src: "/video1.mp4",
-    poster: "/videos/video2-poster.jpg",
-    description: "Segundo video increíble",
-  },
-  {
-    id: "3",
-    src: "/video3.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Tercer video entretenido",
-  },
-  {
-    id: "4",
-    src: "/video4.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Cuarto video entretenido",
-  },
-  {
-    id: "5",
-    src: "/video5.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Quinto video entretenido",
-  },
-  {
-    id: "6",
-    src: "/video6.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Sexto video entretenido",
-  },
-  {
-    id: "7",
-    src: "/video7.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Séptimo video entretenido",
-  },
-  {
-    id: "8",
-    src: "/video8.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Octavo video entretenido",
-  },
-  {
-    id: "9",
-    src: "/video9.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Noveno video entretenido",
-  },
-  {
-    id: "10",
-    src: "/video10.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Décimo video entretenido",
-  },
-  {
-    id: "11",
-    src: "/video11.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Undécimo video entretenido",
-  },
-  {
-    id: "12",
-    src: "/video12.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Duodécimo video entretenido",
-  },
-  {
-    id: "13",
-    src: "/video13.mp4",
-    poster: "/videos/video3-poster.jpg",
-    description: "Decimotercer video entretenido",
-  },
+
 ];
 
 const TikTokVideos: React.FC = () => {
@@ -137,7 +66,7 @@ const TikTokVideos: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-4 mb-10">
+    <div className="bg-gray-900 bg-opacity-60 flex items-center justify-center p-4 mb-10 pt-20">
       <div className="relative w-full max-w-[500px] h-full max-h-[calc(80vh-80px)] aspect-[9/16] lg:aspect-video lg:max-w-[900px] lg:max-h-[600px] ring-2 ring-gray-400 ring-opacity-50 rounded-lg">
         {videos.map((video, index) => (
           <div
@@ -160,24 +89,7 @@ const TikTokVideos: React.FC = () => {
           </div>
         ))}
         
-        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-4 md:flex-row md:right-0 md:left-0 md:top-auto md:bottom-4 md:justify-center">
-          <button
-            className="p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-            onClick={handlePrev}
-            aria-label="Video anterior"
-          >
-            <ChevronLeft className="h-6 w-6 text-white" />
-          </button>
 
-          <button
-            className="p-2 bg-gray-500 bg-opacity-90 hover:bg-opacity-90 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-            onClick={handleNext}
-            aria-label="Siguiente video"
-          >
-            <ChevronRight className="h-6 w-6 text-white" />
-          </button>
-   
-        </div>
         <TikTokVideose />
       </div>
     </div>
