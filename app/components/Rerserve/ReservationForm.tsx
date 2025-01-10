@@ -318,6 +318,10 @@ const ReservationForm: React.FC = () => {
                   disable: [
                     // Deshabilitar Domingo (0) y Lunes (1)
                     (date: Date) => [0, 1].includes(date.getDay()),
+                    
+                    // Bloquear todas las fechas a partir del 01.03.2025
+                    (date: Date) => date >= new Date(2025, 2, 1), // Marzo es 2 (0-indexado)
+
                     // Deshabilitar solo días completamente bloqueados
                     ...Object.keys(blockedDates)
                       .filter(dateStr => {
@@ -523,25 +527,22 @@ const ReservationForm: React.FC = () => {
               />
             </div>
 
-      {selectedDate && selectedTime && personas && (
-            <div className="mt-4 p-4 bg-gray-700 text-white rounded">
-              <p><strong>Datum</strong> {selectedDate.toLocaleDateString('de-DE')}</p>
-              <p><strong>Uhr:</strong> {selectedTime}</p>
-              <p><strong>Personen:</strong> {personas}</p>
-            </div>
-          )}
+            {selectedDate && selectedTime && personas && (
+              <div className="mt-4 p-4 bg-gray-700 text-white rounded">
+                <p><strong>Datum</strong> {selectedDate.toLocaleDateString('de-DE')}</p>
+                <p><strong>Uhr:</strong> {selectedTime}</p>
+                <p><strong>Personen:</strong> {personas}</p>
+              </div>
+            )}
 
             <button
               type="submit"
               className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-200"
               disabled={!(selectedDate && selectedTime && personas)}
             >
-              Reservierung bestätigen
+              {renderButtonText()}
             </button>
           </form>
-
-
-    
         </>
       )}
 

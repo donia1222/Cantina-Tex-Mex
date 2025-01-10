@@ -140,12 +140,12 @@ export default function MenuPage() {
 
         <div className="h-[5vh]" />
         <ContinuousScroll />
-        <TikTokVideos />
+
         <ImagenScroll />
         <Bloques />
         <CloudTextBlock/>
         <ReviewsCarousel />
-     
+        <TikTokVideos />
         {/* <TikTokEmbed url={tiktokUrl} /> */}
 
 
