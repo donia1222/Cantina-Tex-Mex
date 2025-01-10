@@ -145,7 +145,7 @@ export default function MenuPage() {
         <Bloques />
         <CloudTextBlock/>
         <ReviewsCarousel />
-        <TikTokVideos />
+
         {/* <TikTokEmbed url={tiktokUrl} /> */}
 
 

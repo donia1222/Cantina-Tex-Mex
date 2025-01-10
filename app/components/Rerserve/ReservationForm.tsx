@@ -319,8 +319,8 @@ const ReservationForm: React.FC = () => {
                     // Deshabilitar Domingo (0) y Lunes (1)
                     (date: Date) => [0, 1].includes(date.getDay()),
                     
-                    // Bloquear todas las fechas a partir del 01.03.2025
-                    (date: Date) => date >= new Date(2025, 2, 1), // Marzo es 2 (0-indexado)
+                    // Bloquear todas las fechas a partir del 02.02.2025
+                    (date: Date) => date >= new Date(2025, 1, 2), // Febrero es 1 (0-indexado)
 
                     // Deshabilitar solo días completamente bloqueados
                     ...Object.keys(blockedDates)
