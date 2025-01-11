@@ -146,9 +146,6 @@ export default function MenuPage() {
         <CloudTextBlock/>
         <ReviewsCarousel />
 
-        {/* <TikTokEmbed url={tiktokUrl} /> */}
-
-
       </div>
     </>
   )
