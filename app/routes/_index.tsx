@@ -9,6 +9,7 @@ import Header from '~/components/Header/Header'
 import ReviewsCarousel from '~/components/Rerserve/RerserveBlock'
 import CloudTextBlock from '~/components/Blocks/CloudTextBlock'
 import Bloques from '~/components/Blocks/Bloques'
+import CantinaFarewell from '~/components/Blocks/CantinaFarewell'
 import ContinuousScroll from '~/components/Imagen/Continuous-Scroll-Reserve'; 
 import TikTokVideos from "~/components/Blocks/TickTock/TikTokVideos";
 import { TikTokEmbed } from '~/components/Blocks/TickTock/TikTokEmbed';
@@ -139,8 +140,9 @@ export default function MenuPage() {
         <Header />
 
         <div className="h-[5vh]" />
+        <CantinaFarewell />
         <ContinuousScroll />
-
+  
         <ImagenScroll />
         <Bloques />
         <CloudTextBlock/>
