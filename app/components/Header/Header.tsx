@@ -136,7 +136,7 @@ export default function Header() {
               </motion.h2>
             </AnimatePresence>
             <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins rounded-lg">
-              <AnimatedText text="CANTINA VOM 2010 BIS 2025 IN SEVELEN" />
+              <AnimatedText text="ADIOS SEVELEN, HOLA BUCHS!" />
             </div>
             <a
               href="/reservierung"
