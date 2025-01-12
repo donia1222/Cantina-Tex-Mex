@@ -3,8 +3,8 @@ import React from "react";
 
 export default function CantinaFarewell() {
   return (
-    <div className=" bg-gradient-to-br from-yellow-200 via-red-300 to-pink-400 flex items-center justify-center p-10">
-      <div className="bg-white shadow-lg rounded-lg max-w-3xl p-6 text-center">
+    <div className=" bg-gradient-to-br from-yellow-200 via-red-300 to-pink-400 flex items-center justify-center p-4">
+      <div className="bg-white shadow-lg rounded-lg max-w-3xl p-4 text-center">
         <h1 className="text-3xl font-bold text-red-600 mb-4">
           Liebe Freunde, liebe Gäste
         </h1>
