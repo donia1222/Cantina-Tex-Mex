@@ -10,7 +10,7 @@ export default function CantinaFarewell() {
         </h1>
         <p className="text-lg text-gray-700 leading-relaxed mb-6">
           Nach fast 15 Jahren in Sevelen zieht die Cantina unter neuer Leitung
-          nach Buchs um.
+          nach Buchs.
         </p>
         <p className="text-lg text-gray-700 leading-relaxed mb-6">
           Wir, Roberto und Andrea Salvador, haben uns mit der Cantina einen Traum
@@ -22,7 +22,7 @@ export default function CantinaFarewell() {
         </p>
         <p className="text-lg text-gray-700 leading-relaxed mb-6">
           Aber im Leben bleibt nie alles gleich. Seit unserem unfreiwilligen Umzug
-          an die Bahnhofstrasse ist der Cantina-Alltag enorm schwierig geworden.
+          an die Bahnhofstrasse ist der Cantina Alltag enorm schwierig geworden.
           Es sind zu viele Steine, die uns den Weg versperren.
         </p>
         <p className="text-lg text-gray-700 leading-relaxed mb-6">
