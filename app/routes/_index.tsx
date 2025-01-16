@@ -142,8 +142,6 @@ export default function MenuPage() {
         <div className="h-[5vh]" />
         <CantinaFarewell />
         <ContinuousScroll />
-  
-        <ImagenScroll />
         <Bloques />
         <CloudTextBlock/>
         <ReviewsCarousel />
