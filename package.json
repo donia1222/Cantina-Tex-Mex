@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@remix-run/node": "^2.13.1",
+    "expo": "^48.0.0",
     "@remix-run/react": "^2.13.1",
     "@remix-run/serve": "^2.13.1",
     "@types/canvas-confetti": "^1.6.4",
