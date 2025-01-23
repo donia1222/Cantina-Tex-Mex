@@ -31,7 +31,6 @@ export default function CantinaFarewell() {
           gewohnter Hingabe für Euch da; Andrea als Supporter in der Küche jeweils
           am Wochenende.
         </p>
-
         <p className="text-lg text-gray-700 leading-relaxed">
           Nun sagen wir also <span className="font-bold">Gracias Sevelen</span> und{" "}
           <span className="font-bold">Adios!</span> <br />
