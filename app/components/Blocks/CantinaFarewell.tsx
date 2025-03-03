@@ -22,7 +22,7 @@ export default function CantinaFarewell() {
         <p className="text-lg text-gray-700 leading-relaxed">
           Nun sagen wir also <span className="font-bold">Gracias Sevelen</span> und{" "}
           <span className="font-bold">Adios!</span> <br />
-          <span className="font-bold">Hola Buchs ab 20  März 2025!</span>
+          <span className="font-bold">Hola Buchs ab 20. März 2025!</span>
         </p>
       </div>
     </div>
