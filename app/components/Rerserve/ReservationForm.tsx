@@ -19,43 +19,6 @@ interface Reservation {
   timestamp: number; // Para ordenar las reservas por fecha
 }
 
-// Modal de dirección (se muestra una vez por sesión)
-"use client"
-
-
-const SessionAddressModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="bg-gradient-to-b from-gray-900 to-gray-800 p-8 rounded-xl shadow-2xl max-w-md mx-auto text-center border border-gray-700 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/20 rounded-full blur-2xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-2xl"></div>
-
-        <h2 className="text-purple-300 text-lg font-medium mb-2 tracking-wide">Neue Adresse</h2>
-        <h2 className="text-white text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-300">
-          USHUAIA
-        </h2>
-        <p className="text-pink-400 mb-6 font-medium">Kitchen by Cantina Tex-Mex</p>
-
-        <div className="bg-gray-800/70 p-5 rounded-lg mb-6 border border-gray-700/50">
-          <p className="text-cyan-200 mb-2 font-medium">Bahnhofstrasse 40</p>
-          <p className="text-cyan-200 mb-2">9470 Buchs</p>
-          <p className="text-cyan-200 mb-2">Ab 28. März 2025</p>
-        </div>
-
-        <button
-          onClick={onClose}
-          className="mt-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-6 rounded-lg hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 font-medium w-full shadow-lg shadow-emerald-700/30"
-        >
-          Schließen
-        </button>
-      </div>
-    </div>
-  )
-}
-
-
-
 const ReservationForm: React.FC = () => {
   const [blockedDates, setBlockedDates] = useState<BlockedDates>({});
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
@@ -76,8 +39,6 @@ const ReservationForm: React.FC = () => {
 
   // Estado para almacenar todas las reservas
   const [reservations, setReservations] = useState<Reservation[]>([]);
-  // Estado para controlar la visualización del modal de dirección (una sola vez por sesión)
-  const [showSessionModal, setShowSessionModal] = useState<boolean>(false);
 
   // Función para formatear la fecha a YYYY-MM-DD
   const formatDate = (date: Date) => {
@@ -96,8 +57,8 @@ const ReservationForm: React.FC = () => {
   // Función para obtener todas las horas posibles para un día
   const getAllPossibleTimes = (date: Date): string[] => {
     const day = date.getDay();
+    // Para martes (2) y miércoles (3) se agregan horarios de almuerzo y cena
     if (day === 2 || day === 3) {
-      // Martes y miércoles: almuerzo y cena
       return [
         "11:30",
         "12:00",
@@ -110,7 +71,7 @@ const ReservationForm: React.FC = () => {
         "20:00",
       ];
     } else if (day === 4 || day === 5) {
-      // Jueves y Viernes: almuerzo y cena
+      // Jueves (4) y Viernes (5): almuerzo y cena
       return [
         "11:30",
         "12:00",
@@ -134,12 +95,16 @@ const ReservationForm: React.FC = () => {
   // Función para obtener las fechas bloqueadas
   const fetchBlockedDates = async () => {
     try {
+      console.log("Fetching blocked dates...");
       const res = await fetch("https://reservierung.cantinatexmex.ch/get_blocked_dates.php");
+      console.log("Response status:", res.status);
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const text = await res.text();
+      console.log("Raw response text:", text);
       const data = JSON.parse(text);
+      console.log("Parsed blocked dates data:", data);
       setBlockedDates(data);
       setLoading(false);
     } catch (error: any) {
@@ -159,6 +124,7 @@ const ReservationForm: React.FC = () => {
         const parsedReservations: Reservation[] = JSON.parse(storedReservations);
         setReservations(parsedReservations);
         if (parsedReservations.length > 0) {
+          // Obtener el nombre de la última reserva para el saludo
           const lastReservation = parsedReservations[parsedReservations.length - 1];
           setNombre(lastReservation.nombre);
           setTelefono(lastReservation.telefono);
@@ -168,28 +134,24 @@ const ReservationForm: React.FC = () => {
         console.error("Error parsing reservations from localStorage:", e);
       }
     }
-    
-    // Mostrar modal de dirección una sola vez por sesión
-    const modalShown = sessionStorage.getItem("addressModalShown");
-    if (!modalShown) {
-      setShowSessionModal(true);
-      sessionStorage.setItem("addressModalShown", "true");
-    }
   }, []);
 
   useEffect(() => {
     if (selectedDate) {
+      console.log("Selected date changed:", selectedDate);
       const dateString = formatDate(selectedDate);
       fetchAvailableTimes(dateString);
     } else {
+      console.log("No date selected.");
       setAvailableTimes([]);
       setBlockedTimesForSelectedDate([]);
-      setSelectedTime("");
+      setSelectedTime(""); // Reiniciar selectedTime
     }
   }, [selectedDate, blockedDates]);
 
   const fetchAvailableTimes = async (date: string) => {
     try {
+      console.log("Fetching available times for:", date);
       const dateObj = parseLocalDate(date);
       const day = dateObj.getDay();
       const today = new Date();
@@ -199,7 +161,9 @@ const ReservationForm: React.FC = () => {
         dateObj.getDate() === today.getDate();
 
       let allTimes: string[] = [];
+
       if (day === 2 || day === 3) {
+        // Martes y miércoles: almuerzo y cena
         allTimes = [
           "11:30",
           "12:00",
@@ -212,6 +176,7 @@ const ReservationForm: React.FC = () => {
           "20:00",
         ];
       } else if (day === 4 || day === 5) {
+        // Jueves y Viernes: almuerzo y cena
         allTimes = [
           "11:30",
           "12:00",
@@ -224,11 +189,18 @@ const ReservationForm: React.FC = () => {
           "20:00",
         ];
       } else if (day === 6) {
+        // Sábado: solo cena
         allTimes = ["18:00", "18:30", "19:00", "19:30", "20:00"];
       }
+
+      // Obtener las horas bloqueadas para la fecha seleccionada
       const blockedTimes = blockedDates[date] || [];
       setBlockedTimesForSelectedDate(blockedTimes);
+
+      // Filtrar las horas disponibles excluyendo las bloqueadas
       let available = allTimes.filter((time) => !blockedTimes.includes(time));
+
+      // Si la fecha seleccionada es hoy, filtrar las horas que ya han pasado
       if (isToday) {
         const currentTime = new Date();
         available = available.filter((time) => {
@@ -243,6 +215,8 @@ const ReservationForm: React.FC = () => {
           return reservationTime > currentTime;
         });
       }
+
+      console.log("Available times after filtering:", available);
       setAvailableTimes(available);
     } catch (error) {
       console.error("Error fetching available times:", error);
@@ -255,28 +229,39 @@ const ReservationForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
+    setError(null); // Resetear errores anteriores
+
+    console.log("Form submitted.");
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    // Validar si la cantidad de personas es mayor a 14
     if (personas >= 15) {
       alert("Ab 15 Personen bitte telefonisch reservieren: 081 750 19 11");
       return;
     }
 
+    console.log("Sending reservation data to backend...");
+
     try {
       const response = await fetch("https://reservierung.cantinatexmex.ch/enviar_confirmacion.php", {
         method: "POST",
         body: formData,
+        // credentials: 'include', // Descomenta si es necesario
       });
 
+      console.log("Response status:", response.status);
       const text = await response.text();
+      console.log("Raw response text:", text);
+
       let result;
       try {
         result = JSON.parse(text);
       } catch (parseError) {
         throw new Error("Respuesta del servidor no es JSON válido.");
       }
+
+      console.log("Parsed backend response:", result);
 
       if (response.ok && result.success) {
         const newReservation: Reservation = {
@@ -306,13 +291,16 @@ const ReservationForm: React.FC = () => {
     }
   };
 
+  // Función para renderizar las opciones del select agrupadas en "Mittag" y "Abend"
   const renderTimeOptions = () => {
+    // Separamos las horas disponibles en horarios de almuerzo y cena
     const lunchAvailable = availableTimes.filter(
       (time) => parseInt(time.split(":")[0], 10) < 14
     );
     const dinnerAvailable = availableTimes.filter(
       (time) => parseInt(time.split(":")[0], 10) >= 14
     );
+    // Separamos las horas bloqueadas en los mismos grupos
     const lunchBlocked = blockedTimesForSelectedDate.filter(
       (time) => parseInt(time.split(":")[0], 10) < 14
     );
@@ -381,7 +369,10 @@ const ReservationForm: React.FC = () => {
                 id="fecha"
                 name="fecha"
                 value={selectedDate || undefined}
-                onChange={(dates: Date[]) => setSelectedDate(dates[0] || null)}
+                onChange={(dates: Date[]) => {
+                  console.log("Selected date:", dates[0]);
+                  setSelectedDate(dates[0] || null);
+                }}
                 options={{
                   dateFormat: "d.m.Y",
                   minDate: "today",
@@ -577,7 +568,7 @@ const ReservationForm: React.FC = () => {
               className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-200"
               disabled={!(selectedDate && selectedTime && personas)}
             >
-              {renderButtonText()}
+              Reservierung bestätigen
             </button>
           </form>
         </>
@@ -609,9 +600,6 @@ const ReservationForm: React.FC = () => {
           {error}
         </div>
       )}
-
-      {/* Modal de dirección que se muestra una sola vez por sesión */}
-      {showSessionModal && <SessionAddressModal onClose={() => setShowSessionModal(false)} />}
     </div>
   );
 };
