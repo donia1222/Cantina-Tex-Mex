@@ -30,7 +30,7 @@ export const links: LinksFunction = () => [
 export const meta: MetaFunction = () => {
   return [
     { charset: "utf-8" },
-    { title: "Ushuaia Kitchen by Cantina Tex-Mex " },
+    { title: "Ushuaia & Cantina Tex-Mex " },
     { name: "description", content: "9470 / Buchs " },
     { name: "keywords", content: "restaurant buchs" },
     { name: "viewport", content: "width=device-width, initial-scale=1" },
