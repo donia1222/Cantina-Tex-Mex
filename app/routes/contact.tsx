@@ -88,7 +88,7 @@ export default function Contact() {
           <ul className="space-y-4">
             <li className="flex items-center">
               <MapPin className="h-6 w-6 mr-3 text-red-500" />
-              <span>Bahnhofstrasse 46, 9475 Sevelen</span>
+              <span>Bahnhofstrasse 40, 9470 Buchs</span>
             </li>
             <li className="flex items-center">
               <Phone className="h-6 w-6 mr-3 text-red-500" />

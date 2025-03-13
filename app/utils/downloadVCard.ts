@@ -21,9 +21,9 @@ const handleDownloadVCard = () => {
 
           const vCardContent = `BEGIN:VCARD
 VERSION:3.0
-FN:Cantina TexMex
-ORG:Cantina TexMex
-ADR:;;Bahnhofstrasse 46;Sevelen;;9475;Switzerland
+FN:Ushuaia & Cantina Tex-Mex
+ORG:Ushuaia & Cantina Tex-Mex
+ADR:;;Bahnhofstrasse 40;Buchs;;9470;Schweiz
 TEL:081 750 19 11
 EMAIL:info@cantinatexmex.ch
 URL:https://cantinatexmex.ch

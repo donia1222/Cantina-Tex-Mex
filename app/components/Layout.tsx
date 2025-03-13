@@ -258,7 +258,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
     
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {[
-        { icon: MapPin, title: "Adresse", content: "Cantina Tex-Mex\nBahnhofstrasse 46\n9475 Sevelen" },
+        { icon: MapPin, title: "Adresse", content: "Ushuaia & Cantina Tex-Mex\nBahnhofstrasse 40\n9470 Buchs" },
         { icon: Clock, title: "Öffnungszeiten", content: "Di-Mi: 18:00-21:30\nDo-Fr: 11:30-13:30, 18:00-22:00\nSamstag: 18:00-22:30" },
         { icon: Phone, title: "Kontakt", content: "Telefon: 0817501911\nE-Mail: info@cantiantextmex.ch" }
       ].map((item, index) => {
@@ -387,12 +387,11 @@ export default function Component({ children }: { children: React.ReactNode }) {
           <div className="bg-white rounded-lg p-8 max-w-md w-full">
             <h2 className="text-2xl font-bold mb-4">Impressum</h2>
             <div className="mt-2">
-              <p>Cantina Bad Rans GmbH</p>
-              <p>Badstrasse 44</p>
-              <p>9475 / Sevelen</p>
+              <p>flomic GmbH</p>
+              <p>Bahnhofstrasse 40</p>
+              <p>9470 / Buchs</p>
               <p>T: 0817501911</p>
-              <p>Handelsregister-Nr. CH-320.4.067.097-1</p>
-              <p>UID lautet: CHE-115.639.418</p>
+
               {/* Enlace Clicable a lweb.ch */}
               <p className="mt-4">
                 Webseite Design{' '}

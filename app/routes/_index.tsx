@@ -137,7 +137,6 @@ export default function MenuPage() {
       </AnimatePresence>
       <div className="min-h-[300vh]  font-sans bg-gray-900 bg-opacity-60 rounded-lg">¨
    
-        <Header />
 
         <div className="h-[5vh]" />
         <CantinaFarewell />
