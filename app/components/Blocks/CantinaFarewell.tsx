@@ -9,7 +9,7 @@ export default function CantinaLoadingAnimation() {
   const [animationComplete, setAnimationComplete] = useState(false)
 
   // German phrases that will appear during loading
-  const germanPhrases = ["TEX-MEX FOOD", "PREMIUM COCKTAILS", "QUALITY HOOKAH AND TABAK", "UNIQUE ATMOSPHERE AND SOUND" ]
+  const germanPhrases = ["TEX-MEX FOOD", "PREMIUM COCKTAILS", "QUALITY HOOKAH AND TABAK" ]
 
   useEffect(() => {
     // Stage 0: Initial black screen with German text (3 seconds)
@@ -187,7 +187,7 @@ export default function CantinaLoadingAnimation() {
                   times: [0, 0.5, 1],
                   delay: index * 0.8,
                 }}
-                className="text-amber-500 text-3xl md:text-5xl font-bold my-4 text-center"
+                className="text-amber-500 text-3xl md:text-5xl font-bold my-4"
               >
                 {phrase}
               </motion.div>
