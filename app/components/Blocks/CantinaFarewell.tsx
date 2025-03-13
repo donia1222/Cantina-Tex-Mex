@@ -96,7 +96,7 @@ export default function CantinaHeader() {
           >
             <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
               <img
-                src="/images-2.png"
+                src="/images-1.png"
                 alt="Cantina Tex-Mex Logo"
                 className="w-80 h-32 mx-auto  rounded-full border-4 mb-10 border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.6)]"
               />
