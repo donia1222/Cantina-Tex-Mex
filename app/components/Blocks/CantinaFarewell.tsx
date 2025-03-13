@@ -49,9 +49,9 @@ export default function CantinaFarewell() {
                   <p className="text-amber-400 text-lg font-light italic">Kitchen by Cantina Tex-Mex</p>
 
                   <div className="mt-8 pt-6 border-t border-gray-700">
-                    <p className="text-gray-300">Neue Adresse:</p>
-                    <p className="text-xl font-medium mt-1">Bahnhofstrasse 40</p>
-                    <p className="text-xl font-medium">9470 Buchs</p>
+                    <p className="text-gray-100 text-3xl mb-4">Neue Adresse</p>
+                    <p className="text-xl  text-gray-400 font-medium mt-1">Bahnhofstrasse 40</p>
+                    <p className="text-xl  text-gray-400 font-medium">9470 Buchs</p>
                   </div>
 
                   <motion.div
