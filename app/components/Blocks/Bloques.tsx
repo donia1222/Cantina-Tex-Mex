@@ -92,10 +92,11 @@ export default function Component() {
             <Calendar className="w-8 h-8 text-red-500 mb-4" />
             <h2 className="text-2xl font-medium">
               Probieren Sie unser<br />
-              Tagesmenü Donnerstags<br />
-              und Freitags von<br />
+              Tagesmenü Dienstag<br />
+              bis Smastag von<br />
               11:30 bis 13:00 Uhr.
             </h2>
+            
           </div>
 
           <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
