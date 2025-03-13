@@ -112,7 +112,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Menú de navegación centrado en pantallas grandes */}
-          <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+          <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2 ">
             {menuItems.map((item, index) => (
               <motion.div
                 key={item.to}
