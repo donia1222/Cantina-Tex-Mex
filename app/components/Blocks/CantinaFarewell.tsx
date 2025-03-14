@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { Calendar, MapPin, ArrowRight } from "lucide-react"
+import { Calendar, MapPin, ArrowRight, Users, GlassWater, Palmtree } from "lucide-react"
 
 export default function CantinaHeader() {
   const [scrollY, setScrollY] = useState(0)
@@ -27,7 +27,6 @@ export default function CantinaHeader() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5 }}
         >
-  
           <div className="absolute inset-0 " />
         </motion.div>
       </div>
@@ -70,13 +69,6 @@ export default function CantinaHeader() {
             <path d="M50 0L61 39H100L69 63L80 100L50 77L20 100L31 63L0 39H39L50 0Z" fill="#FF4500" />
           </svg>
         </motion.div>
-
-
-
-  
-
-
-
       </div>
 
       {/* Main content */}
@@ -102,21 +94,21 @@ export default function CantinaHeader() {
               />
             </motion.div>
             <motion.h1
-        className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
-      >
-        <span className="text-amber-500">Kitchen by</span>
-      </motion.h1>
-      <motion.h1
-        className="text-4xl md:text-5xl font-bold text-white tracking-tight"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.7, duration: 0.8 }}
-      >
-        Cantina Tex-Mex
-      </motion.h1>
+              className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+            >
+              <span className="text-amber-500">Kitchen by</span>
+            </motion.h1>
+            <motion.h1
+              className="text-4xl md:text-5xl font-bold text-white tracking-tight"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+            >
+              Cantina Tex-Mex
+            </motion.h1>
 
             <motion.div
               initial={{ scaleX: 0 }}
@@ -167,9 +159,7 @@ export default function CantinaHeader() {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 1.5 }}
-                  >
-             
-                  </motion.div>
+                  ></motion.div>
                 </motion.div>
 
                 {/* Right side - Location info */}
@@ -180,7 +170,7 @@ export default function CantinaHeader() {
                   className="text-white space-y-8"
                 >
                   <div>
-                  <motion.div
+                    <motion.div
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="inline-block px-6 py-3 rounded-full self-center bg-amber-500 text-black font-bold text-lg shadow-lg mb-6"
@@ -199,6 +189,52 @@ export default function CantinaHeader() {
                       </div>
                     </div>
                   </div>
+
+                  <motion.div
+                    className="mt-6"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.6, duration: 0.6 }}
+                  >
+                    <h3 className="text-2xl font-bold text-amber-400 mb-3">Kapazität</h3>
+                    <div className="space-y-2">
+                      <motion.div
+                        className="flex items-center"
+                        whileHover={{ x: 5 }}
+                        transition={{ type: "spring", stiffness: 400 }}
+                      >
+                        <Users className="h-5 w-5 text-red-500 mr-3 flex-shrink-0" />
+                        <p className="text-lg text-white">100 Plätze im Restaurant</p>
+                      </motion.div>
+
+                      <motion.div
+                        className="flex items-center"
+                        whileHover={{ x: 5 }}
+                        transition={{ type: "spring", stiffness: 400 }}
+                      >
+                        <GlassWater className="h-5 w-5 text-amber-500 mr-3 flex-shrink-0" />
+                        <p className="text-lg text-white">100 Plätze in der Bar & Shisha-Lounge</p>
+                      </motion.div>
+
+                      <motion.div
+                        className="flex items-center"
+                        whileHover={{ x: 5 }}
+                        transition={{ type: "spring", stiffness: 400 }}
+                      >
+                        <Palmtree className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
+                        <p className="text-lg text-white">100 Plätze auf der Terrasse</p>
+                      </motion.div>
+                    </div>
+
+                    <motion.p
+                      className="text-gray-300 mt-3"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1.8 }}
+                    >
+                      Jeder Bereich ist unabhängig, mit eigener Musik und Schiebetüren.
+                    </motion.p>
+                  </motion.div>
 
                   <div className="pt-6 border-t border-amber-500/30">
                     <p className="text-lg text-gray-300 mb-6">
