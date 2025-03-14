@@ -136,16 +136,17 @@ export default function CantinaHeader() {
           >
             <div className="p-8 md:p-10">
               <div className="grid md:grid-cols-2 gap-10 items-center">
-                {/* Left side - Food image */}
+                {/* Left side - Two smaller food images */}
                 <motion.div
                   initial={{ x: -50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: 1.3, duration: 0.6 }}
-                  className="relative"
+                  className="relative space-y-4"
                 >
+                  {/* First image */}
                   <div className="relative overflow-hidden rounded-xl">
                     <motion.img
-                      src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=800&auto=format&fit=crop"
+                      src="/477000996_9130462533673823_2177671831147477464_n.jpg"
                       alt="Delicious Tex-Mex Food"
                       className="w-full h-auto rounded-xl"
                       whileHover={{ scale: 1.05 }}
@@ -154,12 +155,17 @@ export default function CantinaHeader() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                   </div>
 
-                  <motion.div
-                    className="absolute bottom-4 left-4 right-4 text-center"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 1.5 }}
-                  ></motion.div>
+                  {/* Second image */}
+                  <div className="relative overflow-hidden rounded-xl">
+                    <motion.img
+                      src="/475697279_9242326152477946_202445652559172266_n.jpg"
+                      alt="Authentic Tex-Mex Cuisine"
+                      className="w-full h-auto rounded-xl"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.5 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  </div>
                 </motion.div>
 
                 {/* Right side - Location info */}
