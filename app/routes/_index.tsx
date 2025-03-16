@@ -144,6 +144,8 @@ export default function MenuPage() {
         <CantinaFarewell />
 
         <TextEffect />
+
+
         <Bloques />
         <CloudTextBlock/>
         <ReviewsCarousel />

@@ -5,16 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Code, Check, Copy } from 'lucide-react';
 
 const slides = [
-  {
-    image: '/IMG_1537.JPG',
-    title: 'Tex-Mex Platte',
-    description: 'Geniesst als Gruppe ab 10 Personen unser Highlight: die Tex-Mex Platte, eine Auswahl an Tex-Mex Spezialitäten. Sie wird als Buffet am Tisch serviert, bei dem sich jeder nehmen kann, was ihm am besten schmeckt.' 
-  },
-  {
-    image: '/alcoholic-beverage-cocktail-with-halves-pear-high-view.jpg',
-    title: 'Monatsspezial',
-    description: 'Apfel-Birnen-Margarita mit einem Hauch Zimt. Auch in einer alkoholfreien Variante erhältlich.'
-  },
+
   {
     image: '/reserved-table-restaurant.jpg',
     title: 'Zukunft der Cantina',
@@ -113,22 +104,7 @@ export default function Component() {
               />
             </AnimatePresence>
             <div className="absolute inset-0 bg-black bg-opacity-10 z-10"></div>
-            <div className="absolute inset-0 flex items-center justify-between p-4 z-20">
-              <button
-                onClick={handlePrev}
-                className="bg-white bg-opacity-90 text-gray-800 rounded-full p-3 hover:bg-opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft size={28} />
-              </button>
-              <button
-                onClick={handleNext}
-                className="bg-white bg-opacity-90 text-gray-800 rounded-full p-3 hover:bg-opacity-90 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                aria-label="Next slide"
-              >
-                <ChevronRight size={28} />
-              </button>
-            </div>
+
           </div>
           <div className="w-full lg:w-1/2 p-6 lg:p-12 flex flex-col justify-center">
             <AnimatePresence mode="wait" initial={false}>

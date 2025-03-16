@@ -13,13 +13,13 @@
   },
   "dependencies": {
     "@remix-run/node": "^2.13.1",
-    "expo": "^48.0.0",
     "@remix-run/react": "^2.13.1",
     "@remix-run/serve": "^2.13.1",
     "@types/canvas-confetti": "^1.6.4",
     "@types/react-flatpickr": "^3.8.11",
     "@vercel/analytics": "^1.4.1",
     "canvas-confetti": "^1.9.3",
+    "expo": "^48.0.0",
     "flatpickr": "^4.6.13",
     "framer-motion": "^11.11.10",
     "isbot": "^4.1.0",
@@ -28,6 +28,7 @@
     "react-countup": "^6.5.3",
     "react-dom": "^18.2.0",
     "react-flatpickr": "^3.10.13",
+    "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.13.1",
     "react-simple-typewriter": "^5.0.1",
     "react-typing-effect": "^2.0.5"
