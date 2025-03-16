@@ -101,9 +101,9 @@ export default function Contact() {
             <li className="flex items-start">
               <Clock className="h-6 w-6 mr-3 mt-1 text-red-500" />
               <span>
-                Di-Mi: 18:00-21:30<br />
-                Do-Fr: 11:30-13:30, 18:00-22:00<br />
-                Samstag: 18:00-22:30
+                Di-Sa: 11:30-13:30 /  18:00-22:00<br />
+ 
+            
               </span>
             </li>
           </ul>

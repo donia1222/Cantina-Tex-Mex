@@ -13,6 +13,8 @@ import CantinaFarewell from '~/components/Blocks/CantinaFarewell'
 import ContinuousScroll from '~/components/Imagen/Continuous-Scroll-Reserve'; 
 import TikTokVideos from "~/components/Blocks/TickTock/TikTokVideos";
 import { TikTokEmbed } from '~/components/Blocks/TickTock/TikTokEmbed';
+import TextEffect from "~/components/Blocks/Texteffet";
+
 const tiktokUrl = "https://www.tiktok.com/@lwebwebsitedesign";
 const Loader = () => (
   <motion.div
@@ -140,7 +142,8 @@ export default function MenuPage() {
 
         <div className="h-[5vh]" />
         <CantinaFarewell />
-        <ContinuousScroll />
+
+        <TextEffect />
         <Bloques />
         <CloudTextBlock/>
         <ReviewsCarousel />

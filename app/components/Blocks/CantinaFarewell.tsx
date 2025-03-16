@@ -7,33 +7,38 @@ import { Calendar, MapPin, ArrowRight, Users, GlassWater, Palmtree } from "lucid
 export default function CantinaHeader() {
   const [scrollY, setScrollY] = useState(0)
 
-  // Handle scroll effect for parallax
+  // Efecto parallax básico para el scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY)
     }
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
-    <div className="relative w-full overflow-hidden ">
-      {/* Background image - NO LONGER FIXED */}
-      <div className="absolute inset-0 -z-10 h-full w-full">
-        <motion.div
-          className="absolute inset-0"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5 }}
-        >
-          <div className="absolute inset-0 " />
-        </motion.div>
+    <div className="relative w-full overflow-hidden font-sans">
+      {/* Fondo con patrón SVG similar al anterior */}
+      <div className="absolute inset-0 -z-10 opacity-20">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <pattern
+            id="pattern-circles"
+            x="0"
+            y="0"
+            width="50"
+            height="50"
+            patternUnits="userSpaceOnUse"
+            patternContentUnits="userSpaceOnUse"
+          >
+            <circle cx="10" cy="10" r="1.6257413380501518" fill="#ffffff" />
+          </pattern>
+          <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-circles)" />
+        </svg>
       </div>
 
-      {/* Decorative elements - NO LONGER FIXED */}
+      {/* Elementos decorativos (opcional) */}
       <div className="absolute inset-0 -z-5 overflow-hidden pointer-events-none">
-        {/* Star 1 */}
+        {/* Estrella animada 1 */}
         <motion.div
           className="absolute top-20 left-10 w-16 h-16 opacity-30"
           animate={{
@@ -51,7 +56,7 @@ export default function CantinaHeader() {
           </svg>
         </motion.div>
 
-        {/* Star 2 */}
+        {/* Estrella animada 2 */}
         <motion.div
           className="absolute top-40 right-20 w-12 h-12 opacity-20"
           animate={{
@@ -71,15 +76,15 @@ export default function CantinaHeader() {
         </motion.div>
       </div>
 
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center px-4 p min-h-[80vh] mb-10">
+      {/* Contenido principal */}
+      <div className="relative z-10 flex flex-col items-center justify-center px-4 min-h-[80vh] mb-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="w-full max-w-5xl"
         >
-          {/* Logo and header */}
+          {/* Logo y encabezado */}
           <motion.div
             className="text-center mb-8"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -90,7 +95,7 @@ export default function CantinaHeader() {
               <img
                 src="/images-2.png"
                 alt="Cantina Tex-Mex Logo"
-                className="w-80 h-32 mx-auto  rounded-full border-4 mb-10 border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.6)]"
+                className="w-80 h-32 mx-auto rounded-full border-4 mb-10 border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.6)]"
               />
             </motion.div>
             <motion.h1
@@ -127,7 +132,7 @@ export default function CantinaHeader() {
             </motion.p>
           </motion.div>
 
-          {/* Main card with location info */}
+          {/* Tarjeta principal con información de ubicación */}
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -136,7 +141,7 @@ export default function CantinaHeader() {
           >
             <div className="p-8 md:p-10">
               <div className="grid md:grid-cols-2 gap-10 items-center">
-                {/* Left side - Food image */}
+                {/* Lado izquierdo - Imagen de comida */}
                 <motion.div
                   initial={{ x: -50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -153,16 +158,9 @@ export default function CantinaHeader() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                   </div>
-
-                  <motion.div
-                    className="absolute bottom-4 left-4 right-4 text-center"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 1.5 }}
-                  ></motion.div>
                 </motion.div>
 
-                {/* Right side - Location info */}
+                {/* Lado derecho - Información de ubicación */}
                 <motion.div
                   initial={{ x: 50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -173,7 +171,7 @@ export default function CantinaHeader() {
                     <motion.div
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="inline-block px-6 py-3 rounded-full self-center bg-amber-500 text-black font-bold text-lg shadow-lg mb-6"
+                      className="inline-block px-6 py-3 rounded-full bg-amber-500 text-black font-bold text-lg shadow-lg mb-6"
                     >
                       <span className="flex items-center ">
                         <Calendar className="mr-2 h-5 w-5" />
