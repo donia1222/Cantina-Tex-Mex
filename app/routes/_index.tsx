@@ -140,7 +140,7 @@ export default function MenuPage() {
       <div className="min-h-[300vh]">¨
    
 
-        <div className="h-[5vh]" />
+
         <CantinaFarewell />
 
         <TextEffect />

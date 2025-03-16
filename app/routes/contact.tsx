@@ -102,8 +102,6 @@ export default function Contact() {
               <Clock className="h-6 w-6 mr-3 mt-1 text-red-500" />
               <span>
                 Di-Sa: 11:30-13:30 /  18:00-22:00<br />
- 
-            
               </span>
             </li>
           </ul>
@@ -169,10 +167,10 @@ export default function Contact() {
             </motion.a>
           </div>
         </div>
-
         <div className="flex justify-center items-center my-12">
+          
           <img 
-            src="/logo3-copia1-1.png" 
+            src="/images-2.png" 
             alt="Cantina Tex Mex Logo" 
             className="rounded-lg shadow-md h-34 object-cover"
           />
