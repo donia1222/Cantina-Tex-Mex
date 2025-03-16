@@ -405,6 +405,14 @@ export default function Component({ children }: { children: React.ReactNode }) {
                 </a>
               </p>
             </div>
+
+            <footer className="mt-10 text-sm text-gray-500">
+            einige Bilder stammen von {" "}
+        <a href="https://www.freepik.com" target="_blank" rel="noopener noreferrer" className="underline">
+          Freepik
+        </a>
+        .
+      </footer>
             <button
               onClick={() => setImpressumOpen(false)}
               className="mt-6 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
