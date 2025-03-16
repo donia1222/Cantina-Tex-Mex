@@ -51,7 +51,7 @@ export default function CantinaHeader() {
                 className="mb-6"
               >
                 <h2 className="text-2xl font-medium text-amber-400 mb-2">Kitchen by</h2>
-                <h1 className="text-4xl md:text-4xl font-bold text-white mb-6">Cantina Tex-Mex</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-white mb-6">Cantina Tex-Mex</h1>
                 <div className="h-1 w-24 bg-gradient-to-r from-red-600 to-amber-500 mx-auto mb-6"></div>
                 <p className="text-xl text-amber-300 italic">¡Neuer Standort, gleicher authentischer Geschmack!</p>
               </motion.div>
