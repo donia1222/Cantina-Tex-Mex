@@ -171,7 +171,7 @@ export default function CantinaHeader() {
               >
                 <img
         
-                  src="https://www.cantinatexmex.ch/96771444_3048192125224744_9026765579553341440_n.jpg"
+                  src="fresh-cocktails-with-ice-lemon-lime-fruits-generative-ai.jpg"
                   alt="Tex-Mex Food"
                   className="w-full h-full object-cover"
                 />
@@ -185,7 +185,7 @@ export default function CantinaHeader() {
                 className="relative h-40 rounded-xl overflow-hidden mb-6"
               >
                 <img
-                           src="https://www.cantinatexmex.ch/462422528_8551985061512062_7133407350959336931_n.jpg"
+                           src="fajitas.jpg"
                   alt="Tex-Mex Atmosphere"
                   className="w-full h-full object-cover bg-blend-color-dodge"
                 />
