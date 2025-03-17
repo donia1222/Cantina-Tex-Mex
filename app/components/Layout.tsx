@@ -411,7 +411,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
         <a href="https://www.freepik.com" target="_blank" rel="noopener noreferrer" className="underline">
           Freepik
         </a>
-        .
       </footer>
             <button
               onClick={() => setImpressumOpen(false)}

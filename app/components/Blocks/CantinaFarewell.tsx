@@ -54,6 +54,14 @@ export default function CantinaHeader() {
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-6">Cantina Tex-Mex</h1>
                 <div className="h-1 w-24 bg-gradient-to-r from-red-600 to-amber-500 mx-auto mb-6"></div>
                 <p className="text-xl text-amber-300 italic">¡Neuer Standort, gleicher authentischer Geschmack!</p>
+                <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="mt-8 w-full max-w-xs mx-auto"
+              >
+                <img src="/cantina_logocopia.png" alt="Cantina Tex-Mex Logo" className="w-full h-auto" />
+              </motion.div>
               </motion.div>
 
               {/* Fecha de apertura */}
