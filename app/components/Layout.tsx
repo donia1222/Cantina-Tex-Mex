@@ -260,7 +260,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
       {[
         { icon: MapPin, title: "Adresse", content: "Ushuaia & Cantina Tex-Mex\nBahnhofstrasse 40\n9470 Buchs" },
         { icon: Clock, title: "Öffnungszeiten", content: "Di-Sa: 11:30-13:30\n 18:00-21:30" },
-        { icon: Phone, title: "Kontakt", content: "Telefon: 0817501911\nE-Mail: info@cantiantextmex.ch" }
+        { icon: Phone, title: "Kontakt", content: "Telefon: 0817501911\nE-Mail: info@cantinatexmex.ch" }
       ].map((item, index) => {
         // Define un array de colores
         const colors = ["text-red-500", "text-yellow-500", "text-green-500"];
