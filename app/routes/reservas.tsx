@@ -3,7 +3,7 @@
 import { json, type LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { useState, useMemo } from "react"
-import { Search, Calendar, Filter, ArrowDownUp, ChevronDown } from "lucide-react"
+import { Search, Calendar, Filter, ArrowDownUp, ChevronDown, Printer } from "lucide-react"
 
 type Reserva = {
   id: string
@@ -213,6 +213,74 @@ export default function Reservas() {
     setVisibleCount((prevCount) => prevCount + 10)
   }
 
+  // Function to print the current view
+  const printReservations = () => {
+    const printWindow = window.open("", "_blank")
+    if (!printWindow) return
+
+    // Create a styled HTML document for printing
+    printWindow.document.write(`
+    <html>
+      <head>
+        <title>Reservierungsliste</title>
+        <style>
+          body { font-family: Arial, sans-serif; }
+          table { width: 100%; border-collapse: collapse; }
+          th { background-color: #fef3c7; padding: 8px; text-align: left; font-weight: bold; }
+          td { padding: 8px; border-bottom: 1px solid #f3f4f6; }
+          tr:nth-child(even) { background-color: #fef3c7; }
+          h1 { color: #92400e; }
+          .print-info { margin-bottom: 20px; color: #92400e; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <h1>Reservierungsliste</h1>
+        <div class="print-info">
+          <p>Datum: ${new Date().toLocaleDateString()}</p>
+          <p>Anzahl Reservierungen: ${visibleReservas.length}</p>
+          ${dateFilter !== "all" ? `<p>Filter: ${dateFilter === "today" ? "Heute" : "Diese Woche"}</p>` : ""}
+          ${searchTerm ? `<p>Suchbegriff: ${searchTerm}</p>` : ""}
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Datum</th>
+              <th>Zeit</th>
+              <th>Personen</th>
+              <th>Name</th>
+              <th>Telefon</th>
+              <th>E-Mail</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${visibleReservas
+              .map(
+                (reserva) => `
+              <tr>
+                <td>${reserva.id}</td>
+                <td>${formatDate(reserva.fecha)}</td>
+                <td>${reserva.hora}</td>
+                <td>${reserva.personas}</td>
+                <td>${reserva.nombre}</td>
+                <td>${reserva.telefono}</td>
+                <td>${reserva.email}</td>
+              </tr>
+            `,
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </body>
+    </html>
+  `)
+
+    printWindow.document.close()
+    printWindow.focus()
+    printWindow.print()
+    printWindow.close()
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 py-8">
       <div className="font-sans p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
@@ -277,6 +345,14 @@ export default function Reservas() {
               >
                 <ArrowDownUp className="h-4 w-4 mr-2" />
                 {sortOrder === "desc" ? "Neueste zuerst" : "Älteste zuerst"}
+              </button>
+              <button
+                className="flex items-center px-4 py-2 rounded-md border bg-white text-amber-700 border-amber-300 hover:bg-amber-50"
+                onClick={printReservations}
+                title="Aktuelle Ansicht drucken"
+              >
+                <Printer className="h-4 w-4 mr-2" />
+                Drucken
               </button>
             </div>
           </div>
@@ -354,5 +430,4 @@ export default function Reservas() {
     </div>
   )
 }
-
 
