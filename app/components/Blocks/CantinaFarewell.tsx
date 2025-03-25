@@ -40,7 +40,7 @@ export default function CantinaHeader() {
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="mb-8 w-full max-w-xs mx-auto"
               >
-                <img src="/images-2.png" alt="Cantina Tex-Mex Logo" className="w-full h-auto" />
+                <img src="/images-3.png" alt="Cantina Tex-Mex Logo" className="w-full h-auto" />
               </motion.div>
 
               {/* Título */}
