@@ -90,10 +90,7 @@ export default function Contact() {
               <MapPin className="h-6 w-6 mr-3 text-red-500" />
               <span>Bahnhofstrasse 40, 9470 Buchs</span>
             </li>
-            <li className="flex items-center">
-              <Phone className="h-6 w-6 mr-3 text-red-500" />
-              <a href="tel:0817501911" className="hover:underline">0817501911</a>
-            </li>
+   
             <li className="flex items-center">
               <Mail className="h-6 w-6 mr-3 text-red-500" />
               <a href="mailto:info@cantinatexmex.ch" className="hover:underline">info@cantinatexmex.ch</a>
@@ -118,16 +115,7 @@ export default function Contact() {
                 <Calendar className="w-5 h-5 mr-2" />
                 Tisch online Reservieren
               </motion.a>
-              <motion.a
-                href="tel:0817501911"
-                className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <PhoneCall className="w-5 h-5 mr-2" />
-                0817501911
-              </motion.a>
+     
             </div>
           </div>
           <div className="flex justify-center items-center mt-5">
@@ -176,25 +164,7 @@ export default function Contact() {
           />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-12"
-        >
-          <h2 className="text-2xl font-semibold mb-6 text-center">Unser Standort</h2>
-          <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2724.4866543537747!2d9.494731315591655!3d47.11466397915501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b3168f6b9d0c3%3A0x4b7a1d5b6a7b0f0a!2sBahnhofstrasse%2046%2C%209475%20Sevelen%2C%20Switzerland!5e0!3m2!1sen!2sus!4v1635794729872!5m2!1sen!2sus"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              title="Cantina Tex Mex Standort"
-            ></iframe>
-          </div>
-        </motion.div>
+
       </motion.div>
     </div>
   )
