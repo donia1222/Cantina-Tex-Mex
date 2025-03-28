@@ -2,8 +2,8 @@
 
 import { json, type LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { useState, useMemo } from "react"
-import { Search, Calendar, Filter, ArrowDownUp, ChevronDown, Printer } from "lucide-react"
+import { useState, useMemo, useRef, useEffect } from "react"
+import { Search, Calendar, Filter, ArrowDownUp, ChevronDown, Printer, X, ChevronLeft, ChevronRight } from "lucide-react"
 
 type Reserva = {
   id: string
@@ -156,12 +156,155 @@ function isThisWeek(dateStr: string): boolean {
   return date >= startOfWeek && date <= endOfWeek
 }
 
+// Helper function to check if a date matches the selected date
+function isSelectedDate(dateStr: string, selectedDate: Date | undefined): boolean {
+  if (!selectedDate) return false
+
+  const date = parseDate(dateStr, "")
+
+  // Reset hours to compare only dates
+  date.setHours(0, 0, 0, 0)
+  const compareDate = new Date(selectedDate)
+  compareDate.setHours(0, 0, 0, 0)
+
+  return date.getTime() === compareDate.getTime()
+}
+
+// Helper function to format date to string in DD.MM.YYYY format
+function formatDateToString(date: Date): string {
+  const day = date.getDate().toString().padStart(2, "0")
+  const month = (date.getMonth() + 1).toString().padStart(2, "0")
+  const year = date.getFullYear()
+
+  return `${day}.${month}.${year}`
+}
+
+// Get days in month
+function getDaysInMonth(year: number, month: number): number {
+  return new Date(year, month + 1, 0).getDate()
+}
+
+// Get day of week (0 = Sunday, 1 = Monday, etc.)
+function getDayOfWeek(year: number, month: number, day: number): number {
+  return new Date(year, month, day).getDay()
+}
+
+// Get month name
+function getMonthName(month: number): string {
+  const monthNames = [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
+  ]
+  return monthNames[month]
+}
+
 export default function Reservas() {
   const { reservas, error } = useLoaderData<typeof loader>()
   const [searchTerm, setSearchTerm] = useState("")
-  const [dateFilter, setDateFilter] = useState<"all" | "today" | "thisWeek">("all")
+  const [dateFilter, setDateFilter] = useState<"all" | "today" | "thisWeek" | "specific">("all")
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc") // Default to most recent first
   const [visibleCount, setVisibleCount] = useState(10) // Initially show 10 reservations
+  const [showCalendar, setShowCalendar] = useState(false)
+
+  // Calendar state
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
+  const calendarRef = useRef<HTMLDivElement>(null)
+
+  // Close calendar when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+        setShowCalendar(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+  // Handle previous month
+  const prevMonth = () => {
+    if (currentMonth === 0) {
+      setCurrentMonth(11)
+      setCurrentYear(currentYear - 1)
+    } else {
+      setCurrentMonth(currentMonth - 1)
+    }
+  }
+
+  // Handle next month
+  const nextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0)
+      setCurrentYear(currentYear + 1)
+    } else {
+      setCurrentMonth(currentMonth + 1)
+    }
+  }
+
+  // Handle date selection
+  const handleDateSelect = (day: number) => {
+    const newDate = new Date(currentYear, currentMonth, day)
+    setSelectedDate(newDate)
+    setDateFilter("specific")
+    setShowCalendar(false)
+  }
+
+  // Generate calendar days
+  const generateCalendarDays = () => {
+    const daysInMonth = getDaysInMonth(currentYear, currentMonth)
+    const firstDayOfMonth = getDayOfWeek(currentYear, currentMonth, 1)
+
+    const days = []
+
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < firstDayOfMonth; i++) {
+      days.push(<div key={`empty-${i}`} className="h-8 w-8"></div>)
+    }
+
+    // Add days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(currentYear, currentMonth, day)
+      const isToday = new Date().toDateString() === date.toDateString()
+      const isSelected = selectedDate && selectedDate.toDateString() === date.toDateString()
+
+      days.push(
+        <div
+          key={`day-${day}`}
+          onClick={() => handleDateSelect(day)}
+          className={`h-8 w-8 flex items-center justify-center rounded-full cursor-pointer text-sm
+            ${isToday ? "bg-amber-200 text-amber-800" : ""}
+            ${isSelected ? "bg-amber-500 text-white" : ""}
+            ${!isToday && !isSelected ? "hover:bg-amber-100" : ""}
+          `}
+        >
+          {day}
+        </div>,
+      )
+    }
+
+    return days
+  }
+
+  // Clear selected date
+  const clearSelectedDate = () => {
+    setSelectedDate(undefined)
+    setDateFilter("all")
+  }
 
   // Sort and filter reservations
   const filteredReservas = useMemo(() => {
@@ -192,11 +335,13 @@ export default function Reservas() {
         dateMatch = isToday(reserva.fecha)
       } else if (dateFilter === "thisWeek") {
         dateMatch = isThisWeek(reserva.fecha)
+      } else if (dateFilter === "specific" && selectedDate) {
+        dateMatch = isSelectedDate(reserva.fecha, selectedDate)
       }
 
       return searchMatch && dateMatch
     })
-  }, [reservas, searchTerm, dateFilter, sortOrder])
+  }, [reservas, searchTerm, dateFilter, sortOrder, selectedDate])
 
   // Get only the visible reservations (pagination)
   const visibleReservas = useMemo(() => {
@@ -238,7 +383,19 @@ export default function Reservas() {
         <div class="print-info">
           <p>Datum: ${new Date().toLocaleDateString()}</p>
           <p>Anzahl Reservierungen: ${visibleReservas.length}</p>
-          ${dateFilter !== "all" ? `<p>Filter: ${dateFilter === "today" ? "Heute" : "Diese Woche"}</p>` : ""}
+          ${
+            dateFilter !== "all"
+              ? `<p>Filter: ${
+                  dateFilter === "today"
+                    ? "Heute"
+                    : dateFilter === "thisWeek"
+                      ? "Diese Woche"
+                      : selectedDate
+                        ? `Datum: ${formatDateToString(selectedDate)}`
+                        : ""
+                }</p>`
+              : ""
+          }
           ${searchTerm ? `<p>Suchbegriff: ${searchTerm}</p>` : ""}
         </div>
         <table>
@@ -338,6 +495,87 @@ export default function Reservas() {
                 <Calendar className="h-4 w-4 mr-2" />
                 Diese Woche
               </button>
+
+              {/* Calendar button and dropdown */}
+              <div className="relative">
+                <button
+                  className={`flex items-center px-4 py-2 rounded-md border ${
+                    dateFilter === "specific"
+                      ? "bg-amber-500 text-white border-amber-500"
+                      : "bg-white text-amber-700 border-amber-300 hover:bg-amber-50"
+                  }`}
+                  onClick={() => setShowCalendar(!showCalendar)}
+                >
+                  <Calendar className="h-4 w-4 mr-2" />
+                  {selectedDate ? formatDateToString(selectedDate) : "Datum wählen"}
+                </button>
+
+                {/* Custom Calendar */}
+                {showCalendar && (
+                  <div
+                    ref={calendarRef}
+                    className="absolute z-10 mt-1 bg-white rounded-md shadow-lg p-3 border border-amber-200"
+                    style={{ minWidth: "280px" }}
+                  >
+                    {/* Calendar header */}
+                    <div className="flex justify-between items-center mb-2">
+                      <button onClick={prevMonth} className="p-1 rounded-full hover:bg-amber-100">
+                        <ChevronLeft className="h-4 w-4 text-amber-700" />
+                      </button>
+                      <div className="font-medium">
+                        {getMonthName(currentMonth)} {currentYear}
+                      </div>
+                      <button onClick={nextMonth} className="p-1 rounded-full hover:bg-amber-100">
+                        <ChevronRight className="h-4 w-4 text-amber-700" />
+                      </button>
+                    </div>
+
+                    {/* Calendar weekdays */}
+                    <div className="grid grid-cols-7 gap-1 mb-1">
+                      {["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"].map((day) => (
+                        <div
+                          key={day}
+                          className="h-8 w-8 flex items-center justify-center text-xs font-medium text-amber-700"
+                        >
+                          {day}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Calendar days */}
+                    <div className="grid grid-cols-7 gap-1">{generateCalendarDays()}</div>
+
+                    {/* Today button */}
+                    <div className="mt-2 flex justify-center">
+                      <button
+                        onClick={() => {
+                          const today = new Date()
+                          setCurrentMonth(today.getMonth())
+                          setCurrentYear(today.getFullYear())
+                          setSelectedDate(today)
+                          setDateFilter("specific")
+                          setShowCalendar(false)
+                        }}
+                        className="text-xs text-amber-700 hover:text-amber-900 underline"
+                      >
+                        Heute
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Clear date button - only show when a specific date is selected */}
+              {dateFilter === "specific" && selectedDate && (
+                <button
+                  onClick={clearSelectedDate}
+                  className="flex items-center px-2 py-2 rounded-md border bg-white text-amber-700 border-amber-300 hover:bg-amber-50"
+                  title="Datum zurücksetzen"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+
               <button
                 className="flex items-center px-4 py-2 rounded-md border bg-white text-amber-700 border-amber-300 hover:bg-amber-50"
                 onClick={toggleSortOrder}
@@ -425,6 +663,9 @@ export default function Reservas() {
         {/* Results count */}
         <div className="mt-4 text-sm text-amber-700">
           Zeige {visibleReservas.length} von {filteredReservas.length} Reservierungen
+          {dateFilter === "specific" && selectedDate && (
+            <span className="ml-2">für {formatDateToString(selectedDate)}</span>
+          )}
         </div>
       </div>
     </div>
