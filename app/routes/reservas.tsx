@@ -1,9 +1,22 @@
 "use client"
 
+import type React from "react"
+
 import { json, type LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { useState, useMemo, useRef, useEffect } from "react"
-import { Search, Calendar, Filter, ArrowDownUp, ChevronDown, Printer, X, ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  Search,
+  Calendar,
+  Filter,
+  ArrowDownUp,
+  ChevronDown,
+  Printer,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Table,
+} from "lucide-react"
 
 type Reserva = {
   id: string
@@ -13,12 +26,15 @@ type Reserva = {
   nombre: string
   telefono: string
   email: string
+  mesa?: string
 }
 
 // Define the loader data type for consistency
 type LoaderData = {
   reservas: Reserva[]
   error: string | null
+  mesas: Record<string, string>
+  completadas: string[] // IDs of completed reservations
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -34,15 +50,33 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const html = await response.text()
     const reservas = extractReservasFromHTML(html)
 
+    // Load table assignments from JSON file
+    let mesas: Record<string, string> = {}
+    let completadas: string[] = []
+    try {
+      const mesasResponse = await fetch("/api/mesas")
+      if (mesasResponse.ok) {
+        const data = await mesasResponse.json()
+        mesas = data.mesas || {}
+        completadas = data.completadas || []
+      }
+    } catch (error) {
+      console.error("Error al cargar las asignaciones de mesas:", error)
+    }
+
     return json<LoaderData>({
       reservas,
       error: null,
+      mesas,
+      completadas,
     })
   } catch (error) {
     console.error("Fehler beim Laden der Reservierungen:", error)
     return json<LoaderData>({
       reservas: [],
       error: "Fehler beim Laden der Reservierungen",
+      mesas: {},
+      completadas: [],
     })
   }
 }
@@ -209,18 +243,29 @@ function getMonthName(month: number): string {
 }
 
 export default function Reservas() {
-  const { reservas, error } = useLoaderData<typeof loader>()
+  const { reservas, error, mesas: initialMesas, completadas: initialCompletadas } = useLoaderData<typeof loader>()
   const [searchTerm, setSearchTerm] = useState("")
   const [dateFilter, setDateFilter] = useState<"all" | "today" | "thisWeek" | "specific">("all")
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc") // Default to most recent first
   const [visibleCount, setVisibleCount] = useState(10) // Initially show 10 reservations
   const [showCalendar, setShowCalendar] = useState(false)
+  const [selectedReservation, setSelectedReservation] = useState<string | null>(null)
+
+  // Mesa (table) state
+  const [mesas, setMesas] = useState<Record<string, string>>(initialMesas || {})
+  const [showMesaModal, setShowMesaModal] = useState(false)
+  const [currentReservaId, setCurrentReservaId] = useState<string | null>(null)
+  const [mesaInput, setMesaInput] = useState("")
 
   // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const calendarRef = useRef<HTMLDivElement>(null)
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  // Add a new state for multiple selection and completed reservations
+  const [reservasTachadas, setReservasTachadas] = useState<string[]>([])
 
   // Close calendar when clicking outside
   useEffect(() => {
@@ -233,6 +278,44 @@ export default function Reservas() {
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+  // Close modal when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        setShowMesaModal(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+  // Agregar este useEffect para cargar las reservas tachadas desde localStorage al inicio
+  useEffect(() => {
+    const savedTachadas = localStorage.getItem("reservasTachadas")
+    if (savedTachadas) {
+      try {
+        setReservasTachadas(JSON.parse(savedTachadas))
+      } catch (e) {
+        console.error("Error al cargar reservas tachadas:", e)
+      }
+    }
+  }, [])
+
+  // Agregar este useEffect para cargar las mesas desde localStorage al inicio
+  useEffect(() => {
+    const savedMesas = localStorage.getItem("mesasAsignadas")
+    if (savedMesas) {
+      try {
+        setMesas(JSON.parse(savedMesas))
+      } catch (e) {
+        console.error("Error al cargar asignaciones de mesas:", e)
+      }
     }
   }, [])
 
@@ -358,84 +441,118 @@ export default function Reservas() {
     setVisibleCount((prevCount) => prevCount + 10)
   }
 
-  // Function to print the current view
+  // Reemplazar las funciones de marcar/desmarcar con esta:
+  const toggleReservaTachada = (reservaId: string) => {
+    setReservasTachadas((prev) => {
+      const newTachadas = prev.includes(reservaId) ? prev.filter((id) => id !== reservaId) : [...prev, reservaId]
+
+      // Guardar en localStorage
+      localStorage.setItem("reservasTachadas", JSON.stringify(newTachadas))
+      return newTachadas
+    })
+  }
+
+  // Modificar la función printReservations para usar reservasTachadas en lugar de completadas
   const printReservations = () => {
     const printWindow = window.open("", "_blank")
     if (!printWindow) return
 
     // Create a styled HTML document for printing
     printWindow.document.write(`
-    <html>
-      <head>
-        <title>Reservierungsliste</title>
-        <style>
-          body { font-family: Arial, sans-serif; }
-          table { width: 100%; border-collapse: collapse; }
-          th { background-color: #fef3c7; padding: 8px; text-align: left; font-weight: bold; }
-          td { padding: 8px; border-bottom: 1px solid #f3f4f6; }
-          tr:nth-child(even) { background-color: #fef3c7; }
-          h1 { color: #92400e; }
-          .print-info { margin-bottom: 20px; color: #92400e; font-size: 14px; }
-        </style>
-      </head>
-      <body>
-        <h1>Reservierungsliste</h1>
-        <div class="print-info">
-          <p>Datum: ${new Date().toLocaleDateString()}</p>
-          <p>Anzahl Reservierungen: ${visibleReservas.length}</p>
-          ${
-            dateFilter !== "all"
-              ? `<p>Filter: ${
-                  dateFilter === "today"
-                    ? "Heute"
-                    : dateFilter === "thisWeek"
-                      ? "Diese Woche"
-                      : selectedDate
-                        ? `Datum: ${formatDateToString(selectedDate)}`
-                        : ""
-                }</p>`
-              : ""
-          }
-          ${searchTerm ? `<p>Suchbegriff: ${searchTerm}</p>` : ""}
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Datum</th>
-              <th>Zeit</th>
-              <th>Personen</th>
-              <th>Name</th>
-              <th>Telefon</th>
-              <th>E-Mail</th>
+  <html>
+    <head>
+      <title>Reservierungsliste</title>
+      <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background-color: #fef3c7; padding: 8px; text-align: left; font-weight: bold; }
+        td { padding: 8px; border-bottom: 1px solid #f3f4f6; }
+        tr:nth-child(even) { background-color: #fef3c7; }
+        h1 { color: #92400e; }
+        .print-info { margin-bottom: 20px; color: #92400e; font-size: 14px; }
+        .tachada { text-decoration: line-through; color: #ef4444; }
+      </style>
+    </head>
+    <body>
+      <h1>Reservierungsliste</h1>
+      <div class="print-info">
+        <p>Datum: ${new Date().toLocaleDateString()}</p>
+        <p>Anzahl Reservierungen: ${visibleReservas.length}</p>
+        ${
+          dateFilter !== "all"
+            ? `<p>Filter: ${
+                dateFilter === "today"
+                  ? "Heute"
+                  : dateFilter === "thisWeek"
+                    ? "Diese Woche"
+                    : selectedDate
+                      ? `Datum: ${formatDateToString(selectedDate)}`
+                      : ""
+              }</p>`
+            : ""
+        }
+        ${searchTerm ? `<p>Suchbegriff: ${searchTerm}</p>` : ""}
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Datum</th>
+            <th>Zeit</th>
+            <th>Personen</th>
+            <th>Name</th>
+            <th>Telefon</th>
+            <th>E-Mail</th>
+            <th>Mesa</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${visibleReservas
+            .map(
+              (reserva) => `
+            <tr class="${reservasTachadas.includes(reserva.id) ? "tachada" : ""}">
+              <td>${reserva.id}</td>
+              <td>${formatDate(reserva.fecha)}</td>
+              <td>${reserva.hora}</td>
+              <td>${reserva.personas}</td>
+              <td>${reserva.nombre}</td>
+              <td>${reserva.telefono}</td>
+              <td>${reserva.email}</td>
+              <td>${mesas[reserva.id] || "-"}</td>
             </tr>
-          </thead>
-          <tbody>
-            ${visibleReservas
-              .map(
-                (reserva) => `
-              <tr>
-                <td>${reserva.id}</td>
-                <td>${formatDate(reserva.fecha)}</td>
-                <td>${reserva.hora}</td>
-                <td>${reserva.personas}</td>
-                <td>${reserva.nombre}</td>
-                <td>${reserva.telefono}</td>
-                <td>${reserva.email}</td>
-              </tr>
-            `,
-              )
-              .join("")}
-          </tbody>
-        </table>
-      </body>
-    </html>
-  `)
+          `,
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </body>
+  </html>
+`)
 
     printWindow.document.close()
     printWindow.focus()
     printWindow.print()
     printWindow.close()
+  }
+
+  // Handle table icon click
+  const handleMesaClick = (e: React.MouseEvent, reservaId: string) => {
+    e.stopPropagation() // Prevent row selection
+    setCurrentReservaId(reservaId)
+    setMesaInput(mesas[reservaId] || "")
+    setShowMesaModal(true)
+  }
+
+  // Save mesa number
+  const saveMesaNumber = () => {
+    if (!currentReservaId) return
+
+    const updatedMesas = { ...mesas, [currentReservaId]: mesaInput }
+    setMesas(updatedMesas)
+    setShowMesaModal(false)
+
+    // Guardar en localStorage en lugar de enviar al servidor
+    localStorage.setItem("mesasAsignadas", JSON.stringify(updatedMesas))
   }
 
   return (
@@ -611,12 +728,17 @@ export default function Reservas() {
                   <th className="px-4 py-3 text-left font-semibold text-sm">Name</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm hidden md:table-cell">Telefon</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm hidden md:table-cell">E-Mail</th>
+                  <th className="px-4 py-3 text-left font-semibold text-sm">Tischnummer</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-amber-100">
                 {visibleReservas.length > 0 ? (
                   visibleReservas.map((reserva, index) => (
-                    <tr key={reserva.id} className={index % 2 === 0 ? "bg-white" : "bg-amber-50 hover:bg-amber-100"}>
+                    <tr
+                      key={reserva.id}
+                      className={`${index % 2 === 0 ? "bg-white" : "bg-amber-50 hover:bg-amber-100"} ${reservasTachadas.includes(reserva.id) ? "line-through text-red-500" : ""}`}
+                      onClick={() => toggleReservaTachada(reserva.id)}
+                    >
                       <td className="px-4 py-3 text-sm">{reserva.id}</td>
                       <td className="px-4 py-3 text-sm">{formatDate(reserva.fecha)}</td>
                       <td className="px-4 py-3 text-sm">{reserva.hora}</td>
@@ -624,11 +746,27 @@ export default function Reservas() {
                       <td className="px-4 py-3 text-sm font-medium">{reserva.nombre}</td>
                       <td className="px-4 py-3 text-sm hidden md:table-cell">{reserva.telefono}</td>
                       <td className="px-4 py-3 text-sm hidden md:table-cell">{reserva.email}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <div className="flex items-center">
+                          {mesas[reserva.id] && (
+                            <span className="mr-2 bg-amber-100 px-2 py-1 rounded-md text-amber-800 font-medium">
+                              {mesas[reserva.id]}
+                            </span>
+                          )}
+                          <button
+                            onClick={(e) => handleMesaClick(e, reserva.id)}
+                            className="p-1 rounded-full hover:bg-amber-100 text-amber-700"
+                            title={mesas[reserva.id] ? "Editar mesa" : "Asignar mesa"}
+                          >
+                            <Table className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={7} className="px-4 py-6 text-center text-amber-700">
+                    <td colSpan={8} className="px-4 py-6 text-center text-amber-700">
                       Keine Reservierungen entsprechen den Suchkriterien.
                     </td>
                   </tr>
@@ -668,6 +806,44 @@ export default function Reservas() {
           )}
         </div>
       </div>
+
+      {/* Mesa assignment modal */}
+      {showMesaModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div ref={modalRef} className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
+            <h3 className="text-lg font-bold text-amber-800 mb-4">
+              {mesas[currentReservaId || ""] ? "Tischnummer bearbeiten" : "Tischnummer vergeben"}
+            </h3>
+            <div className="mb-4">
+              <label htmlFor="mesa-number" className="block text-sm font-medium text-amber-700 mb-1">
+              Tischnummer
+              </label>
+              <input
+                id="mesa-number"
+                type="text"
+                className="w-full px-4 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                value={mesaInput}
+                onChange={(e) => setMesaInput(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={() => setShowMesaModal(false)}
+                className="px-4 py-2 border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50"
+              >
+              Zurück
+              </button>
+              <button
+                onClick={saveMesaNumber}
+                className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700"
+              >
+               Speichern
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
