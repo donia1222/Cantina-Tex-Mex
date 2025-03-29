@@ -1,9 +1,6 @@
 "use client"
 
 import type React from "react"
-
-import { json, type LoaderFunctionArgs } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
 import { useState, useMemo, useRef, useEffect } from "react"
 import {
   Search,
@@ -16,6 +13,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Table,
+  Plus,
 } from "lucide-react"
 
 type Reserva = {
@@ -29,77 +27,34 @@ type Reserva = {
   mesa?: string
 }
 
-// Define the loader data type for consistency
-type LoaderData = {
-  reservas: Reserva[]
-  error: string | null
-  mesas: Record<string, string>
-  completadas: string[] // IDs of completed reservations
-}
-
-export async function loader({ request }: LoaderFunctionArgs) {
-  try {
-    // Fetch data from the PHP endpoint
-    const response = await fetch("https://reservierung.cantinatexmex.ch/obtener_reservas.php")
-
-    if (!response.ok) {
-      throw new Error(`Error beim Abrufen der Reservierungen: ${response.statusText}`)
-    }
-
-    // Since the PHP returns HTML, we need to extract the data
-    const html = await response.text()
-    const reservas = extractReservasFromHTML(html)
-
-    // Load table assignments from JSON file
-    let mesas: Record<string, string> = {}
-    let completadas: string[] = []
-    try {
-      const mesasResponse = await fetch("/api/mesas")
-      if (mesasResponse.ok) {
-        const data = await mesasResponse.json()
-        mesas = data.mesas || {}
-        completadas = data.completadas || []
-      }
-    } catch (error) {
-      console.error("Error al cargar las asignaciones de mesas:", error)
-    }
-
-    return json<LoaderData>({
-      reservas,
-      error: null,
-      mesas,
-      completadas,
-    })
-  } catch (error) {
-    console.error("Fehler beim Laden der Reservierungen:", error)
-    return json<LoaderData>({
-      reservas: [],
-      error: "Fehler beim Laden der Reservierungen",
-      mesas: {},
-      completadas: [],
-    })
-  }
-}
-
+// Función para extraer reservas del HTML
 function extractReservasFromHTML(html: string): Reserva[] {
+  console.log("Extrayendo reservas del HTML...")
   const reservas: Reserva[] = []
 
-  const rowRegex =
-    /<tr>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<\/tr>/g
+  try {
+    // Expresión regular para extraer filas de la tabla
+    const rowRegex =
+      /<tr>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<\/tr>/g
 
-  let match
-  while ((match = rowRegex.exec(html)) !== null) {
-    if (match[1] && !isNaN(Number(match[1]))) {
-      reservas.push({
-        id: match[1],
-        fecha: match[2],
-        hora: match[3],
-        personas: match[4],
-        nombre: match[5],
-        telefono: match[6],
-        email: match[7],
-      })
+    let match
+    while ((match = rowRegex.exec(html)) !== null) {
+      if (match[1] && !isNaN(Number(match[1]))) {
+        reservas.push({
+          id: match[1],
+          fecha: match[2],
+          hora: match[3],
+          personas: match[4],
+          nombre: match[5],
+          telefono: match[6],
+          email: match[7],
+        })
+      }
     }
+
+    console.log(`Extraídas ${reservas.length} reservas del HTML`)
+  } catch (error) {
+    console.error("Error al extraer reservas del HTML:", error)
   }
 
   return reservas
@@ -243,17 +198,21 @@ function getMonthName(month: number): string {
 }
 
 export default function Reservas() {
-  const { reservas, error, mesas: initialMesas, completadas: initialCompletadas } = useLoaderData<typeof loader>()
+  // Estado para las reservas
+  const [reservas, setReservas] = useState<Reserva[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Estados para filtros y ordenación
   const [searchTerm, setSearchTerm] = useState("")
   const [dateFilter, setDateFilter] = useState<"all" | "today" | "thisWeek" | "specific">("all")
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc") // Default to most recent first
-  const [visibleCount, setVisibleCount] = useState(10) // Initially show 10 reservations
+  const [visibleCount, setVisibleCount] = useState(1000) // Mostrar muchas reservas por defecto
   const [showCalendar, setShowCalendar] = useState(false)
-  const [selectedReservation, setSelectedReservation] = useState<string | null>(null)
 
   // Mesa (table) state
-  const [mesas, setMesas] = useState<Record<string, string>>(initialMesas || {})
+  const [mesas, setMesas] = useState<Record<string, string>>({})
   const [showMesaModal, setShowMesaModal] = useState(false)
   const [currentReservaId, setCurrentReservaId] = useState<string | null>(null)
   const [mesaInput, setMesaInput] = useState("")
@@ -267,11 +226,82 @@ export default function Reservas() {
   // Add a new state for multiple selection and completed reservations
   const [reservasTachadas, setReservasTachadas] = useState<string[]>([])
 
+  // Nueva reserva modal state
+  const [showNuevaReservaModal, setShowNuevaReservaModal] = useState(false)
+  const [nuevaReservaDate, setNuevaReservaDate] = useState<Date>(new Date())
+  const [nuevaReservaHora, setNuevaReservaHora] = useState<string>("18:00")
+  const [nuevaReservaPersonas, setNuevaReservaPersonas] = useState<string>("2")
+  const [nuevaReservaNombre, setNuevaReservaNombre] = useState<string>("")
+  const [nuevaReservaTelefono, setNuevaReservaTelefono] = useState<string>("")
+  const [nuevaReservaEmail, setNuevaReservaEmail] = useState<string>("info@lweb.ch")
+  const [nuevaReservaError, setNuevaReservaError] = useState<string | null>(null)
+  const [nuevaReservaSubmitting, setNuevaReservaSubmitting] = useState<boolean>(false)
+  const [showNuevaReservaCalendar, setShowNuevaReservaCalendar] = useState<boolean>(false)
+  const nuevaReservaCalendarRef = useRef<HTMLDivElement>(null)
+
+  // Cargar datos al inicio
+  useEffect(() => {
+    fetchReservas()
+  }, [])
+
+  // Función para cargar reservas
+  const fetchReservas = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      console.log("Cargando reservas...")
+      const response = await fetch("https://reservierung.cantinatexmex.ch/obtener_reservas.php")
+
+      if (!response.ok) {
+        throw new Error(`Error beim Abrufen der Reservierungen: ${response.statusText}`)
+      }
+
+      const html = await response.text()
+      console.log("HTML recibido, longitud:", html.length)
+
+      // Extraer reservas del HTML
+      const extractedReservas = extractReservasFromHTML(html)
+      console.log("Reservas extraídas:", extractedReservas.length)
+
+      setReservas(extractedReservas)
+
+      // Cargar mesas desde localStorage
+      try {
+        const savedMesas = localStorage.getItem("mesasAsignadas")
+        if (savedMesas) {
+          setMesas(JSON.parse(savedMesas))
+        }
+      } catch (e) {
+        console.error("Error al cargar asignaciones de mesas:", e)
+      }
+
+      // Cargar reservas tachadas desde localStorage
+      try {
+        const savedTachadas = localStorage.getItem("reservasTachadas")
+        if (savedTachadas) {
+          setReservasTachadas(JSON.parse(savedTachadas))
+        }
+      } catch (e) {
+        console.error("Error al cargar reservas tachadas:", e)
+      }
+    } catch (err) {
+      console.error("Error al cargar reservas:", err)
+      setError("Fehler beim Laden der Reservierungen")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   // Close calendar when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
         setShowCalendar(false)
+      }
+
+      if (nuevaReservaCalendarRef.current && !nuevaReservaCalendarRef.current.contains(event.target as Node)) {
+        setShowNuevaReservaCalendar(false)
       }
     }
 
@@ -292,30 +322,6 @@ export default function Reservas() {
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
-
-  // Agregar este useEffect para cargar las reservas tachadas desde localStorage al inicio
-  useEffect(() => {
-    const savedTachadas = localStorage.getItem("reservasTachadas")
-    if (savedTachadas) {
-      try {
-        setReservasTachadas(JSON.parse(savedTachadas))
-      } catch (e) {
-        console.error("Error al cargar reservas tachadas:", e)
-      }
-    }
-  }, [])
-
-  // Agregar este useEffect para cargar las mesas desde localStorage al inicio
-  useEffect(() => {
-    const savedMesas = localStorage.getItem("mesasAsignadas")
-    if (savedMesas) {
-      try {
-        setMesas(JSON.parse(savedMesas))
-      } catch (e) {
-        console.error("Error al cargar asignaciones de mesas:", e)
-      }
     }
   }, [])
 
@@ -347,8 +353,15 @@ export default function Reservas() {
     setShowCalendar(false)
   }
 
+  // Handle nueva reserva date selection
+  const handleNuevaReservaDateSelect = (day: number) => {
+    const newDate = new Date(currentYear, currentMonth, day)
+    setNuevaReservaDate(newDate)
+    setShowNuevaReservaCalendar(false)
+  }
+
   // Generate calendar days
-  const generateCalendarDays = () => {
+  const generateCalendarDays = (onSelectDay: (day: number) => void, selectedDay?: Date) => {
     const daysInMonth = getDaysInMonth(currentYear, currentMonth)
     const firstDayOfMonth = getDayOfWeek(currentYear, currentMonth, 1)
 
@@ -363,12 +376,12 @@ export default function Reservas() {
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(currentYear, currentMonth, day)
       const isToday = new Date().toDateString() === date.toDateString()
-      const isSelected = selectedDate && selectedDate.toDateString() === date.toDateString()
+      const isSelected = selectedDay && selectedDay.toDateString() === date.toDateString()
 
       days.push(
         <div
           key={`day-${day}`}
-          onClick={() => handleDateSelect(day)}
+          onClick={() => onSelectDay(day)}
           className={`h-8 w-8 flex items-center justify-center rounded-full cursor-pointer text-sm
             ${isToday ? "bg-amber-200 text-amber-800" : ""}
             ${isSelected ? "bg-amber-500 text-white" : ""}
@@ -391,6 +404,8 @@ export default function Reservas() {
 
   // Sort and filter reservations
   const filteredReservas = useMemo(() => {
+    console.log("Filtrando reservas, total:", reservas.length)
+
     // First, sort the reservations by date and time
     const sortedReservas = [...reservas].sort((a, b) => {
       const dateA = parseDate(a.fecha, a.hora)
@@ -555,10 +570,97 @@ export default function Reservas() {
     localStorage.setItem("mesasAsignadas", JSON.stringify(updatedMesas))
   }
 
+  // Generar opciones de horas (17:00 a 22:00 cada 15 minutos)
+  const horasOptions = useMemo(() => {
+    const options = []
+    for (let hour = 17; hour <= 22; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        if (hour === 22 && minute > 0) continue // No más reservas después de las 22:00
+        const formattedHour = hour.toString().padStart(2, "0")
+        const formattedMinute = minute.toString().padStart(2, "0")
+        options.push(`${formattedHour}:${formattedMinute}`)
+      }
+    }
+    return options
+  }, [])
+
+  // Generar opciones de personas (1 a 12)
+  const personasOptions = useMemo(() => {
+    return Array.from({ length: 12 }, (_, i) => (i + 1).toString())
+  }, [])
+
+  // Manejar el envío del formulario de nueva reserva
+  const handleNuevaReservaSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!nuevaReservaDate || !nuevaReservaHora || !nuevaReservaPersonas || !nuevaReservaNombre) {
+      setNuevaReservaError("Bitte füllen Sie alle Pflichtfelder aus")
+      return
+    }
+
+    setNuevaReservaSubmitting(true)
+    setNuevaReservaError(null)
+
+    try {
+      const formData = new FormData()
+      formData.append("fecha", formatDateToString(nuevaReservaDate))
+      formData.append("hora", nuevaReservaHora)
+      formData.append("personas", nuevaReservaPersonas)
+      formData.append("nombre", nuevaReservaNombre)
+      formData.append("telefono", nuevaReservaTelefono)
+      formData.append("email", nuevaReservaEmail)
+
+      const response = await fetch("https://reservierung.cantinatexmex.ch/enviar_confirmacion.php", {
+        method: "POST",
+        body: formData,
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        // Cerrar modal y recargar datos
+        setShowNuevaReservaModal(false)
+        resetNuevaReservaForm()
+
+        // Recargar los datos
+        fetchReservas()
+      } else {
+        setNuevaReservaError(result.message || "Fehler beim Speichern der Reservierung")
+      }
+    } catch (err) {
+      setNuevaReservaError("Fehler beim Speichern der Reservierung")
+      console.error("Error al enviar la reserva:", err)
+    } finally {
+      setNuevaReservaSubmitting(false)
+    }
+  }
+
+  // Resetear el formulario de nueva reserva
+  const resetNuevaReservaForm = () => {
+    setNuevaReservaDate(new Date())
+    setNuevaReservaHora("18:00")
+    setNuevaReservaPersonas("2")
+    setNuevaReservaNombre("")
+    setNuevaReservaTelefono("")
+    setNuevaReservaEmail("info@lweb.ch")
+    setNuevaReservaError(null)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 py-8">
       <div className="font-sans p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
-        <h1 className="text-2xl md:text-3xl font-bold text-amber-800 mb-6">Reservierungsliste</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-amber-800">Reservierungsliste</h1>
+
+          {/* Botón para añadir nueva reserva */}
+          <button
+            onClick={() => setShowNuevaReservaModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-md"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Neue Reservierung</span>
+          </button>
+        </div>
 
         {error && <div className="bg-red-100 text-red-700 p-4 rounded-md mb-6 shadow-sm">{error}</div>}
 
@@ -660,7 +762,7 @@ export default function Reservas() {
                     </div>
 
                     {/* Calendar days */}
-                    <div className="grid grid-cols-7 gap-1">{generateCalendarDays()}</div>
+                    <div className="grid grid-cols-7 gap-1">{generateCalendarDays(handleDateSelect, selectedDate)}</div>
 
                     {/* Today button */}
                     <div className="mt-2 flex justify-center">
@@ -732,7 +834,13 @@ export default function Reservas() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-amber-100">
-                {visibleReservas.length > 0 ? (
+                {loading ? (
+                  <tr>
+                    <td colSpan={8} className="px-4 py-6 text-center text-amber-700">
+                      Laden...
+                    </td>
+                  </tr>
+                ) : visibleReservas.length > 0 ? (
                   visibleReservas.map((reserva, index) => (
                     <tr
                       key={reserva.id}
@@ -816,7 +924,7 @@ export default function Reservas() {
             </h3>
             <div className="mb-4">
               <label htmlFor="mesa-number" className="block text-sm font-medium text-amber-700 mb-1">
-              Tischnummer
+                Tischnummer
               </label>
               <input
                 id="mesa-number"
@@ -832,15 +940,185 @@ export default function Reservas() {
                 onClick={() => setShowMesaModal(false)}
                 className="px-4 py-2 border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50"
               >
-              Zurück
+                Zurück
               </button>
               <button
                 onClick={saveMesaNumber}
                 className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700"
               >
-               Speichern
+                Speichern
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal para nueva reserva */}
+      {showNuevaReservaModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold text-amber-800">Neue Reservierung</h3>
+              <button onClick={() => setShowNuevaReservaModal(false)} className="text-gray-500 hover:text-gray-700">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleNuevaReservaSubmit} className="space-y-4">
+              {nuevaReservaError && (
+                <div className="bg-red-100 text-red-700 p-3 rounded-md text-sm">{nuevaReservaError}</div>
+              )}
+
+              <div className="space-y-2">
+                <label htmlFor="fecha" className="block text-sm font-medium text-amber-700">
+                  Datum *
+                </label>
+                <div className="relative">
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-between px-4 py-2 border border-amber-300 rounded-md bg-white text-left"
+                    onClick={() => setShowNuevaReservaCalendar(!showNuevaReservaCalendar)}
+                  >
+                    <span>{formatDateToString(nuevaReservaDate)}</span>
+                    <Calendar className="h-4 w-4 text-amber-500" />
+                  </button>
+
+                  {showNuevaReservaCalendar && (
+                    <div
+                      ref={nuevaReservaCalendarRef}
+                      className="absolute z-10 mt-1 bg-white rounded-md shadow-lg p-3 border border-amber-200"
+                      style={{ minWidth: "280px" }}
+                    >
+                      {/* Calendar header */}
+                      <div className="flex justify-between items-center mb-2">
+                        <button type="button" onClick={prevMonth} className="p-1 rounded-full hover:bg-amber-100">
+                          <ChevronLeft className="h-4 w-4 text-amber-700" />
+                        </button>
+                        <div className="font-medium">
+                          {getMonthName(currentMonth)} {currentYear}
+                        </div>
+                        <button type="button" onClick={nextMonth} className="p-1 rounded-full hover:bg-amber-100">
+                          <ChevronRight className="h-4 w-4 text-amber-700" />
+                        </button>
+                      </div>
+
+                      {/* Calendar weekdays */}
+                      <div className="grid grid-cols-7 gap-1 mb-1">
+                        {["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"].map((day) => (
+                          <div
+                            key={day}
+                            className="h-8 w-8 flex items-center justify-center text-xs font-medium text-amber-700"
+                          >
+                            {day}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Calendar days */}
+                      <div className="grid grid-cols-7 gap-1">
+                        {generateCalendarDays(handleNuevaReservaDateSelect, nuevaReservaDate)}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="hora" className="block text-sm font-medium text-amber-700">
+                  Uhrzeit *
+                </label>
+                <select
+                  id="hora"
+                  value={nuevaReservaHora}
+                  onChange={(e) => setNuevaReservaHora(e.target.value)}
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md bg-white"
+                >
+                  {horasOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option} Uhr
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="personas" className="block text-sm font-medium text-amber-700">
+                  Anzahl Personen *
+                </label>
+                <select
+                  id="personas"
+                  value={nuevaReservaPersonas}
+                  onChange={(e) => setNuevaReservaPersonas(e.target.value)}
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md bg-white"
+                >
+                  {personasOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option} {Number.parseInt(option) === 1 ? "Person" : "Personen"}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="nombre" className="block text-sm font-medium text-amber-700">
+                  Name *
+                </label>
+                <input
+                  id="nombre"
+                  type="text"
+                  value={nuevaReservaNombre}
+                  onChange={(e) => setNuevaReservaNombre(e.target.value)}
+                  placeholder="Name eingeben"
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="telefono" className="block text-sm font-medium text-amber-700">
+                  Telefon
+                </label>
+                <input
+                  id="telefono"
+                  type="text"
+                  value={nuevaReservaTelefono}
+                  onChange={(e) => setNuevaReservaTelefono(e.target.value)}
+                  placeholder="Telefonnummer eingeben"
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-sm font-medium text-amber-700">
+                  E-Mail
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={nuevaReservaEmail}
+                  onChange={(e) => setNuevaReservaEmail(e.target.value)}
+                  placeholder="E-Mail-Adresse eingeben"
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-2 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowNuevaReservaModal(false)}
+                  className="px-4 py-2 border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50"
+                >
+                  Abbrechen
+                </button>
+                <button
+                  type="submit"
+                  disabled={nuevaReservaSubmitting}
+                  className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 disabled:opacity-50"
+                >
+                  {nuevaReservaSubmitting ? "Speichern..." : "Speichern"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
