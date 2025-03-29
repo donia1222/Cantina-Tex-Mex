@@ -654,12 +654,11 @@ export default function Reservas() {
 
           {/* Botón para añadir nueva reserva */}
           <button
-            onClick={() => setShowNuevaReservaModal(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-md"
-          >
-            <Plus className="h-4 w-4" />
-            <span>Neue Reservierung</span>
-          </button>
+  onClick={() => setShowNuevaReservaModal(true)}
+  className="w-8 h-8 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full shadow-md transition-transform hover:scale-105"
+>
+  <Plus className="h-7 w-7" />
+</button>
         </div>
 
         {error && <div className="bg-red-100 text-red-700 p-4 rounded-md mb-6 shadow-sm">{error}</div>}
