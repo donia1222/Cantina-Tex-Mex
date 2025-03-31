@@ -484,7 +484,7 @@ const ReservationForm: React.FC = () => {
                 ))}
               </select>
               <p className="text-sm text-gray-300 text-center mt-5">
-                Ab 20 Personen bitte telefonisch per E-mail: {" "}
+                Ab 20 Personen per E-mail: {" "}
                 <a href="mailto:info@cantinatexmex.ch" className="text-primary hover:underline">
           info@cantinatexmex.ch
         </a>
