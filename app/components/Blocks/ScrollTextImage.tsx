@@ -76,7 +76,7 @@ export default function ScrollTextVideo({ videoUrl, textItems, className }: Scro
           playsInline
           className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/20 to-black/70" />
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center p-8">

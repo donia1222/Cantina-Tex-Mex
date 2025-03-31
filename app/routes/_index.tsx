@@ -149,7 +149,7 @@ export default function MenuPage() {
         <Bloques />
         <ScrollTextImage
          videoUrl="/restaurant-ambience.mp4"
-         textItems={["UNIQUE ATMOSPHERE", "PREMIUM COCKTAILS", "PREMIUM KITCHEN"]}
+         textItems={[""]}
        />
 
 
