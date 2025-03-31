@@ -413,7 +413,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
               <p>flomic GmbH</p>
               <p>Bahnhofstrasse 40</p>
               <p>9470 / Buchs</p>
-              <p>T: 0817501911</p>
+    
 
               {/* Enlace Clicable a lweb.ch */}
               <p className="mt-4">
@@ -469,15 +469,14 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:
                 </p>
                 <p className="text-gray-700">
-                  Cantina Bad Rans GmbH
+                 flomic GmbH
                   <br />
-                  Badstrasse 44
+                  Bahnhofstrasse 40
                   <br />
-                  9475 / Sevelen
+                  9470 / Buchs
                   <br />
                   Schweiz
                   <br />
-                  Telefon: 081 750 19 11
                 </p>
               </section>
 
