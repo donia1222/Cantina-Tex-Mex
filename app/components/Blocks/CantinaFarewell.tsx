@@ -1,10 +1,21 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export default function VideoHero() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollY } = useScroll()
+
+  // Transform opacity based on scroll position
+  // As user scrolls down, opacity will decrease from 1 to 0
+  const textOpacity = useTransform(
+    scrollY,
+    [0, 300], // Start fading at 0px scroll, completely transparent at 300px scroll
+    [1, 0],
+  )
+
   // Importar fuente Montserrat
   useEffect(() => {
     const link = document.createElement("link")
@@ -18,18 +29,21 @@ export default function VideoHero() {
   }, [])
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div ref={containerRef} className="relative w-full h-screen overflow-hidden rounded-xl">
       {/* Video de fondo a pantalla completa */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full rounded-xl overflow-hidden">
         <video className="absolute min-w-full min-h-full object-cover" autoPlay muted loop playsInline>
           <source src="/restaurant-ambience.mp4" type="video/mp4" />
         </video>
         {/* Overlay para mejorar la legibilidad del texto */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/50 rounded-xl"></div>
       </div>
 
-      {/* Contenido centrado */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
+      {/* Contenido centrado con efecto de desvanecimiento al scroll */}
+      <motion.div
+        className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4"
+        style={{ opacity: textOpacity }} // Apply the opacity based on scroll
+      >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -54,12 +68,12 @@ export default function VideoHero() {
           >
             <motion.a
               href="/reservierung"
-              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-transparent px-8 py-4 font-bold text-white shadow-xl transition-all duration-300"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-transparent px-6 py-4 font-bold text-white shadow-xl transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               {/* Fondo del botón */}
-              <span className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-600"></span>
+              <span className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-700"></span>
 
               {/* Contenido del botón con animación de letras */}
               <span className="relative z-10 flex items-center">
@@ -76,7 +90,7 @@ export default function VideoHero() {
             </motion.a>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
     </div>
   )
 }
@@ -84,41 +98,6 @@ export default function VideoHero() {
 // Componente para la animación de texto
 function TextAnimation() {
   const text = "Jetzt Reservieren"
-
-  // Variante 1: Efecto typewriter (letras una tras otra)
-    /*
-  return (
-    <span className="inline-block">
-      {text.split("").map((char, index) => (
-        <motion.span
-          key={`char-${index}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.8 + index * 0.08, // Cada letra aparece con un pequeño retraso
-            type: "spring",
-            stiffness: 200,
-            damping: 10,
-          }}
-          className="inline-block"
-          style={{
-            // Añade un pequeño efecto de oscilación a las letras
-            transformOrigin: "bottom",
-          }}
-          whileHover={{
-            y: -5,
-            color: "#FFD700",
-            transition: { duration: 0.2 },
-          }}
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </span>
-  )
-  */
-  // Variante 2 (alternativa): Efecto de letras cayendo y rebotando
-  // Descomenta esta versión y comenta la anterior si prefieres este efecto
 
   return (
     <span className="inline-block">
@@ -132,7 +111,7 @@ function TextAnimation() {
             type: "spring",
             stiffness: 300,
             damping: 10,
-            bounce: 0.5
+            bounce: 0.5,
           }}
           className="inline-block"
         >
@@ -140,7 +119,8 @@ function TextAnimation() {
         </motion.span>
       ))}
     </span>
-  );
-
+  )
 }
+
+
 
