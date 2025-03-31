@@ -1,4 +1,5 @@
 "use client"
+
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { useEffect } from "react"
@@ -44,20 +45,35 @@ export default function VideoHero() {
           {/* Línea decorativa */}
           <div className="h-0.5 w-24 bg-gradient-to-r from-red-600 to-amber-500 mx-auto mb-10"></div>
 
-          {/* Botón de reserva */}
+          {/* Botón de reserva con animación de letras */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="mt-6"
+            className="mt-8"
           >
-            <a
+            <motion.a
               href="/reservierung"
-              className="flex items-center justify-center bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white font-bold px-8 py-4 rounded-full transition-all duration-300 shadow-lg"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-transparent px-8 py-4 font-bold text-white shadow-xl transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Jetzt Reservieren
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
+              {/* Fondo del botón */}
+              <span className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-600"></span>
+
+              {/* Contenido del botón con animación de letras */}
+              <span className="relative z-10 flex items-center">
+                <TextAnimation />
+                <motion.span
+                  className="ml-2 inline-flex"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 2.2 }}
+                >
+                  <ArrowRight className="h-5 w-5" />
+                </motion.span>
+              </span>
+            </motion.a>
           </motion.div>
         </motion.div>
       </div>
@@ -65,7 +81,66 @@ export default function VideoHero() {
   )
 }
 
+// Componente para la animación de texto
+function TextAnimation() {
+  const text = "Jetzt Reservieren"
 
+  // Variante 1: Efecto typewriter (letras una tras otra)
+    /*
+  return (
+    <span className="inline-block">
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={`char-${index}`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.8 + index * 0.08, // Cada letra aparece con un pequeño retraso
+            type: "spring",
+            stiffness: 200,
+            damping: 10,
+          }}
+          className="inline-block"
+          style={{
+            // Añade un pequeño efecto de oscilación a las letras
+            transformOrigin: "bottom",
+          }}
+          whileHover={{
+            y: -5,
+            color: "#FFD700",
+            transition: { duration: 0.2 },
+          }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </span>
+  )
+  */
+  // Variante 2 (alternativa): Efecto de letras cayendo y rebotando
+  // Descomenta esta versión y comenta la anterior si prefieres este efecto
 
+  return (
+    <span className="inline-block">
+      {text.split("").map((char, index) => (
+        <motion.span
+          key={`char-${index}`}
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.8 + index * 0.05,
+            type: "spring",
+            stiffness: 300,
+            damping: 10,
+            bounce: 0.5
+          }}
+          className="inline-block"
+        >
+          {char === " " ? "\u00A0" : char}
+        </motion.span>
+      ))}
+    </span>
+  );
 
+}
 
