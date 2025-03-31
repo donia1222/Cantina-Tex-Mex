@@ -168,7 +168,7 @@ const ReservationForm: React.FC = () => {
           "11:30",
           "12:00",
           "12:30",
-          "13:00",
+          "12:45",
           "18:00",
           "18:30",
           "19:00",
@@ -181,7 +181,7 @@ const ReservationForm: React.FC = () => {
           "11:30",
           "12:00",
           "12:30",
-          "13:00",
+          "12:45",
           "18:00",
           "18:30",
           "19:00",
@@ -477,17 +477,17 @@ const ReservationForm: React.FC = () => {
                 className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center"
               >
                 <option value="">Wählen Sie die Anzahl der Personen</option>
-                {Array.from({ length: 15 }, (_, i) => i + 1).map((num) => (
+                {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
                   <option key={num} value={num}>
                     {num}
                   </option>
                 ))}
               </select>
               <p className="text-sm text-gray-300 text-center mt-5">
-                Ab 15 Personen bitte telefonisch reservieren{" "}
-                <a href="tel:0817501911" className="text-indigo-400 underline">
-                  081 750 19 11
-                </a>
+                Ab 20 Personen bitte telefonisch per E-mail: {" "}
+                <a href="mailto:info@cantinatexmex.ch" className="text-primary hover:underline">
+          info@cantinatexmex.ch
+        </a>
               </p>
             </div>
 
