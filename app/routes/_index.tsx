@@ -1,18 +1,9 @@
 'use client'
 
-import AnimatedGradientText from '~/components/AnimatedGradient/AnimatedGradientText'
 import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { Link } from "@remix-run/react"
-import ImagenScroll from '~/components/Imagen/ImagenScroll'
-import Header from '~/components/Header/Header'
-import ReviewsCarousel from '~/components/Rerserve/RerserveBlock'
-import ScrollTextImage from '~/components/Blocks/ScrollTextImage'
 import Bloques from '~/components/Blocks/Bloques'
 import CantinaFarewell from '~/components/Blocks/CantinaFarewell'
-import ContinuousScroll from '~/components/Imagen/Continuous-Scroll-Reserve'; 
-import TikTokVideos from "~/components/Blocks/TickTock/TikTokVideos";
-import { TikTokEmbed } from '~/components/Blocks/TickTock/TikTokEmbed';
 import TextEffect from "~/components/Blocks/Texteffet";
 
 const tiktokUrl = "https://www.tiktok.com/@lwebwebsitedesign";
@@ -147,10 +138,6 @@ export default function MenuPage() {
 
 
         <Bloques />
-        <ScrollTextImage
-         videoUrl="/restaurant-ambience.mp4"
-         textItems={[""]}
-       />
 
 
 

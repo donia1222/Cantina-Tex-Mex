@@ -63,7 +63,7 @@ export default function ScrollTextVideo({ videoUrl, textItems, className }: Scro
     <div
       ref={sectionRef}
       className={classNames(
-        "relative h-[40vh] max-w-[95%] w-[1000px] mx-auto mb-20 mt-20 overflow-hidden rounded-lg",
+        "relative h-[40vh] max-w-[95%] w-[1000px] mx-auto mt-20 overflow-hidden rounded-lg",
         className,
       )}
     >

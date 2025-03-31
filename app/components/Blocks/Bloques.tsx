@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Utensils, Calendar, Ham, ChevronLeft, ChevronRight } from "lucide-react"
 import GoogleBussines from '~/components/Google/GoogleBussines'
-
+import ScrollTextImage from '~/components/Blocks/ScrollTextImage'
 export default function Component() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -107,6 +107,11 @@ export default function Component() {
               <span className="text-gray-500"> (Mit frisch gebackenen Tortillas)</span>
             </h2>
           </div>
+          <ScrollTextImage
+         videoUrl="/restaurant-ambience.mp4"
+         textItems={[""]}
+       />
+
         </div>
       </div>
     </div>
