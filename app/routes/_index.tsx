@@ -148,13 +148,9 @@ export default function MenuPage() {
 
         <Bloques />
         <ScrollTextImage
-          imageUrl="/IMG_2600.jpeg"
-          textItems={[
-            "UNIQUE ATMOSPHERE",
-            "PREMIUM COCKTAILS",
-            "PREMIUM KITCHEN",
-          ]}
-        />
+         videoUrl="/restaurant-ambience.mp4"
+         textItems={["UNIQUE ATMOSPHERE", "PREMIUM COCKTAILS", "PREMIUM KITCHEN"]}
+       />
 
 
 

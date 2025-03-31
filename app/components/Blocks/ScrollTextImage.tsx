@@ -7,13 +7,13 @@ function classNames(...classes: (string | undefined)[]) {
   return classes.filter(Boolean).join(" ")
 }
 
-interface ScrollTextImageProps {
-  imageUrl: string
+interface ScrollTextVideoProps {
+  videoUrl: string
   textItems: string[]
   className?: string
 }
 
-export default function ScrollTextImage({ imageUrl, textItems, className }: ScrollTextImageProps) {
+export default function ScrollTextVideo({ videoUrl, textItems, className }: ScrollTextVideoProps) {
   const [activeTextIndex, setActiveTextIndex] = useState(0)
   const sectionRef = useRef<HTMLDivElement>(null)
 
@@ -63,14 +63,17 @@ export default function ScrollTextImage({ imageUrl, textItems, className }: Scro
     <div
       ref={sectionRef}
       className={classNames(
-        "relative h-[40vh] max-w-[95%] w-[1000px] mx-auto mb-20  mt-20 overflow-hidden rounded-lg",
+        "relative h-[40vh] max-w-[95%] w-[1000px] mx-auto mb-20 mt-20 overflow-hidden rounded-lg",
         className,
       )}
     >
       <div className="absolute inset-0">
-        <img
-          src={imageUrl || "/placeholder.svg"}
-          alt="Imagen de fondo"
+        <video
+          src={videoUrl || "/placeholder.mp4"}
+          autoPlay
+          loop
+          muted
+          playsInline
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
