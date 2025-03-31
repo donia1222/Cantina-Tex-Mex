@@ -137,7 +137,7 @@ export default function MenuPage() {
       <AnimatePresence>
         {loading && <Loader />}
       </AnimatePresence>
-      <div className="min-h-[300vh]">¨
+
    
 
 
@@ -157,7 +157,7 @@ export default function MenuPage() {
         />
 
 
-      </div>
+
     </>
   )
 }
