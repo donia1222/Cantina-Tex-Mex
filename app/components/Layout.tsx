@@ -265,7 +265,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { icon: MapPin, title: "Adresse", content: "Ushuaia & Cantina Tex-Mex\nBahnhofstrasse 40\n9470 Buchs" },
-              { icon: Clock, title: "Öffnungszeiten", content: "Di-Fr: 11:30-13:30 18:00-21:30\nSa: 18:00-21:30" },
+              { icon: Clock, title: "Öffnungszeiten", content: "Di-Fr: 11:30-13:30 18:00-21:00\nSa: 18:00-21:00" },
               {
                 icon: BookCheck,
                 title: "Reservieren",
