@@ -107,12 +107,13 @@ export default function Component() {
               <span className="text-gray-500"> (Mit frisch gebackenen Tortillas)</span>
             </h2>
           </div>
-          <ScrollTextImage
+  
+
+        </div>
+        <ScrollTextImage
          videoUrl="/restaurant-ambience.mp4"
          textItems={[""]}
        />
-
-        </div>
       </div>
     </div>
   )
