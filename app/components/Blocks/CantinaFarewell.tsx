@@ -68,12 +68,12 @@ export default function VideoHero() {
           >
             <motion.a
               href="/reservierung"
-              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-transparent px-6 py-4 font-bold text-white shadow-xl transition-all duration-300"
+              className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-transparent  font-bold text-white shadow-xl transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               {/* Fondo del botón */}
-              <span className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-700"></span>
+              <span className="absolute inset-0 "></span>
 
               {/* Contenido del botón con animación de letras */}
               <span className="relative z-10 flex items-center">
@@ -121,6 +121,4 @@ function TextAnimation() {
     </span>
   )
 }
-
-
 
