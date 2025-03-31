@@ -2,11 +2,18 @@
 
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight } from "lucide-react"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
-export default function VideoHero() {
+export default function ImageHero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  // Images array - replace with your actual image paths
+  const images = [
+    "/IMG_2654.jpeg",
+
+  ]
 
   // Transform opacity based on scroll position
   // As user scrolls down, opacity will decrease from 1 to 0
@@ -16,7 +23,16 @@ export default function VideoHero() {
     [1, 0],
   )
 
-  // Importar fuente Montserrat
+  // Image rotation effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+    }, 2000) // Change image every 2 seconds
+
+    return () => clearInterval(interval)
+  }, [images.length])
+
+  // Import Montserrat font
   useEffect(() => {
     const link = document.createElement("link")
     link.href = "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
@@ -30,16 +46,26 @@ export default function VideoHero() {
 
   return (
     <div ref={containerRef} className="relative w-full h-screen overflow-hidden rounded-xl">
-      {/* Video de fondo a pantalla completa */}
+      {/* Background images with crossfade effect */}
       <div className="absolute inset-0 w-full h-full rounded-xl overflow-hidden">
-        <video className="absolute min-w-full min-h-full object-cover" autoPlay muted loop playsInline>
-          <source src="/restaurant-ambience.mp4" type="video/mp4" />
-        </video>
-        {/* Overlay para mejorar la legibilidad del texto */}
+        {images.map((src, index) => (
+          <motion.img
+            key={`image-${index}`}
+            src={src}
+            alt={`Restaurant ambience ${index + 1}`}
+            className="absolute min-w-full min-h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: currentImageIndex === index ? 1 : 0,
+            }}
+            transition={{ duration: 0.5 }}
+          />
+        ))}
+        {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-black/50 rounded-xl"></div>
       </div>
 
-      {/* Contenido centrado con efecto de desvanecimiento al scroll */}
+      {/* Centered content with fade effect on scroll */}
       <motion.div
         className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4"
         style={{ opacity: textOpacity }} // Apply the opacity based on scroll
@@ -51,14 +77,12 @@ export default function VideoHero() {
           className="text-center max-w-3xl"
           style={{ fontFamily: "'Montserrat', sans-serif" }}
         >
-          {/* Título principal con la misma tipografía */}
+          {/* Main title with the same typography */}
           <h2 className="text-2xl md:text-3xl font-light mb-4 tracking-widest text-amber-300">USHUAIA KITCHEN BY</h2>
 
           <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">Cantina Tex-Mex</h1>
 
-   
-
-          {/* Botón de reserva con animación de letras */}
+          {/* Reservation button with letter animation */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -71,10 +95,10 @@ export default function VideoHero() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {/* Fondo del botón */}
+              {/* Button background */}
               <span className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-700"></span>
 
-              {/* Contenido del botón con animación de letras */}
+              {/* Button content with letter animation */}
               <span className="relative z-10 flex items-center">
                 <TextAnimation />
                 <motion.span
@@ -94,7 +118,7 @@ export default function VideoHero() {
   )
 }
 
-// Componente para la animación de texto
+// Text animation component
 function TextAnimation() {
   const text = "Jetzt Reservieren"
 
