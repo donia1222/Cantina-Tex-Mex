@@ -93,7 +93,7 @@ export default function Component() {
             <h2 className="text-2xl font-medium">
               Probieren Sie unser<br />
               Tagesmenü Dienstag<br />
-              bis Smastag von<br />
+              bis Freitag von<br />
               11:30 bis 13:00 Uhr.
             </h2>
             
@@ -104,16 +104,12 @@ export default function Component() {
             <h2 className="text-2xl font-medium">
               <span className="text-yellow-500">Quesadillas </span> 
               frisch zubereitet.
-              <span className="text-gray-500"> (Mit frisch gebackenen Tortillas)</span>
+              <span className="text-gray-500"></span>
             </h2>
           </div>
   
 
         </div>
-        <ScrollTextImage
-         videoUrl="/restaurant-ambience.mp4"
-         textItems={[""]}
-       />
       </div>
     </div>
   )

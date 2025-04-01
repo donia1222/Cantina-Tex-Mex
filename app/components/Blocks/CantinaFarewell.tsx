@@ -4,16 +4,24 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
-export default function ImageHero() {
+export default function VideoHero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
 
-  // Images array - replace with your actual image paths
-  const images = [
-    "/IMG_2654.jpeg",
+  // Check if we're on a mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024) // Consider screens below 1024px as mobile
+    }
 
-  ]
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => {
+      window.removeEventListener("resize", checkMobile)
+    }
+  }, [])
 
   // Transform opacity based on scroll position
   // As user scrolls down, opacity will decrease from 1 to 0
@@ -22,15 +30,6 @@ export default function ImageHero() {
     [0, 300], // Start fading at 0px scroll, completely transparent at 300px scroll
     [1, 0],
   )
-
-  // Image rotation effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
-    }, 2000) // Change image every 2 seconds
-
-    return () => clearInterval(interval)
-  }, [images.length])
 
   // Import Montserrat font
   useEffect(() => {
@@ -46,22 +45,22 @@ export default function ImageHero() {
 
   return (
     <div ref={containerRef} className="relative w-full h-screen overflow-hidden rounded-xl">
-      {/* Background images with crossfade effect */}
+      {/* Background media - conditionally render video or image */}
       <div className="absolute inset-0 w-full h-full rounded-xl overflow-hidden">
-        {images.map((src, index) => (
-          <motion.img
-            key={`image-${index}`}
-            src={src}
-            alt={`Restaurant ambience ${index + 1}`}
+        {isMobile ? (
+          // Video for mobile screens
+          <video className="absolute min-w-full min-h-full object-cover" autoPlay muted loop playsInline>
+            <source src="/CANTINA4.MP4" type="video/mp4" />
+          </video>
+        ) : (
+          // Image for larger screens
+          <img
+            src="/IMG_2654.jpeg"
+            alt="Cantina Tex-Mex background"
             className="absolute min-w-full min-h-full object-cover"
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: currentImageIndex === index ? 1 : 0,
-            }}
-            transition={{ duration: 0.5 }}
           />
-        ))}
-        {/* Overlay for better text readability */}
+        )}
+        {/* Overlay to improve text readability */}
         <div className="absolute inset-0 bg-black/50 rounded-xl"></div>
       </div>
 
