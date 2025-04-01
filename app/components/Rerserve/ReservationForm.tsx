@@ -62,13 +62,13 @@ const ReservationForm: React.FC = () => {
     const day = date.getDay()
     // Para martes (2) y miércoles (3) se agregan horarios de almuerzo y cena
     if (day === 2 || day === 3) {
-      return ["11:30", "12:00", "12:30", "13:00", "18:00", "18:30", "19:00", "19:30", "20:00"]
+      return ["11:30", "12:00", "12:30", "13:00", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"]
     } else if (day === 4 || day === 5) {
       // Jueves (4) y Viernes (5): almuerzo y cena
-      return ["11:30", "12:00", "12:30", "13:00", "18:00", "18:30", "19:00", "19:30", "20:00"]
+      return ["11:30", "12:00", "12:30", "13:00", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"]
     } else if (day === 6) {
       // Sábado: solo cena
-      return ["18:00", "18:30", "19:00", "19:30", "20:00"]
+      return ["18:00", "18:30", "19:00", "19:30", "20:00", "20:30"]
     } else {
       // Domingos (0) y Lunes (1) deshabilitados
       return []
