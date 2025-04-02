@@ -14,6 +14,8 @@ import {
   ChevronRight,
   Table,
   Plus,
+  Edit2,
+  Trash2,
 } from "lucide-react"
 
 type Reserva = {
@@ -33,7 +35,6 @@ function extractReservasFromHTML(html: string): Reserva[] {
   const reservas: Reserva[] = []
 
   try {
-    // Expresión regular para extraer filas de la tabla
     const rowRegex =
       /<tr>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<td>(.*?)<\/td>\s*<\/tr>/g
 
@@ -62,11 +63,8 @@ function extractReservasFromHTML(html: string): Reserva[] {
 
 // Helper function to convert date string to a Date object
 function parseDate(dateStr: string, timeStr: string): Date {
-  // Check if the date is in YYYY-MM-DD format
   if (dateStr.includes("-")) {
     const [year, month, day] = dateStr.split("-").map(Number)
-
-    // Parse time in format HH:MM
     let hours = 0
     let minutes = 0
     if (timeStr) {
@@ -74,15 +72,9 @@ function parseDate(dateStr: string, timeStr: string): Date {
       hours = Number.parseInt(timeParts[0] || "0", 10)
       minutes = Number.parseInt(timeParts[1] || "0", 10)
     }
-
-    // Create date object (months are 0-indexed in JavaScript)
     return new Date(year, month - 1, day, hours, minutes)
-  }
-  // Check if the date is in DD.MM.YYYY format
-  else if (dateStr.includes(".")) {
+  } else if (dateStr.includes(".")) {
     const [day, month, year] = dateStr.split(".").map(Number)
-
-    // Parse time in format HH:MM
     let hours = 0
     let minutes = 0
     if (timeStr) {
@@ -90,30 +82,21 @@ function parseDate(dateStr: string, timeStr: string): Date {
       hours = Number.parseInt(timeParts[0] || "0", 10)
       minutes = Number.parseInt(timeParts[1] || "0", 10)
     }
-
-    // Create date object (months are 0-indexed in JavaScript)
     return new Date(year, month - 1, day, hours, minutes)
   }
-
-  // If format is unknown, return current date (fallback)
   console.error("Unbekanntes Datumsformat:", dateStr)
   return new Date()
 }
 
 // Format date for display (DD/MM/YYYY)
 function formatDate(dateStr: string): string {
-  // Check if the date is in YYYY-MM-DD format
   if (dateStr.includes("-")) {
     const [year, month, day] = dateStr.split("-")
     return `${day}/${month}/${year}`
-  }
-  // Check if the date is in DD.MM.YYYY format
-  else if (dateStr.includes(".")) {
+  } else if (dateStr.includes(".")) {
     const [day, month, year] = dateStr.split(".")
     return `${day}/${month}/${year}`
   }
-
-  // If format is unknown, return as is
   return dateStr
 }
 
@@ -121,10 +104,8 @@ function formatDate(dateStr: string): string {
 function isToday(dateStr: string): boolean {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-
   const date = parseDate(dateStr, "")
   date.setHours(0, 0, 0, 0)
-
   return date.getTime() === today.getTime()
 }
 
@@ -132,30 +113,22 @@ function isToday(dateStr: string): boolean {
 function isThisWeek(dateStr: string): boolean {
   const today = new Date()
   const date = parseDate(dateStr, "")
-
-  // Calculate the start and end of the current week
   const startOfWeek = new Date(today)
-  startOfWeek.setDate(today.getDate() - today.getDay()) // Start of week (Sunday)
+  startOfWeek.setDate(today.getDate() - today.getDay())
   startOfWeek.setHours(0, 0, 0, 0)
-
   const endOfWeek = new Date(startOfWeek)
-  endOfWeek.setDate(startOfWeek.getDate() + 6) // End of week (Saturday)
+  endOfWeek.setDate(startOfWeek.getDate() + 6)
   endOfWeek.setHours(23, 59, 59, 999)
-
   return date >= startOfWeek && date <= endOfWeek
 }
 
 // Helper function to check if a date matches the selected date
 function isSelectedDate(dateStr: string, selectedDate: Date | undefined): boolean {
   if (!selectedDate) return false
-
   const date = parseDate(dateStr, "")
-
-  // Reset hours to compare only dates
   date.setHours(0, 0, 0, 0)
   const compareDate = new Date(selectedDate)
   compareDate.setHours(0, 0, 0, 0)
-
   return date.getTime() === compareDate.getTime()
 }
 
@@ -164,7 +137,6 @@ function formatDateToString(date: Date): string {
   const day = date.getDate().toString().padStart(2, "0")
   const month = (date.getMonth() + 1).toString().padStart(2, "0")
   const year = date.getFullYear()
-
   return `${day}.${month}.${year}`
 }
 
@@ -198,35 +170,24 @@ function getMonthName(month: number): string {
 }
 
 export default function Reservas() {
-  // Estado para las reservas
   const [reservas, setReservas] = useState<Reserva[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
-  // Estados para filtros y ordenación
   const [searchTerm, setSearchTerm] = useState("")
   const [dateFilter, setDateFilter] = useState<"all" | "today" | "thisWeek" | "specific">("all")
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
-  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc") // Default to most recent first
-  const [visibleCount, setVisibleCount] = useState(1000) // Mostrar muchas reservas por defecto
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc")
+  const [visibleCount, setVisibleCount] = useState(1000)
   const [showCalendar, setShowCalendar] = useState(false)
-
-  // Mesa (table) state
   const [mesas, setMesas] = useState<Record<string, string>>({})
   const [showMesaModal, setShowMesaModal] = useState(false)
   const [currentReservaId, setCurrentReservaId] = useState<string | null>(null)
   const [mesaInput, setMesaInput] = useState("")
-
-  // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const calendarRef = useRef<HTMLDivElement>(null)
   const modalRef = useRef<HTMLDivElement>(null)
-
-  // Add a new state for multiple selection and completed reservations
   const [reservasTachadas, setReservasTachadas] = useState<string[]>([])
-
-  // Nueva reserva modal state
   const [showNuevaReservaModal, setShowNuevaReservaModal] = useState(false)
   const [nuevaReservaDate, setNuevaReservaDate] = useState<Date>(new Date())
   const [nuevaReservaHora, setNuevaReservaHora] = useState<string>("18:00")
@@ -239,34 +200,38 @@ export default function Reservas() {
   const [showNuevaReservaCalendar, setShowNuevaReservaCalendar] = useState<boolean>(false)
   const nuevaReservaCalendarRef = useRef<HTMLDivElement>(null)
 
-  // Cargar datos al inicio
+  // Edit reservation modal state
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editReserva, setEditReserva] = useState<Reserva | null>(null)
+  const [editReservaDate, setEditReservaDate] = useState<Date>(new Date())
+  const [editReservaHora, setEditReservaHora] = useState<string>("")
+  const [editReservaPersonas, setEditReservaPersonas] = useState<string>("")
+  const [editReservaNombre, setEditReservaNombre] = useState<string>("")
+  const [editReservaTelefono, setEditReservaTelefono] = useState<string>("")
+  const [editReservaEmail, setEditReservaEmail] = useState<string>("")
+  const [editReservaError, setEditReservaError] = useState<string | null>(null)
+  const [editReservaSubmitting, setEditReservaSubmitting] = useState<boolean>(false)
+  const [showEditCalendar, setShowEditCalendar] = useState<boolean>(false)
+  const editCalendarRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     fetchReservas()
   }, [])
 
-  // Función para cargar reservas
   const fetchReservas = async () => {
     setLoading(true)
     setError(null)
-
     try {
       console.log("Cargando reservas...")
       const response = await fetch("https://reservierung.cantinatexmex.ch/obtener_reservas.php")
-
       if (!response.ok) {
         throw new Error(`Error beim Abrufen der Reservierungen: ${response.statusText}`)
       }
-
       const html = await response.text()
       console.log("HTML recibido, longitud:", html.length)
-
-      // Extraer reservas del HTML
       const extractedReservas = extractReservasFromHTML(html)
       console.log("Reservas extraídas:", extractedReservas.length)
-
       setReservas(extractedReservas)
-
-      // Cargar mesas desde localStorage
       try {
         const savedMesas = localStorage.getItem("mesasAsignadas")
         if (savedMesas) {
@@ -275,8 +240,6 @@ export default function Reservas() {
       } catch (e) {
         console.error("Error al cargar asignaciones de mesas:", e)
       }
-
-      // Cargar reservas tachadas desde localStorage
       try {
         const savedTachadas = localStorage.getItem("reservasTachadas")
         if (savedTachadas) {
@@ -293,39 +256,36 @@ export default function Reservas() {
     }
   }
 
-  // Close calendar when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
         setShowCalendar(false)
       }
-
       if (nuevaReservaCalendarRef.current && !nuevaReservaCalendarRef.current.contains(event.target as Node)) {
         setShowNuevaReservaCalendar(false)
       }
+      if (editCalendarRef.current && !editCalendarRef.current.contains(event.target as Node)) {
+        setShowEditCalendar(false)
+      }
     }
-
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [])
 
-  // Close modal when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         setShowMesaModal(false)
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [])
 
-  // Handle previous month
   const prevMonth = () => {
     if (currentMonth === 0) {
       setCurrentMonth(11)
@@ -335,7 +295,6 @@ export default function Reservas() {
     }
   }
 
-  // Handle next month
   const nextMonth = () => {
     if (currentMonth === 11) {
       setCurrentMonth(0)
@@ -345,7 +304,6 @@ export default function Reservas() {
     }
   }
 
-  // Handle date selection
   const handleDateSelect = (day: number) => {
     const newDate = new Date(currentYear, currentMonth, day)
     setSelectedDate(newDate)
@@ -353,31 +311,29 @@ export default function Reservas() {
     setShowCalendar(false)
   }
 
-  // Handle nueva reserva date selection
   const handleNuevaReservaDateSelect = (day: number) => {
     const newDate = new Date(currentYear, currentMonth, day)
     setNuevaReservaDate(newDate)
     setShowNuevaReservaCalendar(false)
   }
 
-  // Generate calendar days
+  const handleEditDateSelect = (day: number) => {
+    const newDate = new Date(currentYear, currentMonth, day)
+    setEditReservaDate(newDate)
+    setShowEditCalendar(false)
+  }
+
   const generateCalendarDays = (onSelectDay: (day: number) => void, selectedDay?: Date) => {
     const daysInMonth = getDaysInMonth(currentYear, currentMonth)
     const firstDayOfMonth = getDayOfWeek(currentYear, currentMonth, 1)
-
     const days = []
-
-    // Add empty cells for days before the first day of the month
     for (let i = 0; i < firstDayOfMonth; i++) {
       days.push(<div key={`empty-${i}`} className="h-8 w-8"></div>)
     }
-
-    // Add days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(currentYear, currentMonth, day)
       const isToday = new Date().toDateString() === date.toDateString()
       const isSelected = selectedDay && selectedDay.toDateString() === date.toDateString()
-
       days.push(
         <div
           key={`day-${day}`}
@@ -392,32 +348,22 @@ export default function Reservas() {
         </div>,
       )
     }
-
     return days
   }
 
-  // Clear selected date
   const clearSelectedDate = () => {
     setSelectedDate(undefined)
     setDateFilter("all")
   }
 
-  // Sort and filter reservations
   const filteredReservas = useMemo(() => {
     console.log("Filtrando reservas, total:", reservas.length)
-
-    // First, sort the reservations by date and time
     const sortedReservas = [...reservas].sort((a, b) => {
       const dateA = parseDate(a.fecha, a.hora)
       const dateB = parseDate(b.fecha, b.hora)
-
-      // For descending order (most recent first)
       return sortOrder === "desc" ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime()
     })
-
-    // Then apply filters
     return sortedReservas.filter((reserva) => {
-      // Apply search filter
       const searchMatch =
         reserva.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         reserva.fecha.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -426,8 +372,6 @@ export default function Reservas() {
         reserva.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         reserva.telefono.toLowerCase().includes(searchTerm.toLowerCase()) ||
         reserva.email.toLowerCase().includes(searchTerm.toLowerCase())
-
-      // Apply date filter
       let dateMatch = true
       if (dateFilter === "today") {
         dateMatch = isToday(reserva.fecha)
@@ -436,43 +380,33 @@ export default function Reservas() {
       } else if (dateFilter === "specific" && selectedDate) {
         dateMatch = isSelectedDate(reserva.fecha, selectedDate)
       }
-
       return searchMatch && dateMatch
     })
   }, [reservas, searchTerm, dateFilter, sortOrder, selectedDate])
 
-  // Get only the visible reservations (pagination)
   const visibleReservas = useMemo(() => {
     return filteredReservas.slice(0, visibleCount)
   }, [filteredReservas, visibleCount])
 
-  // Toggle sort order
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === "desc" ? "asc" : "desc")
   }
 
-  // Load more reservations
   const loadMore = () => {
     setVisibleCount((prevCount) => prevCount + 10)
   }
 
-  // Reemplazar las funciones de marcar/desmarcar con esta:
   const toggleReservaTachada = (reservaId: string) => {
     setReservasTachadas((prev) => {
       const newTachadas = prev.includes(reservaId) ? prev.filter((id) => id !== reservaId) : [...prev, reservaId]
-
-      // Guardar en localStorage
       localStorage.setItem("reservasTachadas", JSON.stringify(newTachadas))
       return newTachadas
     })
   }
 
-  // Modificar la función printReservations para usar reservasTachadas en lugar de completadas
   const printReservations = () => {
     const printWindow = window.open("", "_blank")
     if (!printWindow) return
-
-    // Create a styled HTML document for printing
     printWindow.document.write(`
   <html>
     <head>
@@ -508,7 +442,7 @@ export default function Reservas() {
         }
         ${searchTerm ? `<p>Suchbegriff: ${searchTerm}</p>` : ""}
       </div>
-      <table>
+      <table> 
         <thead>
           <tr>
             <th>ID</th>
@@ -543,39 +477,32 @@ export default function Reservas() {
     </body>
   </html>
 `)
-
     printWindow.document.close()
     printWindow.focus()
     printWindow.print()
     printWindow.close()
   }
 
-  // Handle table icon click
   const handleMesaClick = (e: React.MouseEvent, reservaId: string) => {
-    e.stopPropagation() // Prevent row selection
+    e.stopPropagation()
     setCurrentReservaId(reservaId)
     setMesaInput(mesas[reservaId] || "")
     setShowMesaModal(true)
   }
 
-  // Save mesa number
   const saveMesaNumber = () => {
     if (!currentReservaId) return
-
     const updatedMesas = { ...mesas, [currentReservaId]: mesaInput }
     setMesas(updatedMesas)
     setShowMesaModal(false)
-
-    // Guardar en localStorage en lugar de enviar al servidor
     localStorage.setItem("mesasAsignadas", JSON.stringify(updatedMesas))
   }
 
-  // Generar opciones de horas (17:00 a 22:00 cada 15 minutos)
   const horasOptions = useMemo(() => {
     const options = []
     for (let hour = 17; hour <= 22; hour++) {
       for (let minute = 0; minute < 60; minute += 15) {
-        if (hour === 22 && minute > 0) continue // No más reservas después de las 22:00
+        if (hour === 22 && minute > 0) continue
         const formattedHour = hour.toString().padStart(2, "0")
         const formattedMinute = minute.toString().padStart(2, "0")
         options.push(`${formattedHour}:${formattedMinute}`)
@@ -584,23 +511,18 @@ export default function Reservas() {
     return options
   }, [])
 
-  // Generar opciones de personas (1 a 12)
   const personasOptions = useMemo(() => {
     return Array.from({ length: 12 }, (_, i) => (i + 1).toString())
   }, [])
 
-  // Manejar el envío del formulario de nueva reserva
   const handleNuevaReservaSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!nuevaReservaDate || !nuevaReservaHora || !nuevaReservaPersonas || !nuevaReservaNombre) {
       setNuevaReservaError("Bitte füllen Sie alle Pflichtfelder aus")
       return
     }
-
     setNuevaReservaSubmitting(true)
     setNuevaReservaError(null)
-
     try {
       const formData = new FormData()
       formData.append("fecha", formatDateToString(nuevaReservaDate))
@@ -609,20 +531,14 @@ export default function Reservas() {
       formData.append("nombre", nuevaReservaNombre)
       formData.append("telefono", nuevaReservaTelefono)
       formData.append("email", nuevaReservaEmail)
-
       const response = await fetch("https://reservierung.cantinatexmex.ch/enviar_confirmacion.php", {
         method: "POST",
         body: formData,
       })
-
       const result = await response.json()
-
       if (result.success) {
-        // Cerrar modal y recargar datos
         setShowNuevaReservaModal(false)
         resetNuevaReservaForm()
-
-        // Recargar los datos
         fetchReservas()
       } else {
         setNuevaReservaError(result.message || "Fehler beim Speichern der Reservierung")
@@ -635,7 +551,6 @@ export default function Reservas() {
     }
   }
 
-  // Resetear el formulario de nueva reserva
   const resetNuevaReservaForm = () => {
     setNuevaReservaDate(new Date())
     setNuevaReservaHora("18:00")
@@ -646,25 +561,92 @@ export default function Reservas() {
     setNuevaReservaError(null)
   }
 
+  const handleDelete = async (id: string) => {
+    if (!confirm("Sind Sie sicher, dass Sie diese Reservierung löschen möchten?")) return
+    try {
+      const formData = new FormData()
+      formData.append("action", "delete")
+      formData.append("id", id)
+      const response = await fetch("https://reservierung.cantinatexmex.ch/gestion_reservas.php", {
+        method: "POST",
+        body: formData,
+      })
+      const result = await response.json()
+      if (result.success) {
+        fetchReservas()
+      } else {
+        alert(result.message || "Error al eliminar la reserva")
+      }
+    } catch (err) {
+      console.error("Error al eliminar la reserva:", err)
+      alert("Error al eliminar la reserva")
+    }
+  }
+
+  const handleEditClick = (reserva: Reserva) => {
+    setEditReserva(reserva)
+    setEditReservaDate(parseDate(reserva.fecha, reserva.hora))
+    setEditReservaHora(reserva.hora)
+    setEditReservaPersonas(reserva.personas)
+    setEditReservaNombre(reserva.nombre)
+    setEditReservaTelefono(reserva.telefono || "")
+    setEditReservaEmail(reserva.email || "")
+    setShowEditModal(true)
+  }
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!editReserva || !editReservaDate || !editReservaHora || !editReservaPersonas || !editReservaNombre) {
+      setEditReservaError("Bitte füllen Sie alle Pflichtfelder aus")
+      return
+    }
+    setEditReservaSubmitting(true)
+    setEditReservaError(null)
+    try {
+      const formData = new FormData()
+      formData.append("action", "edit")
+      formData.append("id", editReserva.id)
+      formData.append("fecha", formatDateToString(editReservaDate))
+      formData.append("hora", editReservaHora)
+      formData.append("personas", editReservaPersonas)
+      formData.append("nombre", editReservaNombre)
+      formData.append("telefono", editReservaTelefono)
+      formData.append("email", editReservaEmail)
+      const response = await fetch("https://reservierung.cantinatexmex.ch/gestion_reservas.php", {
+        method: "POST",
+        body: formData,
+      })
+      const result = await response.json()
+      if (result.success) {
+        setShowEditModal(false)
+        fetchReservas()
+      } else {
+        setEditReservaError(result.message || "Fehler beim Aktualisieren der Reservierung")
+      }
+    } catch (err) {
+      setEditReservaError("Fehler beim Aktualisieren der Reservierung")
+      console.error("Error al actualizar la reserva:", err)
+    } finally {
+      setEditReservaSubmitting(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 py-8">
       <div className="font-sans p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-amber-800">Reservierungsliste</h1>
-
-          {/* Botón para añadir nueva reserva */}
           <button
-  onClick={() => setShowNuevaReservaModal(true)}
-  className="w-8 h-8 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full shadow-md transition-transform hover:scale-105"
->
-  <Plus className="h-7 w-7" />
-</button>
+            onClick={() => setShowNuevaReservaModal(true)}
+            className="w-8 h-8 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full shadow-md transition-transform hover:scale-105"
+          >
+            <Plus className="h-7 w-7" />
+          </button>
         </div>
 
         {error && <div className="bg-red-100 text-red-700 p-4 rounded-md mb-6 shadow-sm">{error}</div>}
 
         <div className="mb-6 space-y-4">
-          {/* Search and filters */}
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-grow">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -678,7 +660,6 @@ export default function Reservas() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-
             <div className="flex flex-wrap gap-2">
               <button
                 className={`flex items-center px-4 py-2 rounded-md border ${
@@ -713,8 +694,6 @@ export default function Reservas() {
                 <Calendar className="h-4 w-4 mr-2" />
                 Diese Woche
               </button>
-
-              {/* Calendar button and dropdown */}
               <div className="relative">
                 <button
                   className={`flex items-center px-4 py-2 rounded-md border ${
@@ -727,15 +706,12 @@ export default function Reservas() {
                   <Calendar className="h-4 w-4 mr-2" />
                   {selectedDate ? formatDateToString(selectedDate) : "Datum wählen"}
                 </button>
-
-                {/* Custom Calendar */}
                 {showCalendar && (
                   <div
                     ref={calendarRef}
                     className="absolute z-10 mt-1 bg-white rounded-md shadow-lg p-3 border border-amber-200"
                     style={{ minWidth: "280px" }}
                   >
-                    {/* Calendar header */}
                     <div className="flex justify-between items-center mb-2">
                       <button onClick={prevMonth} className="p-1 rounded-full hover:bg-amber-100">
                         <ChevronLeft className="h-4 w-4 text-amber-700" />
@@ -747,8 +723,6 @@ export default function Reservas() {
                         <ChevronRight className="h-4 w-4 text-amber-700" />
                       </button>
                     </div>
-
-                    {/* Calendar weekdays */}
                     <div className="grid grid-cols-7 gap-1 mb-1">
                       {["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"].map((day) => (
                         <div
@@ -759,11 +733,7 @@ export default function Reservas() {
                         </div>
                       ))}
                     </div>
-
-                    {/* Calendar days */}
                     <div className="grid grid-cols-7 gap-1">{generateCalendarDays(handleDateSelect, selectedDate)}</div>
-
-                    {/* Today button */}
                     <div className="mt-2 flex justify-center">
                       <button
                         onClick={() => {
@@ -782,8 +752,6 @@ export default function Reservas() {
                   </div>
                 )}
               </div>
-
-              {/* Clear date button - only show when a specific date is selected */}
               {dateFilter === "specific" && selectedDate && (
                 <button
                   onClick={clearSelectedDate}
@@ -793,7 +761,6 @@ export default function Reservas() {
                   <X className="h-4 w-4" />
                 </button>
               )}
-
               <button
                 className="flex items-center px-4 py-2 rounded-md border bg-white text-amber-700 border-amber-300 hover:bg-amber-50"
                 onClick={toggleSortOrder}
@@ -814,28 +781,26 @@ export default function Reservas() {
           </div>
         </div>
 
-        {/* Responsive table */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden border border-amber-200">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-amber-100 text-amber-800">
                   <th className="px-4 py-3 text-left font-semibold text-sm">ID</th>
-                  <th className="px-4 py-3 text-left font-semibold text-sm">
-                    <div className="flex items-center">Datum</div>
-                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-sm">Datum</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm">Zeit</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm">Personen</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm">Name</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm hidden md:table-cell">Telefon</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm hidden md:table-cell">E-Mail</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm">Tischnummer</th>
+                  <th className="px-4 py-3 text-left font-semibold text-sm">Aktionen</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-amber-100">
                 {loading ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-6 text-center text-amber-700">
+                    <td colSpan={9} className="px-4 py-6 text-center text-amber-700">
                       Laden...
                     </td>
                   </tr>
@@ -843,7 +808,9 @@ export default function Reservas() {
                   visibleReservas.map((reserva, index) => (
                     <tr
                       key={reserva.id}
-                      className={`${index % 2 === 0 ? "bg-white" : "bg-amber-50 hover:bg-amber-100"} ${reservasTachadas.includes(reserva.id) ? "line-through text-red-500" : ""}`}
+                      className={`${index % 2 === 0 ? "bg-white" : "bg-amber-50 hover:bg-amber-100"} ${
+                        reservasTachadas.includes(reserva.id) ? "line-through text-red-500" : ""
+                      }`}
                       onClick={() => toggleReservaTachada(reserva.id)}
                     >
                       <td className="px-4 py-3 text-sm">{reserva.id}</td>
@@ -869,11 +836,35 @@ export default function Reservas() {
                           </button>
                         </div>
                       </td>
+                      <td className="px-4 py-3 text-sm">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleEditClick(reserva)
+                            }}
+                            className="p-1 rounded-full hover:bg-amber-100 text-amber-700"
+                            title="Editar reserva"
+                          >
+                            <Edit2 className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleDelete(reserva.id)
+                            }}
+                            className="p-1 rounded-full hover:bg-red-100 text-red-700"
+                            title="Eliminar reserva"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={8} className="px-4 py-6 text-center text-amber-700">
+                    <td colSpan={9} className="px-4 py-6 text-center text-amber-700">
                       Keine Reservierungen entsprechen den Suchkriterien.
                     </td>
                   </tr>
@@ -881,8 +872,6 @@ export default function Reservas() {
               </tbody>
             </table>
           </div>
-
-          {/* Mobile view for hidden columns */}
           <div className="md:hidden">
             {visibleReservas.length > 0 && (
               <div className="px-4 py-3 bg-amber-50 text-xs text-amber-700">
@@ -892,7 +881,6 @@ export default function Reservas() {
           </div>
         </div>
 
-        {/* Load more button */}
         {visibleReservas.length < filteredReservas.length && (
           <div className="mt-6 text-center">
             <button
@@ -905,7 +893,6 @@ export default function Reservas() {
           </div>
         )}
 
-        {/* Results count */}
         <div className="mt-4 text-sm text-amber-700">
           Zeige {visibleReservas.length} von {filteredReservas.length} Reservierungen
           {dateFilter === "specific" && selectedDate && (
@@ -914,7 +901,6 @@ export default function Reservas() {
         </div>
       </div>
 
-      {/* Mesa assignment modal */}
       {showMesaModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div ref={modalRef} className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
@@ -952,7 +938,6 @@ export default function Reservas() {
         </div>
       )}
 
-      {/* Modal para nueva reserva */}
       {showNuevaReservaModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
@@ -962,12 +947,10 @@ export default function Reservas() {
                 <X className="h-5 w-5" />
               </button>
             </div>
-
             <form onSubmit={handleNuevaReservaSubmit} className="space-y-4">
               {nuevaReservaError && (
                 <div className="bg-red-100 text-red-700 p-3 rounded-md text-sm">{nuevaReservaError}</div>
               )}
-
               <div className="space-y-2">
                 <label htmlFor="fecha" className="block text-sm font-medium text-amber-700">
                   Datum *
@@ -981,14 +964,12 @@ export default function Reservas() {
                     <span>{formatDateToString(nuevaReservaDate)}</span>
                     <Calendar className="h-4 w-4 text-amber-500" />
                   </button>
-
                   {showNuevaReservaCalendar && (
                     <div
                       ref={nuevaReservaCalendarRef}
                       className="absolute z-10 mt-1 bg-white rounded-md shadow-lg p-3 border border-amber-200"
                       style={{ minWidth: "280px" }}
                     >
-                      {/* Calendar header */}
                       <div className="flex justify-between items-center mb-2">
                         <button type="button" onClick={prevMonth} className="p-1 rounded-full hover:bg-amber-100">
                           <ChevronLeft className="h-4 w-4 text-amber-700" />
@@ -1000,8 +981,6 @@ export default function Reservas() {
                           <ChevronRight className="h-4 w-4 text-amber-700" />
                         </button>
                       </div>
-
-                      {/* Calendar weekdays */}
                       <div className="grid grid-cols-7 gap-1 mb-1">
                         {["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"].map((day) => (
                           <div
@@ -1012,8 +991,6 @@ export default function Reservas() {
                           </div>
                         ))}
                       </div>
-
-                      {/* Calendar days */}
                       <div className="grid grid-cols-7 gap-1">
                         {generateCalendarDays(handleNuevaReservaDateSelect, nuevaReservaDate)}
                       </div>
@@ -1021,7 +998,6 @@ export default function Reservas() {
                   )}
                 </div>
               </div>
-
               <div className="space-y-2">
                 <label htmlFor="hora" className="block text-sm font-medium text-amber-700">
                   Uhrzeit *
@@ -1039,7 +1015,6 @@ export default function Reservas() {
                   ))}
                 </select>
               </div>
-
               <div className="space-y-2">
                 <label htmlFor="personas" className="block text-sm font-medium text-amber-700">
                   Anzahl Personen *
@@ -1057,7 +1032,6 @@ export default function Reservas() {
                   ))}
                 </select>
               </div>
-
               <div className="space-y-2">
                 <label htmlFor="nombre" className="block text-sm font-medium text-amber-700">
                   Name *
@@ -1072,7 +1046,6 @@ export default function Reservas() {
                   required
                 />
               </div>
-
               <div className="space-y-2">
                 <label htmlFor="telefono" className="block text-sm font-medium text-amber-700">
                   Telefon
@@ -1086,7 +1059,6 @@ export default function Reservas() {
                   className="w-full px-4 py-2 border border-amber-300 rounded-md"
                 />
               </div>
-
               <div className="space-y-2">
                 <label htmlFor="email" className="block text-sm font-medium text-amber-700">
                   E-Mail
@@ -1100,7 +1072,6 @@ export default function Reservas() {
                   className="w-full px-4 py-2 border border-amber-300 rounded-md"
                 />
               </div>
-
               <div className="flex justify-end space-x-2 pt-4">
                 <button
                   type="button"
@@ -1121,7 +1092,161 @@ export default function Reservas() {
           </div>
         </div>
       )}
+
+      {showEditModal && editReserva && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold text-amber-800">Reserva bearbeiten</h3>
+              <button onClick={() => setShowEditModal(false)} className="text-gray-500 hover:text-gray-700">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <form onSubmit={handleEditSubmit} className="space-y-4">
+              {editReservaError && (
+                <div className="bg-red-100 text-red-700 p-3 rounded-md text-sm">{editReservaError}</div>
+              )}
+              <div className="space-y-2">
+                <label htmlFor="edit-fecha" className="block text-sm font-medium text-amber-700">
+                  Datum *
+                </label>
+                <div className="relative">
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-between px-4 py-2 border border-amber-300 rounded-md bg-white text-left"
+                    onClick={() => setShowEditCalendar(!showEditCalendar)}
+                  >
+                    <span>{formatDateToString(editReservaDate)}</span>
+                    <Calendar className="h-4 w-4 text-amber-500" />
+                  </button>
+                  {showEditCalendar && (
+                    <div
+                      ref={editCalendarRef}
+                      className="absolute z-10 mt-1 bg-white rounded-md shadow-lg p-3 border border-amber-200"
+                      style={{ minWidth: "280px" }}
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <button type="button" onClick={prevMonth} className="p-1 rounded-full hover:bg-amber-100">
+                          <ChevronLeft className="h-4 w-4 text-amber-700" />
+                        </button>
+                        <div className="font-medium">
+                          {getMonthName(currentMonth)} {currentYear}
+                        </div>
+                        <button type="button" onClick={nextMonth} className="p-1 rounded-full hover:bg-amber-100">
+                          <ChevronRight className="h-4 w-4 text-amber-700" />
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-7 gap-1 mb-1">
+                        {["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"].map((day) => (
+                          <div
+                            key={day}
+                            className="h-8 w-8 flex items-center justify-center text-xs font-medium text-amber-700"
+                          >
+                            {day}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="grid grid-cols-7 gap-1">
+                        {generateCalendarDays(handleEditDateSelect, editReservaDate)}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="edit-hora" className="block text-sm font-medium text-amber-700">
+                  Uhrzeit *
+                </label>
+                <select
+                  id="edit-hora"
+                  value={editReservaHora}
+                  onChange={(e) => setEditReservaHora(e.target.value)}
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md bg-white"
+                >
+                  {horasOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option} Uhr
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="edit-personas" className="block text-sm font-medium text-amber-700">
+                  Anzahl Personen *
+                </label>
+                <select
+                  id="edit-personas"
+                  value={editReservaPersonas}
+                  onChange={(e) => setEditReservaPersonas(e.target.value)}
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md bg-white"
+                >
+                  {personasOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option} {Number.parseInt(option) === 1 ? "Person" : "Personen"}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="edit-nombre" className="block text-sm font-medium text-amber-700">
+                  Name *
+                </label>
+                <input
+                  id="edit-nombre"
+                  type="text"
+                  value={editReservaNombre}
+                  onChange={(e) => setEditReservaNombre(e.target.value)}
+                  placeholder="Name eingeben"
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="edit-telefono" className="block text-sm font-medium text-amber-700">
+                  Telefon
+                </label>
+                <input
+                  id="edit-telefono"
+                  type="text"
+                  value={editReservaTelefono}
+                  onChange={(e) => setEditReservaTelefono(e.target.value)}
+                  placeholder="Telefonnummer eingeben"
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="edit-email" className="block text-sm font-medium text-amber-700">
+                  E-Mail
+                </label>
+                <input
+                  id="edit-email"
+                  type="email"
+                  value={editReservaEmail}
+                  onChange={(e) => setEditReservaEmail(e.target.value)}
+                  placeholder="E-Mail-Adresse eingeben"
+                  className="w-full px-4 py-2 border border-amber-300 rounded-md"
+                />
+              </div>
+              <div className="flex justify-end space-x-2 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  className="px-4 py-2 border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50"
+                >
+                  Abbrechen
+                </button>
+                <button
+                  type="submit"
+                  disabled={editReservaSubmitting}
+                  className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 disabled:opacity-50"
+                >
+                  {editReservaSubmitting ? "Speichern..." : "Speichern"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
-
