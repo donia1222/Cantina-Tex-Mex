@@ -16,6 +16,7 @@ import {
   Plus,
   Edit2,
   Trash2,
+  Lock,
 } from "lucide-react"
 
 type Reserva = {
@@ -170,6 +171,12 @@ function getMonthName(month: number): string {
 }
 
 export default function Reservas() {
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [authError, setAuthError] = useState<string | null>(null)
+
   const [reservas, setReservas] = useState<Reserva[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -214,9 +221,44 @@ export default function Reservas() {
   const [showEditCalendar, setShowEditCalendar] = useState<boolean>(false)
   const editCalendarRef = useRef<HTMLDivElement>(null)
 
+  // Check if user is already authenticated
   useEffect(() => {
-    fetchReservas()
+    const storedAuth = localStorage.getItem("isAuthenticated")
+    if (storedAuth === "true") {
+      setIsAuthenticated(true)
+      fetchReservas()
+    } else {
+      setLoading(false)
+    }
   }, [])
+
+  // Modificar la función handleLogin para usar la nueva función de autenticación
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setAuthError(null)
+
+    try {
+      // Verificar directamente las credenciales sin llamar a una API
+      const correctUsername = import.meta.env?.AUTH_USERNAME || "cantina"
+      const correctPassword = import.meta.env?.AUTH_PASSWORD || "cantina 1234"
+
+      if (username === correctUsername && password === correctPassword) {
+        setIsAuthenticated(true)
+        localStorage.setItem("isAuthenticated", "true")
+        fetchReservas()
+      } else {
+        setAuthError("Usuario o contraseña incorrectos")
+      }
+    } catch (error) {
+      console.error("Error de autenticación:", error)
+      setAuthError("Error al intentar iniciar sesión")
+    }
+  }
+
+  const handleLogout = () => {
+    setIsAuthenticated(false)
+    localStorage.removeItem("isAuthenticated")
+  }
 
   const fetchReservas = async () => {
     setLoading(true)
@@ -637,17 +679,81 @@ export default function Reservas() {
     }
   }
 
+  // Login form
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 flex items-center justify-center py-8">
+        <div className="font-sans p-8 max-w-md w-full mx-auto bg-white rounded-xl shadow-lg">
+          <div className="flex flex-col items-center mb-6">
+            <Lock className="h-12 w-12 text-amber-600 mb-4" />
+            <h1 className="text-2xl font-bold text-amber-800">Acceso Restringido</h1>
+            <p className="text-amber-600 mt-2 text-center">
+              Por favor, introduce tus credenciales para acceder al sistema de reservas
+            </p>
+          </div>
+
+          {authError && (
+            <div className="bg-red-100 text-red-700 p-4 rounded-md mb-6 shadow-sm text-center">{authError}</div>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="username" className="block text-sm font-medium text-amber-700">
+                Usuario
+              </label>
+              <input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-4 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="password" className="block text-sm font-medium text-amber-700">
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+            >
+              Iniciar Sesión
+            </button>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 py-8">
       <div className="font-sans p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-amber-800">Reservierungsliste</h1>
-          <button
-            onClick={() => setShowNuevaReservaModal(true)}
-            className="w-8 h-8 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full shadow-md transition-transform hover:scale-105"
-          >
-            <Plus className="h-7 w-7" />
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 text-sm border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50"
+            >
+              Cerrar Sesión
+            </button>
+            <button
+              onClick={() => setShowNuevaReservaModal(true)}
+              className="w-8 h-8 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full shadow-md transition-transform hover:scale-105"
+            >
+              <Plus className="h-7 w-7" />
+            </button>
+          </div>
         </div>
 
         {error && <div className="bg-red-100 text-red-700 p-4 rounded-md mb-6 shadow-sm">{error}</div>}
