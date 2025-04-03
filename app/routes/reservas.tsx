@@ -500,9 +500,15 @@ export default function Reservas() {
 
   const horasOptions = useMemo(() => {
     const options = []
-    for (let hour = 17; hour <= 22; hour++) {
+    // Añadir horas del mediodía
+    options.push("11:30")
+    options.push("12:00")
+    options.push("12:30")
+    options.push("12:45")
+    // Añadir horas de la tarde/noche (hasta las 9 PM en lugar de 10 PM)
+    for (let hour = 17; hour <= 21; hour++) {
       for (let minute = 0; minute < 60; minute += 15) {
-        if (hour === 22 && minute > 0) continue
+        if (hour === 21 && minute > 0) continue
         const formattedHour = hour.toString().padStart(2, "0")
         const formattedMinute = minute.toString().padStart(2, "0")
         options.push(`${formattedHour}:${formattedMinute}`)
@@ -1250,3 +1256,4 @@ export default function Reservas() {
     </div>
   )
 }
+
