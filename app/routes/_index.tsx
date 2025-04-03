@@ -143,4 +143,5 @@ export default function MenuPage() {
 
     </>
   )
+  
 }
