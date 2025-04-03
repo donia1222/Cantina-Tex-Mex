@@ -23,6 +23,7 @@ const Loader = () => (
   </motion.div>
 )
 
+
 const colors = [
   'bg-gray-800', 'bg-gray-800',
 ]
@@ -143,5 +144,5 @@ export default function MenuPage() {
 
     </>
   )
-  
+
 }
