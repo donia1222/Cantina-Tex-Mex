@@ -279,16 +279,20 @@ export default function Reservas() {
     }
   }, [isAuthenticated])
 
-  // Modificar la función handleLogin para usar la nueva función de autenticación
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setAuthError(null)
-
+  
     try {
-      // Verificar directamente las credenciales sin llamar a una API
-      const correctUsername = import.meta.env?.AUTH_USERNAME || "cantina"
-      const correctPassword = import.meta.env?.AUTH_PASSWORD || "cantina 1234"
-
+      // Obtener las credenciales desde el archivo .env
+      const correctUsername = import.meta.env.VITE_AUTH_USERNAME
+      const correctPassword = import.meta.env.VITE_AUTH_PASSWORD
+  
+      // Verificar si las variables de entorno están definidas
+      if (!correctUsername || !correctPassword) {
+        throw new Error("Las credenciales no están configuradas en el entorno")
+      }
+  
       if (username === correctUsername && password === correctPassword) {
         setIsAuthenticated(true)
         localStorage.setItem("isAuthenticated", "true")
@@ -298,7 +302,11 @@ export default function Reservas() {
       }
     } catch (error) {
       console.error("Error de autenticación:", error)
-      setAuthError("Error al intentar iniciar sesión")
+      setAuthError(
+        error instanceof Error 
+          ? error.message 
+          : "Error al intentar iniciar sesión"
+      )
     }
   }
 
