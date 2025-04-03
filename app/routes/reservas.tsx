@@ -177,6 +177,10 @@ export default function Reservas() {
   const [password, setPassword] = useState("")
   const [authError, setAuthError] = useState<string | null>(null)
 
+  // Add these new state variables at the top of the component with the other state declarations
+  const [isInactive, setIsInactive] = useState(false)
+  const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null)
+
   const [reservas, setReservas] = useState<Reserva[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -231,6 +235,49 @@ export default function Reservas() {
       setLoading(false)
     }
   }, [])
+
+  // Add this useEffect hook to handle the inactivity detection
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    const INACTIVITY_TIME = 5 * 60 * 1000 // 5 minutes in milliseconds
+
+    const resetTimer = () => {
+      if (inactivityTimer) {
+        clearTimeout(inactivityTimer)
+      }
+
+      setIsInactive(false)
+
+      const timer = setTimeout(() => {
+        setIsInactive(true)
+      }, INACTIVITY_TIME)
+
+      setInactivityTimer(timer as unknown as NodeJS.Timeout)
+    }
+
+    // Set up event listeners for user activity
+    const activityEvents = ["mousedown", "mousemove", "keypress", "scroll", "touchstart"]
+
+    // Initialize the timer
+    resetTimer()
+
+    // Add event listeners
+    activityEvents.forEach((event) => {
+      document.addEventListener(event, resetTimer)
+    })
+
+    // Clean up
+    return () => {
+      if (inactivityTimer) {
+        clearTimeout(inactivityTimer)
+      }
+
+      activityEvents.forEach((event) => {
+        document.removeEventListener(event, resetTimer)
+      })
+    }
+  }, [isAuthenticated])
 
   // Modificar la función handleLogin para usar la nueva función de autenticación
   const handleLogin = async (e: React.FormEvent) => {
@@ -736,7 +783,9 @@ export default function Reservas() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 py-8">
+    <div
+      className={`min-h-screen bg-gradient-to-b from-amber-50 to-orange-100 py-8 transition-all duration-500 ${isInactive ? "blur-md" : ""}`}
+    >
       <div className="font-sans p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-amber-800">Reservierungsliste</h1>
@@ -902,7 +951,7 @@ export default function Reservas() {
                   <th className="px-4 py-3 text-left font-semibold text-sm">Datum</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm">Zeit</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm">Personen</th>
-                  <th className="px-4 py-3 text-left font-semibold text-sm">Name</th>
+                  <th className="px-4 py-3 text-left font-semibold text-sm hidden md:table-cell">Name</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm hidden md:table-cell">Telefon</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm hidden md:table-cell">E-Mail</th>
                   <th className="px-4 py-3 text-left font-semibold text-sm">Tischnummer</th>
