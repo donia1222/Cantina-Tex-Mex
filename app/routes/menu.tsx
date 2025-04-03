@@ -561,6 +561,12 @@ export default function Menu() {
           </motion.div>
         )}
       </AnimatePresence>
+      <div className="w-full max-w-6xl mx-auto text-center mb-8 mt-4">
+        <div className="bg-red-600 text-white py-4 px-6 rounded-lg shadow-lg">
+          <p className="text-xl font-bold">Wir bieten kein Essen zum Mitnehmen an</p>
+
+        </div>
+      </div>
     </div>
   )
 }
