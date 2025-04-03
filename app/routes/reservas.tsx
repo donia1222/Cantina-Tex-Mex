@@ -236,13 +236,22 @@ export default function Reservas() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setAuthError(null)
-
+  
     try {
-      // Verificar directamente las credenciales sin llamar a una API
-      const correctUsername = import.meta.env?.AUTH_USERNAME || "cantina"
-      const correctPassword = import.meta.env?.AUTH_PASSWORD || "cantina 1234"
-
-      if (username === correctUsername && password === correctPassword) {
+      // Crear FormData para enviar al servidor
+      const formData = new FormData()
+      formData.append("username", username)
+      formData.append("password", password)
+  
+      // Llamar a la ruta de autenticación de Remix
+      const response = await fetch("/api/auth", {
+        method: "POST",
+        body: formData,
+      })
+  
+      const data = await response.json()
+  
+      if (data.success) {
         setIsAuthenticated(true)
         localStorage.setItem("isAuthenticated", "true")
         fetchReservas()
@@ -254,6 +263,7 @@ export default function Reservas() {
       setAuthError("Error al intentar iniciar sesión")
     }
   }
+  
 
   const handleLogout = () => {
     setIsAuthenticated(false)

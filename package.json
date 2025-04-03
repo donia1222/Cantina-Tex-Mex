@@ -19,6 +19,7 @@
     "@types/react-flatpickr": "^3.8.11",
     "@vercel/analytics": "^1.4.1",
     "canvas-confetti": "^1.9.3",
+    "dotenv": "^16.4.7",
     "expo": "^48.0.0",
     "flatpickr": "^4.6.13",
     "framer-motion": "^11.11.10",
