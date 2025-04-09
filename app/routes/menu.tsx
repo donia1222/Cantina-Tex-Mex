@@ -8,7 +8,7 @@ import { json } from "@remix-run/node"
 import { X, CirclePlus, Utensils, Salad, Beef, FishIcon as Shrimp, BirdIcon as Chicken, Carrot } from "lucide-react"
 import HeaderSpe from "~/components/Header/HeaderSpe"
 
-import { MexicanMenu } from "../components/mexican-menu"
+
 
 const menuSections = [
   {
@@ -287,38 +287,7 @@ export default function Menu() {
     <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
       <HeaderSpe />
       <main>
-      <MexicanMenu
-        restaurantName=""
-        menuTitle="Mittagsmenü"
-        hours="Dienstag bis Freitag | 11:30 - 13:30 Uhr"
-        appetizers={[
-          { name: "Suppe" },
-          { name: "Nachos Cheese" },
-          { name: "Tagessalat" },
-          { name: "Chips mit Sauce zum Dippen" },
-        ]}
-        menus={[
-          {
-            title: "Menü",
-            description:
-              "Unser klassisches Menü bietet traditionelle mexikanische Gerichte mit authentischen Gewürzen und Zutaten. Perfekt für Liebhaber der mexikanischen Küche, die den vollen Geschmack und die Würze genießen möchten.",
-            price: "Fr. 19.50",
-          },
-          {
-            title: "Vegetarisches Menü",
-            description:
-              "Unser vegetarisches Menü vereint frische, saisonale Zutaten zu köstlichen fleischlosen Gerichten. Kreative Kombinationen und traditionelle mexikanische Aromen sorgen für ein vollwertiges Geschmackserlebnis ohne tierische Produkte.",
-            price: "Fr. 18.50",
-          },
-          {
-            title: "Spezialmenü",
-            description:
-              "Unser Spezialmenü präsentiert exklusive Kreationen unseres Küchenchefs mit erlesenen Zutaten und innovativen Zubereitungsmethoden. Eine Fusion aus traditioneller mexikanischer Küche und modernen kulinarischen Trends.",
-            price: "Fr. 28.50",
-          },
-        ]}
-        footerText={["Preise inklusive MwSt."]}
-      />
+
     </main>
       {loading && <Loadere />}
       <motion.div
