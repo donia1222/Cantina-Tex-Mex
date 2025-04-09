@@ -8,6 +8,8 @@ import { json } from "@remix-run/node"
 import { X, CirclePlus, Utensils, Salad, Beef, FishIcon as Shrimp, BirdIcon as Chicken, Carrot } from "lucide-react"
 import HeaderSpe from "~/components/Header/HeaderSpe"
 
+import { MexicanMenu } from "../components/mexican-menu"
+
 const menuSections = [
   {
     id: "vorspeisen",
@@ -44,13 +46,7 @@ const menuSections = [
     icon: <CirclePlus size={32} />,
     image: "/440017389_1038135447678958_7213220999231999312_n.jpg",
   },
-  {
-    id: "mittagsmenu",
-    name: "Mittagsmenu",
-    color: "#FFD700",
-    icon: <CirclePlus size={32} />,
-    image: "/340871282_193406080143735_4389703553709751881_n.jpg",
-  },
+
 ] as const
 
 type SectionId = (typeof menuSections)[number]["id"]
@@ -205,10 +201,7 @@ export const loader: LoaderFunction = async () => {
       { name: "Don Chocolate", description: "Schokoladenglace, Moccaglace, Tobleronestückchen und Schlagrahm" },
       { name: "Mexican Coffee", description: "Kaffeeglace gemischt mit heissem Espresso, Kahlúa Likör und Schlagrahm" },
     ],
-    mittagsmenu: [
-      { name: "Donnerstags", description: "Menü 1, Menü Vegui und Menü Spezial zur Auswahl ", price: undefined },
-      { name: "Freitags", description: "Menü 1 (Fajitas), Menü Vegui und Menü Spezial zur Auswahl", price: undefined },
-    ],
+
   }
 
   return json(menuItems)
@@ -229,11 +222,9 @@ export default function Menu() {
   }, [])
 
   const handleSectionClick = (sectionId: SectionId) => {
-    if (sectionId === "mittagsmenu") {
-      setShowMittagsmenuModal(true)
-    } else {
+ 
       setActiveSection(sectionId)
-    }
+
   }
 
   const closeModal = () => {
@@ -295,7 +286,40 @@ export default function Menu() {
   return (
     <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
       <HeaderSpe />
-
+      <main>
+      <MexicanMenu
+        restaurantName=""
+        menuTitle="Mittagsmenü"
+        hours="Dienstag bis Freitag | 11:30 - 13:30 Uhr"
+        appetizers={[
+          { name: "Suppe" },
+          { name: "Nachos Cheese" },
+          { name: "Tagessalat" },
+          { name: "Chips mit Sauce zum Dippen" },
+        ]}
+        menus={[
+          {
+            title: "Menü",
+            description:
+              "Unser klassisches Menü bietet traditionelle mexikanische Gerichte mit authentischen Gewürzen und Zutaten. Perfekt für Liebhaber der mexikanischen Küche, die den vollen Geschmack und die Würze genießen möchten.",
+            price: "Fr. 19.50",
+          },
+          {
+            title: "Vegetarisches Menü",
+            description:
+              "Unser vegetarisches Menü vereint frische, saisonale Zutaten zu köstlichen fleischlosen Gerichten. Kreative Kombinationen und traditionelle mexikanische Aromen sorgen für ein vollwertiges Geschmackserlebnis ohne tierische Produkte.",
+            price: "Fr. 18.50",
+          },
+          {
+            title: "Spezialmenü",
+            description:
+              "Unser Spezialmenü präsentiert exklusive Kreationen unseres Küchenchefs mit erlesenen Zutaten und innovativen Zubereitungsmethoden. Eine Fusion aus traditioneller mexikanischer Küche und modernen kulinarischen Trends.",
+            price: "Fr. 28.50",
+          },
+        ]}
+        footerText={["Preise inklusive MwSt."]}
+      />
+    </main>
       {loading && <Loadere />}
       <motion.div
         className="w-full max-w-6xl px-4  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 mb-40 mt-20"
@@ -566,6 +590,7 @@ export default function Menu() {
           <p className="text-xl font-bold">Wir bieten kein Essen zum Mitnehmen an</p>
 
         </div>
+       
       </div>
     </div>
   )
