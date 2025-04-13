@@ -170,6 +170,8 @@ function getMonthName(month: number): string {
   return monthNames[month]
 }
 
+import { MesaModal } from "../components/mesa-modal"
+
 export default function Reservas() {
   // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -190,9 +192,11 @@ export default function Reservas() {
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc")
   const [visibleCount, setVisibleCount] = useState(1000)
   const [showCalendar, setShowCalendar] = useState(false)
-  const [mesas, setMesas] = useState<Record<string, string>>({})
+  // Modificar la definición del estado de mesas para usar arrays de strings en lugar de un solo string
+  const [mesas, setMesas] = useState<Record<string, string[]>>({})
   const [showMesaModal, setShowMesaModal] = useState(false)
   const [currentReservaId, setCurrentReservaId] = useState<string | null>(null)
+  const [currentReservaFecha, setCurrentReservaFecha] = useState<string>("")
   const [mesaInput, setMesaInput] = useState("")
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
@@ -282,17 +286,17 @@ export default function Reservas() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setAuthError(null)
-  
+
     try {
       // Obtener las credenciales desde el archivo .env
       const correctUsername = import.meta.env.VITE_AUTH_USERNAME
       const correctPassword = import.meta.env.VITE_AUTH_PASSWORD
-  
+
       // Verificar si las variables de entorno están definidas
       if (!correctUsername || !correctPassword) {
         throw new Error("Las credenciales no están configuradas en el entorno")
       }
-  
+
       if (username === correctUsername && password === correctPassword) {
         setIsAuthenticated(true)
         localStorage.setItem("isAuthenticated", "true")
@@ -302,11 +306,7 @@ export default function Reservas() {
       }
     } catch (error) {
       console.error("Error de autenticación:", error)
-      setAuthError(
-        error instanceof Error 
-          ? error.message 
-          : "Error al intentar iniciar sesión"
-      )
+      setAuthError(error instanceof Error ? error.message : "Error al intentar iniciar sesión")
     }
   }
 
@@ -564,7 +564,7 @@ export default function Reservas() {
               <td>${reserva.nombre}</td>
               <td>${reserva.telefono}</td>
               <td>${reserva.email}</td>
-              <td>${mesas[reserva.id] || "-"}</td>
+              <td>${mesas[reserva.id] && mesas[reserva.id].length > 0 ? mesas[reserva.id].join(", ") : "-"}</td>
             </tr>
           `,
             )
@@ -580,16 +580,24 @@ export default function Reservas() {
     printWindow.close()
   }
 
-  const handleMesaClick = (e: React.MouseEvent, reservaId: string) => {
+  // Modificar la función handleMesaClick para que solo abra el modal
+  const handleMesaClick = (e: React.MouseEvent, reservaId: string, fecha: string) => {
     e.stopPropagation()
     setCurrentReservaId(reservaId)
-    setMesaInput(mesas[reservaId] || "")
+    setCurrentReservaFecha(fecha)
     setShowMesaModal(true)
   }
 
   const saveMesaNumber = () => {
     if (!currentReservaId) return
-    const updatedMesas = { ...mesas, [currentReservaId]: mesaInput }
+
+    // Convertir el string en un array, separando por comas si hay varias mesas
+    const mesasArray = mesaInput
+      .split(",")
+      .map((mesa) => mesa.trim())
+      .filter((mesa) => mesa !== "")
+
+    const updatedMesas = { ...mesas, [currentReservaId]: mesasArray }
     setMesas(updatedMesas)
     setShowMesaModal(false)
     localStorage.setItem("mesasAsignadas", JSON.stringify(updatedMesas))
@@ -991,15 +999,19 @@ export default function Reservas() {
                       <td className="px-4 py-3 text-sm hidden md:table-cell">{reserva.email}</td>
                       <td className="px-4 py-3 text-sm">
                         <div className="flex items-center">
-                          {mesas[reserva.id] && (
+                          {mesas[reserva.id] && mesas[reserva.id].length > 0 && (
                             <span className="mr-2 bg-amber-100 px-2 py-1 rounded-md text-amber-800 font-medium">
-                              {mesas[reserva.id]}
+                              {mesas[reserva.id].join(", ")}
                             </span>
                           )}
                           <button
-                            onClick={(e) => handleMesaClick(e, reserva.id)}
+                            onClick={(e) => handleMesaClick(e, reserva.id, reserva.fecha)}
                             className="p-1 rounded-full hover:bg-amber-100 text-amber-700"
-                            title={mesas[reserva.id] ? "Editar mesa" : "Asignar mesa"}
+                            title={
+                              mesas[reserva.id] && mesas[reserva.id].length > 0
+                                ? "Tische bearbeiten"
+                                : "Tische zuweisen"
+                            }
                           >
                             <Table className="h-4 w-4" />
                           </button>
@@ -1013,7 +1025,7 @@ export default function Reservas() {
                               handleEditClick(reserva)
                             }}
                             className="p-1 rounded-full hover:bg-amber-100 text-amber-700"
-                            title="Editar reserva"
+                            title="Reservierung bearbeiten"
                           >
                             <Edit2 className="h-4 w-4" />
                           </button>
@@ -1023,7 +1035,7 @@ export default function Reservas() {
                               handleDelete(reserva.id)
                             }}
                             className="p-1 rounded-full hover:bg-red-100 text-red-700"
-                            title="Eliminar reserva"
+                            title="Reservierung löschen"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -1069,44 +1081,26 @@ export default function Reservas() {
           )}
         </div>
       </div>
-
-      {showMesaModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div ref={modalRef} className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
-            <h3 className="text-lg font-bold text-amber-800 mb-4">
-              {mesas[currentReservaId || ""] ? "Tischnummer bearbeiten" : "Tischnummer vergeben"}
-            </h3>
-            <div className="mb-4">
-              <label htmlFor="mesa-number" className="block text-sm font-medium text-amber-700 mb-1">
-                Tischnummer
-              </label>
-              <input
-                id="mesa-number"
-                type="text"
-                className="w-full px-4 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
-                value={mesaInput}
-                onChange={(e) => setMesaInput(e.target.value)}
-                autoFocus
-              />
-            </div>
-            <div className="flex justify-end space-x-2">
-              <button
-                onClick={() => setShowMesaModal(false)}
-                className="px-4 py-2 border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50"
-              >
-                Zurück
-              </button>
-              <button
-                onClick={saveMesaNumber}
-                className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700"
-              >
-                Speichern
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
+      <MesaModal
+        isOpen={showMesaModal}
+        onClose={() => setShowMesaModal(false)}
+        reservaId={currentReservaId}
+        reservaFecha={currentReservaFecha}
+        mesas={mesas}
+        allReservationDates={reservas.reduce(
+          (acc, reserva) => {
+            acc[reserva.id] = reserva.fecha
+            return acc
+          },
+          {} as Record<string, string>,
+        )}
+        onSave={(reservaId, selectedTables) => {
+          const updatedMesas = { ...mesas, [reservaId]: selectedTables }
+          setMesas(updatedMesas)
+          setShowMesaModal(false)
+          localStorage.setItem("mesasAsignadas", JSON.stringify(updatedMesas))
+        }}
+      />
       {showNuevaReservaModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
@@ -1261,12 +1255,11 @@ export default function Reservas() {
           </div>
         </div>
       )}
-
       {showEditModal && editReserva && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-amber-800">Reserva bearbeiten</h3>
+              <h3 className="text-lg font-bold text-amber-800">Reservierung bearbeiten</h3>
               <button onClick={() => setShowEditModal(false)} className="text-gray-500 hover:text-gray-700">
                 <X className="h-5 w-5" />
               </button>
@@ -1419,4 +1412,3 @@ export default function Reservas() {
     </div>
   )
 }
-
