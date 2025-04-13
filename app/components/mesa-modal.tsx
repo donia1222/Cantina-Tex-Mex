@@ -55,7 +55,7 @@ export function MesaModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-lg mx-4 shadow-xl">
+      <div className="bg-white rounded-lg p-6 w-full max-w-4xl mx-4 shadow-xl">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-bold text-amber-800">
             {mesas[reservaId || ""] ? "Tischzuweisung bearbeiten" : "Tische zuweisen"}
@@ -70,14 +70,16 @@ export function MesaModal({
             Wählen Sie Tische für diese Reservierung aus. Grau markierte Tische sind bereits anderen Reservierungen am
             selben Tag zugewiesen.
           </p>
-          <TableSelection
-            selectedTables={selectedTables}
-            onTableSelect={handleTableSelect}
-            reservationId={reservaId || undefined}
-            reservationDate={reservaFecha}
-            allReservations={mesas}
-            allReservationDates={allReservationDates}
-          />
+          <div className="overflow-auto">
+            <TableSelection
+              selectedTables={selectedTables}
+              onTableSelect={handleTableSelect}
+              reservationId={reservaId || undefined}
+              reservationDate={reservaFecha}
+              allReservations={mesas}
+              allReservationDates={allReservationDates}
+            />
+          </div>
         </div>
 
         <div className="mt-4">
