@@ -84,7 +84,7 @@ export default function Jobs() {
   }
 
   return (
-    <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gradient-to-b from-gray-900 to-gray-800 text-red-500 p-0 rounded-lg min-h-screen">
+    <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gradient-to-b from-gray-900 to-gray-800 text-red-500 p-0 rounded-lg ">
 
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -92,13 +92,13 @@ export default function Jobs() {
         transition={{ delay: 0.3 }}
         className="w-full max-w-6xl px-4 mb-8 mt-8"
       >
-        <div className="bg-gradient-to-r from-amber-100 to-amber-200 rounded-2xl overflow-hidden shadow-2xl border border-amber-300/20">
+        <div className="rounded-2xl overflow-hidden ">
           <div className="relative p-8">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 via-amber-500 to-orange-500"></div>
 
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-amber-800 mb-4">Wir suchen Verstärkung!</h1>
-              <p className="text-xl text-amber-700">Werden Sie Teil unseres Teams in der Cantina Tex-Mex</p>
+              <h1 className="text-4xl font-bold text-gray-100 mb-4">Wir suchen Verstärkung!</h1>
+              <p className="text-xl text-gray-300">Werden Sie Teil unseres Teams in der Cantina</p>
             </div>
 
             <motion.div
@@ -186,8 +186,8 @@ export default function Jobs() {
                     href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Servicekraft"
                     className="inline-flex items-center px-8 py-4 text-xl font-medium rounded-full shadow-lg text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-amber-300 transition-all duration-300"
                   >
-                    <Mail className="mr-3 h-6 w-6" />
-                    info@cantinatexmex.ch
+                    <Mail className=" h-6 w-6" />
+         
                   </a>
                 </motion.div>
 
