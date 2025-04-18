@@ -91,6 +91,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
     { to: "/drinks", icon: Beer, label: "Getränke" },
     { to: "/contact", icon: BookCheck, label: "Kontakt" },
     { to: "/reservierung", icon: BookCheck, label: "Reservierung" },
+    { to: "/jobs", icon: ArrowRight, label: "Jobs" },
   ]
 
   return (
@@ -314,7 +315,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
                     )}
                   </div>
                 </motion.div>
-                
               )
             })}
           </div>
@@ -413,7 +413,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
               <p>flomic GmbH</p>
               <p>Bahnhofstrasse 40</p>
               <p>9470 / Buchs</p>
-    
 
               {/* Enlace Clicable a lweb.ch */}
               <p className="mt-4">
@@ -469,7 +468,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:
                 </p>
                 <p className="text-gray-700">
-                 flomic GmbH
+                  flomic GmbH
                   <br />
                   Bahnhofstrasse 40
                   <br />
@@ -639,4 +638,3 @@ const ClickIcon = () => (
     className="fixed bottom-4 right-4 bg-black rounded-full p-4 flex items-center justify-center shadow-lg z-30"
   ></motion.div>
 )
-
