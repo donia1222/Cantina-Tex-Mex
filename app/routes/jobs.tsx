@@ -5,7 +5,6 @@ import { useState, useRef } from "react"
 import { motion } from "framer-motion"
 import { Clock, Calendar, Mail, User } from "lucide-react"
 
-
 export default function Jobs() {
   const [loading, setLoading] = useState(false)
   const [formSubmitted, setFormSubmitted] = useState(false)
@@ -85,6 +84,14 @@ export default function Jobs() {
 
   return (
     <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gradient-to-b from-gray-900 to-gray-800 text-red-500 p-0 rounded-lg ">
+      <div className="w-full flex justify-center mt-6">
+        <img
+          src="/cantina_logocopia.png"
+          alt="Cantina Tex-Mex Logo"
+          className="object-contain"
+          style={{ width: "180px", height: "auto" }}
+        />
+      </div>
 
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -181,15 +188,54 @@ export default function Jobs() {
                   Bitte senden Sie uns Ihren Lebenslauf direkt per E-Mail. Wir freuen uns auf Ihre Bewerbung!
                 </p>
 
-                <motion.div className="inline-block" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <a
-                    href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Servicekraft"
-                    className="inline-flex items-center px-8 py-4 text-xl font-medium rounded-full shadow-lg text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-amber-300 transition-all duration-300"
-                  >
-                    <Mail className=" h-6 w-6" />
-         
-                  </a>
-                </motion.div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <motion.div className="inline-block" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <a
+                      href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Servicekraft"
+                      className="inline-flex items-center px-8 py-4 text-xl font-medium rounded-full shadow-lg text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-amber-300 transition-all duration-300"
+                    >
+                      <Mail className="mr-2 h-6 w-6" />
+                      <span>Bewerben</span>
+                    </a>
+                  </motion.div>
+
+                  <motion.div className="inline-block" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <button
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator
+                            .share({
+                              title: "Stellenangebot: Servicekraft bei Cantina Tex-Mex",
+                              text: "Schau dir diese Stellenanzeige bei Cantina Tex-Mex an!",
+                              url: window.location.href,
+                            })
+                            .catch((error) => console.log("Error sharing", error))
+                        } else {
+                          // Fallback for browsers that don't support the Web Share API
+                          navigator.clipboard.writeText(window.location.href)
+                          alert("Link in die Zwischenablage kopiert!")
+                        }
+                      }}
+                      className="inline-flex items-center px-8 py-4 text-xl font-medium rounded-full shadow-lg text-white bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="mr-2 h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                        />
+                      </svg>
+                      <span>Teilen</span>
+                    </button>
+                  </motion.div>
+                </div>
 
                 <p className="mt-6 text-gray-600 italic">Wir werden uns so schnell wie möglich bei Ihnen melden.</p>
               </div>
@@ -200,3 +246,4 @@ export default function Jobs() {
     </div>
   )
 }
+
