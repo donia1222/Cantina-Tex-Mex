@@ -17,7 +17,9 @@ import {
   Edit2,
   Trash2,
   Lock,
+  Settings,
 } from "lucide-react"
+import ConfiguracionReservas from "./configuracion-reservas"
 
 type Reserva = {
   id: string
@@ -182,6 +184,7 @@ export default function Reservas() {
   // Add these new state variables at the top of the component with the other state declarations
   const [isInactive, setIsInactive] = useState(false)
   const [inactivityTimer, setInactivityTimer] = useState<NodeJS.Timeout | null>(null)
+  const [showConfiguracionModal, setShowConfiguracionModal] = useState(false)
 
   const [reservas, setReservas] = useState<Reserva[]>([])
   const [loading, setLoading] = useState(true)
@@ -807,6 +810,14 @@ export default function Reservas() {
           <h1 className="text-2xl md:text-3xl font-bold text-amber-800">Reservierungsliste</h1>
           <div className="flex items-center gap-4">
             <button
+              onClick={() => setShowConfiguracionModal(true)}
+              className="px-4 py-2 text-sm border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50 flex items-center"
+              title="Configuración de reservas"
+            >
+              <Settings className="h-4 w-4 mr-2" />
+              Configuración
+            </button>
+            <button
               onClick={handleLogout}
               className="px-4 py-2 text-sm border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50"
             >
@@ -1406,6 +1417,13 @@ export default function Reservas() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {showConfiguracionModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+            <ConfiguracionReservas onClose={() => setShowConfiguracionModal(false)} />
           </div>
         </div>
       )}
