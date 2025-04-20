@@ -809,19 +809,12 @@ export default function Reservas() {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-amber-800">Reservierungsliste</h1>
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => setShowConfiguracionModal(true)}
-              className="px-4 py-2 text-sm border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50 flex items-center"
-              title="Configuración de reservas"
-            >
-              <Settings className="h-4 w-4 mr-2" />
-              Configuración
-            </button>
+ 
             <button
               onClick={handleLogout}
               className="px-4 py-2 text-sm border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50"
             >
-              Cerrar Sesión
+             Logout
             </button>
             <button
               onClick={() => setShowNuevaReservaModal(true)}
@@ -831,7 +824,14 @@ export default function Reservas() {
             </button>
           </div>
         </div>
-
+           <button
+              onClick={() => setShowConfiguracionModal(true)}
+              className="px-4 py-2 text-sm border border-amber-300 rounded-md text-amber-700 hover:bg-amber-50 flex items-center mb-10"
+              title="Configuración de reservas"
+            >
+              <Settings className="h-4 w-4 mr-2" />
+              Konfiguration
+            </button>
         {error && <div className="bg-red-100 text-red-700 p-4 rounded-md mb-6 shadow-sm">{error}</div>}
 
         <div className="mb-6 space-y-4">
