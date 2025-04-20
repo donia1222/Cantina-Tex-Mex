@@ -6,7 +6,7 @@ import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_red.css"
 import ConfirmationModal from "./ConfirmationModal"
 import PreviousReservationsModal from "./PreviousReservationsModal"
-import { Calendar, Clock, Users, User, Phone, Mail } from "lucide-react"
+import { Calendar, Clock, Users, User, Phone, Mail, AlertCircle } from "lucide-react"
 
 interface BlockedDates {
   [date: string]: string[]
@@ -22,6 +22,58 @@ interface Reservation {
   timestamp: number // Para ordenar las reservas por fecha
 }
 
+// Interfaz para el modal de error
+interface ErrorModalProps {
+  message: string
+  nextTime: string | null
+  onClose: () => void
+  onSelectTime: (time: string) => void
+}
+
+// Componente para el modal de error
+const ErrorModal: React.FC<ErrorModalProps> = ({ message, nextTime, onClose, onSelectTime }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+        <div className="flex items-center mb-4 text-red-600">
+          <AlertCircle className="w-6 h-6 mr-2" />
+          <h3 className="text-lg font-semibold">Reservierung nicht möglich</h3>
+        </div>
+        <p className="mb-4 text-gray-700">{message}</p>
+
+        {nextTime && (
+          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-md">
+            <p className="text-amber-800 font-medium">
+              Nächste verfügbare Zeit: <span className="text-lg font-bold">{nextTime}</span>
+            </p>
+          </div>
+        )}
+
+        <div className="flex justify-end space-x-3">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+          >
+            Schließen
+          </button>
+
+          {nextTime && (
+            <button
+              onClick={() => {
+                onSelectTime(nextTime)
+                onClose()
+              }}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+            >
+              Diese Zeit wählen
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const ReservationForm: React.FC = () => {
   const [blockedDates, setBlockedDates] = useState<BlockedDates>({})
   const [availableTimes, setAvailableTimes] = useState<string[]>([])
@@ -34,6 +86,11 @@ const ReservationForm: React.FC = () => {
   const [reservationDetails, setReservationDetails] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [nextAvailableTime, setNextAvailableTime] = useState<string | null>(null)
+
+  // Estado para el modal de error
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
   // Estados para los campos del formulario
   const [nombre, setNombre] = useState("")
@@ -68,7 +125,7 @@ const ReservationForm: React.FC = () => {
       return ["11:30", "12:00", "12:30", "12:45", "18:00", "18:30", "19:00", "19:30", "20:00", "20:15"]
     } else if (day === 6) {
       // Sábado: solo cena
-      return ["18:00", "18:30", "19:00", "19:30", "20:00", "20:30, 21:00"]
+      return ["18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00"]
     } else {
       // Domingos (0) y Lunes (1) deshabilitados
       return []
@@ -182,6 +239,7 @@ const ReservationForm: React.FC = () => {
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTime(e.target.value)
+    setNextAvailableTime(null) // Resetear el siguiente horario disponible
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -240,11 +298,26 @@ const ReservationForm: React.FC = () => {
         setTelefono(newReservation.telefono)
         setEmail(newReservation.email)
       } else {
-        throw new Error(result.message || "Error al procesar la reserva.")
+        // Si hay un mensaje de error relacionado con horario completo
+        if (result.message && result.message.includes("completa")) {
+          // Traducir el mensaje al alemán
+          setErrorMessage("Diese Zeit ist bereits ausgebucht. Bitte wählen Sie eine andere Zeit.")
+
+          // Si hay un horario disponible sugerido, mostrarlo
+          if (result.nextTime) {
+            setNextAvailableTime(result.nextTime)
+          }
+
+          // Mostrar el modal de error
+          setShowErrorModal(true)
+        } else {
+          // Para otros errores, mostrar el mensaje original
+          throw new Error(result.message || "Error al procesar la reserva.")
+        }
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error al enviar la reserva:", err)
-      setError("Hubo un problema al enviar la reserva. Por favor, intenta nuevamente más tarde.")
+      setError(err.message || "Hubo un problema al enviar la reserva. Por favor, intenta nuevamente más tarde.")
     }
   }
 
@@ -530,10 +603,23 @@ const ReservationForm: React.FC = () => {
         <ConfirmationModal details={reservationDetails} onClose={() => setShowModal(false)} />
       )}
 
+      {/* Modal de error para horarios completos */}
+      {showErrorModal && (
+        <ErrorModal
+          message={errorMessage}
+          nextTime={nextAvailableTime}
+          onClose={() => setShowErrorModal(false)}
+          onSelectTime={(time) => {
+            setSelectedTime(time)
+            setNextAvailableTime(null)
+            setShowErrorModal(false)
+          }}
+        />
+      )}
+
       {error && <div className="mt-4 p-4 bg-red-600 text-white rounded">{error}</div>}
     </div>
   )
 }
 
 export default ReservationForm
-
