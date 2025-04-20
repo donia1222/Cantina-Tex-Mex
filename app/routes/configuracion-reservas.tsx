@@ -15,6 +15,7 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<boolean>(false)
   const [lastFetchTime, setLastFetchTime] = useState<number>(0)
+  const [dataSource, setDataSource] = useState<"server" | "local" | "default">("default")
 
   useEffect(() => {
     fetchConfiguracion()
@@ -22,7 +23,7 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
 
   const fetchConfiguracion = async () => {
     setLoading(true)
-    setError(null)
+    // No resetear el error aquí para evitar parpadeos
     
     // Determinar si estamos en desarrollo o producción
     const isDevelopment = window.location.hostname === 'localhost' || 
@@ -34,6 +35,7 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
       if (savedValue) {
         console.log("Entwicklung: Verwende lokal gespeicherten Wert:", savedValue)
         setMaxReservasPorHora(Number.parseInt(savedValue))
+        setDataSource("local")
         setLoading(false)
         setLastFetchTime(Date.now())
         return
@@ -63,14 +65,18 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
               const value = Number.parseInt(data.config.max_reservas_por_hora)
               console.log("Setze max_reservas_por_hora auf:", value)
               setMaxReservasPorHora(value)
+              setDataSource("server")
+              setError(null) // Limpiar cualquier error previo
               
               // Guardar en localStorage como respaldo
               localStorage.setItem('max_reservas_por_hora', value.toString())
             } else {
               console.warn("max_reservas_por_hora nicht in der Konfiguration gefunden")
+              // No mostrar error, usar valor predeterminado
             }
           } else {
             console.warn("Ungültiges Antwortformat:", data)
+            // No mostrar error, usar valor predeterminado o localStorage
           }
         } catch (parseError) {
           console.error("Fehler beim Parsen von JSON:", parseError)
@@ -80,9 +86,11 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
           if (savedValue) {
             console.log("Verwende gespeicherten Wert aus localStorage:", savedValue)
             setMaxReservasPorHora(Number.parseInt(savedValue))
+            setDataSource("local")
+            setError(null) // Limpiar cualquier error previo
           } else {
-            // Solo mostrar error si no hay valor guardado
-            setError("Fehler beim Verarbeiten der Serverantwort.")
+            // No mostrar error, usar valor predeterminado
+            setDataSource("default")
           }
         }
       } else {
@@ -96,14 +104,15 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
       if (savedValue) {
         console.log("Verwende gespeicherten Wert aus localStorage nach Fehler:", savedValue)
         setMaxReservasPorHora(Number.parseInt(savedValue))
-        
-        // No mostrar error si estamos en desarrollo
-        if (!isDevelopment) {
-          setError("Keine Verbindung zum Server möglich. Verwende lokal gespeicherten Wert.")
-        }
+        setDataSource("local")
+        setError(null) // Limpiar cualquier error previo
       } else {
-        // Solo mostrar error si no hay valor guardado
-        setError("Fehler beim Laden der Konfiguration. Bitte versuchen Sie es erneut.")
+        // No mostrar error en la carga inicial, solo en operaciones explícitas del usuario
+        setDataSource("default")
+        // Solo mostrar error si es una recarga explícita (no la carga inicial)
+        if (lastFetchTime > 0 && !isDevelopment) {
+          setError("Keine Verbindung zum Server möglich.")
+        }
       }
     } finally {
       setLoading(false)
@@ -119,6 +128,7 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
 
     // Guardar inmediatamente en localStorage
     localStorage.setItem('max_reservas_por_hora', maxReservasPorHora.toString())
+    setDataSource("local")
 
     try {
       // Usar FormData en lugar de JSON
@@ -148,6 +158,7 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
           console.log("Geparste Speicherantwort:", data)
           
           if (data.success) {
+            setDataSource("server")
             setSuccess(true)
             setTimeout(() => {
               setSuccess(false)
@@ -227,6 +238,20 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
     }
   }
 
+  // Función para obtener el texto de origen de datos
+  const getDataSourceText = () => {
+    switch (dataSource) {
+      case "server":
+        return "Server";
+      case "local":
+        return "Lokaler Speicher";
+      case "default":
+        return "Standardwert";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
       <div className="flex items-center justify-between mb-6">
@@ -262,7 +287,7 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="maxReservas" className="block text-sm font-medium text-amber-700 mb-1">
-            Maximale Reservierungen pro 30 Minuten
+            Maximale Reservierungen pro Stunde
           </label>
           <div className="flex items-center">
             <input
@@ -315,7 +340,7 @@ const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
       {/* Información de depuración (puedes eliminar esto en producción) */}
       <div className="mt-6 text-xs text-gray-500">
         <p>Letzte Aktualisierung: {new Date(lastFetchTime).toLocaleTimeString()}</p>
-        <p>Aktueller Wert: {maxReservasPorHora}</p>
+        <p>Aktueller Wert: {maxReservasPorHora} (Quelle: {getDataSourceText()})</p>
       </div>
     </div>
   )
