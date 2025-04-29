@@ -51,8 +51,12 @@ export default function Component() {
 
           <div className="rounded-3xl bg-black p-6 relative overflow-hidden flex flex-col justify-center h-full">
             <div className="relative z-10">
+            <div className="flex justify-center items-center my-12">
+          <img src="/cantina_logocopia.png" alt="Cantina Tex Mex Logo" className="rounded-lg shadow-md h-34 object-cover" />
+        </div>
               <div className="flex justify-center mb-20">
                 <GoogleBussines />
+                
               </div>
               <div className="flex items-center space-x-4 mb-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden">

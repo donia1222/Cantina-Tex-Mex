@@ -148,7 +148,7 @@ export default function Contact() {
           </div>
         </div>
         <div className="flex justify-center items-center my-12">
-          <img src="/images-2.png" alt="Cantina Tex Mex Logo" className="rounded-lg shadow-md h-34 object-cover" />
+          <img src="/cantina_logocopia.png" alt="Cantina Tex Mex Logo" className="rounded-lg shadow-md h-34 object-cover" />
         </div>
       </motion.div>
     </div>
