@@ -6,6 +6,7 @@ import { Settings, Save, AlertCircle, Check } from 'lucide-react'
 
 interface ConfiguracionProps {
   onClose?: () => void
+  
 }
 
 const ConfiguracionReservas: React.FC<ConfiguracionProps> = ({ onClose }) => {
