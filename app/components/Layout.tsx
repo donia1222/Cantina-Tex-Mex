@@ -350,13 +350,20 @@ export default function Component({ children }: { children: React.ReactNode }) {
               </button>
             </div>
             {/* Nuevo Texto Añadido */}
-            <div className="mt-6 text-center">
-              <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-gray-200">
-                <a href="https://lweb.ch" className="underline">
-                  Website Design:<span className="ml-2 text-[#ff69b4] text-lg ">lweb</span>{" "}
-                </a>
-              </p>
-            </div>
+    <div className="mt-6 text-center">
+  <p className="text-xl text-white">
+    <a
+      href="https://lweb.ch"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white"
+    >
+      Moderne & individuelle Webseiten
+      <span className="ml-2 text-[#ff69b4] text-xl">lweb.ch</span>
+    </a>
+  </p>
+</div>
+
           </motion.div>
         </div>
       </footer>
@@ -418,7 +425,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
               <p className="mt-4">
                 Webseite Design{" "}
                 <a href="https://lweb.ch" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                  lweb.ch
                 </a>
               </p>
             </div>
