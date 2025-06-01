@@ -92,6 +92,7 @@ export default function Contact() {
               <span>
                 Di-Sa: 11:30-13:30 / 18:00-21:00
                 <br />
+                Sa: 18:00-22:00
               </span>
             </li>
           </ul>
