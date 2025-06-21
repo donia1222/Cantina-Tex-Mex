@@ -48,7 +48,7 @@ const IndexPage: React.FC = () => {
 
         <CurrentMessage />
         <ReservationForm />
-        <ContinuousScroll />
+
 
         {/* Service Information Section */}
         <motion.div
@@ -126,6 +126,7 @@ const IndexPage: React.FC = () => {
             </motion.div>
           </div>
         </motion.div>
+                <ContinuousScroll />
       </div>
 
       {/* Footer (if any) */}

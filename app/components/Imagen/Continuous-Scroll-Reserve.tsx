@@ -89,11 +89,7 @@ export default function Component() {
 
   return (
     <div className="w-full max-w-5xl mx-auto overflow-hidden bg-background py-12 mt-10">
-      <h1 className="mb-12 text-center text-4xl font-bold">
-        <span className="text-red-500">Adios Sevelen 😞</span>{' '}
-        <span className="text-green-500">Hola </span>
-        <span className="text-green-500">Buchs 😃</span>
-      </h1>
+
 
       <div className="relative w-full overflow-hidden" style={{ perspective: '1000px' }}>
         <div 
