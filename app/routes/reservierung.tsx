@@ -77,7 +77,7 @@ const IndexPage: React.FC = () => {
                 </div>
                 <h4 className="font-semibold text-gray-200 mb-2">Haustierfreie Zone</h4>
                 <p className="text-sm text-gray-400 leading-relaxed">
-                  Aufgrund unserer hochwertigen Sofas und Polstermöbel können wir leider keine Haustiere empfangen.
+                  Aus hygienischen Gründen — nicht wegen unserer Sofas — können wir leider keine Haustiere aufnehmen.
                 </p>
               </motion.div>
 
