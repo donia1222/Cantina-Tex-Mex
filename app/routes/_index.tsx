@@ -131,7 +131,7 @@ export default function MenuPage() {
       </AnimatePresence>
 
    
-      <ConstructionNotice />
+
 
         <CantinaFarewell />
 
