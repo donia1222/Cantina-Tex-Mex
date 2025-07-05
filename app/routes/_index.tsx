@@ -132,6 +132,8 @@ export default function MenuPage() {
 
    
 
+      <ConstructionNotice />
+
 
         <CantinaFarewell />
 
