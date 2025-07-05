@@ -3,7 +3,6 @@
 import ReservationForm from "~/components/Rerserve/ReservationForm"
 import CurrentMessage from "~/components/Rerserve/CurrentMessage"
 import ContinuousScroll from "~/components/Imagen/Continuous-Scroll-Reserve"
-
 import type React from "react"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
