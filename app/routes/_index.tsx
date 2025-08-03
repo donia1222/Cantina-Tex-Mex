@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import Bloques from '~/components/Blocks/Bloques'
 import CantinaFarewell from '~/components/Blocks/CantinaFarewell'
 import TextEffect from "~/components/Blocks/Texteffet";
-import { ConstructionNotice } from "./construction-notice"
+
 const tiktokUrl = "https://www.tiktok.com/@lwebwebsitedesign";
 const Loader = () => (
   <motion.div
@@ -132,7 +132,7 @@ export default function MenuPage() {
 
    
 
-      <ConstructionNotice />
+
 
 
         <CantinaFarewell />
