@@ -318,7 +318,7 @@ export default function Menu() {
               <p className="text-amber-700 mb-2">Genießen Sie authentische mexikanische Aromen im Herzen der Stadt</p>
               <div className="flex items-center justify-center md:justify-start text-amber-700">
                 <Clock className="w-5 h-5 mr-2" />
-                <span className="font-medium">DIENSTAG BIS FREITAG • 11:30 - 13:30</span>
+                <span className="font-medium">MTTWOCH BIS FREITAG • 11:30 - 13:30</span>
               </div>
             </div>
 
