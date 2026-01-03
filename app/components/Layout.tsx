@@ -266,7 +266,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { icon: MapPin, title: "Adresse", content: "Ushuaia & Cantina Tex-Mex\nBahnhofstrasse 40\n9470 Buchs" },
-              { icon: Clock, title: "Öffnungszeiten", content: "Di-Fr: 11:30-13:30 18:00-21:00\nSa: 18:00-22:00" },
+              { icon: Clock, title: "Öffnungszeiten", content: "Mi-Fr: 11:30-13:30 18:00-21:00\nDi-Sa: 18:00-22:00" },
               {
                 icon: BookCheck,
                 title: "Reservieren",
@@ -334,7 +334,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
-            <p className="text-center text-gray-400 text-sm mb-4">© 2024 Cantina Tex-Mex. Alle Rechte vorbehalten.</p>
+            <p className="text-center text-gray-400 text-sm mb-4">© 2026 Cantina Tex-Mex. Alle Rechte vorbehalten.</p>
             <div className="flex justify-center space-x-4">
               <button
                 onClick={() => setImpressumOpen(true)}
@@ -400,7 +400,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   Akzeptieren
                 </button>
                 <button
-                  onClick={() => (window.location.href = "https://google.ch")}
+                  onClick={() => (window.location.href = "https://www.cantinatexmex.ch")}
                   className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
                 >
                   Ablehnen
