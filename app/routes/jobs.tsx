@@ -84,15 +84,6 @@ export default function Jobs() {
 
   return (
     <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gradient-to-b from-gray-900 to-gray-800 text-red-500 p-0 rounded-lg ">
-      <div className="w-full flex justify-center mt-6">
-        <img
-          src="/cantina_logocopia.png"
-          alt="Cantina Tex-Mex Logo"
-          className="object-contain"
-          style={{ width: "180px", height: "auto" }}
-        />
-      </div>
-
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -103,31 +94,28 @@ export default function Jobs() {
           <div className="relative p-8">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 via-amber-500 to-orange-500"></div>
 
-            <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-gray-100 mb-4">Wir suchen Verstärkung!</h1>
-              <p className="text-xl text-gray-300">Werden Sie Teil unseres Teams in der Cantina</p>
-            </div>
-
             <motion.div
-              className="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-8 mb-8"
+              className="relative rounded-xl shadow-xl p-8 mb-8 overflow-hidden min-h-[300px]"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <motion.div variants={itemVariants} className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center mr-4">
-                  <User className="w-6 h-6 text-white" />
-                </div>
-                <h2 className="text-2xl font-bold text-amber-800">Koch</h2>
-              </motion.div>
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: "url('/koch.jpeg')" }}
+              />
+              <div className="absolute inset-0 bg-black/40" />
 
-              <motion.div variants={itemVariants} className="mb-6">
-                <p className="text-gray-700 mb-4">
-                  Wir suchen einen engagierten Koch, der unser Küchenteam in der Cantina Tex-Mex
-                  verstärkt. Wenn Sie Leidenschaft fürs Kochen haben und in einem dynamischen Team arbeiten
-                  möchten, sind Sie bei uns genau richtig!
-                </p>
-              </motion.div>
+              <div className="relative z-10 flex flex-col items-center justify-center text-center h-full min-h-[280px]">
+                <motion.div variants={itemVariants}>
+                  <p className="text-xl md:text-2xl text-white drop-shadow-md max-w-2xl">
+                    Wir suchen einen engagierten Koch, der unser Küchenteam in der Cantina Tex-Mex
+                    verstärkt. Wenn Sie Leidenschaft fürs Kochen haben und in einem dynamischen Team arbeiten
+                    möchten, sind Sie bei uns genau richtig!
+                  </p>
+                </motion.div>
+              </div>
+            </motion.div>
 
               <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="bg-amber-50 p-5 rounded-xl shadow-sm border border-amber-100/50">
@@ -173,7 +161,6 @@ export default function Jobs() {
                   <li>Flexibilität bei den Arbeitszeiten</li>
                 </ul>
               </motion.div>
-            </motion.div>
 
             <motion.div
               className="bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg shadow-lg p-8"
