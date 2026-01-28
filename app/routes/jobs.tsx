@@ -45,7 +45,7 @@ export default function Jobs() {
       `
 
       // Create mailto link with form data
-      const mailtoLink = `mailto:info@cantina-texmex.ch?subject=Bewerbung als Servicekraft&body=${encodeURIComponent(emailBody)}`
+      const mailtoLink = `mailto:info@cantina-texmex.ch?subject=Bewerbung als Koch&body=${encodeURIComponent(emailBody)}`
 
       // Open email client
       window.location.href = mailtoLink
@@ -118,13 +118,13 @@ export default function Jobs() {
                 <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center mr-4">
                   <User className="w-6 h-6 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-amber-800">Servicekraft</h2>
+                <h2 className="text-2xl font-bold text-amber-800">Koch</h2>
               </motion.div>
 
               <motion.div variants={itemVariants} className="mb-6">
                 <p className="text-gray-700 mb-4">
-                  Wir suchen eine freundliche und engagierte Servicekraft, die unser Team in der Cantina Tex-Mex
-                  verstärkt. Wenn Sie Freude am Umgang mit Menschen haben und in einem dynamischen Team arbeiten
+                  Wir suchen einen engagierten Koch, der unser Küchenteam in der Cantina Tex-Mex
+                  verstärkt. Wenn Sie Leidenschaft fürs Kochen haben und in einem dynamischen Team arbeiten
                   möchten, sind Sie bei uns genau richtig!
                 </p>
               </motion.div>
@@ -167,8 +167,8 @@ export default function Jobs() {
               >
                 <h3 className="font-semibold text-amber-800 mb-2">Was wir erwarten:</h3>
                 <ul className="list-disc list-inside text-gray-700 space-y-1">
-                  <li>Erfahrung im Servicebereich wünschenswert</li>
-                  <li>Freundliches und kundenorientiertes Auftreten</li>
+                  <li>Erfahrung in der Küche wünschenswert</li>
+                  <li>Leidenschaft fürs Kochen</li>
                   <li>Teamfähigkeit und Zuverlässigkeit</li>
                   <li>Flexibilität bei den Arbeitszeiten</li>
                 </ul>
@@ -191,7 +191,7 @@ export default function Jobs() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <motion.div className="inline-block" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <a
-                      href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Servicekraft"
+                      href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Koch"
                       className="inline-flex items-center px-8 py-4 text-xl font-medium rounded-full shadow-lg text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-amber-300 transition-all duration-300"
                     >
                       <Mail className="mr-2 h-6 w-6" />
@@ -205,7 +205,7 @@ export default function Jobs() {
                         if (navigator.share) {
                           navigator
                             .share({
-                              title: "Stellenangebot: Servicekraft bei Cantina Tex-Mex",
+                              title: "Stellenangebot: Koch bei Cantina Tex-Mex",
                               text: "Schau dir diese Stellenanzeige bei Cantina Tex-Mex an!",
                               url: window.location.href,
                             })
