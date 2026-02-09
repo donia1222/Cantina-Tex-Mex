@@ -1,236 +1,198 @@
 "use client"
 
-import type React from "react"
-import { useState, useRef } from "react"
-import { motion } from "framer-motion"
-import { Clock, Calendar, Mail, User } from "lucide-react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Clock, Calendar, Mail, Share2, ChefHat, CheckCircle2 } from "lucide-react"
+import PageLoader from "~/components/PageLoader"
 
 export default function Jobs() {
-  const [loading, setLoading] = useState(false)
-  const [formSubmitted, setFormSubmitted] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  })
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const [fileName, setFileName] = useState("")
+  const [loading, setLoading] = useState(true)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFileName(e.target.files[0].name)
-    } else {
-      setFileName("")
-    }
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-
-    // Simulate loading
-    setTimeout(() => {
-      // Create email body with form data
-      const emailBody = `
-        Name: ${formData.name}
-        Email: ${formData.email}
-        Telefon: ${formData.phone}
-        Nachricht: ${formData.message}
-      `
-
-      // Create mailto link with form data
-      const mailtoLink = `mailto:info@cantina-texmex.ch?subject=Bewerbung als Koch&body=${encodeURIComponent(emailBody)}`
-
-      // Open email client
-      window.location.href = mailtoLink
-
-      setLoading(false)
-      setFormSubmitted(true)
-
-      // Reset form after submission
-      setTimeout(() => {
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          message: "",
-        })
-        setFileName("")
-        setFormSubmitted(false)
-      }, 3000)
-    }, 1500)
-  }
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  }
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
-    <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gradient-to-b from-gray-900 to-gray-800 text-red-500 p-0 rounded-lg ">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="w-full max-w-6xl px-4 mb-8 mt-8"
-      >
-        <div className="rounded-2xl overflow-hidden ">
-          <div className="relative p-8">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 via-amber-500 to-orange-500"></div>
+    <div className="bg-black/60 backdrop-blur-sm" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+      <PageLoader loading={loading} />
 
-            <motion.div
-              className="relative rounded-xl shadow-xl p-8 mb-8 overflow-hidden min-h-[300px]"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url('/koch.jpeg')" }}
-              />
-              <div className="absolute inset-0 bg-black/40" />
+      {/* ━━━ HERO with background image ━━━ */}
+      <section className="relative pt-28 pb-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-amber-500/10 text-amber-400">
+              Karriere
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+              Werde Teil unseres{" "}
+              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-400 bg-clip-text text-transparent">
+                Teams
+              </span>
+            </h1>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Wir suchen einen engagierten Koch, der unser Küchenteam in der Cantina Tex-Mex verstärkt.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-              <div className="relative z-10 flex flex-col items-center justify-center text-center h-full min-h-[280px]">
-                <motion.div variants={itemVariants}>
-                  <p className="text-xl md:text-2xl text-white drop-shadow-md max-w-2xl">
-                    Wir suchen einen engagierten Koch, der unser Küchenteam in der Cantina Tex-Mex
-                    verstärkt. Wenn Sie Leidenschaft fürs Kochen haben und in einem dynamischen Team arbeiten
-                    möchten, sind Sie bei uns genau richtig!
-                  </p>
-                </motion.div>
+      {/* ━━━ JOB IMAGE ━━━ */}
+      <section className="px-4 mb-10">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="relative rounded-3xl overflow-hidden h-[280px] md:h-[350px]"
+          >
+            <img
+              src="/koch.jpeg"
+              alt="Koch in der Küche"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-amber-500/20 backdrop-blur-sm flex items-center justify-center">
+                  <ChefHat className="w-6 h-6 text-amber-400" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-extrabold text-white">Koch (m/w/d)</h2>
+                  <p className="text-gray-300 text-sm">Cantina Tex-Mex, Buchs</p>
+                </div>
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
-              <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div className="bg-amber-50 p-5 rounded-xl shadow-sm border border-amber-100/50">
-                  <div className="flex items-center mb-2">
-                    <Clock className="w-5 h-5 text-amber-600 mr-2" />
-                    <h3 className="font-semibold text-amber-800">Arbeitszeiten</h3>
-                  </div>
-                  <p className="text-gray-700">Dienstag bis Samstag</p>
-                  <p className="text-gray-700">Sonntag und Montag frei</p>
-                </div>
-
-                <div className="bg-amber-50 p-5 rounded-xl shadow-sm border border-amber-100/50">
-                  <div className="flex items-center mb-2">
-                    <Calendar className="w-5 h-5 text-amber-600 mr-2" />
-                    <h3 className="font-semibold text-amber-800">Vertrag</h3>
-                  </div>
-                  <p className="text-gray-700">Stundenbasierter Vertrag</p>
-                  <p className="text-gray-700">Flexible Einsatzzeiten möglich</p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                className="bg-amber-50 p-5 rounded-xl shadow-sm border border-amber-100/50 mb-6"
-              >
-                <h3 className="font-semibold text-amber-800 mb-2">Was wir bieten:</h3>
-                <ul className="list-disc list-inside text-gray-700 space-y-1">
-                  <li>Ein freundliches und dynamisches Arbeitsumfeld</li>
-                  <li>Faire Bezahlung</li>
-                  <li>Möglichkeit zur beruflichen Weiterentwicklung</li>
-                </ul>
-              </motion.div>
-
-              <motion.div
-                variants={itemVariants}
-                className="bg-amber-50 p-5 rounded-xl shadow-sm border border-amber-100/50"
-              >
-                <h3 className="font-semibold text-amber-800 mb-2">Was wir erwarten:</h3>
-                <ul className="list-disc list-inside text-gray-700 space-y-1">
-                  <li>Erfahrung in der Küche wünschenswert</li>
-                  <li>Leidenschaft fürs Kochen</li>
-                  <li>Teamfähigkeit und Zuverlässigkeit</li>
-                  <li>Flexibilität bei den Arbeitszeiten</li>
-                </ul>
-              </motion.div>
-
+      {/* ━━━ JOB DETAILS ━━━ */}
+      <section className="px-4 pb-20">
+        <div className="max-w-4xl mx-auto space-y-6">
+          {/* Schedule + Contract */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <motion.div
-              className="bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg shadow-lg p-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6"
             >
-              <h2 className="text-3xl font-bold text-amber-800 mb-6 text-center">Bewerben Sie sich jetzt!</h2>
-
-              <div className="text-center max-w-2xl mx-auto">
-                <p className="text-lg text-gray-700 mb-6">
-                  Bitte senden Sie uns Ihren Lebenslauf direkt per E-Mail. Wir freuen uns auf Ihre Bewerbung!
-                </p>
-
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <motion.div className="inline-block" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <a
-                      href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Koch"
-                      className="inline-flex items-center px-8 py-4 text-xl font-medium rounded-full shadow-lg text-white bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-amber-300 transition-all duration-300"
-                    >
-                      <Mail className="mr-2 h-6 w-6" />
-                      <span>Bewerben</span>
-                    </a>
-                  </motion.div>
-
-                  <motion.div className="inline-block" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <button
-                      onClick={() => {
-                        if (navigator.share) {
-                          navigator
-                            .share({
-                              title: "Stellenangebot: Koch bei Cantina Tex-Mex",
-                              text: "Schau dir diese Stellenanzeige bei Cantina Tex-Mex an!",
-                              url: window.location.href,
-                            })
-                            .catch((error) => console.log("Error sharing", error))
-                        } else {
-                          // Fallback for browsers that don't support the Web Share API
-                          navigator.clipboard.writeText(window.location.href)
-                          alert("Link in die Zwischenablage kopiert!")
-                        }
-                      }}
-                      className="inline-flex items-center px-8 py-4 text-xl font-medium rounded-full shadow-lg text-white bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="mr-2 h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                        />
-                      </svg>
-                      <span>Teilen</span>
-                    </button>
-                  </motion.div>
-                </div>
-
-                <p className="mt-6 text-gray-600 italic">Wir werden uns so schnell wie möglich bei Ihnen melden.</p>
+              <div className="w-14 h-14 rounded-2xl bg-amber-500/15 flex items-center justify-center mb-4">
+                <Clock className="w-7 h-7 text-amber-400" />
               </div>
+              <h3 className="text-white font-bold text-lg mb-2">Arbeitszeiten</h3>
+              <p className="text-gray-200 text-base">Dienstag bis Samstag</p>
+              <p className="text-gray-200 text-base">Sonntag und Montag frei</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-blue-500/15 flex items-center justify-center mb-4">
+                <Calendar className="w-7 h-7 text-blue-400" />
+              </div>
+              <h3 className="text-white font-bold text-lg mb-2">Vertrag</h3>
+              <p className="text-gray-200 text-base">Stundenbasierter Vertrag</p>
+              <p className="text-gray-200 text-base">Flexible Einsatzzeiten möglich</p>
             </motion.div>
           </div>
+
+          {/* What we offer */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white/5 border border-white/10 rounded-2xl p-6"
+          >
+            <h3 className="text-white font-bold mb-4">Was wir bieten</h3>
+            <div className="space-y-3">
+              {[
+                "Ein freundliches und dynamisches Arbeitsumfeld",
+                "Faire Bezahlung",
+                "Möglichkeit zur beruflichen Weiterentwicklung",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-200 text-base">{item}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* What we expect */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="bg-white/5 border border-white/10 rounded-2xl p-6"
+          >
+            <h3 className="text-white font-bold mb-4">Was wir erwarten</h3>
+            <div className="space-y-3">
+              {[
+                "Erfahrung in der Küche wünschenswert",
+                "Leidenschaft fürs Kochen",
+                "Teamfähigkeit und Zuverlässigkeit",
+                "Flexibilität bei den Arbeitszeiten",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-200 text-base">{item}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-gradient-to-br from-amber-500/15 to-red-500/10 border border-amber-500/20 rounded-3xl p-8 text-center"
+          >
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Bewerben Sie sich jetzt!</h2>
+            <p className="text-gray-400 mb-6 max-w-lg mx-auto">
+              Bitte senden Sie uns Ihren Lebenslauf direkt per E-Mail. Wir freuen uns auf Ihre Bewerbung!
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a
+                href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Koch"
+                className="inline-flex items-center gap-2 h-12 px-7 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white font-bold shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:scale-[1.03] transition-all"
+              >
+                <Mail className="w-5 h-5" />
+                Bewerben
+              </a>
+              <button
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator
+                      .share({
+                        title: "Stellenangebot: Koch bei Cantina Tex-Mex",
+                        text: "Schau dir diese Stellenanzeige bei Cantina Tex-Mex an!",
+                        url: window.location.href,
+                      })
+                      .catch(() => {})
+                  } else {
+                    navigator.clipboard.writeText(window.location.href)
+                  }
+                }}
+                className="inline-flex items-center gap-2 h-12 px-7 rounded-full bg-white/10 border border-white/10 text-gray-300 font-semibold hover:bg-white/15 transition-all"
+              >
+                <Share2 className="w-5 h-5" />
+                Teilen
+              </button>
+            </div>
+
+            <p className="mt-5 text-gray-500 text-sm">
+              Wir werden uns so schnell wie möglich bei Ihnen melden.
+            </p>
+          </motion.div>
         </div>
-      </motion.div>
+      </section>
     </div>
   )
 }
-

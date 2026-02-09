@@ -1,157 +1,166 @@
 "use client"
 
-import { MapPin, Mail, Clock, Calendar, PhoneCall, Facebook, Instagram, Download } from "lucide-react"
+import { MapPin, Mail, Clock, PhoneCall, Facebook, Instagram, Download, ArrowRight, Calendar } from "lucide-react"
 import handleDownloadVCard from "~/utils/downloadVCard"
 import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-
-const Loadere = () => (
-  <motion.div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"
-    initial={{ opacity: 1 }}
-    animate={{ opacity: 0 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.5, ease: "easeInOut" }}
-  >
-    <motion.div
-      className="w-20 h-20 border-t-4 border-red-500 border-solid rounded-full"
-      animate={{ rotate: 360 }}
-      transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-    />
-  </motion.div>
-)
+import { motion, AnimatePresence } from "framer-motion"
+import { Link } from "@remix-run/react"
+import PageLoader from "~/components/PageLoader"
 
 export default function Contact() {
-  const buttonVariants = {
-    hover: { scale: 1.05, transition: { duration: 0.2 } },
-    tap: { scale: 0.95, transition: { duration: 0.2 } },
-  }
-
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 500)
+    const timer = setTimeout(() => setLoading(false), 800)
     return () => clearTimeout(timer)
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-900 bg-opacity-80 text-gray-100 py-12 px-4 sm:px-6 lg:px-8 rounded-lg">
-      {loading && <Loadere />}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-3xl mx-auto"
-      >
-        <div className="flex justify-center items-center mt-5 mb-10">
-          <div className={`text-3xl sm:text-4xl md:text-4xl font-poppins font-bold ml-4 `}>
-            <span className="bg-gradient-to-r from-gray-200 via-gray-500 to-red-500 text-transparent bg-clip-text font-poppins">
-              Kontakt 👋
+    <div className="bg-black/60 backdrop-blur-sm" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+      <PageLoader loading={loading} />
+
+      {/* ━━━ HERO ━━━ */}
+      <section className="pt-28 pb-12 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-red-500/10 text-red-400">
+              Kontakt
             </span>
-          </div>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+              Besuchen Sie{" "}
+              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-400 bg-clip-text text-transparent">
+                uns
+              </span>
+            </h1>
+            <p className="text-lg text-gray-400 max-w-xl mx-auto">
+              Wir freuen uns auf Ihren Besuch in der Cantina Tex-Mex in Buchs.
+            </p>
+          </motion.div>
         </div>
+      </section>
 
-        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-          <pattern
-            id="pattern-circles"
-            x="0"
-            y="0"
-            width="30"
-            height="40"
-            patternUnits="userSpaceOnUse"
-            patternContentUnits="userSpaceOnUse"
-          >
-            <circle id="pattern-circle" cx="5" cy="5" r="1" fill="#fff"></circle>
-          </pattern>
-          <rect id="rect" x="0" y="0" width="100%" height="100%" fill="url(#pattern-circles)"></rect>
-        </svg>
+      {/* ━━━ CONTENT ━━━ */}
+      <section className="px-4 pb-20">
+        <div className="max-w-4xl mx-auto space-y-6">
+          {/* Contact info cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Address */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-red-500/15 flex items-center justify-center mb-4">
+                <MapPin className="w-7 h-7 text-red-400" />
+              </div>
+              <h3 className="text-white font-bold mb-1">Adresse</h3>
+              <p className="text-gray-400">Bahnhofstrasse 40</p>
+              <p className="text-gray-400">9470 Buchs, Schweiz</p>
+            </motion.div>
 
-        <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-semibold mb-6">Kontaktinformationen</h2>
-          <ul className="space-y-4">
-            <li className="flex items-center">
-              <MapPin className="h-6 w-6 mr-3 text-red-500" />
-              <span>Bahnhofstrasse 40, 9470 Buchs</span>
-            </li>
-
-            <li className="flex items-center">
-              <PhoneCall className="h-6 w-6 mr-3 text-red-500" />
-              <a href="tel:+41817560101" className="hover:underline">
+            {/* Phone */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-green-500/15 flex items-center justify-center mb-4">
+                <PhoneCall className="w-7 h-7 text-green-400" />
+              </div>
+              <h3 className="text-white font-bold mb-1">Telefon</h3>
+              <a href="tel:+41817560101" className="text-gray-400 hover:text-white transition-colors">
                 +41 81 756 01 01
               </a>
-            </li>
+            </motion.div>
 
-            <li className="flex items-center">
-              <Mail className="h-6 w-6 mr-3 text-red-500" />
-              <a href="mailto:info@cantinatexmex.ch" className="hover:underline">
+            {/* Email */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-amber-500/15 flex items-center justify-center mb-4">
+                <Mail className="w-7 h-7 text-amber-400" />
+              </div>
+              <h3 className="text-white font-bold mb-1">E-Mail</h3>
+              <a href="mailto:info@cantinatexmex.ch" className="text-gray-400 hover:text-white transition-colors">
                 info@cantinatexmex.ch
               </a>
-            </li>
-            <li className="flex items-start">
-              <Clock className="h-6 w-6 mr-3 mt-1 text-red-500" />
-              <span>
-                Di-Sa: 11:30-13:30 / 18:00-21:00
-                <br />
-                Sa: 18:00-22:00
-              </span>
-            </li>
-          </ul>
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4">Reservierung</h3>
-            <div className="space-y-4">
-              <motion.a
-                href="/reservierung"
-                className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Calendar className="w-5 h-5 mr-2" />
-                Tisch online Reservieren
-              </motion.a>
-            </div>
-          </div>
-          <div className="flex justify-center items-center mt-5">
-            <button
-              id="downloadVCard"
-              className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-              onClick={handleDownloadVCard} // Asignar la función de descarga
+            </motion.div>
+
+            {/* Hours */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6"
             >
-              <Download className="w-5 h-5 mr-2" />
+              <div className="w-14 h-14 rounded-2xl bg-blue-500/15 flex items-center justify-center mb-4">
+                <Clock className="w-5 h-5 text-blue-400" />
+              </div>
+              <h3 className="text-white font-bold mb-1">Öffnungszeiten</h3>
+              <p className="text-gray-400">Mi–Fr: 11:30–13:30, 18:00–21:00</p>
+              <p className="text-gray-400">Di & Sa: 18:00–22:00</p>
+              <p className="text-gray-500 text-sm">So & Mo: Ruhetag</p>
+            </motion.div>
+          </div>
+
+          {/* CTA buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+          >
+            <Link
+              to="/reservierung"
+              className="flex items-center justify-center gap-2 h-12 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-bold shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:scale-[1.02] transition-all"
+            >
+              <Calendar className="w-5 h-5" />
+              Tisch reservieren
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <button
+              onClick={handleDownloadVCard}
+              className="flex items-center justify-center gap-2 h-12 rounded-2xl bg-white/10 border border-white/10 text-gray-300 font-semibold hover:bg-white/15 transition-all"
+            >
+              <Download className="w-5 h-5" />
               Visitenkarte herunterladen
             </button>
-          </div>
-          <div className="mt-8 flex justify-center space-x-4">
-            <motion.a
-              href="https://www.facebook.com/cantinasevelen"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-red-500 transition-colors duration-200"
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
-              aria-label="Besuchen Sie uns auf Facebook"
-            >
-              <Facebook className="w-8 h-8" />
-            </motion.a>
-            <motion.a
-              href="https://www.instagram.com/cantina_badrans/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-red-500 transition-colors duration-200"
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
-              aria-label="Folgen Sie uns auf Instagram"
-            >
-              <Instagram className="w-8 h-8" />
-            </motion.a>
-          </div>
+          </motion.div>
+
+          {/* Social + Logo */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="flex flex-col items-center gap-6 pt-8"
+          >
+            <div className="flex items-center gap-4">
+              <a
+                href="https://www.facebook.com/cantinasevelen"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.instagram.com/cantina_badrans/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+            </div>
+            <img src="/cantina_logocopia.png" alt="Cantina Tex-Mex" className="h-16 w-auto opacity-60" />
+          </motion.div>
         </div>
-        <div className="flex justify-center items-center my-12">
-          <img src="/cantina_logocopia.png" alt="Cantina Tex Mex Logo" className="rounded-lg shadow-md h-34 object-cover" />
-        </div>
-      </motion.div>
+      </section>
     </div>
   )
 }

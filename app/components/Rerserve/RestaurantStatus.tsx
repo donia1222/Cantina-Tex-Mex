@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Clock } from 'lucide-react'
 
 type Status = 'open' | 'closing-soon' | 'opening-soon' | 'closed'
 
@@ -85,20 +84,14 @@ export default function RestaurantStatus() {
   const { text, bgColor, textColor } = getStatusInfo()
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center gap-2 py-2 mt-10">
-      <h2 className="text-xl text-gray-400 font-bold mr-2">Aktueller Status</h2>
-      <div
-        className={`${bgColor} ${textColor} rounded-full py-2 px-3 flex items-center space-x-2 shadow-md transition-all duration-300 hover:shadow-lg`}
-        role="status"
-        aria-live="polite"
-      >
-        <span className="w-2 h-2 rounded-full bg-current animate-pulse" aria-hidden="true"></span>
-        <span className="text-sm font-medium">{text}</span>
-        <Clock className="w-4 h-4" aria-hidden="true" />
-      </div>
-      {status === 'closed' && (
-        <span className="text-sm text-green-500 font-medium">
-          Öffnet am: {nextOpeningTime}
+    <div className="flex items-center gap-2" role="status" aria-live="polite">
+      <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${bgColor} ${textColor}`}>
+        <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" aria-hidden="true" />
+        {text}
+      </span>
+      {status === 'closed' && nextOpeningTime && (
+        <span className="text-xs text-gray-500">
+          Öffnet: {nextOpeningTime}
         </span>
       )}
     </div>

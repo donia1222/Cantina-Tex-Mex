@@ -1,13 +1,12 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useLoaderData } from "@remix-run/react"
 import type { LoaderFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import {
   X,
-  CirclePlus,
   Utensils,
   Salad,
   Beef,
@@ -15,43 +14,53 @@ import {
   BirdIcon as Chicken,
   Carrot,
   Clock,
+  Flame,
+  IceCreamCone,
+  Baby,
+  ChevronRight,
+  Leaf,
 } from "lucide-react"
-import HeaderSpe from "~/components/Header/HeaderSpe"
+import PageLoader from "~/components/PageLoader"
 
 const menuSections = [
   {
     id: "vorspeisen",
     name: "Vorspeisen",
+    desc: "Frische Starter & Klassiker",
+    icon: Salad,
     color: "#FF6B6B",
-    icon: <CirclePlus size={32} />,
     image: "96771444_3048192125224744_9026765579553341440_n.jpg",
   },
   {
     id: "texas",
     name: "Texas",
+    desc: "BBQ, Burger & mehr",
+    icon: Flame,
     color: "#4ECDC4",
-    icon: <CirclePlus size={32} />,
     image: "439906677_1038135431012293_4590580434033471940_n.jpg",
   },
   {
     id: "mexico",
     name: "Mexico",
-    color: "#45B7D1",
-    icon: <CirclePlus size={32} />,
+    desc: "Fajitas, Burritos & Enchiladas",
+    icon: Utensils,
+    color: "#f59e0b",
     image: "271206981_4690667750986679_6769410685630349301_n.jpg",
   },
   {
     id: "kinder",
     name: "Kinder",
+    desc: "Für unsere kleinen Gäste",
+    icon: Baby,
     color: "#FFA07A",
-    icon: <CirclePlus size={32} />,
     image: "/271248933_4690667767653344_444005926034541016_n.jpg",
   },
   {
     id: "desserts",
     name: "Desserts",
+    desc: "Süsse Versuchungen",
+    icon: IceCreamCone,
     color: "#C06C84",
-    icon: <CirclePlus size={32} />,
     image: "/440017389_1038135447678958_7213220999231999312_n.jpg",
   },
 ] as const
@@ -73,99 +82,30 @@ type MenuItem = {
 
 type MenuData = Record<SectionId, MenuItem[]>
 
-const carouselImages = ["/448072528_1062123745280128_8970901128475452127_n.jpg"]
-
-const Loadere = () => (
-  <motion.div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900"
-    initial={{ opacity: 1 }}
-    animate={{ opacity: 0 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.5, ease: "easeInOut" }}
-  >
-    <motion.div
-      className="w-20 h-20 border-t-4 border-red-500 border-solid rounded-full"
-      animate={{ rotate: 360 }}
-      transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-    />
-  </motion.div>
-)
-
 export const loader: LoaderFunction = async () => {
   const menuItems: MenuData = {
     vorspeisen: [
       { name: "Chips mit Sauce", description: "Weizen Chips mit Guacamole und Salsa", vegi: true },
       { name: "Onion Rings", description: "Frittierte Zwiebelringe, dazu Salsa und Sour Cream", vegi: true },
-      {
-        name: "Sopa de maiz con Chili",
-        description: "Maissuppe, serviert mit einem pikanten Red Chili Popper",
-        vegi: true,
-      },
+      { name: "Sopa de maiz con Chili", description: "Maissuppe, serviert mit einem pikanten Red Chili Popper", vegi: true },
       { name: "Grüner Salat", description: "Verschiedene knackige Blattsalate mit Brotcroûtons", vegi: true },
       { name: "Gemischter Salat", description: "Gemischte Salate mit Avocadostreifen", vegi: true },
-      {
-        name: "Nachos mit Cheese",
-        description: "Mais Chips mit Salsa und Sour Cream mit Mozzarella und Cheddar Cheese überbacken",
-        vegi: true,
-      },
-      {
-        name: "The Real Caesar Salad",
-        description: "Eisbergsalat mit Parmesan, Brotcroûtons, Ceasar Sauce und knusprigen Speckwürfeli",
-      },
-      {
-        name: 'Salat "Cantina"',
-        description: "Grosser gemischter Salat mit Pouletstreifen Onion Rings und Tortilla Chips",
-      },
-      {
-        name: "Macho Nachos",
-        description: "Mais Chips mit hausgemachtem Chili con Carne mit Mozzarella und Cheddar Cheese überbacken",
-      },
+      { name: "Nachos mit Cheese", description: "Mais Chips mit Salsa und Sour Cream mit Mozzarella und Cheddar Cheese überbacken", vegi: true },
+      { name: "The Real Caesar Salad", description: "Eisbergsalat mit Parmesan, Brotcroûtons, Ceasar Sauce und knusprigen Speckwürfeli" },
+      { name: 'Salat "Cantina"', description: "Grosser gemischter Salat mit Pouletstreifen Onion Rings und Tortilla Chips" },
+      { name: "Macho Nachos", description: "Mais Chips mit hausgemachtem Chili con Carne mit Mozzarella und Cheddar Cheese überbacken" },
       { name: "Gambas al ajillo", description: "Sautierte Crevetten mit Knoblauch und Olivenöl flambiert mit Brandy" },
-      {
-        name: "Mexikanische Vorspeisenplatte",
-        description:
-          "Nachos, Quesadilla, Guacamole, Onion Rings, Chicken Fingers, Crevetten (ab 2 Personen, Preis pro Person)",
-      },
-      {
-        name: "Chips-Chicken Fingers",
-        description: "6 Stück Hausgemachte, knusprige Pouletstreifen mit Tortilla-Chips Panade Mozzarella Sticks",
-      },
+      { name: "Mexikanische Vorspeisenplatte", description: "Nachos, Quesadilla, Guacamole, Onion Rings, Chicken Fingers, Crevetten (ab 2 Personen, Preis pro Person)" },
+      { name: "Chips-Chicken Fingers", description: "6 Stück Hausgemachte, knusprige Pouletstreifen mit Tortilla-Chips Panade Mozzarella Sticks" },
     ],
     texas: [
-      {
-        name: "Baked Potatoes",
-        description:
-          "Kartoffelscheiben gemischt mit verschiedenen Gemüsen goldbraun überbacken mit Mozzarella und Cheddar",
-        vegi: true,
-      },
-      {
-        name: "Chicken Potatoes",
-        description:
-          "Kartoffelscheiben gemischt mit knackigem Broccoli und gebratenen Pouletstreifen, mit Mozzarella und Cheddar Cheese goldbraun überbacken",
-      },
-      {
-        name: "Shrimps Potatoes",
-        description:
-          "Kartoffelscheiben gemischt mit Crevetten, Cherry Tomaten und Kräuter, gebratenen Pouletstreifen, mit Mozzarella und Cheddar Cheese goldbraun überbacken",
-      },
-      {
-        name: "Chicken Fingers",
-        description: "Hausgemachte, knusprige Pouletstreifen mit Tortilla-Chips Panade dazu Pommes",
-      },
-      {
-        name: "Cantiworker",
-        description:
-          "200 Gramm 100% Black Angus Rindfleisch. Mit Eisbergsalat, roten Zwiebeln, Cheddar Cheese, hausgemachter BBQ Sauce und…viel Liebe gefüllt",
-      },
-      {
-        name: "Cantina Spiess 250gr",
-        description: "Saftiger gemischter Fleischspiess mit Country Fries und Knoblauchbrot, dazu Saucen zum Dippen",
-      },
-      {
-        name: "Rancher Steak 200gr",
-        description:
-          "Rindsentrecôte, gratiniert mit Kräuterbutter und Parmesan, dazu Pommes, Onion Rings und Saucen zum Dippen",
-      },
+      { name: "Baked Potatoes", description: "Kartoffelscheiben gemischt mit verschiedenen Gemüsen goldbraun überbacken mit Mozzarella und Cheddar", vegi: true },
+      { name: "Chicken Potatoes", description: "Kartoffelscheiben gemischt mit knackigem Broccoli und gebratenen Pouletstreifen, mit Mozzarella und Cheddar Cheese goldbraun überbacken" },
+      { name: "Shrimps Potatoes", description: "Kartoffelscheiben gemischt mit Crevetten, Cherry Tomaten und Kräuter, gebratenen Pouletstreifen, mit Mozzarella und Cheddar Cheese goldbraun überbacken" },
+      { name: "Chicken Fingers", description: "Hausgemachte, knusprige Pouletstreifen mit Tortilla-Chips Panade dazu Pommes" },
+      { name: "Cantiworker", description: "200 Gramm 100% Black Angus Rindfleisch. Mit Eisbergsalat, roten Zwiebeln, Cheddar Cheese, hausgemachter BBQ Sauce und…viel Liebe gefüllt" },
+      { name: "Cantina Spiess 250gr", description: "Saftiger gemischter Fleischspiess mit Country Fries und Knoblauchbrot, dazu Saucen zum Dippen" },
+      { name: "Rancher Steak 200gr", description: "Rindsentrecôte, gratiniert mit Kräuterbutter und Parmesan, dazu Pommes, Onion Rings und Saucen zum Dippen" },
     ],
     mexico: [
       { name: "Fajitas", description: "Mit Pouletfleisch, Rindshuftwürfeli, Crevetten oder Gemüse" },
@@ -174,29 +114,14 @@ export const loader: LoaderFunction = async () => {
       { name: "Quesadillas de Chorizo", description: "Mit pikantem Chorizo" },
       { name: "Quesadillas res y pimiento", description: "Mit Rindshuftwürfeli und Peperoni" },
       { name: "Quesadillas mar y tierra", description: "Mit Crevetten und Broccoli" },
-      {
-        name: "Burritos con verdura",
-        description:
-          "Grosse, gerollte Weizentortillas gefüllt mit frischem Gemüse, dazu Sour Cream und Salsa serviert mit Tomatenreis oder Salat",
-        vegi: true,
-      },
-      {
-        name: "Burritos con Pollo y Res",
-        description:
-          "Grosse, gerollte Weizentortillas gefüllt mit Mais, Paprika Poulet-/Rindfleisch, dazu Sour Cream und Salsa, serviert mit Tomatenreis oder Salat",
-      },
-      {
-        name: "Chili con Carne",
-        description: "Rindfleisch mit Chili, frischen Tomaten, Mais und Kidneybohnen, serviert im Reisring",
-      },
-      { name: "Enachiladas", description: "Pouletfleisch, Rindshuftwürfeli, Crevetten oder Gemüse" },
+      { name: "Burritos con verdura", description: "Grosse, gerollte Weizentortillas gefüllt mit frischem Gemüse, dazu Sour Cream und Salsa serviert mit Tomatenreis oder Salat", vegi: true },
+      { name: "Burritos con Pollo y Res", description: "Grosse, gerollte Weizentortillas gefüllt mit Mais, Paprika Poulet-/Rindfleisch, dazu Sour Cream und Salsa, serviert mit Tomatenreis oder Salat" },
+      { name: "Chili con Carne", description: "Rindfleisch mit Chili, frischen Tomaten, Mais und Kidneybohnen, serviert im Reisring" },
+      { name: "Enchiladas", description: "Pouletfleisch, Rindshuftwürfeli, Crevetten oder Gemüse" },
     ],
     kinder: [
       { name: "Kalbswürstchen am Spiess", description: "Serviert mit Pommes" },
-      {
-        name: "Chicken Fingers mit Pommes",
-        description: "Hausgemachte, knusprige Pouletstreifen mit Tortilla-Chips Panade",
-      },
+      { name: "Chicken Fingers mit Pommes", description: "Hausgemachte, knusprige Pouletstreifen mit Tortilla-Chips Panade" },
       { name: "Mini Burritos mit Pouletfleisch", description: "" },
     ],
     desserts: [
@@ -216,371 +141,322 @@ export const loader: LoaderFunction = async () => {
 export default function Menu() {
   const menuItems = useLoaderData<MenuData>()
   const [activeSection, setActiveSection] = useState<SectionId | null>(null)
-  const [showMittagsmenuModal, setShowMittagsmenuModal] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const modalHeaderRef = useRef<HTMLDivElement>(null)
-
+  const [showMittagsmenu, setShowMittagsmenu] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 500)
+    const timer = setTimeout(() => setLoading(false), 800)
     return () => clearTimeout(timer)
   }, [])
 
-  const handleSectionClick = (sectionId: SectionId) => {
-    setActiveSection(sectionId)
-  }
-
   const closeModal = () => {
     setActiveSection(null)
-    setShowMittagsmenuModal(false)
-  }
-
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % carouselImages.length)
-  }
-
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + carouselImages.length) % carouselImages.length)
+    setShowMittagsmenu(false)
   }
 
   useEffect(() => {
-    if (activeSection || showMittagsmenuModal) {
-      const modalContent = document.querySelector(".modal-content")
-      if (modalContent) {
-        modalContent.scrollTop = 0
-      }
+    if (activeSection || showMittagsmenu) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
     }
-  }, [activeSection, showMittagsmenuModal])
+    return () => { document.body.style.overflow = "" }
+  }, [activeSection, showMittagsmenu])
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
-  const cardVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1 },
-    hover: { scale: 1.05, boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)" },
-  }
-
-  const wochentage = ["Donnerstag", "Freitag"]
-  const menuOptionen = [
-    { name: "Menü 1", preis: 19.5, icon: <Utensils className="w-6 h-6" /> },
-    { name: "Vegetarisches Menü", preis: 17.5, icon: <Salad className="w-6 h-6" /> },
-    { name: "Spezialmenü", preis: 28.5, icon: <Beef className="w-6 h-6" /> },
-  ]
   const ersterGang = ["Salat", "Suppe", "Nachos", "Hausgemachte Chips"]
-  const quesadillas = {
-    preis: 17.5,
-    optionen: [
-      { name: "Hähnchen", icon: <Chicken className="w-6 h-6" /> },
-      { name: "Rindfleisch", icon: <Beef className="w-6 h-6" /> },
-      { name: "Garnelen", icon: <Shrimp className="w-6 h-6" /> },
-      { name: "Tomate (Vegetarisch)", icon: <Carrot className="w-6 h-6" /> },
-    ],
-  }
-  const beilagen = ["Pommes frites", "Salat", "Tomatenreis", "Country Fries"]
 
   return (
-    <div className="bg-cover bg-center flex flex-col items-center justify-start font-poppins bg-gray-900 bg-opacity-80 text-red-500 p-0 rounded-lg">
-      <HeaderSpe />
-      <main></main>
-      {loading && <Loadere />}
+    <><div className="bg-black/60 backdrop-blur-sm" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+      <PageLoader loading={loading} />
 
-      {/* Mittagsmenü Button - Elegante versión */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="w-full max-w-6xl px-4 mb-8 mt-8"
-      >
-        <button
-          onClick={() => setShowMittagsmenuModal(true)}
-          className="w-full bg-gradient-to-r from-amber-100 to-amber-200 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
-        >
-          <div className="relative p-6 flex flex-col md:flex-row items-center">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 via-amber-500 to-orange-500"></div>
-
-            <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-              <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-400 rounded-full flex items-center justify-center shadow-inner">
-                <Utensils className="w-10 h-10 text-white" />
-              </div>
-            </div>
-
-            <div className="flex-grow text-center md:text-left">
-              <h2 className="text-3xl font-bold text-amber-800 mb-1 group-hover:text-amber-900">Mittagsmenü</h2>
-              <p className="text-amber-700 mb-2">Genießen Sie authentische mexikanische Aromen im Herzen der Stadt</p>
-              <div className="flex items-center justify-center md:justify-start text-amber-700">
-                <Clock className="w-5 h-5 mr-2" />
-                <span className="font-medium">MTTWOCH BIS FREITAG • 11:30 - 13:30</span>
-              </div>
-            </div>
-
-            <div className="hidden md:block ml-4">
-              <div className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                Ansehen
-              </div>
-            </div>
-          </div>
-        </button>
-      </motion.div>
-
-      <motion.div
-        className="w-full max-w-6xl px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 mb-40"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {menuSections.map((section) => (
+      {/* ━━━ HERO ━━━ */}
+      <section className="relative pt-28 pb-16 px-4 overflow-hidden">
+        <div className="max-w-5xl mx-auto text-center">
           <motion.div
-            key={section.id}
-            className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
-            variants={cardVariants}
-            whileHover="hover"
-            onClick={() => handleSectionClick(section.id)}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="relative">
-              <img
-                src={section.image || "/placeholder.svg"}
-                alt={section.name}
-                className="w-full h-48 object-cover opacity-90 transition-opacity duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-30 transition-opacity duration-300 rounded-t-lg"></div>
-              <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 rounded p-2 text-white">
-                <div className="flex items-center space-x-2">
-                  <span>{section.icon}</span>
-                  <h2 className="text-xl font-semibold">{section.name}</h2>
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-red-500/10 text-red-400">
+              Speisekarte
+            </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+              Unsere{" "}
+              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-400 bg-clip-text text-transparent">
+                Spezialitäten
+              </span>
+            </h1>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Entdecken Sie authentische Tex-Mex-Küche mit frischen Zutaten und traditionellen Rezepten.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ━━━ MITTAGSMENU BANNER ━━━ */}
+      <section className="px-4 mb-12">
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          onClick={() => setShowMittagsmenu(true)}
+          className="w-full max-w-5xl mx-auto block"
+        >
+          <div className="relative bg-gradient-to-r from-amber-500/20 to-red-500/20 backdrop-blur-sm border border-amber-500/30 rounded-2xl p-6 md:p-8 overflow-hidden group hover:border-amber-500/50 transition-all duration-300">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="w-16 h-16 rounded-2xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                <Clock className="w-8 h-8 text-amber-400" />
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-1">Mittagsmenü</h2>
+                <p className="text-gray-400">
+                  Mittwoch bis Freitag, 11:30 – 13:30 Uhr
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-amber-400 font-bold text-lg">ab Fr. 18.50</span>
+                <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center group-hover:bg-amber-500/30 transition-colors">
+                  <ChevronRight className="w-5 h-5 text-amber-400" />
                 </div>
               </div>
             </div>
-          </motion.div>
-        ))}
-      </motion.div>
+            {/* Decorative */}
+            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-amber-500/5" />
+            <div className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full bg-red-500/5" />
+          </div>
+        </motion.button>
+      </section>
 
+      {/* ━━━ MENU GRID ━━━ */}
+      <section className="px-4 pb-20">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {menuSections.map((section, i) => (
+              <motion.button
+                key={section.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * i }}
+                onClick={() => setActiveSection(section.id)}
+                className="group relative rounded-2xl overflow-hidden text-left h-64"
+              >
+                <img
+                  src={section.image}
+                  alt={section.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:from-black/90 transition-colors duration-300" />
+                <div className="relative z-10 flex flex-col justify-end h-full p-6">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
+                    style={{ background: `${section.color}25` }}
+                  >
+                    <section.icon className="w-5 h-5" style={{ color: section.color }} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-1">{section.name}</h3>
+                  <p className="text-gray-400 text-sm">{section.desc}</p>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+
+          {/* No takeaway notice */}
+          <div className="mt-10 text-center">
+            <p className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
+              <X className="w-4 h-4" />
+              Wir bieten kein Essen zum Mitnehmen an
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+      {/* ━━━ MENU ITEMS MODAL ━━━ */}
       <AnimatePresence>
         {activeSection && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-20"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
             onClick={closeModal}
           >
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-lg overflow-hidden max-w-2xl w-full max-h-[80vh] flex flex-col"
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className="relative bg-[#1a1a2e] border border-white/10 rounded-3xl overflow-hidden max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div ref={modalHeaderRef} className="relative h-24 flex-shrink-0">
+              {/* Modal header */}
+              <div className="relative h-40 flex-shrink-0">
                 <img
-                  src={menuSections.find((s) => s.id === activeSection)?.image || "/placeholder.svg"}
+                  src={menuSections.find((s) => s.id === activeSection)?.image}
                   alt={menuSections.find((s) => s.id === activeSection)?.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                <h2 className="absolute bottom-4 left-4 text-3xl font-bold text-white">
-                  {menuSections.find((s) => s.id === activeSection)?.name}
-                </h2>
-                <button
-                  onClick={closeModal}
-                  className="absolute top-4 right-4 text-white hover:text-red-500 transition-colors"
-                >
-                  <X size={24} />
-                </button>
-              </div>
-              <div className="overflow-y-auto flex-grow modal-content">
-                <div className="p-6 grid gap-6">
-                  {menuItems[activeSection].map((item, index) => (
-                    <motion.div
-                      key={item.name}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="bg-gray-100 rounded-lg shadow-md p-4"
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-xl font-semibold text-red-700">{item.name}</h3>
-                      </div>
-                      {item.description && <p className="text-gray-600">{item.description}</p>}
-                      {item.subItems && (
-                        <ul className="list-disc list-inside mt-2">
-                          {item.subItems.map((subItem) => (
-                            <li key={subItem.name} className="text-gray-600">
-                              {subItem.name} {subItem.description && `- ${subItem.description}`}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                      {item.vegi && (
-                        <span className="mt-2 inline-block bg-gradient-to-r from-green-400 to-green-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                          Vegi
-                        </span>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-
-        {showMittagsmenuModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-20"
-            onClick={closeModal}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-gradient-to-b from-amber-50 to-amber-100 rounded-xl overflow-hidden max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header elegante */}
-              <div className="relative bg-gradient-to-r from-amber-400 to-amber-500 p-8 text-center">
-                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-400 via-amber-500 to-orange-500"></div>
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <Utensils className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-                <h2 className="text-4xl font-bold mb-2 text-white">Mittagsmenü</h2>
-                <p className="text-amber-100 text-lg mb-4">
-                  Genießen Sie authentische mexikanische Aromen im Herzen der Stadt
-                </p>
-                <div className="inline-block bg-white bg-opacity-20 rounded-lg px-4 py-2">
-                  <p className="text-white font-medium">DIENSTAG BIS FREITAG</p>
-                  <p className="text-3xl font-bold text-white">11:30 - 13:30</p>
-                </div>
-                <button
-                  onClick={closeModal}
-                  className="absolute top-4 right-4 text-white hover:text-amber-200 transition-colors"
-                >
-                  <X size={24} />
-                </button>
-              </div>
-
-              <div className="overflow-y-auto flex-grow modal-content p-6">
-                {/* Menü opciones */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="bg-white rounded-lg shadow-md overflow-hidden"
-                  >
-                    <div className="p-1 bg-gradient-to-r from-amber-400 to-amber-500"></div>
-                    <div className="p-5">
-                      <div className="flex items-center mb-3">
-                        <div className="bg-amber-100 p-3 rounded-full mr-3">
-                          <Utensils className="w-6 h-6 text-amber-600" />
-                        </div>
-                        <h3 className="text-xl font-bold text-amber-800">Menü</h3>
-                      </div>
-                      <p className="text-gray-600 mb-3 min-h-[50px]">
-                        Authentische mexikanische Aromen mit traditionellen Rezepten
-                      </p>
-                      <p className="text-2xl font-bold text-amber-600">Fr. 19.50</p>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="bg-white rounded-lg shadow-md overflow-hidden"
-                  >
-                    <div className="p-1 bg-gradient-to-r from-green-400 to-green-500"></div>
-                    <div className="p-5">
-                      <div className="flex items-center mb-3">
-                        <div className="bg-green-100 p-3 rounded-full mr-3">
-                          <Salad className="w-6 h-6 text-green-600" />
-                        </div>
-                        <h3 className="text-xl font-bold text-green-800">Vegetarisches Menü</h3>
-                      </div>
-                      <p className="text-gray-600 mb-3 min-h-[50px]">
-                        Köstliche vegetarische Optionen voller Geschmack
-                      </p>
-                      <p className="text-2xl font-bold text-green-600">Fr. 18.50</p>
-                    </div>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="bg-white rounded-lg shadow-md overflow-hidden md:col-span-2"
-                  >
-                    <div className="p-1 bg-gradient-to-r from-orange-400 to-orange-500"></div>
-                    <div className="p-5">
-                      <div className="flex items-center mb-3">
-                        <div className="bg-orange-100 p-3 rounded-full mr-3">
-                          <Beef className="w-6 h-6 text-orange-600" />
-                        </div>
-                        <h3 className="text-xl font-bold text-orange-800">Spezialmenü</h3>
-                      </div>
-                      <p className="text-gray-600 mb-3">Exklusive Kreationen unseres Küchenchefs mit Premium-Zutaten</p>
-                      <p className="text-2xl font-bold text-orange-600">Fr. 28.50</p>
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Vorspeisen */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="mb-8"
-                >
-                  <h3 className="text-xl font-bold text-amber-800 text-center mb-4">VORSPEISE NACH WAHL</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {ersterGang.map((item, index) => (
-                      <motion.div
-                        key={item}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1 * (index + 1) }}
-                        className="bg-white rounded-lg py-3 px-4 text-center shadow-md border border-amber-200"
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-black/50 to-transparent" />
+                <div className="absolute bottom-4 left-6 flex items-center gap-3">
+                  {(() => {
+                    const sec = menuSections.find((s) => s.id === activeSection)
+                    if (!sec) return null
+                    return (
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center"
+                        style={{ background: `${sec.color}25` }}
                       >
-                        <p className="font-medium text-amber-700">{item}</p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-
-                {/* Información adicional */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="bg-gradient-to-r from-amber-100 to-amber-200 rounded-lg p-6 text-center"
+                        <sec.icon className="w-5 h-5" style={{ color: sec.color }} />
+                      </div>
+                    )
+                  })()}
+                  <h2 className="text-2xl font-bold text-white">
+                    {menuSections.find((s) => s.id === activeSection)?.name}
+                  </h2>
+                </div>
+                <button
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                 >
-                  <p className="text-amber-800 mb-3">Jedes Menü enthält eine Vorspeise nach Wahl und einen Hauptgang</p>
-                  <p className="text-xl font-bold text-amber-900">
-                    Kommen Sie und genießen Sie das authentische mexikanische Erlebnis!
-                  </p>
-                </motion.div>
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Modal content */}
+              <div className="overflow-y-auto flex-grow p-6 space-y-3">
+                {menuItems[activeSection].map((item, index) => (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.04 }}
+                    className="bg-white/5 border border-white/5 rounded-2xl p-4 hover:bg-white/8 transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="text-white font-semibold">{item.name}</h3>
+                          {item.vegi && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 text-xs font-medium">
+                              <Leaf className="w-3 h-3" />
+                              Vegi
+                            </span>
+                          )}
+                        </div>
+                        {item.description && (
+                          <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                        )}
+                      </div>
+                    </div>
+                    {item.subItems && (
+                      <div className="mt-3 pl-3 border-l-2 border-white/10 space-y-1">
+                        {item.subItems.map((sub) => (
+                          <p key={sub.name} className="text-gray-400 text-sm">
+                            <span className="text-gray-300">{sub.name}</span>
+                            {sub.description && ` – ${sub.description}`}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="w-full max-w-6xl mx-auto text-center mb-8 mt-4">
-        <div className="bg-red-600 text-white py-4 px-6 rounded-lg shadow-lg">
-          <p className="text-xl font-bold">Wir bieten kein Essen zum Mitnehmen an</p>
-        </div>
-      </div>
-    </div>
+
+      {/* ━━━ MITTAGSMENU MODAL ━━━ */}
+      <AnimatePresence>
+        {showMittagsmenu && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            onClick={closeModal}
+          >
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className="relative bg-[#1a1a2e] border border-white/10 rounded-3xl overflow-hidden max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="relative bg-gradient-to-br from-amber-500/20 to-red-500/10 p-8 text-center flex-shrink-0 border-b border-white/10">
+                <div className="flex justify-center mb-4">
+                  <div className="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center">
+                    <Utensils className="w-7 h-7 text-amber-400" />
+                  </div>
+                </div>
+                <h2 className="text-3xl font-extrabold text-white mb-2">Mittagsmenü</h2>
+                <p className="text-gray-400 mb-4">
+                  Authentische mexikanische Aromen im Herzen der Stadt
+                </p>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white text-sm font-medium">
+                  <Clock className="w-4 h-4 text-amber-400" />
+                  Mittwoch – Freitag, 11:30 – 13:30
+                </div>
+                <button
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="overflow-y-auto flex-grow p-6 space-y-6">
+                {/* Menu options */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { name: "Menü", price: "19.50", color: "amber", icon: Utensils, desc: "Traditionelle Rezepte" },
+                    { name: "Vegetarisch", price: "18.50", color: "green", icon: Salad, desc: "Voller Geschmack" },
+                    { name: "Spezial", price: "28.50", color: "orange", icon: Beef, desc: "Premium-Zutaten" },
+                  ].map((menu) => (
+                    <div
+                      key={menu.name}
+                      className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center hover:bg-white/8 transition-colors"
+                    >
+                      <menu.icon className="w-6 h-6 text-amber-400 mx-auto mb-2" />
+                      <h3 className="text-white font-bold mb-1">{menu.name}</h3>
+                      <p className="text-gray-500 text-xs mb-2">{menu.desc}</p>
+                      <p className="text-amber-400 font-bold text-lg">Fr. {menu.price}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Vorspeise */}
+                <div>
+                  <h3 className="text-white font-bold text-center mb-3">Vorspeise nach Wahl</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {ersterGang.map((item) => (
+                      <div
+                        key={item}
+                        className="bg-white/5 border border-white/5 rounded-xl py-2.5 px-3 text-center"
+                      >
+                        <p className="text-gray-300 text-sm font-medium">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-center">
+                  <p className="text-gray-300 text-sm mb-1">
+                    Jedes Menü enthält eine Vorspeise nach Wahl und einen Hauptgang
+                  </p>
+                  <p className="text-amber-400 font-bold">
+                    Kommen Sie und geniessen Sie das authentische mexikanische Erlebnis!
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
