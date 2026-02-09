@@ -94,7 +94,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
-            ? "bg-[#111118]/90 backdrop-blur-xl shadow-lg shadow-black/10 border-b border-white/5"
+            ? "lg:bg-[#111118]/90 lg:backdrop-blur-xl lg:shadow-lg lg:shadow-black/10 lg:border-b lg:border-white/5"
             : "bg-transparent"
         }`}
       >
