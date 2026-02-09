@@ -467,24 +467,24 @@ export default function HomePage() {
             <div>
               <div
                 className="relative rounded-3xl overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[320px]"
-                style={{ background: `linear-gradient(135deg, #1a1a2e, #2d2d44)` }}
+                style={{ background: `linear-gradient(135deg, #14532d, #1a3a2a)` }}
               >
                 <div>
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style={{ background: C.goldLt }}>
-                    <Calendar className="w-7 h-7" style={{ color: C.gold }} />
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style={{ background: '#22c55e20' }}>
+                    <Calendar className="w-7 h-7" style={{ color: '#4ade80' }} />
                   </div>
                   <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Tagesmenü</h3>
-                  <p className="text-gray-400 text-lg leading-relaxed">
+                  <p className="text-gray-300 text-lg leading-relaxed">
                     Dienstag bis Freitag<br />
                     11:30 – 13:00 Uhr<br />
-                    <span className="text-amber-400 font-semibold">Frisch & günstig!</span>
+                    <span className="text-green-400 font-semibold">Frisch & günstig!</span>
                   </p>
                 </div>
-                <Link to="/menu" className="inline-flex items-center gap-2 text-amber-400 font-bold hover:gap-3 transition-all mt-6">
+                <Link to="/menu" className="inline-flex items-center gap-2 text-green-400 font-bold hover:gap-3 transition-all mt-6">
                   Menü ansehen <ArrowRight className="w-5 h-5" />
                 </Link>
-                <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-amber-500/10" />
-                <div className="absolute -bottom-5 -right-5 w-24 h-24 rounded-full bg-amber-500/5" />
+                <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-green-500/10" />
+                <div className="absolute -bottom-5 -right-5 w-24 h-24 rounded-full bg-green-500/5" />
               </div>
             </div>
 
