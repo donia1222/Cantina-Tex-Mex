@@ -22,7 +22,7 @@ const IndexPage: React.FC = () => {
       <PageLoader loading={loading} />
 
       {/* ━━━ HERO ━━━ */}
-      <section className="pt-28 pb-8 px-4">
+      <section className="pt-20 pb-2 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-red-500/10 text-red-400">
@@ -39,13 +39,13 @@ const IndexPage: React.FC = () => {
       </section>
 
       {/* ━━━ CONTENT ━━━ */}
-      <section className="px-4 pb-12">
-        <div className="max-w-4xl mx-auto space-y-8">
+      <section className="px-2 md:px-4 pb-12">
+        <div className="max-w-4xl mx-auto space-y-4">
           {/* Current message */}
           <CurrentMessage />
 
           {/* Reservation form */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8">
+          <div className="bg-white/5 border border-white/10 rounded-2xl md:rounded-3xl p-3 md:p-8">
             <ReservationForm />
           </div>
 
