@@ -340,11 +340,31 @@ export default function Component({ children }: { children: React.ReactNode }) {
                 <button onClick={() => setDatenschutzOpen(true)} className="text-gray-500 hover:text-white transition-colors">
                   Datenschutz
                 </button>
-                <a href="https://lweb.ch" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white transition-colors">
-                  Design by <span className="text-[#ff69b4]">lweb.ch</span>
-                </a>
               </div>
             </div>
+
+            {/* lweb.ch banner */}
+            <a
+              href="https://lweb.ch"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block mt-8 group"
+            >
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#ff69b4]/10 via-purple-500/10 to-blue-500/10 border border-white/5 p-4 hover:border-[#ff69b4]/30 transition-all duration-300">
+                <div className="flex items-center justify-center gap-3">
+                  <div className="text-center">
+                    <p className="text-gray-400 text-xs mb-0.5">Moderne & individuelle Webseiten</p>
+                    <p className="text-lg font-bold">
+                      <span className="bg-gradient-to-r from-[#ff69b4] via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                        lweb.ch
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-[#ff69b4]/5 group-hover:bg-[#ff69b4]/10 transition-colors" />
+                <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-purple-500/5 group-hover:bg-purple-500/10 transition-colors" />
+              </div>
+            </a>
           </div>
         </div>
       </footer>

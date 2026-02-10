@@ -158,7 +158,14 @@ export default function HomePage() {
         >
           <div className="text-center max-w-3xl">
             <div className="mb-6">
-              <img src="/cantina_logocopia.png" alt="Cantina Logo" className="h-20 md:h-28 mx-auto drop-shadow-2xl rounded-[10px]" />
+              <video
+                src="/fc5bec4a-cad0-48d2-9e86-9e0e677ca4d8.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="h-20 md:h-28 mx-auto drop-shadow-2xl rounded-[10px]"
+              />
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-4">
