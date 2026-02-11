@@ -22,7 +22,7 @@ interface MenuProps {
 export const MexicanMenu: React.FC<MenuProps> = ({
   restaurantName = "La Cantina Mexicana",
   menuTitle = "Tagesmenü",
-  hours = "Dienstag bis Freitag | 11:30 - 13:30 Uhr",
+  hours = "Mittwoch bis Freitag | 11:30 - 13:30 Uhr",
   appetizers = [
     { name: "Blumenkohlsuppe" },
     { name: "Nachos Cheese" },

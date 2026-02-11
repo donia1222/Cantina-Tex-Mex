@@ -482,7 +482,7 @@ export default function HomePage() {
                   </div>
                   <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Tagesmenü</h3>
                   <p className="text-gray-300 text-lg leading-relaxed">
-                    Dienstag bis Freitag<br />
+                    Mittwoch bis Freitag<br />
                     11:30 – 13:00 Uhr<br />
                     <span className="text-green-400 font-semibold">Frisch & günstig!</span>
                   </p>

@@ -19,42 +19,43 @@ export default function RestaurantStatus() {
       let currentStatus: Status = 'closed'
       let nextTime = ''
 
-      if (day >= 2 && day <= 6) {
-        if (day === 6 && currentTime >= 20 * 60) {
-          currentStatus = 'closed'
-          nextTime = 'Dienstag 18:00'
-        } else if (day === 4 || day === 5) {
-          if (currentTime >= 11 * 60 + 30 && currentTime < 13 * 60) {
-            currentStatus = 'open'
-          } else if (currentTime >= 13 * 60 && currentTime < 13 * 60 + 30) {
-            currentStatus = 'closing-soon'
-            nextTime = '18:00'
-          } else if (currentTime >= 18 * 60 && currentTime < 20 * 60) {
-            currentStatus = 'open'
-          } else if (currentTime >= 19 * 60 + 30 && currentTime < 20 * 60) {
-            currentStatus = 'closing-soon'
-          } else if (currentTime >= 11 * 60 && currentTime < 11 * 60 + 30) {
-            currentStatus = 'opening-soon'
-            nextTime = '11:30'
-          } else if (currentTime >= 17 * 60 && currentTime < 18 * 60) {
-            currentStatus = 'opening-soon'
-            nextTime = '18:00'
-          } else {
-            nextTime = currentTime < 11 * 60 + 30 ? '11:30' : '18:00'
-          }
+      // Mi–Fr (3-5): 11:30–13:30, 18:00–21:00
+      // Di & Sa (2,6): 18:00–22:00
+      // So & Mo (0,1): Ruhetag
+      if (day >= 3 && day <= 5) {
+        // Wednesday, Thursday, Friday: midday + evening
+        if (currentTime >= 11 * 60 && currentTime < 11 * 60 + 30) {
+          currentStatus = 'opening-soon'
+          nextTime = '11:30'
+        } else if (currentTime >= 11 * 60 + 30 && currentTime < 13 * 60) {
+          currentStatus = 'open'
+        } else if (currentTime >= 13 * 60 && currentTime < 13 * 60 + 30) {
+          currentStatus = 'closing-soon'
+          nextTime = '18:00'
+        } else if (currentTime >= 17 * 60 && currentTime < 18 * 60) {
+          currentStatus = 'opening-soon'
+          nextTime = '18:00'
+        } else if (currentTime >= 18 * 60 && currentTime < 20 * 60 + 30) {
+          currentStatus = 'open'
+        } else if (currentTime >= 20 * 60 + 30 && currentTime < 21 * 60) {
+          currentStatus = 'closing-soon'
         } else {
-          if (currentTime >= 18 * 60 && currentTime < 20 * 60) {
-            currentStatus = 'open'
-          } else if (currentTime >= 19 * 60 + 30 && currentTime < 20 * 60) {
-            currentStatus = 'closing-soon'
-          } else if (currentTime >= 17 * 60 && currentTime < 18 * 60) {
-            currentStatus = 'opening-soon'
-            nextTime = '18:00'
-          } else {
-            nextTime = '18:00'
-          }
+          nextTime = currentTime < 11 * 60 + 30 ? '11:30' : currentTime < 18 * 60 ? '18:00' : 'Mittwoch 11:30'
+        }
+      } else if (day === 2 || day === 6) {
+        // Tuesday & Saturday: evening only
+        if (currentTime >= 17 * 60 && currentTime < 18 * 60) {
+          currentStatus = 'opening-soon'
+          nextTime = '18:00'
+        } else if (currentTime >= 18 * 60 && currentTime < 21 * 60 + 30) {
+          currentStatus = 'open'
+        } else if (currentTime >= 21 * 60 + 30 && currentTime < 22 * 60) {
+          currentStatus = 'closing-soon'
+        } else {
+          nextTime = currentTime < 18 * 60 ? '18:00' : day === 2 ? 'Mittwoch 11:30' : 'Dienstag 18:00'
         }
       } else {
+        // Sunday & Monday: closed
         nextTime = 'Dienstag 18:00'
       }
 

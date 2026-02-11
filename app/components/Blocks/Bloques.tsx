@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Utensils, Calendar, Ham, ChevronLeft, ChevronRight } from "lucide-react"
 import GoogleBussines from '~/components/Google/GoogleBussines'
 import ScrollTextImage from '~/components/Blocks/ScrollTextImage'
+import RestaurantStatus from '~/components/Rerserve/RestaurantStatus'
 export default function Component() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -96,11 +97,13 @@ export default function Component() {
             <Calendar className="w-8 h-8 text-red-500 mb-4" />
             <h2 className="text-2xl font-medium">
               Probieren Sie unser<br />
-              Tagesmenü Dienstag<br />
+              Tagesmenü Mittwoch<br />
               bis Freitag von<br />
               11:30 bis 13:00 Uhr.
             </h2>
-            
+            <div className="mt-4">
+              <RestaurantStatus />
+            </div>
           </div>
 
           <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
