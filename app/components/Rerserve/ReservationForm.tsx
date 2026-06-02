@@ -117,8 +117,11 @@ const ReservationForm: React.FC = () => {
   // Función para obtener todas las horas posibles para un día
   const getAllPossibleTimes = (date: Date): string[] => {
     const day = date.getDay()
-    // Para martes (2) y miércoles (3) se agregan horarios de almuerzo y cena
-    if (day === 2 || day === 3) {
+    // Martes (2): solo cena (noche)
+    if (day === 2) {
+      return ["18:00", "18:30", "19:00", "19:30", "20:00", "20:15"]
+    } else if (day === 3) {
+      // Miércoles (3): almuerzo y cena
       return ["11:30", "12:00", "12:30", "12:45", "18:00", "18:30", "19:00", "19:30", "20:00", "20:15"]
     } else if (day === 4 || day === 5) {
       // Jueves (4) y Viernes (5): almuerzo y cena
@@ -202,8 +205,11 @@ const ReservationForm: React.FC = () => {
 
       let allTimes: string[] = []
 
-      if (day === 2 || day === 3) {
-        // Martes y miércoles: almuerzo y cena
+      if (day === 2) {
+        // Martes: solo cena (noche)
+        allTimes = ["18:00", "18:30", "19:00", "19:30", "20:00", "20:15"]
+      } else if (day === 3) {
+        // Miércoles: almuerzo y cena
         allTimes = ["11:30", "12:00", "12:30", "12:45", "18:00", "18:30", "19:00", "19:30", "20:00", "20:15"]
       } else if (day === 4 || day === 5) {
         // Jueves y Viernes: almuerzo y cena
@@ -400,6 +406,12 @@ const ReservationForm: React.FC = () => {
                   minDate: "today",
                   disable: [
                     (date: Date) => [0, 1].includes(date.getDay()),
+                    // Betriebsferien / vacaciones: 21.07 - 11.08.2026 (el 12.08 abre normal)
+                    (date: Date) => {
+                      const start = new Date(2026, 6, 21, 0, 0, 0) // 21 julio 2026
+                      const end = new Date(2026, 7, 11, 23, 59, 59) // 11 agosto 2026
+                      return date >= start && date <= end
+                    },
                     ...Object.keys(blockedDates)
                       .filter((dateStr) => {
                         const dateObj = parseLocalDate(dateStr)
