@@ -20,6 +20,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion"
 import RestaurantStatus from "~/components/Rerserve/RestaurantStatus"
 import BackgroundImages from "~/components/Imagen/BackgroundImages"
+import XtremeWrapModal from "~/components/XtremeWrapModal"
 import handleDownloadVCard from "~/utils/downloadVCard"
 
 const menuItems = [
@@ -248,6 +249,9 @@ export default function Component({ children }: { children: React.ReactNode }) {
           </motion.button>
         )}
       </AnimatePresence>
+
+      {/* ━━━ XTREME WRAPS — ANGEBOT DER WOCHE ━━━ */}
+      <XtremeWrapModal />
 
       {/* ━━━ MAIN CONTENT ━━━ */}
       <main className="relative z-10 flex-grow">{children}</main>

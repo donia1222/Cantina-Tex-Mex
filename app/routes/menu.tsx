@@ -409,6 +409,33 @@ export default function Menu() {
 
               {/* Content */}
               <div className="overflow-y-auto flex-grow p-6 space-y-6">
+                {/* NEU: Xtreme Wraps */}
+                <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/15 to-red-500/15">
+                  <div className="flex items-center gap-4 p-4">
+                    <img
+                      src="/xtreme-wrap-chili.png"
+                      alt="Xtreme Wrap Chili con Carne"
+                      className="w-24 h-24 rounded-xl object-cover flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Flame className="w-4 h-4 text-orange-400" />
+                        <span className="text-amber-400 font-bold text-xs uppercase tracking-[0.15em]">
+                          Neu: Xtreme Wraps
+                        </span>
+                      </div>
+                      <h3 className="text-white font-extrabold text-lg leading-tight">
+                        Chili con Carne &amp; Nacho Wrap
+                      </h3>
+                      <p className="text-gray-400 text-sm">mit Guacamole-Pommes</p>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="text-amber-400 font-bold">Fr. 16.–</span>
+                        <span className="text-gray-500 text-xs">Mi – Fr, 11:30 – 13:30</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Menu options */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {[
