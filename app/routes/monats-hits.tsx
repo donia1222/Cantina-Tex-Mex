@@ -8,13 +8,14 @@ import CountUp from "react-countup"
 import type { MetaFunction } from "@remix-run/node"
 import { Flame, Sparkles, CupSoda, Crown, CalendarDays, ChevronRight, Droplets } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
+import MonatsHitsModal from "~/components/MonatsHitsModal"
 
 export const meta: MetaFunction = () => [
   { title: "Monats-Hits | Cantina Tex-Mex" },
   {
     name: "description",
     content:
-      "Smash Burger Plus – ab September in der Cantina Tex-Mex Buchs. Alle Menüs inklusive offenem Getränk.",
+      "Smash Burger Plus – ab September in der Cantina Tex-Mex Buchs. Alle Smash Burger inklusive offenem Getränk.",
   },
 ]
 
@@ -93,6 +94,9 @@ export default function MonatsHits() {
       style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
     >
       <PageLoader loading={loading} />
+
+      {/* Begrüssungs-Modal – nur auf dieser Seite */}
+      <MonatsHitsModal />
 
       {/* ━━━ FIXER BILDHINTERGRUND ━━━ */}
       <div className="fixed inset-0 z-0 bg-[#0b0b0f]">
@@ -194,7 +198,7 @@ export default function MonatsHits() {
                 mit offenem Getränk
               </p>
               <p className="text-gray-400 max-w-lg mx-auto">
-                Vier neue Smash Burger, frisch auf der Plancha gepresst – jeder als Menü mit einem
+                Vier neue Smash Burger, frisch auf der Plancha gepresst – jeder inklusive einem
                 offenen Getränk Ihrer Wahl.
               </p>
             </motion.div>
@@ -375,7 +379,9 @@ export default function MonatsHits() {
               <CupSoda className="w-7 h-7 text-amber-400" />
             </div>
           </motion.div>
-          <p className="text-xl md:text-2xl font-extrabold text-white uppercase">Alle Menüs inkl.</p>
+          <p className="text-xl md:text-2xl font-extrabold text-white uppercase">
+            Alle Smash Burger inkl.
+          </p>
           <p className="text-xl md:text-2xl font-extrabold text-red-500 uppercase">
             offenem Getränk!
           </p>
