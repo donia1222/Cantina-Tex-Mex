@@ -52,7 +52,7 @@ export default function BackgroundImages() {
   if (location.pathname === "/monats-hits") return null
 
   return (
-    <div className="fixed inset-0 z-0">
+    <div className="fixed top-0 left-0 right-0 h-lvh z-0">
       {[0, 1, 2].map((index) => (
         <motion.div
           key={index}

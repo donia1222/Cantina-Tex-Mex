@@ -21,22 +21,41 @@ const OFFER = {
   tags: ["El Diablo", "Trufa Loca", "Smoky BBQ", "La Mafiosa"],
 }
 
-export default function MonatsHitsModal() {
+/**
+ * @param onReady Wird aufgerufen, sobald der Hero animieren darf: entweder
+ *   sofort (Modal wurde schon gesehen) oder erst beim Schliessen des Modals.
+ */
+export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
   const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     // Einmal pro Angebot pro Besucher anzeigen
     const seen = localStorage.getItem("monatsHitsSeen")
-    if (seen !== OFFER.id) {
-      const timer = setTimeout(() => setIsOpen(true), 1000)
-      return () => clearTimeout(timer)
+    if (seen === OFFER.id) {
+      onReady?.()
+      return
     }
+    const timer = setTimeout(() => setIsOpen(true), 1000)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const close = () => {
     localStorage.setItem("monatsHitsSeen", OFFER.id)
     setIsOpen(false)
+    onReady?.()
   }
+
+  // Mit Escape schliessen
+  useEffect(() => {
+    if (!isOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close()
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen])
 
   return (
     <AnimatePresence>
@@ -48,8 +67,13 @@ export default function MonatsHitsModal() {
           exit={{ opacity: 0 }}
           style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}
         >
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" onClick={close} />
+          {/* Backdrop – als Button, damit Klick und Tastatur gleich funktionieren */}
+          <button
+            type="button"
+            aria-label="Schliessen"
+            onClick={close}
+            className="absolute inset-0 w-full h-full bg-black/75 backdrop-blur-sm cursor-default"
+          />
 
           {/* Card */}
           <motion.div

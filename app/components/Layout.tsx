@@ -78,12 +78,12 @@ export default function Component({ children }: { children: React.ReactNode }) {
       }}
     >
       {/* Background Images */}
-      <div className="fixed inset-0 z-0">
+      <div className="fixed top-0 left-0 right-0 h-lvh z-0">
         <BackgroundImages />
       </div>
 
       {/* SVG Pattern Overlay */}
-      <div className="fixed inset-0 z-0 opacity-10 pointer-events-none">
+      <div className="fixed top-0 left-0 right-0 h-lvh z-0 opacity-10 pointer-events-none">
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
           <pattern id="pattern-circles" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse">
             <circle cx="10" cy="10" r="1.6257413380501518" fill="#ffffff" />

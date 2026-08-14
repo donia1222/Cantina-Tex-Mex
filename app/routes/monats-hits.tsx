@@ -82,6 +82,9 @@ export default function MonatsHits() {
   const [loading, setLoading] = useState(true)
   const [heroLoaded, setHeroLoaded] = useState(true)
   const [cheeseLoaded, setCheeseLoaded] = useState(true)
+  // Der Hero startet erst, wenn das Intro-Modal weg ist – sonst läuft die
+  // Animation dahinter ab und niemand sieht sie.
+  const [heroReady, setHeroReady] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800)
@@ -96,10 +99,11 @@ export default function MonatsHits() {
       <PageLoader loading={loading} />
 
       {/* Begrüssungs-Modal – nur auf dieser Seite */}
-      <MonatsHitsModal />
+      <MonatsHitsModal onReady={() => setHeroReady(true)} />
 
       {/* ━━━ FIXER BILDHINTERGRUND ━━━ */}
-      <div className="fixed inset-0 z-0 bg-[#0b0b0f]">
+      {/* h-lvh statt inset-0: bleibt stabil, wenn die Adressleiste des Handys ein-/ausfährt */}
+      <div className="fixed top-0 left-0 right-0 h-lvh z-0 bg-[#0b0b0f] pointer-events-none">
         {heroLoaded && (
           <motion.img
             src={HERO_IMAGE}
@@ -107,7 +111,7 @@ export default function MonatsHits() {
             aria-hidden="true"
             onError={() => setHeroLoaded(false)}
             initial={{ scale: 1.12, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            animate={heroReady ? { scale: 1, opacity: 1 } : undefined}
             transition={{ duration: 2.2, ease: "easeOut" }}
             className="w-full h-full object-cover"
           />
@@ -121,7 +125,9 @@ export default function MonatsHits() {
       <div className="relative z-10">
 
       {/* ━━━ HERO ━━━ */}
-      <section className="relative pt-32 pb-28 px-4">
+      {/* overflow-hidden: die Farbflecken ragen seitlich hinaus und würden
+          sonst die Seite horizontal scrollbar machen. */}
+      <section className="relative pt-32 pb-28 px-4 overflow-hidden">
         {/* Atmende Farbflecken */}
         <motion.div
           animate={{ scale: [1, 1.25, 1], opacity: [0.35, 0.6, 0.35] }}
@@ -139,7 +145,7 @@ export default function MonatsHits() {
           <div className="text-center">
             <motion.div
               initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={heroReady ? { opacity: 1, y: 0 } : undefined}
               transition={{ delay: 0.15 }}
               className="flex flex-wrap items-center justify-center gap-2 mb-5"
             >
@@ -161,14 +167,14 @@ export default function MonatsHits() {
                 <span key={line.text} className="block overflow-hidden">
                   <motion.span
                     initial={{ y: "110%" }}
-                    animate={{ y: 0 }}
+                    animate={heroReady ? { y: 0 } : undefined}
                     transition={{ delay: 0.25 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     className={`relative inline-block text-[19vw] sm:text-[13vw] lg:text-[7.5rem] ${line.className}`}
                   >
                     {line.text}
                     <motion.span
                       initial={{ x: "-120%" }}
-                      animate={{ x: "120%" }}
+                      animate={heroReady ? { x: "120%" } : undefined}
                       transition={{ delay: 1.2 + i * 0.15, duration: 1.1, ease: "easeInOut" }}
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
                       style={{ mixBlendMode: "overlay" }}
@@ -180,7 +186,7 @@ export default function MonatsHits() {
               <span className="flex items-center justify-center gap-3 mt-2">
                 <motion.span
                   initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
+                  animate={heroReady ? { scale: 1, opacity: 1 } : undefined}
                   transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
                   className="inline-block bg-green-600 text-white text-3xl sm:text-4xl lg:text-5xl px-4 py-1 rounded-lg -rotate-2"
                 >
@@ -191,7 +197,7 @@ export default function MonatsHits() {
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={heroReady ? { opacity: 1, y: 0 } : undefined}
               transition={{ delay: 0.75, duration: 0.6 }}
             >
               <p className="text-lg sm:text-xl font-bold text-amber-400 uppercase tracking-wide mb-4">
