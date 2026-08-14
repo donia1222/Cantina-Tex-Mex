@@ -48,6 +48,9 @@ export default function BackgroundImages() {
     }
   }
 
+  // Auf den Monats-Hits läuft ein eigener Hintergrund – kein globales Bild.
+  if (location.pathname === "/monats-hits") return null
+
   return (
     <div className="fixed inset-0 z-0">
       {[0, 1, 2].map((index) => (

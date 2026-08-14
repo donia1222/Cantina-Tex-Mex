@@ -16,6 +16,7 @@ import {
   BookCheck,
   ArrowRight,
   Phone,
+  Flame,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import RestaurantStatus from "~/components/Rerserve/RestaurantStatus"
@@ -26,6 +27,7 @@ import handleDownloadVCard from "~/utils/downloadVCard"
 const menuItems = [
   { to: "/", icon: Home, label: "Startseite" },
   { to: "/menu", icon: UtensilsCrossed, label: "Speisekarte" },
+  { to: "/monats-hits", icon: Flame, label: "Monats-Hits" },
   { to: "/drinks", icon: Beer, label: "Getränke" },
   { to: "/contact", icon: BookCheck, label: "Kontakt" },
   { to: "/reservierung", icon: BookCheck, label: "Reservierung" },
