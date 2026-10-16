@@ -76,7 +76,7 @@ export default function Header() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col justify-center"
           >
-            <h2 className="text-3xl font-semibold mb-90  text-white text-center ">Unsere Getränkekarte</h2>
+            <h2 className="pincel text-3xl mb-90 text-white text-center">Unsere <span className="text-amber-400">Getränkekarte</span></h2>
             <p className="text-white mb-4"></p>
            
           </motion.div>

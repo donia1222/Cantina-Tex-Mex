@@ -40,7 +40,7 @@ export default function DrinkMenu() {
 
   return (
     <div className="text-red-500 p-2 flex justify-center">
-      <h1 className="text-4xl font-bold text-center mb-12"></h1>
+      <h1 className="pincel text-4xl text-center mb-12"></h1>
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-1 gap-8">
         {menuCategories.map((category) => (
           <motion.div
@@ -59,7 +59,7 @@ export default function DrinkMenu() {
                 className="w-full h-48 object-cover"
               />
               <div className="p-4 flex justify-between items-center">
-                <h2 className="text-2xl font-semibold">{category.title}</h2>
+                <h2 className="pincel text-2xl">{category.title}</h2>
                 {expandedCategory === category.id ? (
                   <ChevronUp className="w-6 h-6" />
                 ) : (

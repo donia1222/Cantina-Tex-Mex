@@ -77,9 +77,9 @@ export default function VideoHero() {
           style={{ fontFamily: "'Montserrat', sans-serif" }}
         >
           {/* Main title with the same typography */}
-          <h2 className="text-2xl md:text-3xl font-light mb-4 tracking-widest text-amber-300">USHUAIA KITCHEN BY</h2>
+          <h2 className="pincel text-2xl md:text-3xl mb-4 text-amber-300">USHUAIA KITCHEN <span className="text-amber-400">BY</span></h2>
 
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">Cantina Tex-Mex</h1>
+          <h1 className="pincel text-4xl md:text-6xl mb-6">Cantina <span className="text-amber-400">Tex-Mex</span></h1>
 
           {/* Reservation button with letter animation */}
           <motion.div

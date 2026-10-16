@@ -585,7 +585,7 @@ const ReservationForm: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-3 px-4 rounded-md hover:bg-green-700 transition duration-200"
+              className="btn-brocha btn-brocha--gross w-full disabled:cursor-not-allowed disabled:opacity-50"
               disabled={!(selectedDate && selectedTime && personas)}
             >
               Reservierung bestätigen

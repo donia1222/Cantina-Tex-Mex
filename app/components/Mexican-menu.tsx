@@ -54,8 +54,8 @@ export const MexicanMenu: React.FC<MenuProps> = ({
   return (
     <div className="max-w-7xl mx-auto p-8 text-[#264653] leading-relaxed font-['Montserrat',sans-serif]">
       <header className="text-center mb-6 relative mt-20">
-        <h1 className="font-['Playfair_Display',serif] text-5xl text-[#e63946] mb-2 shadow-sm">{restaurantName}</h1>
-        <h2 className="text-2xl font-semibold uppercase tracking-wider text-[#ffffff] mb-4">{menuTitle}</h2>
+        <h1 className="pincel font-['Playfair_Display',serif] text-5xl text-[#e63946] mb-2 shadow-sm">{restaurantName}</h1>
+        <h2 className="pincel text-2xl text-[#ffffff] mb-4">{menuTitle}</h2>
         {hours && <p className="text-lg font-medium text-[#ebebeb] mt-2">{hours}</p>}
         <div className="w-36 h-[3px] bg-[#e9c46a] mx-auto my-4"></div>
       </header>

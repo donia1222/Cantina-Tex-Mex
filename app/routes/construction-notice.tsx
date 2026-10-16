@@ -25,7 +25,7 @@ export function ConstructionNotice() {
               </svg>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Betriebsferien</h2>
+              <h2 className="pincel text-xl text-gray-900">Betriebsferien</h2>
             </div>
           </div>
           

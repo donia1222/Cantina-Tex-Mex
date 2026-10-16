@@ -26,7 +26,7 @@ const PreviousReservationsModal: React.FC<Props> = ({ reservations, nombre, onCl
       <div className="bg-gray-800 rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-1/2">
         <div className="flex justify-between items-center p-4 border-b border-gray-700">
           {/* Título Personalizado con Saludo */}
-          <h2 className="text-xl font-semibold text-gray-200">
+          <h2 className="pincel text-xl text-gray-200">
             Hallo {nombre}, hier sind deine letzten Reservierungen
           </h2>
 

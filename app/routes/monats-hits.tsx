@@ -159,7 +159,7 @@ export default function MonatsHits() {
             </motion.div>
 
             {/* Der Titel ist der Star: Zeilen steigen auf, Glanz wandert darüber */}
-            <h1 className="font-extrabold uppercase tracking-[-0.03em] leading-[0.82] mb-5">
+            <h1 className="pincel ] leading-[0.82] mb-5">
               {[
                 { text: "Smash", className: "text-white" },
                 { text: "Burger", className: "text-red-500" },
@@ -286,7 +286,7 @@ export default function MonatsHits() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-xl md:text-2xl font-extrabold text-white uppercase tracking-wide">
+                  <h2 className="pincel text-xl md:text-2xl text-white">
                     {burger.name}
                   </h2>
                   <p className="text-gray-400 text-sm leading-relaxed">{burger.desc}</p>
@@ -344,8 +344,8 @@ export default function MonatsHits() {
                 Extra
               </span>
 
-              <h2 className="text-2xl md:text-3xl font-extrabold text-white uppercase tracking-wide leading-tight mb-2">
-                Geschmolzener Käse
+              <h2 className="pincel text-2xl md:text-3xl text-white leading-tight mb-2">
+                Geschmolzener <span className="text-amber-400">Käse</span>
               </h2>
 
               <p className="text-gray-300 text-sm leading-relaxed mb-4">
@@ -412,16 +412,15 @@ export default function MonatsHits() {
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
               <Link
                 to="/reservierung"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-red-600 text-white font-bold hover:bg-red-500 transition-colors shadow-lg shadow-red-600/25"
+                className="btn-brocha"
               >
                 Tisch reservieren
-                <ChevronRight className="w-5 h-5" />
               </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
               <Link
                 to="/menu"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white/10 border border-white/15 text-white font-bold hover:bg-white/15 transition-colors"
+                className="btn-brocha btn-brocha--gelb"
               >
                 Zur Speisekarte
               </Link>

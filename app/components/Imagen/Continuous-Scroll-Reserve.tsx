@@ -91,7 +91,7 @@ export default function Component() {
                   <Images className="w-5 h-5 text-red-400" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-white">Galerie</h2>
+                  <h2 className="pincel text-xl text-white">Galerie</h2>
                   <p className="text-gray-400 text-sm">{images.length} Fotos</p>
                 </div>
               </div>

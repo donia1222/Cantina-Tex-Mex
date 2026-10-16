@@ -24,9 +24,9 @@ export default function Jobs() {
             <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-amber-500/10 text-amber-400">
               Karriere
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+            <h1 className="pincel text-4xl md:text-6xl text-white mb-4">
               Werde Teil unseres{" "}
-              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-400 bg-clip-text text-transparent">
+              <span className="text-amber-400">
                 Teams
               </span>
             </h1>
@@ -58,7 +58,7 @@ export default function Jobs() {
                   <ChefHat className="w-6 h-6 text-amber-400" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-extrabold text-white">Koch (m/w/d)</h2>
+                  <h2 className="pincel text-2xl text-white">Koch <span className="text-amber-400">(m/w/d)</span></h2>
                   <p className="text-gray-300 text-sm">Cantina Tex-Mex, Buchs</p>
                 </div>
               </div>
@@ -153,7 +153,7 @@ export default function Jobs() {
             transition={{ delay: 0.4 }}
             className="bg-gradient-to-br from-amber-500/15 to-red-500/10 border border-amber-500/20 rounded-3xl p-8 text-center"
           >
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Bewerben Sie sich jetzt!</h2>
+            <h2 className="pincel text-2xl md:text-3xl text-white mb-3">Bewerben Sie sich <span className="text-amber-400">jetzt!</span></h2>
             <p className="text-gray-400 mb-6 max-w-lg mx-auto">
               Bitte senden Sie uns Ihren Lebenslauf direkt per E-Mail. Wir freuen uns auf Ihre Bewerbung!
             </p>
@@ -161,9 +161,8 @@ export default function Jobs() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Koch"
-                className="inline-flex items-center gap-2 h-12 px-7 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white font-bold shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:scale-[1.03] transition-all"
+                className="btn-brocha"
               >
-                <Mail className="w-5 h-5" />
                 Bewerben
               </a>
               <button

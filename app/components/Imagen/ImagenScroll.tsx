@@ -57,7 +57,7 @@ export default function Component() {
             />
             <div className="absolute inset-0 flex items-center justify-center bg-black/50 p-2 text-center">
               <div className="max-w-3xl space-y-4 text-white">
-                <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl">
+                <h1 className="pincel text-4xl sm:text-5xl md:text-6xl">
                   {index === 0
                     ? 'Authentische Mexikanische Aromen'
                     : index === 1

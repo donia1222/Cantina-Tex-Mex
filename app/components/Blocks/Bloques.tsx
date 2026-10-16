@@ -32,8 +32,8 @@ export default function Component() {
         </svg>
       </div>
       <div className="relative z-10">
-        <h1 className="text-4xl font-medium text-center mb-8 text-gray-800">
-          Das erwartet Sie in El Sabor Mexicano.
+        <h1 className="pincel text-4xl text-center mb-8 text-gray-800">
+          Das erwartet Sie in El Sabor <span className="text-amber-400">Mexicano.</span>
         </h1>
       
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
@@ -44,8 +44,8 @@ export default function Component() {
               <div className="mb-4">
                 <Utensils className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-3xl font-medium leading-tight">
-                Genießen Sie authentische Mexikanische Küche in jedem Bissen.
+              <h2 className="pincel text-3xl leading-tight">
+                Genießen Sie authentische Mexikanische Küche in jedem <span className="text-amber-400">Bissen.</span>
               </h2>
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function Component() {
 
           <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
             <Calendar className="w-8 h-8 text-red-500 mb-4" />
-            <h2 className="text-2xl font-medium">
+            <h2 className="pincel text-2xl">
               Probieren Sie unser<br />
               Tagesmenü Mittwoch<br />
               bis Freitag von<br />
@@ -108,7 +108,7 @@ export default function Component() {
 
           <div className="rounded-3xl bg-zinc-900 p-6 flex flex-col justify-center h-full">
             <Ham className="w-8 h-8 text-yellow-500 mb-4" />
-            <h2 className="text-2xl font-medium">
+            <h2 className="pincel text-2xl">
               <span className="text-yellow-500">Quesadillas </span> 
               frisch zubereitet.
               <span className="text-gray-500"></span>

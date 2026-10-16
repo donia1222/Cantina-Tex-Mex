@@ -28,9 +28,9 @@ const IndexPage: React.FC = () => {
             <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-red-500/10 text-red-400">
               Reservierung
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+            <h1 className="pincel text-4xl md:text-5xl text-white mb-4">
               Tisch{" "}
-              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-400 bg-clip-text text-transparent">
+              <span className="text-amber-400">
                 reservieren
               </span>
             </h1>

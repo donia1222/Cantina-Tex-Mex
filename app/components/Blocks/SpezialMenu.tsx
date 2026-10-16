@@ -60,7 +60,7 @@ export default function Component() {
         </svg>
       </div>
 
-      <h1 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-8 text-center relative z-10">
+      <h1 className="pincel text-3xl sm:text-4xl mb-4 sm:mb-8 text-center relative z-10">
   <span className="text-white">Neuheiten!</span>{' '}
 
 </h1>

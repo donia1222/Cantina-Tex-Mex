@@ -95,9 +95,9 @@ export default function Drinks() {
             <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-amber-500/10 text-amber-400">
               Getränkekarte
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+            <h1 className="pincel text-4xl md:text-6xl text-white mb-4">
               Unsere{" "}
-              <span className="bg-gradient-to-r from-amber-300 via-orange-400 to-red-400 bg-clip-text text-transparent">
+              <span className="text-amber-400">
                 Getränke
               </span>
             </h1>
@@ -244,7 +244,7 @@ export default function Drinks() {
                       <activeData.icon className="w-7 h-7" style={{ color: activeData.color }} />
                     </div>
                     <div>
-                      <h2 className="text-3xl font-extrabold text-white">{activeData.name}</h2>
+                      <h2 className="pincel text-3xl text-white">{activeData.name}</h2>
                       <p className="text-gray-300 text-base">{activeData.desc}</p>
                     </div>
                   </div>

@@ -26,9 +26,9 @@ export default function Contact() {
             <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-red-500/10 text-red-400">
               Kontakt
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+            <h1 className="pincel text-4xl md:text-6xl text-white mb-4">
               Besuchen Sie{" "}
-              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-400 bg-clip-text text-transparent">
+              <span className="text-amber-400">
                 uns
               </span>
             </h1>
@@ -117,11 +117,9 @@ export default function Contact() {
           >
             <Link
               to="/reservierung"
-              className="flex items-center justify-center gap-2 h-12 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-bold shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:scale-[1.02] transition-all"
+              className="btn-brocha btn-brocha--gross w-full"
             >
-              <Calendar className="w-5 h-5" />
               Tisch reservieren
-              <ArrowRight className="w-4 h-4" />
             </Link>
             <button
               onClick={handleDownloadVCard}

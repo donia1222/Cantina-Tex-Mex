@@ -114,7 +114,7 @@ export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
                     Monats-Hits
                   </span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight drop-shadow-lg uppercase">
+                <h2 className="pincel text-2xl sm:text-3xl text-white leading-tight drop-shadow-lg">
                   {OFFER.name}
                 </h2>
               </div>
@@ -149,10 +149,9 @@ export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
                 <Link
                   to="/monats-hits"
                   onClick={close}
-                  className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white font-bold shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:scale-[1.03] transition-all duration-200"
+                  className="btn-brocha"
                 >
                   Burger ansehen
-                  <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
 

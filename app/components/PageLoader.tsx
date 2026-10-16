@@ -13,23 +13,15 @@ export default function PageLoader({ loading }: { loading: boolean }) {
           transition={{ duration: 0.4 }}
         >
           <div className="flex flex-col items-center gap-6">
-            {/* Logo */}
+            {/* El rótulo del flyer "Lust auf Tex-Mex?" con la copa de margarita. */}
             <motion.img
-              src="/cantina_logocopia.png"
-              alt="Cantina Tex-Mex"
-              className="h-24 w-auto rounded-[10px]"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
+              src="/hero/lust-auf-texmex.webp"
+              alt="Lust auf Tex-Mex?"
+              className="w-[min(80vw,420px)] h-auto -rotate-2"
+              initial={{ opacity: 0, y: 12, scale: 0.92 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
             />
-
-            {/* Text below logo */}
-            <p className="text-2xl font-extrabold text-white tracking-tight">
-              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-400 bg-clip-text text-transparent">
-                Cantina
-              </span>{' '}
-              Tex-Mex
-            </p>
 
             {/* Loading dots */}
             <motion.div

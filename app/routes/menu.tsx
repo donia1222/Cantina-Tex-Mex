@@ -17,7 +17,6 @@ import {
   Flame,
   IceCreamCone,
   Baby,
-  ChevronRight,
   Leaf,
 } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
@@ -180,9 +179,9 @@ export default function Menu() {
             <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-red-500/10 text-red-400">
               Speisekarte
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+            <h1 className="pincel text-4xl md:text-6xl text-white mb-4">
               Unsere{" "}
-              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-400 bg-clip-text text-transparent">
+              <span className="text-amber-400">
                 Spezialitäten
               </span>
             </h1>
@@ -191,40 +190,6 @@ export default function Menu() {
             </p>
           </motion.div>
         </div>
-      </section>
-
-      {/* ━━━ MITTAGSMENU BANNER ━━━ */}
-      <section className="px-4 mb-12">
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          onClick={() => setShowMittagsmenu(true)}
-          className="w-full max-w-5xl mx-auto block"
-        >
-          <div className="relative bg-gradient-to-r from-amber-500/20 to-red-500/20 backdrop-blur-sm border border-amber-500/30 rounded-2xl p-6 md:p-8 overflow-hidden group hover:border-amber-500/50 transition-all duration-300">
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="w-16 h-16 rounded-2xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                <Clock className="w-8 h-8 text-amber-400" />
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-1">Mittagsmenü</h2>
-                <p className="text-gray-400">
-                  Mittwoch bis Freitag, 11:30 – 13:30 Uhr
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-amber-400 font-bold text-lg">ab Fr. 18.50</span>
-                <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center group-hover:bg-amber-500/30 transition-colors">
-                  <ChevronRight className="w-5 h-5 text-amber-400" />
-                </div>
-              </div>
-            </div>
-            {/* Decorative */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-amber-500/5" />
-            <div className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full bg-red-500/5" />
-          </div>
-        </motion.button>
       </section>
 
       {/* ━━━ MENU GRID ━━━ */}
@@ -258,6 +223,23 @@ export default function Menu() {
                 </div>
               </motion.button>
             ))}
+            {/* Mittagsmenü: misma tarjeta que las demás, pero solo informativa (no se abre). */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * menuSections.length }}
+              className="relative rounded-2xl overflow-hidden text-left h-64"
+            >
+              <img src="/hero/mittagsmenu.webp" alt="Nachos mit Guacamole vor dem Jaguar-Wandbild" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
+              <div className="relative z-10 flex flex-col justify-end h-full p-6">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 bg-amber-500/20">
+                  <Clock className="w-5 h-5 text-amber-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-1">Mittagsmenü</h3>
+                <p className="text-gray-300 text-sm">Mittwoch bis Freitag, 11:30 – 13:30 Uhr</p>
+              </div>
+            </motion.div>
           </div>
 
           {/* No takeaway notice */}
@@ -310,7 +292,7 @@ export default function Menu() {
                       </div>
                     )
                   })()}
-                  <h2 className="text-2xl font-bold text-white">
+                  <h2 className="pincel text-2xl text-white">
                     {menuSections.find((s) => s.id === activeSection)?.name}
                   </h2>
                 </div>
@@ -391,7 +373,7 @@ export default function Menu() {
                     <Utensils className="w-7 h-7 text-amber-400" />
                   </div>
                 </div>
-                <h2 className="text-3xl font-extrabold text-white mb-2">Mittagsmenü</h2>
+                <h2 className="pincel text-3xl text-white mb-2">Mittagsmenü</h2>
                 <p className="text-gray-400 mb-4">
                   Authentische mexikanische Aromen im Herzen der Stadt
                 </p>

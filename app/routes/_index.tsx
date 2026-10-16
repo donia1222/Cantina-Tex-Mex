@@ -1,10 +1,11 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, Star, Clock, MapPin, Phone, Utensils, Wine, ChevronLeft, ChevronRight, Flame, Calendar, Users } from "lucide-react"
 import { Link } from "@remix-run/react"
 import PageLoader from "~/components/PageLoader"
+import HeroReise from "~/components/HeroReise"
 
 /* ─── color tokens (Cantina brand) ─── */
 const C = {
@@ -108,22 +109,10 @@ function Stars({ count }: { count: number }) {
 export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [reviewIdx, setReviewIdx] = useState(0)
-  const heroRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.15])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
-  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800)
     return () => clearTimeout(timer)
-  }, [])
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener("resize", check)
-    return () => window.removeEventListener("resize", check)
   }, [])
 
   useEffect(() => {
@@ -138,77 +127,8 @@ export default function HomePage() {
     <div style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
       <PageLoader loading={loading} />
 
-      {/* ━━━━━ HERO ━━━━━ */}
-      <section ref={heroRef} className="relative w-full h-[100vh] min-h-[600px] overflow-hidden rounded-2xl">
-        <motion.div className="absolute inset-0" style={{ scale: heroScale }}>
-          {isMobile ? (
-            <video className="w-full h-full object-cover" autoPlay muted loop playsInline>
-              <source src="/CANTINA4.MP4" type="video/mp4" />
-            </video>
-          ) : (
-            <img src="/IMG_2654.jpeg" alt="Cantina Tex-Mex" className="w-full h-full object-cover" />
-          )}
-        </motion.div>
-
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70 rounded-2xl" />
-
-        <motion.div
-          className="relative z-10 flex flex-col items-center justify-center h-full text-white px-6"
-          style={{ opacity: heroOpacity }}
-        >
-          <div className="text-center max-w-3xl">
-            <div className="mb-6">
-              <video
-                src="/fc5bec4a-cad0-48d2-9e86-9e0e677ca4d8.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="h-20 md:h-28 mx-auto drop-shadow-2xl rounded-[10px]"
-              />
-            </div>
-
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-4">
-              <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400 bg-clip-text text-transparent">
-                Cantina
-              </span>{" "}
-              Tex-Mex
-            </h1>
-
-            <p className="text-lg md:text-xl text-white/80 font-light max-w-xl mx-auto mb-3">
-              Authentische mexikanische Küche & exotische Cocktails
-            </p>
-
-            <div className="flex items-center justify-center gap-2 text-white/60 text-sm mb-8">
-              <MapPin className="w-4 h-4" />
-              <span>Bahnhofstrasse 40, 9470 Buchs</span>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/reservierung"
-                className="inline-flex items-center justify-center h-14 px-8 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white font-bold text-lg shadow-lg shadow-red-500/30 hover:shadow-red-500/50 hover:scale-[1.03] transition-all duration-200"
-              >
-                Jetzt Reservieren
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
-              <Link
-                to="/menu"
-                className="inline-flex items-center justify-center h-14 px-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold text-lg hover:bg-white/20 transition-all duration-200"
-              >
-                Speisekarte
-              </Link>
-            </div>
-          </div>
-
-          {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-            <div className="w-6 h-10 rounded-full border-2 border-white/40 flex items-start justify-center p-1.5">
-              <div className="w-1.5 h-3 bg-white/60 rounded-full" />
-            </div>
-          </div>
-        </motion.div>
-      </section>
+      {/* ━━━━━ HERO: paseo por la Cantina con el scroll (app/components/HeroReise.tsx) ━━━━━ */}
+      <HeroReise />
 
       {/* ━━━━━ HIGHLIGHTS ━━━━━ */}
       <section className="py-20 md:py-28 px-4">
@@ -220,8 +140,8 @@ export default function HomePage() {
             >
               Willkommen
             </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
-              Das erwartet Sie bei uns
+            <h2 className="pincel text-3xl md:text-5xl text-white">
+              Das erwartet Sie bei <span className="text-amber-400">uns</span>
             </h2>
             <p className="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
               Entdecken Sie authentische Tex-Mex-Küche, handgemixte Cocktails und eine
@@ -297,10 +217,10 @@ export default function HomePage() {
                 >
                   Über uns
                 </span>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-6">
+                <h2 className="pincel text-3xl md:text-4xl text-white mb-6">
                   Authentische Mexikanische
                   <br />
-                  <span className="bg-gradient-to-r from-amber-400 to-red-500 bg-clip-text text-transparent">
+                  <span className="text-amber-400">
                     Küche seit Jahren
                   </span>
                 </h2>
@@ -331,11 +251,9 @@ export default function HomePage() {
                 <div className="mt-10">
                   <Link
                     to="/menu"
-                    className="inline-flex items-center gap-2 h-12 px-7 rounded-full font-bold text-white shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all duration-200"
-                    style={{ background: `linear-gradient(135deg, ${C.red}, #ef4444)` }}
+                    className="btn-brocha btn-brocha--gelb"
                   >
                     Speisekarte entdecken
-                    <ArrowRight className="w-5 h-5" />
                   </Link>
                 </div>
               </div>
@@ -378,8 +296,8 @@ export default function HomePage() {
             >
               Galerie
             </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
-              Einblicke in unser Restaurant
+            <h2 className="pincel text-3xl md:text-5xl text-white">
+              Einblicke in unser <span className="text-amber-400">Restaurant</span>
             </h2>
           </div>
 
@@ -408,8 +326,8 @@ export default function HomePage() {
             >
               Bewertungen
             </span>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
-              Was unsere Gäste sagen
+            <h2 className="pincel text-3xl md:text-5xl text-white">
+              Was unsere Gäste <span className="text-amber-400">sagen</span>
             </h2>
           </div>
 
@@ -512,10 +430,9 @@ export default function HomePage() {
                 <div className="flex flex-col sm:flex-row gap-3 mt-6">
                   <Link
                     to="/reservierung"
-                    className="inline-flex items-center justify-center h-12 px-7 rounded-full bg-white text-red-600 font-bold hover:bg-gray-100 transition-all hover:scale-[1.03]"
+                    className="btn-brocha btn-brocha--weiss"
                   >
                     Online Reservieren
-                    <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                 </div>
                 <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10" />

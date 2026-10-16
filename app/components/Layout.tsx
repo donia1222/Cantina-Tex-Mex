@@ -29,8 +29,8 @@ const menuItems = [
   { to: "/monats-hits", icon: Flame, label: "Monats-Hits" },
   { to: "/drinks", icon: Beer, label: "Getränke" },
   { to: "/contact", icon: BookCheck, label: "Kontakt" },
-  { to: "/reservierung", icon: BookCheck, label: "Reservierung" },
-  { to: "/jobs", icon: ArrowRight, label: "Jobs" },
+  // "Reservierung" y "Jobs" quitados del menú: para reservar ya está el botón rojo (arriba en escritorio, abajo en el
+  // móvil), y Jobs ya no hace falta. Las páginas siguen existiendo.
 ]
 
 export default function Component({ children }: { children: React.ReactNode }) {
@@ -45,14 +45,20 @@ export default function Component({ children }: { children: React.ReactNode }) {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const closeMenu = () => setIsMenuOpen(false)
 
+  // En el inicio, el logo no se ve mientras dura el paseo del hero (taparía las fotos); aparece al salir de él.
+  const [enHero, setEnHero] = useState(location.pathname === "/")
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40)
       setShowUpButton(window.scrollY > 800)
+      const hero = document.querySelector<HTMLElement>('section[aria-label="Ein Rundgang durch die Cantina"]')
+      setEnHero(!!hero && window.scrollY < hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.5)
     }
+    handleScroll()
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+  }, [location.pathname])
 
   useEffect(() => {
     const consent = localStorage.getItem("cookieConsent")
@@ -103,8 +109,13 @@ export default function Component({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-[72px]">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-              <img src="/logo3-copia1.png" alt="Cantina Tex-Mex" className="h-9 w-auto" />
+            <Link
+              to="/"
+              className={`flex items-center gap-2 flex-shrink-0 transition-opacity duration-500 ${enHero ? "pointer-events-none opacity-0" : "opacity-100"}`}
+              aria-hidden={enHero}
+              tabIndex={enHero ? -1 : undefined}
+            >
+              <img src="/cantina_logocopia.png" alt="Cantina Tex-Mex" className="h-11 w-auto rounded-lg shadow-lg shadow-black/30" />
             </Link>
 
             {/* Desktop nav */}
@@ -137,12 +148,8 @@ export default function Component({ children }: { children: React.ReactNode }) {
 
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
-              <Link
-                to="/reservierung"
-                className="inline-flex items-center h-11 px-6 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold text-[15px] shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:scale-[1.03] transition-all duration-200"
-              >
+              <Link to="/reservierung" className="btn-brocha">
                 Reservieren
-                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Link>
             </div>
 
@@ -225,10 +232,9 @@ export default function Component({ children }: { children: React.ReactNode }) {
                 <Link
                   to="/reservierung"
                   onClick={closeMenu}
-                  className="flex items-center justify-center w-full h-12 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white font-bold shadow-lg"
+                  className="btn-brocha btn-brocha--gross w-full"
                 >
                   Jetzt Reservieren
-                  <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
               </div>
             </motion.div>
@@ -278,10 +284,9 @@ export default function Component({ children }: { children: React.ReactNode }) {
                 </button>
                 <Link
                   to="/reservierung"
-                  className="inline-flex items-center gap-2 h-10 px-5 rounded-full bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold text-sm shadow-lg shadow-red-500/20 hover:shadow-red-500/40 transition-all"
+                  className="btn-brocha"
                 >
                   Reservieren
-                  <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </div>
@@ -423,7 +428,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
             >
-              <h2 className="text-2xl font-bold text-white mb-5">Impressum</h2>
+              <h2 className="pincel text-2xl text-white mb-5">Impressum</h2>
               <div className="text-gray-400 space-y-1 text-[15px]">
                 <p className="text-white font-semibold">flomic GmbH</p>
                 <p>Bahnhofstrasse 40</p>
@@ -468,7 +473,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
             >
-              <h2 className="text-2xl font-bold text-white text-center mb-5">Datenschutzerklärung</h2>
+              <h2 className="pincel text-2xl text-white text-center mb-5">Datenschutzerklärung</h2>
               <div className="flex-1 overflow-y-auto pr-2 space-y-6 text-gray-400 text-[15px] leading-relaxed">
                 <section>
                   <h3 className="text-lg font-bold text-white mb-2">DATENSCHUTZ</h3>

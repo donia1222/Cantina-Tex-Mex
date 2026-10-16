@@ -120,7 +120,7 @@ END:VCARD`;
             <path d="M20 6L9 17l-5-5" />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold text-center mb-4">Reservierung bestätigt!</h2>
+        <h2 className="pincel text-xl text-center mb-4">Reservierung <span className="text-amber-400">bestätigt!</span></h2>
         <div className="space-y-2">
           <p>
             <strong>Datum:</strong> {details.fecha}

@@ -120,7 +120,7 @@ export default function Component() {
               >
                 <X size={20} />
               </button>
-              <h2 className="text-xl font-bold mb-1 ">{products[currentIndex].name}</h2>
+              <h2 className="pincel text-xl mb-1">{products[currentIndex].name}</h2>
               <p className="text-gray-300 text-sm">{products[currentIndex].description}</p>
             </motion.div>
           )}
