@@ -14,6 +14,7 @@ import {
   ArrowUp,
   Download,
   BookCheck,
+  ChefHat,
   ArrowRight,
   Phone,
   Flame,
@@ -29,8 +30,10 @@ const menuItems = [
   { to: "/monats-hits", icon: Flame, label: "Monats-Hits" },
   { to: "/drinks", icon: Beer, label: "Getränke" },
   { to: "/contact", icon: BookCheck, label: "Kontakt" },
-  // "Reservierung" y "Jobs" quitados del menú: para reservar ya está el botón rojo (arriba en escritorio, abajo en el
-  // móvil), y Jobs ya no hace falta. Las páginas siguen existiendo.
+  { to: "/jobs", icon: ChefHat, label: "Jobs" },
+  // "Reservierung" sigue quitada del menú: para reservar ya está el botón rojo (arriba en escritorio, abajo en el
+  // móvil). La página sigue existiendo.
+  // "Jobs" vuelve al menú el 22/10/2026: buscan ayuda para la cocina.
 ]
 
 export default function Component({ children }: { children: React.ReactNode }) {

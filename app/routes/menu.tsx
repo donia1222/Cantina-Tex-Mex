@@ -20,6 +20,7 @@ import {
   Leaf,
 } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
+import GruppenBanner from "~/components/GruppenBanner"
 
 const menuSections = [
   {
@@ -169,7 +170,7 @@ export default function Menu() {
       <PageLoader loading={loading} />
 
       {/* ━━━ HERO ━━━ */}
-      <section className="relative pt-28 pb-16 px-4 overflow-hidden">
+      <section className="relative pt-28 pb-10 px-4 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -190,6 +191,12 @@ export default function Menu() {
             </p>
           </motion.div>
         </div>
+      </section>
+
+      {/* ━━━ BANNER: GRUPPENANGEBOTE ━━━ */}
+      {/* Debajo del titular de la Speisekarte y encima de la rejilla de las seis fotos. */}
+      <section className="px-4 pb-10">
+        <GruppenBanner />
       </section>
 
       {/* ━━━ MENU GRID ━━━ */}

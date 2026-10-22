@@ -6,6 +6,7 @@ import { ArrowRight, Star, Clock, MapPin, Phone, Utensils, Wine, ChevronLeft, Ch
 import { Link } from "@remix-run/react"
 import PageLoader from "~/components/PageLoader"
 import HeroReise from "~/components/HeroReise"
+import GruppenBanner from "~/components/GruppenBanner"
 
 /* ─── color tokens (Cantina brand) ─── */
 const C = {
@@ -129,6 +130,12 @@ export default function HomePage() {
 
       {/* ━━━━━ HERO: paseo por la Cantina con el scroll (app/components/HeroReise.tsx) ━━━━━ */}
       <HeroReise />
+
+      {/* ━━━━━ BANNER: GRUPPENANGEBOTE ━━━━━ */}
+      {/* Justo debajo del paseo del hero, lo primero que se ve al bajar. */}
+      <section className="px-4 pt-14 md:pt-20">
+        <GruppenBanner className="!max-w-6xl" />
+      </section>
 
       {/* ━━━━━ HIGHLIGHTS ━━━━━ */}
       <section className="py-20 md:py-28 px-4">

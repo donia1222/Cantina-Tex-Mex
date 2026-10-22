@@ -31,7 +31,8 @@ export default function Jobs() {
               </span>
             </h1>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Wir suchen einen engagierten Koch, der unser Küchenteam in der Cantina Tex-Mex verstärkt.
+              Wir suchen eine Hilfe für die Küche: zum Abwaschen und zur Unterstützung an den Wochenenden.
+              Melden Sie sich einfach bei uns.
             </p>
           </motion.div>
         </div>
@@ -44,21 +45,22 @@ export default function Jobs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="relative rounded-3xl overflow-hidden h-[280px] md:h-[350px]"
+            className="rounded-3xl overflow-hidden bg-[#fdf8dc]"
           >
+            {/* El logo va con object-contain y sin velo encima: es un dibujo claro, un degradado oscuro le apaga
+                los colores. Por eso el rótulo va en su propia franja, debajo, y no encima de la imagen. */}
             <img
-              src="/koch.jpeg"
-              alt="Koch in der Küche"
-              className="w-full h-full object-cover"
+              src="/jobs-cantina.png"
+              alt="Cantina Tex-Mex"
+              className="block w-full h-[220px] md:h-[300px] object-contain p-6"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6">
+            <div className="bg-black/85 px-6 py-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-amber-500/20 backdrop-blur-sm flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center">
                   <ChefHat className="w-6 h-6 text-amber-400" />
                 </div>
                 <div>
-                  <h2 className="pincel text-2xl text-white">Koch <span className="text-amber-400">(m/w/d)</span></h2>
+                  <h2 className="pincel text-2xl text-white">Küchenhilfe <span className="text-amber-400">(m/w/d)</span></h2>
                   <p className="text-gray-300 text-sm">Cantina Tex-Mex, Buchs</p>
                 </div>
               </div>
@@ -82,8 +84,8 @@ export default function Jobs() {
                 <Clock className="w-7 h-7 text-amber-400" />
               </div>
               <h3 className="text-white font-bold text-lg mb-2">Arbeitszeiten</h3>
-              <p className="text-gray-200 text-base">Dienstag bis Samstag</p>
-              <p className="text-gray-200 text-base">Sonntag und Montag frei</p>
+              <p className="text-gray-200 text-base">Vor allem am Wochenende</p>
+              <p className="text-gray-200 text-base">Zeiten nach Absprache</p>
             </motion.div>
 
             <motion.div
@@ -133,10 +135,10 @@ export default function Jobs() {
             <h3 className="text-white font-bold mb-4">Was wir erwarten</h3>
             <div className="space-y-3">
               {[
-                "Erfahrung in der Küche wünschenswert",
-                "Leidenschaft fürs Kochen",
+                "Hilfe beim Abwaschen und in der Küche",
+                "Keine Erfahrung nötig, wir zeigen Ihnen alles",
                 "Teamfähigkeit und Zuverlässigkeit",
-                "Flexibilität bei den Arbeitszeiten",
+                "Zeit an den Wochenenden",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
@@ -153,24 +155,24 @@ export default function Jobs() {
             transition={{ delay: 0.4 }}
             className="bg-gradient-to-br from-amber-500/15 to-red-500/10 border border-amber-500/20 rounded-3xl p-8 text-center"
           >
-            <h2 className="pincel text-2xl md:text-3xl text-white mb-3">Bewerben Sie sich <span className="text-amber-400">jetzt!</span></h2>
+            <h2 className="pincel text-2xl md:text-3xl text-white mb-3">Kontaktieren Sie uns <span className="text-amber-400">einfach!</span></h2>
             <p className="text-gray-400 mb-6 max-w-lg mx-auto">
-              Bitte senden Sie uns Ihren Lebenslauf direkt per E-Mail. Wir freuen uns auf Ihre Bewerbung!
+              Bitte kontaktieren Sie uns per E-Mail. Ein kurzes Wort über Sie genügt, wir melden uns bei Ihnen.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
-                href="mailto:info@cantinatexmex.ch?subject=Bewerbung als Koch"
+                href="mailto:info@cantinatexmex.ch?subject=Küchenhilfe bei der Cantina Tex-Mex"
                 className="btn-brocha"
               >
-                Bewerben
+                Kontakt aufnehmen
               </a>
               <button
                 onClick={() => {
                   if (navigator.share) {
                     navigator
                       .share({
-                        title: "Stellenangebot: Koch bei Cantina Tex-Mex",
+                        title: "Stellenangebot: Küchenhilfe bei Cantina Tex-Mex",
                         text: "Schau dir diese Stellenanzeige bei Cantina Tex-Mex an!",
                         url: window.location.href,
                       })
