@@ -45,14 +45,14 @@ export default function Jobs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="rounded-3xl overflow-hidden bg-[#fdf8dc]"
+            className="rounded-3xl overflow-hidden bg-[#1a1a2e]"
           >
-            {/* El logo va con object-contain y sin velo encima: es un dibujo claro, un degradado oscuro le apaga
-                los colores. Por eso el rótulo va en su propia franja, debajo, y no encima de la imagen. */}
+            {/* object-[72%] : lo que interesa (las manos y el plato) está a la derecha de la foto;
+                centrado, en el móvil solo se verían las pilas de platos del fondo. */}
             <img
-              src="/jobs-cantina.png"
-              alt="Cantina Tex-Mex"
-              className="block w-full h-[220px] md:h-[300px] object-contain p-6"
+              src="/jobs-kueche.jpg"
+              alt="Abwasch in der Küche"
+              className="block w-full h-[220px] md:h-[300px] object-cover object-[72%_center]"
             />
             <div className="bg-black/85 px-6 py-4">
               <div className="flex items-center gap-3">
