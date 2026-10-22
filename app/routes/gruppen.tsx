@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Link } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/node"
-import { CalendarDays, PhoneCall, Users, Gift, UtensilsCrossed, Snowflake, ArrowLeft } from "lucide-react"
+import { PhoneCall, ArrowLeft } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
 
 /** Esta página se comparte en Facebook, así que lleva sus propias og:* para que la
@@ -30,10 +30,8 @@ export const meta: MetaFunction = () => [
   { name: "twitter:image", content: TEILEN_BILD },
 ]
 
-/** De momento la foto de la mesa mexicana, la misma del banner. Si llega una foto propia para
- *  esta página, se cambia solo esta línea (y si el fichero no existe, el onError deja el fondo
- *  oscuro con las manchas de color). */
-const HERO_IMAGE = "/gruppen-banner.jpg"
+/** La mesa de madera: aquí se ve entera, sin velo oscuro, como en el cartel impreso. */
+const HOLZ_BILD = "/gruppen-banner.jpg"
 
 type Menue = {
   titel: string
@@ -41,8 +39,6 @@ type Menue = {
   dessert: string
   /** Precio por persona, como en el cartel impreso. */
   preis: number
-  farbe: string
-  icon: typeof UtensilsCrossed
 }
 
 const menues: Menue[] = [
@@ -54,8 +50,6 @@ const menues: Menue[] = [
     ],
     dessert: "Hausgemachter American Brownie mit Vanilleglace und Schlagrahm",
     preis: 51,
-    farbe: "#e11d2a",
-    icon: UtensilsCrossed,
   },
   {
     titel: "Quesadilla Festival",
@@ -65,8 +59,6 @@ const menues: Menue[] = [
     ],
     dessert: "Hausgemachter American Brownie mit Vanilleglace und Schlagrahm",
     preis: 43,
-    farbe: "#f59e0b",
-    icon: Users,
   },
   {
     titel: "Tex-Mex Menü",
@@ -76,8 +68,6 @@ const menues: Menue[] = [
     ],
     dessert: "Hausgemachte Tarta de la Casa mit Schlagrahm",
     preis: 61,
-    farbe: "#16a34a",
-    icon: Gift,
   },
 ]
 
@@ -90,9 +80,20 @@ function Kaktus({ className = "" }: { className?: string }) {
   )
 }
 
+/** Línea dorada con el cactus en medio, igual que en el cartel. */
+function Trenner() {
+  return (
+    <div className="flex items-center gap-4 my-8">
+      <span className="h-px flex-1 bg-[#c8a15a]" />
+      <Kaktus className="w-4 h-5 text-[#c8a15a]" />
+      <span className="h-px flex-1 bg-[#c8a15a]" />
+    </div>
+  )
+}
+
 export default function Gruppen() {
   const [loading, setLoading] = useState(true)
-  const [heroLoaded, setHeroLoaded] = useState(true)
+  const [holzGeladen, setHolzGeladen] = useState(true)
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800)
@@ -103,275 +104,152 @@ export default function Gruppen() {
     <div className="relative" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
       <PageLoader loading={loading} />
 
-      {/* ━━━ FIXER BILDHINTERGRUND ━━━ */}
-      {/* h-lvh statt inset-0: bleibt stabil, wenn die Adressleiste des Handys ein-/ausfährt */}
-      <div className="fixed top-0 left-0 right-0 h-lvh z-0 bg-[#0b0b0f] pointer-events-none">
-        {heroLoaded && (
-          <motion.img
-            src={HERO_IMAGE}
+      {/* El filtro que rompe el borde de la hoja: ruido + desplazamiento, como un papel rasgado.
+          Va sobre el fondo de la hoja, nunca sobre el texto (un filter borronearía las letras). */}
+      <svg width="0" height="0" className="absolute" aria-hidden="true">
+        <filter id="papierriss">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.022" numOctaves="4" seed="9" result="rauschen" />
+          <feDisplacementMap in="SourceGraphic" in2="rauschen" scale="14" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+
+      {/* ━━━ HOLZTISCH ━━━ */}
+      {/* h-lvh: queda quieto cuando la barra del móvil entra y sale. */}
+      <div className="fixed top-0 left-0 right-0 h-lvh z-0 bg-[#6b3b1e] pointer-events-none">
+        {holzGeladen && (
+          <img
+            src={HOLZ_BILD}
             alt=""
             aria-hidden="true"
-            onError={() => setHeroLoaded(false)}
-            initial={{ scale: 1.1, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 2.2, ease: "easeOut" }}
+            onError={() => setHolzGeladen(false)}
             className="w-full h-full object-cover"
           />
         )}
-        <div className="absolute inset-0 bg-[#0b0b0f]/75" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b0b0f]/80 via-transparent to-[#0b0b0f]" />
       </div>
 
       {/* ━━━ INHALT ━━━ */}
-      <div className="relative z-10">
+      <div className="relative z-10 px-4 pt-24 pb-16">
 
-        {/* ━━━ HERO ━━━ */}
-        {/* overflow-hidden: die Farbflecken ragen seitlich hinaus und würden sonst
-            die Seite horizontal scrollbar machen. */}
         {/* ━━━ ZURÜCK ━━━ */}
         {/* Quien llega desde Facebook entra directo aquí y no tiene de dónde volver:
             por eso es un enlace a la portada, no un history.back(). */}
-        <div className="px-4 pt-28">
-          <div className="max-w-3xl mx-auto">
-            <Link
-              to="/"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-gray-200 hover:bg-white/10 hover:text-white transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-0.5" />
-              Zurück zur Startseite
-            </Link>
-          </div>
+        <div className="max-w-3xl mx-auto mb-5">
+          <Link
+            to="/"
+            className="group inline-flex items-center gap-2 rounded-full bg-[#2b1d12]/85 px-4 py-2 text-sm font-semibold text-[#fdf6e3] shadow-lg shadow-black/30 hover:bg-[#2b1d12] transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-0.5" />
+            Zurück zur Startseite
+          </Link>
         </div>
 
-        <section className="relative pt-10 pb-20 px-4 overflow-hidden">
-          <motion.div
-            animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.55, 0.3] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-32 -left-24 w-[26rem] h-[26rem] rounded-full bg-green-600/20 blur-3xl"
+        {/* ━━━ DAS BLATT ━━━ */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="relative max-w-3xl mx-auto"
+        >
+          {/* El papel: color y borde roto. Es solo fondo, no lleva texto. */}
+          <div
+            aria-hidden="true"
+            className="absolute -inset-2 sm:-inset-3"
+            style={{
+              filter: "url(#papierriss) drop-shadow(0 18px 40px rgba(0,0,0,0.45))",
+              background:
+                "radial-gradient(120% 90% at 20% 10%, #fdf8ec 0%, #f6edda 45%, #ece0c6 100%)",
+            }}
           />
-          <motion.div
-            animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.55, 0.3] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-            className="absolute top-40 -right-24 w-[26rem] h-[26rem] rounded-full bg-red-600/20 blur-3xl"
-          />
 
-          <div className="relative max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="flex flex-wrap items-center justify-center gap-2 mb-5"
-            >
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] bg-red-500/15 text-red-400 border border-red-500/25">
-                <Snowflake className="w-3.5 h-3.5" />
-                Weihnachtsessen
-              </span>
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] bg-green-500/15 text-green-400 border border-green-500/25">
-                <Users className="w-3.5 h-3.5" />
-                Für Gruppen
-              </span>
-            </motion.div>
-
-            <h1 className="pincel leading-[0.85] mb-5">
-              {[
-                { text: "Gruppen-", className: "text-white" },
-                { text: "angebote", className: "text-amber-400" },
-              ].map((line, i) => (
-                <span key={line.text} className="block overflow-hidden">
-                  <motion.span
-                    initial={{ y: "110%" }}
-                    animate={{ y: 0 }}
-                    transition={{ delay: 0.25 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className={`inline-block text-[13vw] sm:text-[10vw] lg:text-[6rem] ${line.className}`}
-                  >
-                    {line.text}
-                  </motion.span>
-                </span>
-              ))}
-              <motion.span
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
-                className="inline-block mt-3 bg-red-600 text-white text-3xl sm:text-4xl lg:text-5xl px-4 py-1 rounded-lg -rotate-2"
-              >
-                2026
-              </motion.span>
-            </h1>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.75, duration: 0.6 }}
-            >
-              <p className="text-lg sm:text-xl font-bold text-amber-400 uppercase tracking-wide mb-4">
+          <div className="relative px-6 py-10 sm:px-12 sm:py-14 text-[#3b2a1c]">
+            {/* ── Kopf ── */}
+            <div className="text-center">
+              {/* El logo va recortado con fondo transparente, para que se apoye en el papel. */}
+              <img
+                src="/gruppen-logo.png"
+                alt="Cantina Tex-Mex"
+                className="mx-auto w-[min(78%,340px)]"
+              />
+              <h1 className="mt-1 text-[8.5vw] sm:text-5xl font-extrabold tracking-tight text-[#9b1b1b] leading-none">
+                Gruppenangebote 2026
+              </h1>
+              <p className="mt-3 text-lg sm:text-2xl font-bold text-[#2b1d12]">
+                Ushuaia &amp; Cantina Tex-Mex
+              </p>
+              <p className="mt-1 text-sm sm:text-lg text-[#5b4733]">
+                Bahnhofstrasse 40 · 9470 Buchs
+              </p>
+              <p className="mt-4 text-base sm:text-lg font-bold text-[#9b1b1b]">
                 Planen Sie schon Ihr Weihnachtsessen?
               </p>
-              <p className="text-gray-300 max-w-xl mx-auto leading-relaxed">
-                Für Firmen, Vereine, Familien und Freunde: drei Menüs zum Teilen, für die ganze
-                Gruppe an einem Tisch. Im Ushuaia und in der Cantina Tex-Mex an der Bahnhofstrasse 40
-                in Buchs.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ━━━ LAUFBAND ━━━ */}
-        <div className="relative border-y border-white/10 bg-gradient-to-r from-green-600/15 via-amber-500/10 to-red-600/15 py-3 overflow-hidden">
-          <div className="flex w-max animate-scroll-right">
-            {[0, 1].map((copy) => (
-              <div key={copy} className="flex items-center shrink-0">
-                {["Gruppenangebote 2026", "Weihnachtsessen", "Menüs zum Teilen", "Jetzt reservieren"].map(
-                  (word) => (
-                    <span
-                      key={word}
-                      className="flex items-center gap-6 px-6 text-white/70 font-bold uppercase tracking-[0.2em] text-sm whitespace-nowrap"
-                    >
-                      {word}
-                      <Kaktus className="w-3.5 h-4 text-green-400" />
-                    </span>
-                  ),
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ━━━ DIE DREI MENÜS ━━━ */}
-        {/* Las fichas van en papel claro, como el cartel impreso: el brochazo amarillo detrás del
-            título y el cactus entre menú y menú. */}
-        <section className="px-4 pt-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center text-white font-extrabold uppercase tracking-[0.2em] text-sm mb-10"
-          >
-            Unsere drei Gruppenmenüs
-          </motion.h2>
-
-          <div className="max-w-3xl mx-auto">
-            {menues.map((menue, i) => (
-              <div key={menue.titel}>
-                {i > 0 && (
-                  <div className="flex items-center gap-4 py-10">
-                    <span className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/40" />
-                    <Kaktus className="w-5 h-6 text-amber-500/70" />
-                    <span className="h-px flex-1 bg-gradient-to-l from-transparent to-amber-500/40" />
-                  </div>
-                )}
-
-                <motion.article
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="group relative rounded-3xl bg-[#fdf8e8] text-[#2b1d12] p-6 md:p-9 shadow-2xl shadow-black/40 ring-1 ring-black/10"
-                >
-                  <div className="flex items-center gap-3 mb-5">
-                    <div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
-                      style={{ background: `${menue.farbe}1f` }}
-                    >
-                      <menue.icon className="w-5 h-5" style={{ color: menue.farbe }} />
-                    </div>
-                    {/* El brochazo amarillo del cartel, detrás del título */}
-                    <h3 className="relative isolate inline-block text-2xl md:text-4xl font-extrabold tracking-tight">
-                      <span
-                        aria-hidden="true"
-                        className="absolute -inset-x-3 top-[28%] bottom-[6%] -z-10 rounded-full bg-amber-300/70 -rotate-1"
-                      />
-                      {menue.titel}
-                    </h3>
-                  </div>
-
-                  <div className="space-y-2.5">
-                    {menue.gaenge.map((gang) => (
-                      <p key={gang} className="text-[15px] md:text-base leading-relaxed text-[#3b2a1c]">
-                        {gang}
-                      </p>
-                    ))}
-                  </div>
-
-                  <p className="mt-5 pt-4 border-t border-black/10 text-[15px] md:text-base text-[#3b2a1c]">
-                    <span className="font-bold">Dessert:</span> {menue.dessert}
-                  </p>
-
-                  {/* El precio va en el mismo brochazo rojo del cartel. pointer-events-none:
-                      es un rótulo, no un botón, y no debe reaccionar al ratón. */}
-                  <div className="mt-6 flex justify-center">
-                    <span className="btn-brocha btn-brocha--gross pointer-events-none">
-                      <span className="text-[0.75em]">CHF</span>
-                      <span className="mx-1 text-[1.2em]">{menue.preis}.–</span>
-                      <span className="text-[0.7em]">pro Person</span>
-                    </span>
-                  </div>
-                </motion.article>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ━━━ HINWEIS ━━━ */}
-        <section className="px-4 pt-16">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-3xl mx-auto rounded-2xl bg-amber-400/10 border border-amber-400/30 p-7 text-center"
-          >
-            <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="flex justify-center mb-3"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-amber-400/20 flex items-center justify-center">
-                <CalendarDays className="w-7 h-7 text-amber-400" />
-              </div>
-            </motion.div>
-            <p className="text-xl md:text-2xl font-extrabold text-white uppercase">
-              Frühzeitig reservieren
-            </p>
-            <p className="text-xl md:text-2xl font-extrabold text-red-500 uppercase">
-              lohnt sich!
-            </p>
-            <p className="text-gray-300 text-sm mt-3 max-w-lg mx-auto">
-              Die Menüs gelten für die ganze Gruppe. Preise pro Person, in Schweizer Franken. Gerne besprechen wir mit
-              Ihnen Datum und Personenzahl – rufen Sie uns einfach an oder schreiben Sie uns.
-            </p>
-          </motion.div>
-        </section>
-
-        {/* ━━━ CTA ━━━ */}
-        <section className="px-4 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <p className="text-white font-bold uppercase tracking-[0.15em] mb-5">
-              Tisch für Ihre Gruppe sichern
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                <Link to="/reservierung" className="btn-brocha">
-                  Tisch reservieren
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                <a href="tel:+41817560101" className="btn-brocha btn-brocha--gelb">
-                  <PhoneCall className="w-5 h-5" />
-                  081 756 01 01
-                </a>
-              </motion.div>
             </div>
-            <p className="mt-6 text-gray-400 text-sm">
-              Ushuaia &amp; Cantina Tex-Mex · Bahnhofstrasse 40 · 9470 Buchs
-            </p>
-          </motion.div>
-        </section>
 
+            {/* ── Die drei Menüs ── */}
+            {menues.map((menue) => (
+              <div key={menue.titel}>
+                <Trenner />
+
+                {/* El brochazo amarillo detrás del título, como en el cartel. */}
+                <h2 className="relative isolate inline-block text-2xl sm:text-4xl font-extrabold tracking-tight text-[#1c1208]">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -inset-x-3 top-[30%] bottom-[4%] -z-10 rounded-full bg-[#f2dca6] -rotate-1"
+                  />
+                  {menue.titel}
+                </h2>
+
+                <div className="mt-4 space-y-1.5">
+                  {menue.gaenge.map((gang) => (
+                    <p key={gang} className="text-[15px] sm:text-[17px] leading-relaxed">
+                      {gang}
+                    </p>
+                  ))}
+                </div>
+
+                <p className="mt-4 text-[15px] sm:text-[17px]">
+                  <span className="font-bold">Dessert:</span> {menue.dessert}
+                </p>
+
+                {/* El precio, en el mismo brochazo rojo del cartel. pointer-events-none:
+                    es un rótulo, no un botón. */}
+                <div className="mt-6 flex justify-center">
+                  <span className="btn-brocha btn-brocha--gross pointer-events-none">
+                    <span className="text-[0.75em]">CHF</span>
+                    <span className="mx-1 text-[1.2em]">{menue.preis}.–</span>
+                    <span className="text-[0.7em]">pro Person</span>
+                  </span>
+                </div>
+              </div>
+            ))}
+
+            <Trenner />
+
+            {/* ── Reservieren ── */}
+            <div className="text-center">
+              <p className="text-base sm:text-lg font-bold text-[#9b1b1b] mb-1">
+                Frühzeitig reservieren lohnt sich!
+              </p>
+              <p className="text-[15px] sm:text-[17px] max-w-xl mx-auto">
+                Die Menüs gelten für die ganze Gruppe. Gerne besprechen wir mit Ihnen Datum und
+                Personenzahl.
+              </p>
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center items-center">
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                  <Link to="/reservierung" className="btn-brocha">
+                    Tisch reservieren
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+                  <a href="tel:+41817560101" className="btn-brocha btn-brocha--gelb">
+                    <PhoneCall className="w-5 h-5" />
+                    081 756 01 01
+                  </a>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   )
