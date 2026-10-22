@@ -100,4 +100,6 @@ body {
 .btn-brocha--weiss::before { background: linear-gradient(100deg, #ffffff, #fdf3e7); filter: drop-shadow(0 6px 14px rgb(0 0 0 / 0.25)); }
 .btn-brocha--weiss::after { background: linear-gradient(90deg, transparent, rgb(214 31 38 / 0.08), transparent); }
 .btn-brocha--gross { font-size: 1.4rem; }
+/* Pequeño: para la barra de arriba en el móvil, al lado del botón del menú. */
+.btn-brocha--klein { font-size: 0.95rem; padding: 0.55em 1.2em 0.6em; }
 .btn-brocha:disabled { transform: rotate(-2deg); filter: grayscale(0.6); }

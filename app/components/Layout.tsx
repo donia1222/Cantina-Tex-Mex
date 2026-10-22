@@ -114,7 +114,8 @@ export default function Component({ children }: { children: React.ReactNode }) {
             {/* Logo */}
             <Link
               to="/"
-              className={`flex items-center gap-2 flex-shrink-0 transition-opacity duration-500 ${enHero ? "pointer-events-none opacity-0" : "opacity-100"}`}
+              /* En el móvil el logo no sale: su sitio lo ocupa el botón de reservar. */
+              className={`hidden lg:flex items-center gap-2 flex-shrink-0 transition-opacity duration-500 ${enHero ? "pointer-events-none opacity-0" : "opacity-100"}`}
               aria-hidden={enHero}
               tabIndex={enHero ? -1 : undefined}
             >
@@ -156,13 +157,20 @@ export default function Component({ children }: { children: React.ReactNode }) {
               </Link>
             </div>
 
-            {/* Mobile menu button */}
-            <button
-              onClick={toggleMenu}
-              className="lg:hidden relative w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white hover:bg-white/15 transition-colors"
-            >
-              {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+            {/* Móvil: reservar a la izquierda del botón del menú, siempre a la vista (también
+                sobre el hero, donde el logo está escondido). */}
+            <div className="lg:hidden flex flex-1 items-center justify-between">
+              <Link to="/reservierung" className="btn-brocha btn-brocha--klein">
+                Reservieren
+              </Link>
+              <button
+                onClick={toggleMenu}
+                aria-label={isMenuOpen ? "Menü schliessen" : "Menü öffnen"}
+                className="relative w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white hover:bg-white/15 transition-colors flex-shrink-0"
+              >
+                {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
         </div>
       </header>
