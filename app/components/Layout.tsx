@@ -49,6 +49,11 @@ export default function Component({ children }: { children: React.ReactNode }) {
   const closeMenu = () => setIsMenuOpen(false)
 
   // En el inicio, el logo no se ve mientras dura el paseo del hero (taparía las fotos); aparece al salir de él.
+  // En el móvil, el botón "Reservieren" solo va en la portada; en el resto de páginas, el logo
+  // como siempre. Y en la propia página de reservas no se enseña tampoco en el escritorio.
+  const enHome = location.pathname === "/"
+  const enReservierung = ["/reservierung", "/reservas", "/table"].includes(location.pathname)
+
   const [enHero, setEnHero] = useState(location.pathname === "/")
 
   useEffect(() => {
@@ -115,7 +120,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
             <Link
               to="/"
               /* En el móvil el logo no sale: su sitio lo ocupa el botón de reservar. */
-              className={`hidden lg:flex items-center gap-2 flex-shrink-0 transition-opacity duration-500 ${enHero ? "pointer-events-none opacity-0" : "opacity-100"}`}
+              className={`${enHome ? "hidden lg:flex" : "flex"} items-center gap-2 flex-shrink-0 transition-opacity duration-500 ${enHero ? "pointer-events-none opacity-0" : "opacity-100"}`}
               aria-hidden={enHero}
               tabIndex={enHero ? -1 : undefined}
             >
@@ -151,18 +156,22 @@ export default function Component({ children }: { children: React.ReactNode }) {
             </nav>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-3">
-              <Link to="/reservierung" className="btn-brocha">
-                Reservieren
-              </Link>
-            </div>
+            {!enReservierung && (
+              <div className="hidden lg:flex items-center gap-3">
+                <Link to="/reservierung" className="btn-brocha">
+                  Reservieren
+                </Link>
+              </div>
+            )}
 
             {/* Móvil: reservar a la izquierda del botón del menú, siempre a la vista (también
                 sobre el hero, donde el logo está escondido). */}
-            <div className="lg:hidden flex flex-1 items-center justify-between">
-              <Link to="/reservierung" className="btn-brocha btn-brocha--klein">
-                Reservieren
-              </Link>
+            <div className={`lg:hidden flex items-center ${enHome ? "flex-1 justify-between" : ""}`}>
+              {enHome && (
+                <Link to="/reservierung" className="btn-brocha btn-brocha--klein">
+                  Reservieren
+                </Link>
+              )}
               <button
                 onClick={toggleMenu}
                 aria-label={isMenuOpen ? "Menü schliessen" : "Menü öffnen"}

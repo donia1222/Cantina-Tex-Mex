@@ -338,7 +338,9 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="relative max-w-3xl mx-auto">
+          {/* overflow-hidden: la reseña entra y sale desplazándose 50 px; sin esto, durante la
+              animación la página se hace más ancha que la pantalla y se puede mover de lado. */}
+          <div className="relative max-w-3xl mx-auto overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={reviewIdx}
