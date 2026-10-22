@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Link } from "@remix-run/react"
 import type { MetaFunction } from "@remix-run/node"
-import { PhoneCall, ArrowLeft } from "lucide-react"
+import { PhoneCall, ArrowLeft, Share2, Check } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
 
 /** Esta página se comparte en Facebook, así que lleva sus propias og:* para que la
@@ -102,6 +102,38 @@ function Trenner() {
 export default function Gruppen() {
   const [loading, setLoading] = useState(true)
   const [holzGeladen, setHolzGeladen] = useState(true)
+  const [kopiert, setKopiert] = useState(false)
+
+  /** Compartir la página. La hoja del sistema solo existe en el móvil; si no está,
+   *  copiamos el enlace al portapapeles y avisamos durante dos segundos. */
+  const teilen = async () => {
+    const datos = {
+      title: "Gruppenangebote 2026 – Cantina Tex-Mex",
+      text: BESCHREIBUNG,
+      url: SEITEN_URL,
+    }
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share(datos)
+        return
+      } catch {
+        // El usuario ha cerrado la hoja: no hay nada que hacer.
+        return
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(SEITEN_URL)
+      setKopiert(true)
+      setTimeout(() => setKopiert(false), 2000)
+    } catch {
+      // Sin portapapeles (http o permiso denegado): abrimos el diálogo de Facebook.
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SEITEN_URL)}`,
+        "_blank",
+        "noopener,noreferrer",
+      )
+    }
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800)
@@ -252,6 +284,21 @@ export default function Gruppen() {
                     081 756 01 01
                   </a>
                 </motion.div>
+              </div>
+
+              {/* Compartir: en el móvil abre la hoja del sistema (WhatsApp, Facebook...);
+                  en el escritorio no existe, así que copia el enlace y lo dice. */}
+              <div className="mt-5 flex justify-center">
+                <motion.button
+                  type="button"
+                  onClick={teilen}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center gap-2 rounded-full border-2 border-[#9b1b1b]/35 bg-white/55 px-6 py-2.5 text-[15px] font-bold text-[#9b1b1b] hover:bg-white/80 transition-colors"
+                >
+                  {kopiert ? <Check className="w-5 h-5" /> : <Share2 className="w-5 h-5" />}
+                  {kopiert ? "Link kopiert!" : "Seite teilen"}
+                </motion.button>
               </div>
             </div>
           </div>
