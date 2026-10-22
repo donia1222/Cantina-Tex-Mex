@@ -166,7 +166,8 @@ export default function Component({ children }: { children: React.ReactNode }) {
               <button
                 onClick={toggleMenu}
                 aria-label={isMenuOpen ? "Menü schliessen" : "Menü öffnen"}
-                className="relative w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white hover:bg-white/15 transition-colors flex-shrink-0"
+                /* Redondo, blanco y con las rayas rojas: sobre las fotos del hero, el gris apenas se veía. */
+                className="relative w-11 h-11 rounded-full bg-white shadow-lg shadow-black/30 flex items-center justify-center text-[#d61f26] hover:bg-amber-50 transition-colors flex-shrink-0"
               >
                 {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
