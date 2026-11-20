@@ -61,7 +61,7 @@ export default function Jobs() {
                 </div>
                 <div>
                   <h2 className="pincel text-2xl text-white">Aushilfe Service <span className="text-amber-400">(Kellner/in)</span></h2>
-                  <p className="text-gray-300 text-sm">Cantina Tex-Mex, Buchs</p>
+                  <p className="text-gray-300 text-sm">Ushuaia Cantina, Buchs</p>
                 </div>
               </div>
             </div>
