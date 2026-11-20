@@ -96,62 +96,44 @@ END:VCARD`;
     window.location.href = "https://www.cantinatexmex.ch"; // Navegar al cerrar el modal
   };
 
+  // Rediseño visual 20/11/2026 (Lweb): mismos datos y mismos botones, con el papel crema
+  // y el papel picado del formulario. Copia anterior: scratchpad cantina-ConfirmationModal.antes.tsx
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
-        <button
-          onClick={handleCloseModal}
-          className="absolute top-2 right-2 text-gray-500 text-4xl hover:text-gray-700 font-bold"
-        >
-          &times;
+    <div className="ct-overlay" role="dialog" aria-modal="true" aria-labelledby="ct-ok-titel">
+      <div className="ct-ok">
+        <div className="ct-picado ct-picado--ok" aria-hidden="true">
+          {Array.from({ length: 12 }).map((_, i) => <i key={i} />)}
+        </div>
+        <button onClick={handleCloseModal} className="ct-ok__zu" aria-label="Schliessen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
-        <div className="flex justify-center mb-4">
-          {/* Icono de checkmark */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-12 w-12 text-green-500"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M20 6L9 17l-5-5" />
-          </svg>
+
+        <div className="ct-ok__haken" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
         </div>
-        <h2 className="pincel text-xl text-center mb-4">Reservierung <span className="text-amber-400">bestätigt!</span></h2>
-        <div className="space-y-2">
-          <p>
-            <strong>Datum:</strong> {details.fecha}
-          </p>
-          <p>
-            <strong>Uhrzeit:</strong> {details.hora}
-          </p>
-          <p>
-            <strong>Personen:</strong> {details.personas}
-          </p>
-          <p>
-            <strong>Name:</strong> {details.nombre}
-          </p>
-          <p>
-            <strong>Telefon:</strong> {details.telefono}
-          </p>
-          <p>
-            <strong>E-Mail:</strong> {details.email}
-          </p>
+        <h2 id="ct-ok-titel" className="pincel ct-ok__titel">Reservierung <span>bestätigt!</span></h2>
+        <p className="ct-ok__sub">¡Gracias, {details.nombre}! Wir freuen uns auf Ihren Besuch.</p>
+
+        <div className="ct-ticket">
+          <div className="ct-ticket__haupt">
+            <div><span>Datum</span><b>{details.fecha}</b></div>
+            <div><span>Uhrzeit</span><b>{details.hora}</b></div>
+            <div><span>Personen</span><b>{details.personas}</b></div>
+          </div>
+          <dl className="ct-ticket__daten">
+            <dt>Name</dt><dd>{details.nombre}</dd>
+            <dt>Telefon</dt><dd>{details.telefono}</dd>
+            <dt>E-Mail</dt><dd>{details.email}</dd>
+          </dl>
         </div>
-        <div className="mt-6 flex space-x-4">
-          <button
-            onClick={handleAddToCalendar}
-            className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200"
-          >
+
+        <div className="ct-ok__knoepfe">
+          <button onClick={handleAddToCalendar} className="ct-btn ct-btn--rot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="3" /><path d="M3 9.5h18M8 2.5v4M16 2.5v4M12 13v5M9.5 15.5h5" /></svg>
             Zum Kalender hinzufügen
           </button>
-          <button
-            onClick={handleDownloadVCard}
-            className="flex-1 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-200"
-          >
+          <button onClick={handleDownloadVCard} className="ct-btn ct-btn--linie">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3" /><circle cx="8.5" cy="11" r="2" /><path d="M5.5 16c.6-1.5 1.7-2.2 3-2.2s2.4.7 3 2.2M14.5 10h4M14.5 13.5h3" /></svg>
             Visitenkarte herunterladen
           </button>
         </div>

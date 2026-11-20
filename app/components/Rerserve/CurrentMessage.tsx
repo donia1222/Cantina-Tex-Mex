@@ -25,18 +25,13 @@ const CurrentMessage: React.FC = () => {
     fetchMessage();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-40">
-        <p className="text-center text-gray-500">Lädt aktuelle Nachricht...</p>
-      </div>
-    );
-  }
+  // Mientras carga o si no hay aviso, no ocupa sitio (antes dejaba un hueco encima del formulario)
+  if (loading || !message.trim()) return null;
 
 
   return (
     <div
-      className="current-message rounded-lg p-4 text-gray-300  max-w-sm mx-auto mt-5"
+      className="current-message rounded-2xl p-4 text-gray-200 max-w-xl mx-auto bg-amber-500/10 border border-amber-500/25 text-center"
       dangerouslySetInnerHTML={{ __html: message }}
     ></div>
   );

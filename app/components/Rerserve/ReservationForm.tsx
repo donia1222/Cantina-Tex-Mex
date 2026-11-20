@@ -2,11 +2,10 @@
 
 import type React from "react"
 import { useEffect, useState } from "react"
-import Flatpickr from "react-flatpickr"
-import "flatpickr/dist/themes/material_red.css"
+import "./reserva.css"
 import ConfirmationModal from "./ConfirmationModal"
 import PreviousReservationsModal from "./PreviousReservationsModal"
-import { Calendar, Clock, Users, User, Phone, Mail, AlertCircle } from "lucide-react"
+import { CalendarDays, AlertCircle, History, ChevronLeft, ChevronRight } from "lucide-react"
 
 interface BlockedDates {
   [date: string]: string[]
@@ -22,6 +21,17 @@ interface Reservation {
   timestamp: number // Para ordenar las reservas por fecha
 }
 
+
+/* =====================================================================
+   Rediseño visual 20/11/2026 (Lweb): mismo funcionamiento, otra cara.
+   Toda la lógica de abajo (backend, fechas bloqueadas, vacaciones, horas
+   pasadas, 20+ personas, reservas anteriores) es la de siempre; solo
+   cambia cómo se elige: fichas en vez de calendario y desplegables.
+   El backend recibe exactamente lo mismo: fecha (dd.mm.aaaa), hora,
+   personas, nombre, telefono, email.
+   Copia de la versión anterior: scratchpad cantina-ReservationForm.antes.tsx
+   ===================================================================== */
+
 // Interfaz para el modal de error
 interface ErrorModalProps {
   message: string
@@ -33,42 +43,113 @@ interface ErrorModalProps {
 // Componente para el modal de error
 const ErrorModal: React.FC<ErrorModalProps> = ({ message, nextTime, onClose, onSelectTime }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-        <div className="flex items-center mb-4 text-red-600">
-          <AlertCircle className="w-6 h-6 mr-2" />
-          <h3 className="text-lg font-semibold">Reservierung nicht möglich</h3>
-        </div>
-        <p className="mb-4 text-gray-700">{message}</p>
-
+    <div className="ct-overlay" role="dialog" aria-modal="true" onClick={onClose}>
+      <div className="ct-dialog" onClick={(e) => e.stopPropagation()}>
+        <div className="ct-dialog__icon"><AlertCircle /></div>
+        <h3>Reservierung nicht möglich</h3>
+        <p>{message}</p>
         {nextTime && (
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-md">
-            <p className="text-amber-800 font-medium">
-              Nächste verfügbare Zeit: <span className="text-lg font-bold">{nextTime}</span>
-            </p>
+          <div className="ct-dialog__next">
+            Nächste verfügbare Zeit: <b>{nextTime}</b>
           </div>
         )}
-
-        <div className="flex justify-end space-x-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
-          >
-            Schließen
-          </button>
-
+        <div className="ct-dialog__knoepfe">
           {nextTime && (
             <button
+              type="button"
+              className="ct-btn ct-btn--rot"
               onClick={() => {
                 onSelectTime(nextTime)
                 onClose()
               }}
-              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
             >
               Diese Zeit wählen
             </button>
           )}
+          <button type="button" className="ct-btn ct-btn--linie" onClick={onClose}>
+            Schliessen
+          </button>
         </div>
+      </div>
+    </div>
+  )
+}
+
+const TAGE_KURZ = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]
+const MONATE = ["Jan.", "Feb.", "März", "Apr.", "Mai", "Juni", "Juli", "Aug.", "Sept.", "Okt.", "Nov.", "Dez."]
+const TAGE_IM_STREIFEN = 35
+
+// Betriebsferien / vacaciones: 21.07 - 11.08.2026 (el 12.08 abre normal) — igual que antes
+const enFerien = (date: Date) => {
+  const start = new Date(2026, 6, 21, 0, 0, 0)
+  const end = new Date(2026, 7, 11, 23, 59, 59)
+  return date >= start && date <= end
+}
+
+const mismoDia = (a: Date, b: Date) =>
+  a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+
+const istMittag = (t: string) => Number.parseInt(t.split(":")[0], 10) < 14
+
+const MONATE_LANG = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+
+// Calendario del mes con las mismas reglas que las fichas (y que el Flatpickr de antes):
+// nada antes de hoy, domingos y lunes cerrados, vacaciones y días completos bloqueados.
+const MonatsKalender: React.FC<{
+  ausgewaehlt: Date | null
+  status: (d: Date) => "offen" | "ruhetag" | "ferien" | "voll"
+  onPick: (d: Date) => void
+}> = ({ ausgewaehlt, status, onPick }) => {
+  const heute = new Date()
+  heute.setHours(0, 0, 0, 0)
+  const start = ausgewaehlt || heute
+  const [monat, setMonat] = useState(new Date(start.getFullYear(), start.getMonth(), 1))
+  const ersterMonat = monat.getFullYear() === heute.getFullYear() && monat.getMonth() === heute.getMonth()
+  const versatz = (monat.getDay() + 6) % 7 // lunes primero
+  const tageImMonat = new Date(monat.getFullYear(), monat.getMonth() + 1, 0).getDate()
+  const zellen: (Date | null)[] = [
+    ...Array.from({ length: versatz }, () => null),
+    ...Array.from({ length: tageImMonat }, (_, i) => new Date(monat.getFullYear(), monat.getMonth(), i + 1)),
+  ]
+  const schieben = (n: number) => setMonat(new Date(monat.getFullYear(), monat.getMonth() + n, 1))
+
+  return (
+    <div className="ct-kal">
+      <div className="ct-kal__kopf">
+        <button type="button" onClick={() => schieben(-1)} disabled={ersterMonat} aria-label="Vorheriger Monat"><ChevronLeft /></button>
+        <p className="pincel">{MONATE_LANG[monat.getMonth()]} <span>{monat.getFullYear()}</span></p>
+        <button type="button" onClick={() => schieben(1)} aria-label="Nächster Monat"><ChevronRight /></button>
+      </div>
+      <div className="ct-kal__woche">
+        {["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"].map((w) => <span key={w}>{w}</span>)}
+      </div>
+      <div className="ct-kal__gitter" key={monat.getTime()}>
+        {zellen.map((d, i) => {
+          if (!d) return <span key={"l" + i} />
+          const vorbei = d < heute
+          const st = status(d)
+          const zu = vorbei || st !== "offen"
+          const an = !!ausgewaehlt && mismoDia(d, ausgewaehlt)
+          const istHeute = mismoDia(d, heute)
+          return (
+            <button
+              type="button"
+              key={i}
+              disabled={zu}
+              aria-pressed={an}
+              title={!vorbei && st === "ruhetag" ? "Ruhetag" : st === "ferien" ? "Betriebsferien" : st === "voll" ? "Ausgebucht" : undefined}
+              className={"ct-kal__tag" + (an ? " is-an" : "") + (zu ? " is-zu" : "") + (istHeute ? " is-heute" : "") + (!vorbei && st === "voll" ? " is-voll" : "")}
+              onClick={() => onPick(d)}
+            >
+              {d.getDate()}
+            </button>
+          )
+        })}
+      </div>
+      <div className="ct-kal__legende">
+        <span><i className="l-frei" />Frei</span>
+        <span><i className="l-voll" />Ausgebucht</span>
+        <span><i className="l-zu" />Geschlossen</span>
       </div>
     </div>
   )
@@ -243,10 +324,6 @@ const ReservationForm: React.FC = () => {
     }
   }
 
-  const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTime(e.target.value)
-    setNextAvailableTime(null) // Resetear el siguiente horario disponible
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -327,280 +404,263 @@ const ReservationForm: React.FC = () => {
     }
   }
 
-  // Función para renderizar las opciones del select agrupadas en "Mittag" y "Abend"
-  const renderTimeOptions = () => {
-    // Separamos las horas disponibles en horarios de almuerzo y cena
-    const lunchAvailable = availableTimes.filter((time) => Number.parseInt(time.split(":")[0], 10) < 14)
-    const dinnerAvailable = availableTimes.filter((time) => Number.parseInt(time.split(":")[0], 10) >= 14)
-    // Separamos las horas bloqueadas en los mismos grupos
-    const lunchBlocked = blockedTimesForSelectedDate.filter((time) => Number.parseInt(time.split(":")[0], 10) < 14)
-    const dinnerBlocked = blockedTimesForSelectedDate.filter((time) => Number.parseInt(time.split(":")[0], 10) >= 14)
 
+  // ── Lo que se ve: fichas en vez de calendario y desplegables ──────────────
+  const [mehrPersonen, setMehrPersonen] = useState(false)
+  const [kalender, setKalender] = useState(false)
+
+  const pickTime = (time: string) => {
+    setSelectedTime(time)
+    setNextAvailableTime(null)
+  }
+
+  // Estado de cada día: mismas reglas que el calendario de antes
+  const tagStatus = (date: Date): "offen" | "ruhetag" | "ferien" | "voll" => {
+    if ([0, 1].includes(date.getDay())) return "ruhetag"
+    if (enFerien(date)) return "ferien"
+    const key = formatDate(date)
+    const allTimes = getAllPossibleTimes(date)
+    const blocked = blockedDates[key] || []
+    if (allTimes.length > 0 && blocked.length >= allTimes.length) return "voll"
+    return "offen"
+  }
+
+  const tage: Date[] = (() => {
+    const out: Date[] = []
+    const d = new Date()
+    d.setHours(12, 0, 0, 0)
+    for (let i = 0; i < TAGE_IM_STREIFEN; i++) {
+      out.push(new Date(d))
+      d.setDate(d.getDate() + 1)
+    }
+    return out
+  })()
+
+  // Al cargar, se marca el primer día abierto (se puede cambiar con un toque)
+  useEffect(() => {
+    if (loading || selectedDate) return
+    const heute = new Date()
+    const erster = tage.find((t) => {
+      if (tagStatus(t) !== "offen") return false
+      if (!mismoDia(t, heute)) return true
+      // hoy solo si aún quedan horas
+      const blocked = blockedDates[formatDate(t)] || []
+      return getAllPossibleTimes(t).some((time) => {
+        if (blocked.includes(time)) return false
+        const [h, m] = time.split(":").map(Number)
+        return new Date(heute.getFullYear(), heute.getMonth(), heute.getDate(), h, m) > heute
+      })
+    })
+    if (erster) setSelectedDate(new Date(erster.getFullYear(), erster.getMonth(), erster.getDate()))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading])
+
+  // Si la hora elegida ya no existe en el día nuevo, se quita
+  useEffect(() => {
+    if (selectedTime && !availableTimes.includes(selectedTime)) setSelectedTime("")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [availableTimes])
+
+  const ausserhalb = selectedDate && !tage.some((t) => mismoDia(t, selectedDate))
+  const fechaValue = selectedDate
+    ? `${String(selectedDate.getDate()).padStart(2, "0")}.${String(selectedDate.getMonth() + 1).padStart(2, "0")}.${selectedDate.getFullYear()}`
+    : ""
+  const datumLang = selectedDate
+    ? `${TAGE_KURZ[selectedDate.getDay()]}, ${selectedDate.getDate()}. ${MONATE[selectedDate.getMonth()]}`
+    : ""
+
+  const zeitGruppen = (() => {
+    const alle = Array.from(new Set([...availableTimes, ...blockedTimesForSelectedDate])).sort()
+    return [
+      { titel: "Mittag", zeiten: alle.filter(istMittag) },
+      { titel: "Abend", zeiten: alle.filter((t) => !istMittag(t)) },
+    ].filter((g) => g.zeiten.length > 0)
+  })()
+
+  const fertig = !!(selectedDate && selectedTime && personas)
+
+  const renderTag = (t: Date, i: number, extra = false) => {
+    const st = tagStatus(t)
+    const zu = st !== "offen"
+    const an = !!selectedDate && mismoDia(t, selectedDate)
+    const heute = new Date()
+    const morgen = new Date(); morgen.setDate(morgen.getDate() + 1)
+    const oben = extra ? TAGE_KURZ[t.getDay()] : mismoDia(t, heute) ? "Heute" : mismoDia(t, morgen) ? "Morgen" : TAGE_KURZ[t.getDay()]
+    const unten = st === "ruhetag" ? "Ruhetag" : st === "ferien" ? "Ferien" : st === "voll" ? "Ausgebucht" : MONATE[t.getMonth()]
     return (
-      <>
-        {(lunchAvailable.length > 0 || lunchBlocked.length > 0) && (
-          <optgroup label="Mittag">
-            {lunchAvailable.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
-            ))}
-            {lunchBlocked.map((time) => (
-              <option key={time} value={time} disabled className="text-gray-500">
-                {`${time} (Nicht verfügbar)`}
-              </option>
-            ))}
-          </optgroup>
-        )}
-        {(dinnerAvailable.length > 0 || dinnerBlocked.length > 0) && (
-          <optgroup label="Abend">
-            {dinnerAvailable.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
-            ))}
-            {dinnerBlocked.map((time) => (
-              <option key={time} value={time} disabled className="text-gray-500">
-                {`${time} (Nicht verfügbar)`}
-              </option>
-            ))}
-          </optgroup>
-        )}
-      </>
+      <button
+        type="button"
+        key={(extra ? "x" : "") + i}
+        disabled={zu}
+        aria-pressed={an}
+        className={"ct-tag" + (an ? " is-an" : "") + (zu ? " is-zu" : "") + (st === "voll" ? " is-voll" : "")}
+        onClick={() => {
+          setSelectedDate(new Date(t.getFullYear(), t.getMonth(), t.getDate()))
+          setKalender(false)
+        }}
+      >
+        <span>{oben}</span>
+        <b>{t.getDate()}</b>
+        <small>{unten}</small>
+      </button>
     )
   }
 
-  const renderButtonText = () => {
-    if (selectedDate && selectedTime && personas) {
-      const formattedDate = selectedDate.toLocaleDateString("de-DE")
-      return `Reservierung: ${formattedDate}, ${selectedTime}, ${personas} Personen`
-    }
-    return "Reservierung bestätigen"
-  }
-
   return (
-    <div className="w-full max-w-2xl mx-auto p-2 md:p-6 bg-transparent rounded-lg">
+    <div className="ct-res">
       {loading ? (
-        <p className="text-white">Loading...</p>
+        <div className="ct-karte ct-karte--laden">
+          <div className="ct-laden"><span /><span /><span /></div>
+          <p>Freie Tische werden geladen …</p>
+        </div>
       ) : (
-        <>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Campo de Fecha */}
-            <div>
-              <div className="flex items-center mb-1">
-                <Calendar className="w-5 h-5 text-gray-400 mr-2" />
-                <label htmlFor="fecha" className="block text-lg font-medium text-gray-200">
-                  Datum
-                </label>
-              </div>
-              <Flatpickr
-                id="fecha"
-                name="fecha"
-                value={selectedDate || undefined}
-                onChange={(dates: Date[]) => {
-                  console.log("Selected date:", dates[0])
-                  setSelectedDate(dates[0] || null)
-                }}
-                options={{
-                  dateFormat: "d.m.Y",
-                  minDate: "today",
-                  disable: [
-                    (date: Date) => [0, 1].includes(date.getDay()),
-                    // Betriebsferien / vacaciones: 21.07 - 11.08.2026 (el 12.08 abre normal)
-                    (date: Date) => {
-                      const start = new Date(2026, 6, 21, 0, 0, 0) // 21 julio 2026
-                      const end = new Date(2026, 7, 11, 23, 59, 59) // 11 agosto 2026
-                      return date >= start && date <= end
-                    },
-                    ...Object.keys(blockedDates)
-                      .filter((dateStr) => {
-                        const dateObj = parseLocalDate(dateStr)
-                        const allTimes = getAllPossibleTimes(dateObj)
-                        const blocked = blockedDates[dateStr] || []
-                        return allTimes.length > 0 && blocked.length >= allTimes.length
-                      })
-                      .map((dateStr) => parseLocalDate(dateStr)),
-                  ],
-                  locale: {
-                    firstDayOfWeek: 1,
-                    weekdays: {
-                      shorthand: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-                      longhand: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
-                    },
-                    months: {
-                      shorthand: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-                      longhand: [
-                        "Januar",
-                        "Februar",
-                        "März",
-                        "April",
-                        "Mai",
-                        "Juni",
-                        "Juli",
-                        "August",
-                        "September",
-                        "Oktober",
-                        "November",
-                        "Dezember",
-                      ],
-                    },
-                  },
-                }}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-gray-700 text-white"
-                placeholder="TT.MM.JJJJ"
-              />
+        <form onSubmit={handleSubmit} className="ct-karte">
+          {/* El backend recibe exactamente lo mismo que antes */}
+          <input type="hidden" name="fecha" value={fechaValue} />
+          <input type="hidden" name="hora" value={selectedTime} />
+          <input type="hidden" name="personas" value={personas || ""} />
+
+          <aside className="ct-bild" aria-hidden="true">
+            <img src="/hero/1.webp" alt="" />
+            <div className="ct-bild__txt">
+              <p className="pincel">Reservierung</p>
+              <span>Cantina Tex-Mex · Buchs SG</span>
+            </div>
+          </aside>
+
+          <div className="ct-inhalt">
+            <div className="ct-picado" aria-hidden="true">
+              {Array.from({ length: 14 }).map((_, i) => <i key={i} />)}
             </div>
 
-            {/* Campo de Hora */}
-            <div>
-              <div className="flex items-center mb-1">
-                <Clock className="w-5 h-5 text-gray-400 mr-2" />
-                <label htmlFor="hora" className="block text-lg font-medium text-gray-200">
-                  Uhrzeit
-                </label>
-              </div>
-              <select
-                id="hora"
-                name="hora"
-                required
-                value={selectedTime}
-                onChange={handleTimeChange}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center"
-                disabled={availableTimes.length === 0 && blockedTimesForSelectedDate.length === 0}
-              >
-                <option value="">Wählen Sie die Uhrzeit</option>
-                {renderTimeOptions()}
-              </select>
-            </div>
-
-            {/* Campo de Número de Personas */}
-            <div>
-              <div className="flex items-center mb-1">
-                <Users className="w-5 h-5 text-gray-400 mr-2" />
-                <label htmlFor="personas" className="block text-lg font-medium text-gray-200">
-                  Anzahl der Personen
-                </label>
-              </div>
-              <select
-                id="personas"
-                name="personas"
-                required
-                value={personas}
-                onChange={(e) => setPersonas(Number.parseInt(e.target.value, 10))}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 bg-gray-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-no-repeat bg-right-4 bg-center"
-              >
-                <option value="">Wählen Sie die Anzahl der Personen</option>
-                {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
-                  <option key={num} value={num}>
-                    {num}
-                  </option>
+            {/* Personen */}
+            <fieldset className="ct-feld">
+              <legend>Personen</legend>
+              <div className="ct-chips">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                  <button type="button" key={n} aria-pressed={personas === n} className={"ct-chip" + (personas === n ? " is-an" : "")} onClick={() => { setPersonas(n); setMehrPersonen(false) }}>{n}</button>
                 ))}
-              </select>
-              {personas >= 20 && (
-                <div className="mt-2 p-3 bg-amber-100 text-amber-800 rounded-md">
-                  <p>
-                    Ab 20 Personen bitte per E-Mail reservieren:{" "}
-                    <a
-                      href={`mailto:info@cantinatex-mex.ch?subject=Reservierung für mehr als 20 Personen&body=Ich möchte gerne eine Reservierung für mehr als 20 Personen machen.`}
-                      className="font-medium underline"
-                    >
-                      info@cantinatex-mex.ch
-                    </a>
-                  </p>
+                <button type="button" aria-expanded={mehrPersonen || personas > 10} className={"ct-chip ct-chip--breit" + (personas > 10 ? " is-an" : "")} onClick={() => setMehrPersonen(!mehrPersonen)}>
+                  11+
+                </button>
+              </div>
+              {(mehrPersonen || personas > 10) && (
+                <div className="ct-chips ct-chips--mehr">
+                  {Array.from({ length: 10 }, (_, i) => i + 11).map((n) => (
+                    <button type="button" key={n} aria-pressed={personas === n} className={"ct-chip" + (personas === n ? " is-an" : "")} onClick={() => setPersonas(n)}>{n === 20 ? "20+" : n}</button>
+                  ))}
                 </div>
               )}
-            </div>
-
-            {/* Campos de Nombre, Teléfono y E-Mail */}
-            <div>
-              <div className="flex items-center mb-1">
-                <User className="w-5 h-5 text-gray-400 mr-2" />
-                <label htmlFor="nombre" className="block text-lg font-medium text-gray-200">
-                  Name
-                </label>
-              </div>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                required
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-gray-700 text-white"
-                placeholder="Ihr Name"
-              />
-            </div>
-
-            <div>
-              <div className="flex items-center mb-1">
-                <Phone className="w-5 h-5 text-gray-400 mr-2" />
-                <label htmlFor="telefono" className="block text-lg font-medium text-gray-200">
-                  Telefon
-                </label>
-              </div>
-              <input
-                type="tel"
-                id="telefono"
-                name="telefono"
-                required
-                value={telefono}
-                onChange={(e) => setTelefono(e.target.value)}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-gray-700 text-white"
-                placeholder="Ihre Telefonnummer"
-              />
-            </div>
-
-            <div>
-              <div className="flex items-center mb-1">
-                <Mail className="w-5 h-5 text-gray-400 mr-2" />
-                <label htmlFor="email" className="block text-lg font-medium text-gray-200">
-                  E-Mail
-                </label>
-              </div>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-gray-700 text-white"
-                placeholder="Ihre E-Mail-Adresse"
-              />
-            </div>
-
-            {selectedDate && selectedTime && personas && (
-              <div className="mt-4 p-4 bg-gray-700 text-white rounded">
-                <p>
-                  <strong>Datum</strong> {selectedDate.toLocaleDateString("de-DE")}
+              {personas >= 20 && (
+                <p className="ct-hinweis">
+                  Ab 20 Personen bitte per E-Mail reservieren:{" "}
+                  <a href={`mailto:info@cantinatex-mex.ch?subject=Reservierung für mehr als 20 Personen&body=Ich möchte gerne eine Reservierung für mehr als 20 Personen machen.`}>info@cantinatex-mex.ch</a>
                 </p>
-                <p>
-                  <strong>Uhr:</strong> {selectedTime}
-                </p>
-                <p>
-                  <strong>Personen:</strong> {personas}
-                </p>
+              )}
+            </fieldset>
+
+            {/* Datum */}
+            <fieldset className="ct-feld">
+              <legend>Datum</legend>
+              <div className="ct-tage">
+                {ausserhalb && selectedDate && renderTag(selectedDate, 0, true)}
+                {tage.map((t, i) => renderTag(t, i))}
+                <button type="button" className={"ct-tag ct-tag--kal" + (kalender ? " is-offen" : "")} onClick={() => setKalender(!kalender)} aria-expanded={kalender}>
+                  <CalendarDays />
+                  <small>Weitere<br />Daten</small>
+                </button>
               </div>
+              {kalender && (
+                <MonatsKalender
+                  ausgewaehlt={selectedDate}
+                  status={tagStatus}
+                  onPick={(d) => {
+                    setSelectedDate(d)
+                    setKalender(false)
+                  }}
+                />
+              )}
+            </fieldset>
+
+            {/* Uhrzeit */}
+            <fieldset className="ct-feld">
+              <legend>Uhrzeit</legend>
+              {!selectedDate ? (
+                <p className="ct-leer">Bitte zuerst ein Datum wählen.</p>
+              ) : zeitGruppen.length === 0 || availableTimes.length === 0 ? (
+                <p className="ct-leer">Für diesen Tag sind keine Zeiten mehr frei. Bitte wählen Sie einen anderen Tag.</p>
+              ) : (
+                zeitGruppen.map((g) => (
+                  <div className="ct-gruppe" key={g.titel}>
+                    <span>{g.titel}</span>
+                    <div className="ct-chips">
+                      {g.zeiten.map((t) => {
+                        const frei = availableTimes.includes(t)
+                        return (
+                          <button
+                            type="button"
+                            key={t}
+                            disabled={!frei}
+                            aria-pressed={selectedTime === t}
+                            title={frei ? undefined : "Nicht verfügbar"}
+                            className={"ct-chip ct-chip--zeit" + (selectedTime === t ? " is-an" : "") + (!frei ? " is-voll" : "")}
+                            onClick={() => pickTime(t)}
+                          >
+                            {t}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))
+              )}
+            </fieldset>
+
+            {/* Kontakt */}
+            <div className="ct-zwei">
+              <label className="ct-feld">
+                <span className="ct-lbl">Name</span>
+                <input type="text" id="nombre" name="nombre" required value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="name" placeholder="Vor- und Nachname" />
+              </label>
+              <label className="ct-feld">
+                <span className="ct-lbl">Telefon</span>
+                <input type="tel" id="telefono" name="telefono" required value={telefono} onChange={(e) => setTelefono(e.target.value)} autoComplete="tel" placeholder="+41 …" />
+              </label>
+            </div>
+            <label className="ct-feld">
+              <span className="ct-lbl">E-Mail</span>
+              <input type="email" id="email" name="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="Für die Bestätigung" />
+            </label>
+
+            {error && <div className="ct-fehler"><AlertCircle />{error}</div>}
+
+            {reservations.length > 0 && (
+              <button type="button" onClick={() => setShowPreviousReservationsModal(true)} className="ct-frueher">
+                <History /> Meine vorherigen Reservierungen
+              </button>
             )}
 
-            <button
-              type="submit"
-              className="btn-brocha btn-brocha--gross w-full disabled:cursor-not-allowed disabled:opacity-50"
-              disabled={!(selectedDate && selectedTime && personas)}
-            >
-              Reservierung bestätigen
-            </button>
-          </form>
-        </>
-      )}
-
-      {reservations.length > 0 && (
-        <button
-          onClick={() => setShowPreviousReservationsModal(true)}
-          className="mt-10 bg-gray-600 text-gray-300 py-1 px-3 rounded hover:bg-gray-900 transition duration-200 text-xs"
-        >
-          Ver meine vorherigen Reservierungen
-        </button>
+            {/* Resumen + botón */}
+            <div className="ct-fuss">
+              <div className="ct-summe">
+                {selectedDate ? (
+                  <>
+                    <b>{datumLang}{selectedTime ? ` · ${selectedTime}` : ""}</b>
+                    <span>
+                      {personas ? `${personas} ${personas === 1 ? "Person" : "Personen"}` : "Personen wählen"}
+                      {!selectedTime ? " · Uhrzeit wählen" : ""}
+                    </span>
+                  </>
+                ) : (
+                  <span>Datum, Uhrzeit und Personen wählen</span>
+                )}
+              </div>
+              <button type="submit" className="btn-brocha ct-los" disabled={!fertig}>
+                Reservieren
+              </button>
+            </div>
+          </div>
+        </form>
       )}
 
       {showPreviousReservationsModal && (
@@ -628,8 +688,6 @@ const ReservationForm: React.FC = () => {
           }}
         />
       )}
-
-      {error && <div className="mt-4 p-4 bg-red-600 text-white rounded">{error}</div>}
     </div>
   )
 }
