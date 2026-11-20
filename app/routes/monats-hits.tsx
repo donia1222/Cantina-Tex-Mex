@@ -7,6 +7,7 @@ import { useInView } from "react-intersection-observer"
 import CountUp from "react-countup"
 import type { MetaFunction } from "@remix-run/node"
 import { Flame, Sparkles, CupSoda, Crown, CalendarDays, ChevronRight, Droplets } from "lucide-react"
+import Picado from "~/components/Picado"
 import PageLoader from "~/components/PageLoader"
 import MonatsHitsModal from "~/components/MonatsHitsModal"
 
@@ -44,7 +45,7 @@ const burgers: Burger[] = [
     desc: "Mit Trüffel-Mayo, Rucola, Parmesan & Röstzwiebeln",
     price: 25.5,
     icon: Sparkles,
-    color: "#d4d4d4",
+    color: "#8a6d3b",
   },
   {
     name: "Smoky BBQ",
@@ -101,25 +102,7 @@ export default function MonatsHits() {
       {/* Begrüssungs-Modal – nur auf dieser Seite */}
       <MonatsHitsModal onReady={() => setHeroReady(true)} />
 
-      {/* ━━━ FIXER BILDHINTERGRUND ━━━ */}
-      {/* h-lvh statt inset-0: bleibt stabil, wenn die Adressleiste des Handys ein-/ausfährt */}
-      <div className="fixed top-0 left-0 right-0 h-lvh z-0 bg-[#0b0b0f] pointer-events-none">
-        {heroLoaded && (
-          <motion.img
-            src={HERO_IMAGE}
-            alt=""
-            aria-hidden="true"
-            onError={() => setHeroLoaded(false)}
-            initial={{ scale: 1.12, opacity: 0 }}
-            animate={heroReady ? { scale: 1, opacity: 1 } : undefined}
-            transition={{ duration: 2.2, ease: "easeOut" }}
-            className="w-full h-full object-cover"
-          />
-        )}
-        {/* Dunkler Schleier, damit die Schrift lesbar bleibt */}
-        <div className="absolute inset-0 bg-[#0b0b0f]/75" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b0b0f]/80 via-transparent to-[#0b0b0f]" />
-      </div>
+      {/* El fondo oscuro con la foto se quitó el 20/11/2026: ahora manda el fondo suave de toda la web. */}
 
       {/* ━━━ INHALT ━━━ */}
       <div className="relative z-10">
@@ -149,10 +132,10 @@ export default function MonatsHits() {
               transition={{ delay: 0.15 }}
               className="flex flex-wrap items-center justify-center gap-2 mb-5"
             >
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] bg-red-500/15 text-red-400 border border-red-500/25">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] bg-[#d61f26]/10 text-[#b3161c] border border-[#d61f26]/25">
                 Monats-Hits
               </span>
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] bg-green-500/15 text-green-400 border border-green-500/25">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] bg-[#15803d]/10 text-[#166534] border border-[#15803d]/25">
                 <CalendarDays className="w-3.5 h-3.5" />
                 Ab September
               </span>
@@ -200,10 +183,10 @@ export default function MonatsHits() {
               animate={heroReady ? { opacity: 1, y: 0 } : undefined}
               transition={{ delay: 0.75, duration: 0.6 }}
             >
-              <p className="text-lg sm:text-xl font-bold text-amber-400 uppercase tracking-wide mb-4">
+              <p className="text-lg sm:text-xl font-extrabold text-[#c2410c] uppercase tracking-wide mb-4">
                 mit offenem Getränk
               </p>
-              <p className="text-gray-400 max-w-lg mx-auto">
+              <p className="kopf-text max-w-lg mx-auto">
                 Vier neue Smash Burger, frisch auf der Plancha gepresst – jeder inklusive einem
                 offenen Getränk Ihrer Wahl.
               </p>
@@ -213,7 +196,7 @@ export default function MonatsHits() {
       </section>
 
       {/* ━━━ LAUFBAND ━━━ */}
-      <div className="relative border-y border-white/10 bg-gradient-to-r from-red-600/15 via-amber-500/10 to-green-600/15 py-3 overflow-hidden">
+      <div className="relative border-y border-[#e3c99f] bg-gradient-to-r from-red-600/10 via-amber-500/15 to-green-600/10 py-3 overflow-hidden">
         <div className="flex w-max animate-scroll-right">
           {[0, 1].map((copy) => (
             <div key={copy} className="flex items-center shrink-0">
@@ -221,10 +204,10 @@ export default function MonatsHits() {
                 (word) => (
                   <span
                     key={word}
-                    className="flex items-center gap-6 px-6 text-white/70 font-bold uppercase tracking-[0.2em] text-sm whitespace-nowrap"
+                    className="flex items-center gap-6 px-6 text-[#5b4a3d] font-bold uppercase tracking-[0.2em] text-sm whitespace-nowrap"
                   >
                     {word}
-                    <Flame className="w-4 h-4 text-amber-400" />
+                    <Flame className="w-4 h-4 text-[#d61f26]" />
                   </span>
                 ),
               )}
@@ -239,11 +222,13 @@ export default function MonatsHits() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-3xl mx-auto text-center text-white font-extrabold uppercase tracking-[0.2em] text-sm mb-8"
+          className="sr-only"
         >
           Unsere vier Monats-Hits
         </motion.h2>
-        <div className="max-w-3xl mx-auto space-y-5">
+        <div className="papel mit-picado max-w-3xl mx-auto space-y-5 px-4 pb-6 md:px-8 md:pb-8">
+          <Picado n={14} />
+          <p className="text-center !mt-0 !mb-7"><span className="papel-kicker">Unsere vier Monats-Hits</span></p>
           {burgers.map((burger, i) => (
             <motion.div
               key={burger.name}
@@ -254,8 +239,8 @@ export default function MonatsHits() {
               transition={{ delay: 0.08 * i, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className={`group relative rounded-2xl border p-5 md:p-6 transition-colors duration-300 ${
                 burger.premium
-                  ? "bg-gradient-to-r from-amber-500/15 to-red-500/10 border-amber-500/30 hover:border-amber-500/60"
-                  : "bg-white/5 border-white/10 hover:bg-white/[0.09] hover:border-white/20"
+                  ? "bg-[#fef3c7] border-amber-400/60 hover:border-amber-500"
+                  : "bg-white border-[rgba(29,20,16,0.08)] hover:border-[rgba(29,20,16,0.2)]"
               }`}
             >
               {burger.premium && (
@@ -310,7 +295,7 @@ export default function MonatsHits() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="group max-w-3xl mx-auto rounded-2xl overflow-hidden border border-amber-500/30 bg-gradient-to-r from-amber-500/15 to-orange-600/10 hover:border-amber-500/60 transition-colors duration-300"
+          className="papel group max-w-3xl mx-auto overflow-hidden"
         >
           <div className="flex flex-col sm:flex-row">
             {/* Hochformat: auf dem Handy hoch genug, damit das Kännchen im Bild bleibt */}
@@ -374,8 +359,9 @@ export default function MonatsHits() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-3xl mx-auto rounded-2xl bg-amber-400/10 border border-amber-400/30 p-7 text-center"
+          className="papel mit-picado max-w-3xl mx-auto p-7 text-center"
         >
+          <Picado n={14} />
           <motion.div
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -405,7 +391,7 @@ export default function MonatsHits() {
           viewport={{ once: true }}
           className="max-w-3xl mx-auto text-center"
         >
-          <p className="text-white font-bold uppercase tracking-[0.15em] mb-5">
+          <p className="text-[#3b2a1c] font-extrabold uppercase tracking-[0.15em] mb-5">
             Jetzt entdecken und reservieren!
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">

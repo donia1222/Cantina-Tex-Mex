@@ -11,6 +11,7 @@ import Layout from "./components/Layout";
 import { Analytics } from "@vercel/analytics/remix"
 
 import "./tailwind.css";
+import "./papel.css";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

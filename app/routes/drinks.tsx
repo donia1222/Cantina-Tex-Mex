@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react"
+import Picado from "~/components/Picado"
 import PageLoader from "~/components/PageLoader"
 
 const drinkCategories = [
@@ -28,7 +29,7 @@ const drinkCategories = [
     name: "Alkoholfreie Cocktails",
     desc: "Frisch & fruchtig ohne Alkohol",
     icon: GlassWater,
-    color: "#22d3ee",
+    color: "#0891b2",
     image: "/47403431_l-2-12.jpg",
     items: ["Caipirohne", "Stress Killer", "Malibu Dreams", "Pitufo", "Santa Fresana"],
   },
@@ -85,14 +86,14 @@ export default function Drinks() {
   const activeData = drinkCategories.find((c) => c.id === activeCategory)
 
   return (
-    <><div className="bg-black/60 backdrop-blur-sm" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+    <><div className="relative" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
       <PageLoader loading={loading} />
 
       {/* ━━━ HERO ━━━ */}
       <section className="relative pt-28 pb-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-amber-500/10 text-amber-400">
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 kopf-pille kopf-pille--gelb">
               Getränkekarte
             </span>
             <h1 className="pincel text-4xl md:text-6xl text-white mb-4">
@@ -101,7 +102,7 @@ export default function Drinks() {
                 Getränke
               </span>
             </h1>
-            <p className="text-lg text-gray-200 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-200 max-w-2xl mx-auto kopf-text">
               Handgemixte Cocktails, frische alkoholfreie Drinks, internationale Biere und erfrischende Softdrinks.
             </p>
           </motion.div>
@@ -110,8 +111,10 @@ export default function Drinks() {
 
       {/* ━━━ MARGARITA SHOWCASE ━━━ */}
       <section className="px-4 mb-16">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative rounded-3xl overflow-hidden h-[350px] md:h-[420px]">
+        <div className="papel mit-picado max-w-4xl mx-auto px-3 pb-3 md:px-4 md:pb-4">
+          <Picado n={16} />
+          <p className="text-center mb-4"><span className="papel-kicker">Best Margaritas in town</span></p>
+          <div className="relative rounded-[22px] overflow-hidden h-[340px] md:h-[420px]">
             <AnimatePresence mode="wait">
               <motion.img
                 key={slideIdx}
@@ -127,7 +130,7 @@ export default function Drinks() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
             {/* Info */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+            <div className="auf-foto absolute bottom-0 left-0 right-0 p-6 md:p-8">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={slideIdx}
@@ -158,13 +161,13 @@ export default function Drinks() {
             {/* Arrows */}
             <button
               onClick={() => setSlideIdx((i) => (i - 1 + margaritas.length) % margaritas.length)}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/60 transition-colors"
+              className="auf-foto absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/60 transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => setSlideIdx((i) => (i + 1) % margaritas.length)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/60 transition-colors"
+              className="auf-foto absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/60 transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -173,9 +176,11 @@ export default function Drinks() {
       </section>
 
       {/* ━━━ DRINK CATEGORIES GRID ━━━ */}
-      <section className="px-4 pb-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+      <section className="px-3 md:px-4 pb-24">
+        <div className="papel mit-picado max-w-5xl mx-auto px-4 pb-6 md:px-8 md:pb-8">
+          <Picado n={16} />
+          <p className="text-center mb-6"><span className="papel-kicker">Getränkekarte · Tippen zum Öffnen</span></p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
             {drinkCategories.map((cat, i) => (
               <motion.button
                 key={cat.id}
@@ -183,24 +188,25 @@ export default function Drinks() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * i }}
                 onClick={() => setActiveCategory(cat.id)}
-                className="group relative rounded-2xl overflow-hidden text-left h-56"
+                className="group relative rounded-[22px] overflow-hidden text-left bg-white p-2 shadow-[0_0_0_1.5px_rgba(29,20,16,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_44px_-22px_rgba(29,20,16,0.5)] transition-all duration-300"
               >
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:from-black/90 transition-colors duration-300" />
-                <div className="relative z-10 flex flex-col justify-end h-full p-6">
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-3"
-                    style={{ background: `${cat.color}25` }}
-                  >
-                    <cat.icon className="w-7 h-7" style={{ color: cat.color }} />
+                <div className="relative h-44 md:h-52 rounded-2xl overflow-hidden">
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-[#fff8ec] text-[#1d1410] text-xs font-bold shadow">{cat.items.length} Getränke</span>
+                </div>
+                <div className="flex items-center gap-3 px-3 pt-4 pb-3">
+                  <div className="papel-icon w-11 h-11 flex-shrink-0" style={{ background: `${cat.color}22`, color: cat.color }}>
+                    <cat.icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-2xl font-extrabold text-white mb-1">{cat.name}</h3>
-                  <p className="text-gray-200 text-base">{cat.desc}</p>
-                  <p className="text-gray-300 text-sm mt-1">{cat.items.length} Getränke</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="papel-titel text-2xl">{cat.name}</h3>
+                    <p className="text-gray-400 text-sm">{cat.desc}</p>
+                  </div>
+                  <span className="w-9 h-9 rounded-full bg-[#f6ead6] text-[#1d1410] flex items-center justify-center flex-shrink-0 group-hover:bg-[#d61f26] group-hover:text-white transition-colors" aria-hidden="true">→</span>
                 </div>
               </motion.button>
             ))}
@@ -224,7 +230,7 @@ export default function Drinks() {
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="relative bg-[#1a1a2e] border border-white/10 rounded-3xl overflow-hidden max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl"
+              className="papel relative overflow-hidden max-w-2xl w-full max-h-[90vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal header */}
@@ -234,7 +240,7 @@ export default function Drinks() {
                   alt={activeData.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#fff8ec] via-black/10 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                   <div className="flex items-center gap-4">
                     <div
@@ -267,7 +273,7 @@ export default function Drinks() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.04 }}
-                      className="flex items-center gap-4 bg-white/5 border border-white/5 rounded-2xl px-5 py-4 hover:bg-white/10 transition-colors"
+                      className="flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-[0_0_0_1.5px_rgba(29,20,16,0.07)]"
                     >
                       <div
                         className="w-3 h-3 rounded-full flex-shrink-0"

@@ -77,7 +77,7 @@ export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
 
           {/* Card */}
           <motion.div
-            className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-[#1a1a2e] border border-white/10 shadow-2xl"
+            className="papel relative w-full max-w-lg overflow-hidden"
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -99,7 +99,7 @@ export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
                 alt={OFFER.name}
                 className="w-full h-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-[#1a1a2e]/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#fffaf2] via-[#fffaf2]/20 to-transparent" />
 
               {/* Badge */}
               <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-black text-xs font-extrabold uppercase tracking-wide shadow-lg">

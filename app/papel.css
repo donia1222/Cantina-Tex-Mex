@@ -1,0 +1,98 @@
+/* =====================================================================
+   CANTINA · «papel» (lavado de cara 20/11/2026, Lweb)
+   El estilo de la página de reservas para toda la web: bloques en papel
+   crema (como la carta impresa) sobre el fondo oscuro de fotos.
+   Uso: añadir la clase `papel` a una tarjeta. Dentro, las clases de
+   Tailwind pensadas para fondo oscuro (text-white, text-gray-*, bg-white/5,
+   border-white/10…) se reinterpretan para fondo claro. Los títulos con
+   `pincel` NO cambian (blanco/amarillo con trazo negro, como en el flyer).
+   ===================================================================== */
+:root{
+  --papel:#fff8ec; --papel2:#f6ead6; --papel3:#efdcc0; --tinta:#1d1410; --tinta2:#6b5a4c; --tinta3:#8c7a69;
+  --linea:rgba(29,20,16,.12); --rot:#d61f26; --gelb:#f59e0b; --gruen:#15803d; --rosa:#db2777; --tuerkis:#0e9aa7;
+}
+
+.papel{position:relative;background:var(--papel)!important;color:var(--tinta);border-radius:28px;border:0!important;
+  box-shadow:0 34px 80px -34px rgba(0,0,0,.8);-webkit-backdrop-filter:none!important;backdrop-filter:none!important;}
+.papel--klein{border-radius:22px;box-shadow:0 20px 50px -26px rgba(0,0,0,.75);}
+.papel--weiss{background:#fff!important;box-shadow:0 0 0 1.5px var(--linea);}
+a.papel,button.papel{transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s;}
+a.papel:hover,button.papel:hover{transform:translateY(-4px);box-shadow:0 40px 80px -30px rgba(0,0,0,.85);}
+
+/* Texto: claro → oscuro (los pincel se quedan como están) */
+.papel :is(.text-white,.text-gray-100,.text-gray-200):not(.pincel):not(.pincel *){color:var(--tinta)!important;}
+.papel :is(.text-gray-300,.text-gray-400):not(.pincel):not(.pincel *){color:var(--tinta2)!important;}
+.papel :is(.text-gray-500,.text-gray-600):not(.pincel):not(.pincel *){color:var(--tinta3)!important;}
+.papel :is(.text-amber-400,.text-amber-300,.text-yellow-400):not(.pincel):not(.pincel *){color:#c2410c!important;}
+.papel :is(.text-green-400,.text-green-300):not(.pincel *){color:var(--gruen)!important;}
+.papel :is(.text-red-400,.text-red-300):not(.pincel *){color:var(--rot)!important;}
+.papel :is(.text-blue-400):not(.pincel *){color:#1d4ed8!important;}
+.papel :is(.text-orange-400){color:#ea580c!important;}
+
+/* Superficies y bordes de dentro */
+.papel :is(.bg-white\/5,.bg-white\/10,.bg-gray-800\/60,.bg-gray-800\/80,.bg-gray-800){background-color:#fff!important;}
+.papel :is(.bg-black\/40,.bg-black\/55){background-color:var(--papel2)!important;color:var(--tinta)!important;}
+.papel :is(.border-white\/5,.border-white\/10,.border-gray-700\/50,.border-gray-700){border-color:var(--linea)!important;}
+.papel :is(.border-white\/5,.border-white\/10).bg-white\/5{box-shadow:none;}
+.papel .hover\:bg-white\/8:hover,.papel .hover\:bg-white\/10:hover,.papel .hover\:bg-white\/15:hover{background-color:var(--papel2)!important;}
+.papel .bg-amber-500\/10{background-color:#fef3c7!important;}
+.papel .bg-red-500\/10{background-color:#fee2e2!important;}
+.papel .border-amber-500\/20,.papel .border-amber-500\/30{border-color:#fcd34d!important;}
+
+/* Papel picado (las banderitas de la página de reservas) */
+.picado{position:absolute;top:0;left:0;right:0;height:40px;display:flex;justify-content:space-between;padding:0 6px;pointer-events:none;z-index:2;}
+.picado::before{content:"";position:absolute;top:6px;left:0;right:0;height:2px;background:rgba(29,20,16,.25);}
+.picado i{position:relative;top:7px;width:6.2%;height:30px;transform-origin:top center;animation:picado-wehen 3.2s ease-in-out infinite;
+  background-image:radial-gradient(circle,rgba(255,248,236,.95) 0 1.8px,transparent 2.3px);background-size:8px 8px;background-position:2px 3px;
+  clip-path:polygon(0 0,100% 0,100% 78%,85% 100%,70% 78%,50% 100%,30% 78%,15% 100%,0 78%);}
+.picado i:nth-child(5n+1){background-color:var(--rot);}
+.picado i:nth-child(5n+2){background-color:var(--gelb);animation-delay:-.6s;}
+.picado i:nth-child(5n+3){background-color:var(--gruen);animation-delay:-1.2s;}
+.picado i:nth-child(5n+4){background-color:var(--rosa);animation-delay:-1.8s;}
+.picado i:nth-child(5n+5){background-color:var(--tuerkis);animation-delay:-2.4s;}
+@keyframes picado-wehen{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.mit-picado{padding-top:56px!important;}
+
+/* Etiqueta pequeña sobre los títulos (sustituye a las píldoras de colores) */
+.papel-kicker{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--rot);margin-bottom:10px;}
+.papel-titel{font-family:'Permanent Marker',cursive;font-weight:400;color:var(--rot);line-height:1.1;letter-spacing:.01em;}
+.papel-icon{display:grid;place-items:center;border-radius:18px;}
+.papel-icon--rot{background:rgba(214,31,38,.1);color:var(--rot);}
+.papel-icon--gelb{background:rgba(245,158,11,.16);color:#b45309;}
+.papel-icon--gruen{background:rgba(21,128,61,.12);color:var(--gruen);}
+.papel-icon--tuerkis{background:rgba(14,154,167,.12);color:#0e7f8a;}
+.papel-trenner{border:0;border-top:1.5px dashed rgba(29,20,16,.15);margin:0;}
+.papel-pille{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:var(--papel2);color:var(--tinta);font-weight:700;font-size:14px;}
+
+@media (prefers-reduced-motion:reduce){.picado i{animation:none;}}
+
+/* Dentro del papel, lo que va sobre rojo/verde sigue en blanco */
+.papel.papel :is(.bg-red-600,.bg-red-500,.bg-red-700,.bg-green-600,.bg-\[\#d61f26\]) :is(.text-white,.text-white *),
+.papel.papel .text-white:is(.bg-red-600,.bg-red-500,.bg-red-700,.bg-green-600,.bg-\[\#d61f26\]){color:#fff!important;}
+
+/* Texto sobre una foto dentro del papel: sigue claro */
+.papel.papel.papel .auf-foto :is(.text-white,.text-gray-100,.text-gray-200),.papel.papel.papel .auf-foto.text-white{color:#fff!important;}
+.papel.papel.papel .auf-foto :is(.text-gray-300,.text-gray-400){color:rgba(255,255,255,.82)!important;}
+.papel.papel.papel .auf-foto.bg-black\/40{background-color:rgba(0,0,0,.4)!important;}
+
+/* ---------- Fondo suave de toda la web (FondoSuave.tsx) ---------- */
+:root{--fondo:rgb(253,242,210);--fondo-mancha:rgb(214,226,198);}
+html,body{background-color:var(--fondo)!important;color-scheme:light!important;}
+.fondo-suave{position:fixed;inset:0;height:100lvh;z-index:0;pointer-events:none;background-color:var(--fondo);transition:background-color .35s linear;overflow:hidden;
+  background-image:radial-gradient(rgba(120,80,40,.09) 1.2px,transparent 1.6px);background-size:26px 26px;}
+.fondo-suave i{position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(70px);opacity:.75;background:var(--fondo-mancha);transition:background-color .35s linear;}
+.fondo-suave i:nth-child(1){top:-30vmax;right:-25vmax;}
+.fondo-suave i:nth-child(2){bottom:-35vmax;left:-30vmax;opacity:.55;background:rgba(214,31,38,.10);}
+
+/* Con fondo claro, las tarjetas de papel necesitan una sombra cálida en vez de negra */
+.papel{background:#fffaf2!important;box-shadow:0 26px 60px -30px rgba(110,60,20,.38),0 0 0 1px rgba(110,60,20,.07)!important;}
+a.papel:hover,button.papel:hover{box-shadow:0 32px 70px -30px rgba(110,60,20,.45),0 0 0 1px rgba(110,60,20,.09)!important;}
+
+/* Texto de cabecera de página (fuera del papel) sobre el fondo claro */
+.kopf-text{color:#5b4a3d!important;}
+.kopf-pille{background:rgba(214,31,38,.1)!important;color:#b3161c!important;}
+.kopf-pille--gelb{background:rgba(245,158,11,.18)!important;color:#92400e!important;}
+/* Menú lateral del móvil: amarillo suave con un toque verde abajo y banderitas */
+.menu-seite{background:linear-gradient(180deg,#fff6dc 0%,#fdf0cf 55%,#e8f2dc 100%);}
+.papel :is(.hover\:text-white):hover{color:var(--rot)!important;}
+.papel .text-gray-600{color:var(--tinta3)!important;}

@@ -7,6 +7,7 @@ import { Link } from "@remix-run/react"
 import PageLoader from "~/components/PageLoader"
 import HeroReise from "~/components/HeroReise"
 import GruppenBanner from "~/components/GruppenBanner"
+import Picado from "~/components/Picado"
 
 /* ─── color tokens (Cantina brand) ─── */
 const C = {
@@ -139,14 +140,10 @@ export default function HomePage() {
 
       {/* ━━━━━ HIGHLIGHTS ━━━━━ */}
       <section className="py-20 md:py-28 px-4">
-        <div className="max-w-6xl mx-auto bg-black/50 backdrop-blur-sm rounded-3xl p-6 md:p-12">
-          <div className="text-center mb-16">
-            <span
-              className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4"
-              style={{ background: C.goldLt, color: C.gold }}
-            >
-              Willkommen
-            </span>
+        <div className="papel mit-picado max-w-6xl mx-auto p-6 md:p-12">
+          <Picado n={18} />
+          <div className="text-center mb-12 md:mb-14">
+            <span className="papel-kicker">Willkommen</span>
             <h2 className="pincel text-3xl md:text-5xl text-white">
               Das erwartet Sie bei <span className="text-amber-400">uns</span>
             </h2>
@@ -159,14 +156,14 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {highlights.map((h, i) => (
               <div key={h.title}>
-                <div className="group relative bg-gray-800/80 backdrop-blur-sm rounded-3xl overflow-hidden border border-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full">
+                <div className="group relative bg-white rounded-3xl overflow-hidden shadow-[0_0_0_1.5px_rgba(29,20,16,0.08)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_24px_50px_-24px_rgba(29,20,16,0.45)] h-full">
                   <div className="relative h-52 overflow-hidden">
                     <img
                       src={h.img}
                       alt={h.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     <div
                       className="absolute top-4 left-4 w-12 h-12 rounded-2xl flex items-center justify-center"
                       style={{ background: h.bg }}
@@ -187,7 +184,7 @@ export default function HomePage() {
 
       {/* ━━━━━ ABOUT / FEATURES ━━━━━ */}
       <section className="py-20 md:py-28 px-4">
-        <div className="max-w-6xl mx-auto bg-black/60 backdrop-blur-md rounded-3xl p-6 md:p-12 border border-white/10">
+        <div className="papel max-w-6xl mx-auto p-6 md:p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Image side */}
             <div>
@@ -201,7 +198,7 @@ export default function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 </div>
                 {/* Floating badge */}
-                <div className="absolute -bottom-4 -right-4 md:bottom-6 md:-right-6 bg-white rounded-2xl p-4 shadow-xl">
+                <div className="absolute -bottom-4 -right-2 md:bottom-6 md:-right-6 bg-white rounded-2xl p-4 shadow-xl shadow-black/20">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
                       <Star className="w-6 h-6 text-amber-500 fill-amber-500" />
@@ -218,12 +215,7 @@ export default function HomePage() {
             {/* Text side */}
             <div>
               <div>
-                <span
-                  className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4"
-                  style={{ background: C.redLt, color: C.red }}
-                >
-                  Über uns
-                </span>
+                <span className="papel-kicker">Über uns</span>
                 <h2 className="pincel text-3xl md:text-4xl text-white mb-6">
                   Authentische Mexikanische
                   <br />
@@ -271,9 +263,10 @@ export default function HomePage() {
 
       {/* ━━━━━ STATS BAR ━━━━━ */}
       <section
-        className="py-16 px-4 rounded-3xl mx-2 md:mx-4"
+        className="relative py-16 pt-20 px-4 rounded-3xl mx-2 md:mx-4 max-w-6xl md:mx-auto overflow-hidden shadow-[0_34px_80px_-34px_rgba(0,0,0,0.8)]"
         style={{ background: `linear-gradient(135deg, ${C.red}, #b91c1c)` }}
       >
+        <Picado n={18} />
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
             {[
@@ -283,7 +276,7 @@ export default function HomePage() {
               { value: 100, suffix: "%", label: "Frische Zutaten" },
             ].map((s, i) => (
               <div key={i}>
-                <p className="text-4xl md:text-5xl font-extrabold mb-1">
+                <p className="text-4xl md:text-5xl mb-1" style={{ fontFamily: "'Permanent Marker', cursive", color: "#fde68a" }}>
                   <Counter target={s.value} suffix={s.suffix} />
                 </p>
                 <p className="text-white/80 font-medium text-sm">{s.label}</p>
@@ -295,14 +288,10 @@ export default function HomePage() {
 
       {/* ━━━━━ GALLERY ━━━━━ */}
       <section className="py-20 md:py-28 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <span
-              className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4"
-              style={{ background: C.greenLt, color: C.green }}
-            >
-              Galerie
-            </span>
+        <div className="papel mit-picado max-w-6xl mx-auto p-4 md:p-10">
+          <Picado n={18} />
+          <div className="text-center mb-10">
+            <span className="papel-kicker">Galerie</span>
             <h2 className="pincel text-3xl md:text-5xl text-white">
               Einblicke in unser <span className="text-amber-400">Restaurant</span>
             </h2>
@@ -310,13 +299,13 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {galleryImages.map((img, i) => (
-              <div key={i} className="relative rounded-2xl overflow-hidden group cursor-pointer">
+              <div key={i} className="relative rounded-2xl overflow-hidden group cursor-pointer bg-white p-1.5 shadow-[0_10px_24px_-14px_rgba(29,20,16,0.5)] even:rotate-1 odd:-rotate-1 hover:rotate-0 transition-transform duration-300">
                 <img
                   src={img}
                   alt="Cantina Impressionen"
-                  className="w-full h-56 md:h-72 object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-44 md:h-72 object-cover rounded-xl"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 rounded-2xl" />
+                
               </div>
             ))}
           </div>
@@ -327,10 +316,7 @@ export default function HomePage() {
       <section className="py-20 md:py-28 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <span
-              className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4"
-              style={{ background: C.goldLt, color: C.gold }}
-            >
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 kopf-pille kopf-pille--gelb">
               Bewertungen
             </span>
             <h2 className="pincel text-3xl md:text-5xl text-white">
@@ -344,7 +330,7 @@ export default function HomePage() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={reviewIdx}
-                className="bg-gray-800/60 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 md:p-10 text-center"
+                className="papel p-8 md:p-10 text-center"
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
@@ -370,7 +356,7 @@ export default function HomePage() {
                       key={i}
                       onClick={() => setReviewIdx(i)}
                       className={`h-2.5 rounded-full transition-all duration-200 ${
-                        i === reviewIdx ? "bg-amber-400 w-7" : "bg-gray-600 hover:bg-gray-500 w-2.5"
+                        i === reviewIdx ? "bg-[#d61f26] w-7" : "bg-[#e6d7c3] hover:bg-[#d8c4a8] w-2.5"
                       }`}
                     />
                   ))}
@@ -380,13 +366,13 @@ export default function HomePage() {
 
             <button
               onClick={prevReview}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-14 w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-all"
+              className="absolute left-2 md:left-0 top-1/2 -translate-y-1/2 md:-translate-x-14 w-10 h-10 rounded-full bg-[#fff8ec] shadow-lg shadow-black/30 flex items-center justify-center text-[#1d1410] hover:bg-white transition-all z-10"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextReview}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-14 w-10 h-10 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-all"
+              className="absolute right-2 md:right-0 top-1/2 -translate-y-1/2 md:translate-x-14 w-10 h-10 rounded-full bg-[#fff8ec] shadow-lg shadow-black/30 flex items-center justify-center text-[#1d1410] hover:bg-white transition-all z-10"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -400,14 +386,13 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <div
-                className="relative rounded-3xl overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[320px]"
-                style={{ background: `linear-gradient(135deg, #14532d, #1a3a2a)` }}
+                className="papel relative overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[320px] h-full"
               >
                 <div>
-                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6" style={{ background: '#22c55e20' }}>
-                    <Calendar className="w-7 h-7" style={{ color: '#4ade80' }} />
+                  <div className="papel-icon papel-icon--gruen w-14 h-14 mb-6">
+                    <Calendar className="w-7 h-7" />
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Tagesmenü</h3>
+                  <h3 className="papel-titel text-3xl md:text-4xl mb-3">Tagesmenü</h3>
                   <p className="text-gray-300 text-lg leading-relaxed">
                     Mittwoch bis Freitag<br />
                     11:30 – 13:00 Uhr<br />
@@ -417,21 +402,21 @@ export default function HomePage() {
                 <Link to="/menu" className="inline-flex items-center gap-2 text-green-400 font-bold hover:gap-3 transition-all mt-6">
                   Menü ansehen <ArrowRight className="w-5 h-5" />
                 </Link>
-                <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-green-500/10" />
-                <div className="absolute -bottom-5 -right-5 w-24 h-24 rounded-full bg-green-500/5" />
+                <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-green-600/10" />
+                <div className="absolute -bottom-5 -right-5 w-24 h-24 rounded-full bg-green-600/5" />
               </div>
             </div>
 
             <div>
               <div
-                className="relative rounded-3xl overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[320px]"
+                className="relative rounded-[28px] overflow-hidden p-8 md:p-10 flex flex-col justify-between min-h-[320px] h-full shadow-[0_34px_80px_-34px_rgba(0,0,0,0.8)]"
                 style={{ background: `linear-gradient(135deg, ${C.red}, #991b1b)` }}
               >
                 <div>
                   <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-6">
                     <Phone className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-3">Tisch Reservieren</h3>
+                  <h3 className="text-3xl md:text-4xl text-white mb-3" style={{ fontFamily: "'Permanent Marker', cursive", color: "#fde68a" }}>Tisch reservieren</h3>
                   <p className="text-white/80 text-lg leading-relaxed">
                     Reservieren Sie einfach und schnell Ihren Tisch bei uns – online oder telefonisch.
                   </p>
@@ -455,7 +440,8 @@ export default function HomePage() {
       {/* ━━━━━ INFO CARDS ━━━━━ */}
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="papel mit-picado grid grid-cols-1 md:grid-cols-3 px-5 pb-4 md:px-8 md:pb-8">
+            <Picado n={18} />
             {[
               {
                 icon: MapPin,
@@ -479,8 +465,8 @@ export default function HomePage() {
                 bg: C.greenLt,
               },
             ].map((item, i) => (
-              <div key={i}>
-                <div className="bg-gray-800/60 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 text-center hover:-translate-y-2 transition-all duration-300 hover:shadow-xl h-full">
+              <div key={i} className="border-dashed border-[rgba(29,20,16,0.15)] [&:not(:nth-child(2))]:border-t-[1.5px] md:[&:not(:nth-child(2))]:border-t-0 md:[&:not(:nth-child(2))]:border-l-[1.5px] [&:nth-child(2)]:border-t-0">
+                <div className="p-6 md:p-4 text-center h-full">
                   <div
                     className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5"
                     style={{ background: item.bg }}

@@ -21,6 +21,7 @@ import {
 } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
 import GruppenBanner from "~/components/GruppenBanner"
+import Picado from "~/components/Picado"
 
 const menuSections = [
   {
@@ -166,7 +167,7 @@ export default function Menu() {
   const ersterGang = ["Salat", "Suppe", "Nachos", "Hausgemachte Chips"]
 
   return (
-    <><div className="bg-black/60 backdrop-blur-sm" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+    <><div className="relative" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
       <PageLoader loading={loading} />
 
       {/* ━━━ HERO ━━━ */}
@@ -177,7 +178,7 @@ export default function Menu() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-red-500/10 text-red-400">
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 kopf-pille">
               Speisekarte
             </span>
             <h1 className="pincel text-4xl md:text-6xl text-white mb-4">
@@ -186,7 +187,7 @@ export default function Menu() {
                 Spezialitäten
               </span>
             </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto kopf-text">
               Entdecken Sie authentische Tex-Mex-Küche mit frischen Zutaten und traditionellen Rezepten.
             </p>
           </motion.div>
@@ -200,9 +201,11 @@ export default function Menu() {
       </section>
 
       {/* ━━━ MENU GRID ━━━ */}
-      <section className="px-4 pb-20">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      <section className="px-3 md:px-4 pb-20">
+        <div className="papel mit-picado max-w-5xl mx-auto px-4 pb-6 md:px-8 md:pb-8">
+          <Picado n={16} />
+          <p className="text-center mb-6 md:mb-8"><span className="papel-kicker">La carta · Tippen zum Öffnen</span></p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {menuSections.map((section, i) => (
               <motion.button
                 key={section.id}
@@ -210,23 +213,24 @@ export default function Menu() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * i }}
                 onClick={() => setActiveSection(section.id)}
-                className="group relative rounded-2xl overflow-hidden text-left h-64"
+                className="group relative rounded-[22px] overflow-hidden text-left bg-white p-2 shadow-[0_0_0_1.5px_rgba(29,20,16,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_44px_-22px_rgba(29,20,16,0.5)] transition-all duration-300"
               >
-                <img
-                  src={section.image}
-                  alt={section.name}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:from-black/90 transition-colors duration-300" />
-                <div className="relative z-10 flex flex-col justify-end h-full p-6">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
-                    style={{ background: `${section.color}25` }}
-                  >
-                    <section.icon className="w-5 h-5" style={{ color: section.color }} />
+                <div className="relative h-44 md:h-48 rounded-2xl overflow-hidden">
+                  <img
+                    src={section.image}
+                    alt={section.name}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="flex items-center gap-3 px-3 pt-4 pb-3">
+                  <div className="papel-icon w-11 h-11 flex-shrink-0" style={{ background: `${section.color}22`, color: section.color }}>
+                    <section.icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-1">{section.name}</h3>
-                  <p className="text-gray-400 text-sm">{section.desc}</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="papel-titel text-2xl">{section.name}</h3>
+                    <p className="text-gray-400 text-sm">{section.desc}</p>
+                  </div>
+                  <span className="w-9 h-9 rounded-full bg-[#f6ead6] text-[#1d1410] flex items-center justify-center flex-shrink-0 group-hover:bg-[#d61f26] group-hover:text-white transition-colors" aria-hidden="true">→</span>
                 </div>
               </motion.button>
             ))}
@@ -235,23 +239,26 @@ export default function Menu() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * menuSections.length }}
-              className="relative rounded-2xl overflow-hidden text-left h-64"
+              className="relative rounded-[22px] overflow-hidden text-left bg-[#fef3c7] p-2 shadow-[0_0_0_1.5px_rgba(245,158,11,0.35)]"
             >
-              <img src="/hero/mittagsmenu.webp" alt="Nachos mit Guacamole vor dem Jaguar-Wandbild" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
-              <div className="relative z-10 flex flex-col justify-end h-full p-6">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3 bg-amber-500/20">
-                  <Clock className="w-5 h-5 text-amber-400" />
+              <div className="relative h-44 md:h-48 rounded-2xl overflow-hidden">
+                <img src="/hero/mittagsmenu.webp" alt="Nachos mit Guacamole vor dem Jaguar-Wandbild" className="absolute inset-0 w-full h-full object-cover" />
+              </div>
+              <div className="flex items-center gap-3 px-3 pt-4 pb-3">
+                <div className="papel-icon papel-icon--gelb w-11 h-11 flex-shrink-0">
+                  <Clock className="w-5 h-5" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-1">Mittagsmenü</h3>
-                <p className="text-gray-300 text-sm">Mittwoch bis Freitag, 11:30 – 13:30 Uhr</p>
+                <div className="min-w-0">
+                  <h3 className="papel-titel text-2xl">Mittagsmenü</h3>
+                  <p className="text-gray-300 text-sm">Mittwoch bis Freitag, 11:30 – 13:30 Uhr</p>
+                </div>
               </div>
             </motion.div>
           </div>
 
           {/* No takeaway notice */}
-          <div className="mt-10 text-center">
-            <p className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
+          <div className="mt-8 text-center">
+            <p className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-500/10 text-red-400 text-sm font-semibold">
               <X className="w-4 h-4" />
               Wir bieten kein Essen zum Mitnehmen an
             </p>
@@ -275,7 +282,7 @@ export default function Menu() {
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="relative bg-[#1a1a2e] border border-white/10 rounded-3xl overflow-hidden max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl"
+              className="papel relative overflow-hidden max-w-2xl w-full max-h-[85vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal header */}
@@ -285,7 +292,7 @@ export default function Menu() {
                   alt={menuSections.find((s) => s.id === activeSection)?.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#fff8ec] via-black/10 to-transparent" />
                 <div className="absolute bottom-4 left-6 flex items-center gap-3">
                   {(() => {
                     const sec = menuSections.find((s) => s.id === activeSection)
@@ -319,12 +326,12 @@ export default function Menu() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.04 }}
-                    className="bg-white/5 border border-white/5 rounded-2xl p-4 hover:bg-white/8 transition-colors"
+                    className="bg-white rounded-2xl p-4 shadow-[0_0_0_1.5px_rgba(29,20,16,0.07)]"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="text-white font-semibold">{item.name}</h3>
+                          <h3 className="text-white font-bold">{item.name}</h3>
                           {item.vegi && (
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 text-xs font-medium">
                               <Leaf className="w-3 h-3" />
@@ -370,16 +377,17 @@ export default function Menu() {
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="relative bg-[#1a1a2e] border border-white/10 rounded-3xl overflow-hidden max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl"
+              className="papel relative overflow-hidden max-w-2xl w-full max-h-[85vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="relative bg-gradient-to-br from-amber-500/20 to-red-500/10 p-8 text-center flex-shrink-0 border-b border-white/10">
+              <div className="relative mit-picado bg-gradient-to-br from-amber-500/20 to-red-500/10 p-8 text-center flex-shrink-0 border-b border-white/10">
                 <div className="flex justify-center mb-4">
                   <div className="w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center">
                     <Utensils className="w-7 h-7 text-amber-400" />
                   </div>
                 </div>
+                <Picado n={14} />
                 <h2 className="pincel text-3xl text-white mb-2">Mittagsmenü</h2>
                 <p className="text-gray-400 mb-4">
                   Authentische mexikanische Aromen im Herzen der Stadt
@@ -399,7 +407,7 @@ export default function Menu() {
               {/* Content */}
               <div className="overflow-y-auto flex-grow p-6 space-y-6">
                 {/* NEU: Xtreme Wraps */}
-                <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/15 to-red-500/15">
+                <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-[#fef3c7]">
                   <div className="flex items-center gap-4 p-4">
                     <img
                       src="/xtreme-wrap-chili.png"

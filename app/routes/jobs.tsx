@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Clock, Calendar, Mail, Share2, HandPlatter, CheckCircle2 } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
+import Picado from "~/components/Picado"
 
 export default function Jobs() {
   const [loading, setLoading] = useState(true)
@@ -14,14 +15,14 @@ export default function Jobs() {
   }, [])
 
   return (
-    <div className="bg-black/60 backdrop-blur-sm" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+    <div className="relative" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
       <PageLoader loading={loading} />
 
       {/* ━━━ HERO with background image ━━━ */}
       <section className="relative pt-28 pb-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 bg-amber-500/10 text-amber-400">
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-semibold mb-4 kopf-pille kopf-pille--gelb">
               Karriere
             </span>
             <h1 className="pincel text-4xl md:text-6xl text-white mb-4">
@@ -30,7 +31,7 @@ export default function Jobs() {
                 Teams
               </span>
             </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto kopf-text">
               Wir suchen eine Aushilfe im Service: als Kellner oder Kellnerin, zur Unterstützung an den Wochenenden.
               Melden Sie sich einfach bei uns.
             </p>
@@ -45,19 +46,19 @@ export default function Jobs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="rounded-3xl overflow-hidden bg-[#1a1a2e]"
+            className="papel overflow-hidden p-2"
           >
             {/* Foto: Kate Townsend en Unsplash (licencia Unsplash), photo-1516788875874.
                 object-[45%_42%]: así la bandeja con las copas queda dentro también en el móvil. */}
             <img
               src="/jobs-service.jpg"
               alt="Kellner mit einem Tablett voller Getränke"
-              className="block w-full h-[220px] md:h-[300px] object-cover object-[45%_42%]"
+              className="block w-full h-[220px] md:h-[300px] object-cover object-[45%_42%] rounded-[22px]"
             />
-            <div className="bg-black/85 px-6 py-4">
+            <div className="px-4 md:px-5 pt-4 pb-3">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center">
-                  <HandPlatter className="w-6 h-6 text-amber-400" />
+                <div className="papel-icon papel-icon--gelb w-12 h-12 flex-shrink-0">
+                  <HandPlatter className="w-6 h-6" />
                 </div>
                 <div>
                   <h2 className="pincel text-2xl text-white">Aushilfe Service <span className="text-amber-400">(Kellner/in)</span></h2>
@@ -71,14 +72,15 @@ export default function Jobs() {
 
       {/* ━━━ JOB DETAILS ━━━ */}
       <section className="px-4 pb-20">
-        <div className="max-w-4xl mx-auto space-y-6">
+        <div className="papel mit-picado max-w-4xl mx-auto space-y-6 px-4 pb-6 md:px-8 md:pb-8">
+          <Picado n={16} />
           {/* Schedule + Contract */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white/5 border border-white/10 rounded-2xl p-6"
+              className="bg-white/5 border border-white/10 rounded-2xl p-6 !shadow-[0_0_0_1.5px_rgba(29,20,16,0.07)] !border-0"
             >
               <div className="w-14 h-14 rounded-2xl bg-amber-500/15 flex items-center justify-center mb-4">
                 <Clock className="w-7 h-7 text-amber-400" />
@@ -92,7 +94,7 @@ export default function Jobs() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
-              className="bg-white/5 border border-white/10 rounded-2xl p-6"
+              className="bg-white/5 border border-white/10 rounded-2xl p-6 !shadow-[0_0_0_1.5px_rgba(29,20,16,0.07)] !border-0"
             >
               <div className="w-14 h-14 rounded-2xl bg-blue-500/15 flex items-center justify-center mb-4">
                 <Calendar className="w-7 h-7 text-blue-400" />
@@ -108,7 +110,7 @@ export default function Jobs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/5 border border-white/10 rounded-2xl p-6"
+            className="bg-white/5 border border-white/10 rounded-2xl p-6 !shadow-[0_0_0_1.5px_rgba(29,20,16,0.07)] !border-0"
           >
             <h3 className="text-white font-bold mb-4">Was wir bieten</h3>
             <div className="space-y-3">
@@ -130,7 +132,7 @@ export default function Jobs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35 }}
-            className="bg-white/5 border border-white/10 rounded-2xl p-6"
+            className="bg-white/5 border border-white/10 rounded-2xl p-6 !shadow-[0_0_0_1.5px_rgba(29,20,16,0.07)] !border-0"
           >
             <h3 className="text-white font-bold mb-4">Was wir erwarten</h3>
             <div className="space-y-3">
@@ -154,7 +156,7 @@ export default function Jobs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-gradient-to-br from-amber-500/15 to-red-500/10 border border-amber-500/20 rounded-3xl p-8 text-center"
+            className="bg-[#fef3c7] rounded-3xl p-8 text-center"
           >
             <h2 className="pincel text-2xl md:text-3xl text-white mb-3">Kontaktieren Sie uns <span className="text-amber-400">einfach!</span></h2>
             <p className="text-gray-400 mb-6 max-w-lg mx-auto">

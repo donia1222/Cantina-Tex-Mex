@@ -18,7 +18,7 @@ const IndexPage: React.FC = () => {
   }, [])
 
   return (
-    <div className="bg-black/60 backdrop-blur-sm" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+    <div className="relative" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
       <PageLoader loading={loading} />
 
       {/* Sin cabecera (20/11/2026): el formulario va arriba del todo y lleva su propio título. */}

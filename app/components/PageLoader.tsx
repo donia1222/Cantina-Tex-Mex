@@ -7,7 +7,7 @@ export default function PageLoader({ loading }: { loading: boolean }) {
     <AnimatePresence>
       {loading && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0f0f1a]"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#fdf2d2]"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
@@ -33,7 +33,7 @@ export default function PageLoader({ loading }: { loading: boolean }) {
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}
-                  className="w-2 h-2 rounded-full bg-amber-400"
+                  className="w-2 h-2 rounded-full bg-[#d61f26]"
                   animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
                   transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
                 />
