@@ -173,84 +173,55 @@ export default function Component({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      {/* ━━━ MOBILE MENU OVERLAY ━━━ */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              className="fixed inset-0 z-40 bg-[#3b2a1c]/30 backdrop-blur-sm lg:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+      {/* ━━━ MENÚ DEL MÓVIL: ventana centrada (20/11/2026) ━━━ */}
+      {/* Antes era un panel lateral con framer-motion que en el iPhone se arrastraba. Ahora es una
+          ventana que aparece con una animación CSS corta (opacidad + escala), sin JS animando. */}
+      {isMenuOpen && (
+        <div className="menu-modal lg:hidden" role="dialog" aria-modal="true" aria-label="Menü" onClick={closeMenu}>
+          <div className="menu-modal__karte" onClick={(e) => e.stopPropagation()}>
+            <div className="picado" aria-hidden="true">{Array.from({ length: 12 }).map((_, i) => <i key={i} />)}</div>
+            <div className="flex items-center justify-between mb-4">
+              <img src="/cantina_logocopia.png" alt="Cantina" className="h-10 w-auto rounded-lg" />
+              <button
+                onClick={closeMenu}
+                aria-label="Menü schliessen"
+                className="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center text-[#d61f26]"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <nav className="grid grid-cols-2 gap-2.5">
+              {menuItems.map((item) => {
+                const active = location.pathname === item.to
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={closeMenu}
+                    className={`flex flex-col items-start gap-2 px-4 py-3.5 rounded-2xl text-[15px] font-bold transition-colors ${
+                      active
+                        ? "bg-[#d61f26] text-white shadow-[0_8px_18px_-10px_rgba(214,31,38,0.9)]"
+                        : "bg-white text-[#3b2a1c] shadow-[0_0_0_1.5px_rgba(29,20,16,0.07)] active:bg-[#15803d]/10"
+                    }`}
+                  >
+                    <item.icon className={`w-5 h-5 ${active ? "text-[#fde68a]" : "text-[#d61f26]"}`} />
+                    <span>{item.label}</span>
+                  </Link>
+                )
+              })}
+            </nav>
+
+            <Link
+              to="/reservierung"
               onClick={closeMenu}
-            />
-
-            {/* Slide-in panel */}
-            <motion.div
-              className="menu-seite fixed top-0 right-0 z-50 h-full w-[300px] shadow-2xl lg:hidden flex flex-col overflow-hidden"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="btn-brocha btn-brocha--gross w-full mt-5"
             >
-              {/* Close */}
-              <div className="relative flex items-center justify-between px-5 pt-14 pb-5 border-b border-dashed border-[#d9bf95]">
-                <div className="picado" aria-hidden="true">{Array.from({ length: 10 }).map((_, i) => <i key={i} />)}</div>
-                <img src="/cantina_logocopia.png" alt="Cantina" className="h-9 w-auto rounded-md" />
-                <button
-                  onClick={closeMenu}
-                  className="w-9 h-9 rounded-full bg-white shadow flex items-center justify-center text-[#d61f26]"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-
-              {/* Nav links */}
-              <div className="flex-1 overflow-y-auto py-4 px-4">
-                {menuItems.map((item, index) => {
-                  const active = location.pathname === item.to
-                  return (
-                    <motion.div
-                      key={item.to}
-                      initial={{ opacity: 0, x: 30 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <Link
-                        to={item.to}
-                        onClick={closeMenu}
-                        className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-base font-semibold transition-all duration-200 mb-1 ${
-                          active
-                            ? "bg-[#d61f26] text-white shadow-[0_8px_18px_-10px_rgba(214,31,38,0.9)]"
-                            : "text-[#3b2a1c] bg-white/60 hover:bg-[#15803d]/10 hover:text-[#15803d]"
-                        }`}
-                      >
-                        <item.icon className="w-5 h-5 flex-shrink-0" />
-                        <span>{item.label}</span>
-                        {active && (
-                          <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#fde68a]" />
-                        )}
-                      </Link>
-                    </motion.div>
-                  )
-                })}
-              </div>
-
-              {/* Mobile CTA */}
-              <div className="p-4 border-t border-dashed border-[#d9bf95]">
-                <Link
-                  to="/reservierung"
-                  onClick={closeMenu}
-                  className="btn-brocha btn-brocha--gross w-full"
-                >
-                  Jetzt Reservieren
-                </Link>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+              Jetzt Reservieren
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* ━━━ SCROLL TO TOP ━━━ */}
       <AnimatePresence>
@@ -432,7 +403,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setImpressumOpen(false)} />
+            <div className="absolute inset-0 bg-[#2a1c12]/55" onClick={() => setImpressumOpen(false)} />
             <motion.div
               className="papel relative p-8 max-w-md w-full"
               initial={{ scale: 0.9, opacity: 0 }}
@@ -477,7 +448,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setDatenschutzOpen(false)} />
+            <div className="absolute inset-0 bg-[#2a1c12]/55" onClick={() => setDatenschutzOpen(false)} />
             <motion.div
               className="papel relative p-6 md:p-8 max-w-2xl w-full max-h-[90vh] flex flex-col"
               initial={{ scale: 0.9, opacity: 0 }}

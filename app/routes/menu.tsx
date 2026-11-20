@@ -277,7 +277,7 @@ export default function Menu() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             onClick={closeModal}
           >
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-[#2a1c12]/55" />
             <motion.div
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -372,7 +372,7 @@ export default function Menu() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             onClick={closeModal}
           >
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-[#2a1c12]/55" />
             <motion.div
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}

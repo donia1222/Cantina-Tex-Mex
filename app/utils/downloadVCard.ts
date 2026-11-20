@@ -53,7 +53,7 @@ END:VCARD`;
 VERSION:3.0
 FN:Cantina TexMex
 ORG:Cantina TexMex
-ADR:;;Bahnhofstrasse 46;Sevelen;;9475;Switzerland
+ADR:;;Bahnhofstrasse 40;Buchs;;9470;Switzerland
 
 EMAIL:info@cantinatexmex.ch
 URL:https://cantinatexmex.ch

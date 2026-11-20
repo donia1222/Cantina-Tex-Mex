@@ -120,14 +120,14 @@
 
 /* --- pie fijo con el resumen --- */
 .ct-fuss{position:sticky;bottom:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 -40px;padding:16px 40px 18px;
-  background:rgba(255,248,236,.95);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--ct-linea);}
+  background:rgba(255,248,236,.98);border-top:1px solid var(--ct-linea);}
 .ct-summe{display:flex;flex-direction:column;gap:2px;font-size:13.5px;color:var(--ct-tinta2);min-width:0;}
 .ct-summe b{color:var(--ct-tinta);font-size:16px;}
 .ct-los{flex-shrink:0;font-size:1.15rem;}
 .ct-los:disabled{opacity:.45;cursor:not-allowed;}
 
 /* --- diálogo de error --- */
-.ct-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.6);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);animation:ct-ein .25s ease;}
+.ct-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(42,28,18,.55);animation:ct-ein .25s ease;}
 .ct-dialog{width:min(440px,100%);background:#fff8ec;color:#1d1410;border-radius:24px;padding:30px 28px 26px;box-shadow:0 30px 70px -20px rgba(0,0,0,.7);font-family:'Plus Jakarta Sans',sans-serif;}
 .ct-dialog__icon{width:56px;height:56px;border-radius:18px;background:rgba(214,31,38,.1);display:grid;place-items:center;margin-bottom:16px;}
 .ct-dialog__icon svg{width:28px;height:28px;color:#d61f26;}

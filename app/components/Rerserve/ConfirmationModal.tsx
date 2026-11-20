@@ -26,7 +26,7 @@ DTSTART:${startDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z
 DTEND:${endDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z
 SUMMARY:Reservierung bei Cantina TexMex
 DESCRIPTION:Reservierung für ${details.personas} Personen
-LOCATION:Bahnhofstrasse 46, 9475 Sevelen
+LOCATION:Bahnhofstrasse 40, 9470 Buchs
 END:VEVENT
 END:VCALENDAR`;
 
@@ -51,8 +51,8 @@ END:VCALENDAR`;
 VERSION:3.0
 FN:Cantina TexMex
 ORG:Cantina TexMex
-ADR:;;Bahnhofstrasse 46;Sevelen;;9475;Switzerland
-TEL:081 750 19 11
+ADR:;;Bahnhofstrasse 40;Buchs;;9470;Switzerland
+TEL:+41 81 756 01 01
 EMAIL:info@cantinatexmex.ch
 URL:https://cantinatexmex.ch
 PHOTO;ENCODING=b;TYPE=JPEG:${base64data}
@@ -75,8 +75,8 @@ END:VCARD`;
 VERSION:3.0
 FN:Cantina TexMex
 ORG:Cantina TexMex
-ADR:;;Bahnhofstrasse 46;Sevelen;;9475;Switzerland
-TEL:081 750 19 11
+ADR:;;Bahnhofstrasse 40;Buchs;;9470;Switzerland
+TEL:+41 81 756 01 01
 EMAIL:info@cantinatexmex.ch
 URL:https://cantinatexmex.ch
 END:VCARD`;
