@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Clock, Calendar, Mail, Share2, ChefHat, CheckCircle2 } from "lucide-react"
+import { Clock, Calendar, Mail, Share2, HandPlatter, CheckCircle2 } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
 
 export default function Jobs() {
@@ -31,7 +31,7 @@ export default function Jobs() {
               </span>
             </h1>
             <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Wir suchen eine Hilfe für die Küche: zum Abwaschen und zur Unterstützung an den Wochenenden.
+              Wir suchen eine Aushilfe im Service: als Kellner oder Kellnerin, zur Unterstützung an den Wochenenden.
               Melden Sie sich einfach bei uns.
             </p>
           </motion.div>
@@ -47,20 +47,20 @@ export default function Jobs() {
             transition={{ delay: 0.15 }}
             className="rounded-3xl overflow-hidden bg-[#1a1a2e]"
           >
-            {/* object-[72%] : lo que interesa (las manos y el plato) está a la derecha de la foto;
-                centrado, en el móvil solo se verían las pilas de platos del fondo. */}
+            {/* Foto: Kate Townsend en Unsplash (licencia Unsplash), photo-1516788875874.
+                object-[45%_42%]: así la bandeja con las copas queda dentro también en el móvil. */}
             <img
-              src="/jobs-kueche.jpg"
-              alt="Abwasch in der Küche"
-              className="block w-full h-[220px] md:h-[300px] object-cover object-[72%_center]"
+              src="/jobs-service.jpg"
+              alt="Kellner mit einem Tablett voller Getränke"
+              className="block w-full h-[220px] md:h-[300px] object-cover object-[45%_42%]"
             />
             <div className="bg-black/85 px-6 py-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center">
-                  <ChefHat className="w-6 h-6 text-amber-400" />
+                  <HandPlatter className="w-6 h-6 text-amber-400" />
                 </div>
                 <div>
-                  <h2 className="pincel text-2xl text-white">Küchenhilfe <span className="text-amber-400">(m/w/d)</span></h2>
+                  <h2 className="pincel text-2xl text-white">Aushilfe Service <span className="text-amber-400">(Kellner/in)</span></h2>
                   <p className="text-gray-300 text-sm">Cantina Tex-Mex, Buchs</p>
                 </div>
               </div>
@@ -135,8 +135,9 @@ export default function Jobs() {
             <h3 className="text-white font-bold mb-4">Was wir erwarten</h3>
             <div className="space-y-3">
               {[
-                "Hilfe beim Abwaschen und in der Küche",
+                "Mithilfe im Service: Gäste bedienen, Getränke servieren, Tische abräumen",
                 "Keine Erfahrung nötig, wir zeigen Ihnen alles",
+                "Freundliches Auftreten und Freude am Kontakt mit Gästen",
                 "Teamfähigkeit und Zuverlässigkeit",
                 "Zeit an den Wochenenden",
               ].map((item) => (
@@ -162,7 +163,7 @@ export default function Jobs() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
-                href="mailto:info@cantinatexmex.ch?subject=Küchenhilfe bei der Cantina Tex-Mex"
+                href="mailto:info@cantinatexmex.ch?subject=Aushilfe Service bei der Cantina Tex-Mex"
                 className="btn-brocha"
               >
                 Kontakt aufnehmen
@@ -172,7 +173,7 @@ export default function Jobs() {
                   if (navigator.share) {
                     navigator
                       .share({
-                        title: "Stellenangebot: Küchenhilfe bei Cantina Tex-Mex",
+                        title: "Stellenangebot: Aushilfe Service (Kellner/in) bei Cantina Tex-Mex",
                         text: "Schau dir diese Stellenanzeige bei Cantina Tex-Mex an!",
                         url: window.location.href,
                       })
