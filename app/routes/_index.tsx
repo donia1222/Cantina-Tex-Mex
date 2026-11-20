@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ArrowRight, Star, Clock, MapPin, Phone, Utensils, Wine, ChevronLeft, ChevronRight, Flame, Calendar, Users } from "lucide-react"
 import { Link } from "@remix-run/react"
 import PageLoader from "~/components/PageLoader"
-import HeroReise from "~/components/HeroReise"
+import HeroBienvenidos from "~/components/HeroBienvenidos"
 import GruppenBanner from "~/components/GruppenBanner"
 import Picado from "~/components/Picado"
 
@@ -129,8 +129,9 @@ export default function HomePage() {
     <div style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
       <PageLoader loading={loading} />
 
-      {/* ━━━━━ HERO: paseo por la Cantina con el scroll (app/components/HeroReise.tsx) ━━━━━ */}
-      <HeroReise />
+      {/* ━━━━━ HERO fijo con la foto de la sala (20/11/2026). El paseo interactivo de antes
+              sigue en app/components/HeroReise.tsx por si se quiere volver. ━━━━━ */}
+      <HeroBienvenidos />
 
       {/* ━━━━━ BANNER: GRUPPENANGEBOTE ━━━━━ */}
       {/* Justo debajo del paseo del hero, lo primero que se ve al bajar. */}
