@@ -6,62 +6,34 @@ import { Link } from "@remix-run/react"
 import { useInView } from "react-intersection-observer"
 import CountUp from "react-countup"
 import type { MetaFunction } from "@remix-run/node"
-import { Flame, Sparkles, CupSoda, Crown, CalendarDays, ChevronRight, Droplets } from "lucide-react"
+import { Flame, Sparkles, Drumstick, Beef, Salad, CookingPot, Utensils, Droplets } from "lucide-react"
 import Picado from "~/components/Picado"
 import PageLoader from "~/components/PageLoader"
 import MonatsHitsModal from "~/components/MonatsHitsModal"
 
 export const meta: MetaFunction = () => [
-  { title: "Monats-Hits | Cantina Tex-Mex" },
+  { title: "Monats-Hit: Tacos | Cantina Tex-Mex" },
   {
     name: "description",
     content:
-      "Smash Burger Plus – ab September in der Cantina Tex-Mex Buchs. Alle Smash Burger inklusive offenem Getränk.",
+      "Monats-Hit in der Cantina Tex-Mex Buchs: zwei Tacos – Poulet und Rind – mit Tomatenreis, Kartoffeln, Salat und Saucen für 21.90 CHF.",
   },
 ]
 
-const HERO_IMAGE = "/monats-hits-burger.jpg"
-const CHEESE_IMAGE = "/monats-hits-cheese.jpg"
+// 21/11/2026: el Monats-Hit pasa de los Smash Burger a los tacos (copia de la página anterior en git).
+const HERO_IMAGE = "/monats-hits-tacos.jpg"
+const PREIS = 21.9
 
-type Burger = {
-  name: string
-  desc: string
-  price: number
-  icon: typeof Flame
-  color: string
-  premium?: boolean
-}
+const tacos = [
+  { name: "Taco Pollo", desc: "Mit Poulet", icon: Drumstick, color: "#f59e0b" },
+  { name: "Taco Res", desc: "Mit Rindfleisch", icon: Beef, color: "#d61f26" },
+]
 
-const burgers: Burger[] = [
-  {
-    name: "El Diablo",
-    desc: "Mit Cheddar, Jalapeños, scharfer Sauce & Zwiebeln",
-    price: 25.5,
-    icon: Flame,
-    color: "#f97316",
-  },
-  {
-    name: "Trufa Loca",
-    desc: "Mit Trüffel-Mayo, Rucola, Parmesan & Röstzwiebeln",
-    price: 25.5,
-    icon: Sparkles,
-    color: "#8a6d3b",
-  },
-  {
-    name: "Smoky BBQ",
-    desc: "Mit Cheddar, BBQ Sauce, Röstzwiebeln & Pickles",
-    price: 25.5,
-    icon: Flame,
-    color: "#dc2626",
-  },
-  {
-    name: "La Mafiosa",
-    desc: "Mit 3 Smash Patties, Doppel-Cheddar, Smash Sauce & Zwiebeln",
-    price: 28.5,
-    icon: Crown,
-    color: "#fbbf24",
-    premium: true,
-  },
+const beilagen = [
+  { name: "Tomatenreis", icon: CookingPot },
+  { name: "Kartoffeln", icon: Utensils },
+  { name: "Salat", icon: Salad },
+  { name: "Saucen", icon: Droplets },
 ]
 
 /** Preis, der beim Hereinscrollen hochzählt. */
@@ -82,7 +54,6 @@ function AnimatedPrice({ value, prefix = "" }: { value: number; prefix?: string 
 export default function MonatsHits() {
   const [loading, setLoading] = useState(true)
   const [heroLoaded, setHeroLoaded] = useState(true)
-  const [cheeseLoaded, setCheeseLoaded] = useState(true)
   // Der Hero startet erst, wenn das Intro-Modal weg ist – sonst läuft die
   // Animation dahinter ab und niemand sieht sie.
   const [heroReady, setHeroReady] = useState(false)
@@ -136,28 +107,27 @@ export default function MonatsHits() {
                 Monats-Hits
               </span>
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.18em] bg-[#15803d]/10 text-[#166534] border border-[#15803d]/25">
-                <CalendarDays className="w-3.5 h-3.5" />
-                Ab September
+                <Sparkles className="w-3.5 h-3.5" />
+                Neu
               </span>
             </motion.div>
 
             {/* Der Titel ist der Star: Zeilen steigen auf, Glanz wandert darüber */}
             <h1 className="pincel ] leading-[0.82] mb-5">
               {[
-                { text: "Smash", className: "text-white" },
-                { text: "Burger", className: "text-red-500" },
+                { text: "Tacos", className: "text-amber-400" },
               ].map((line, i) => (
                 <span key={line.text} className="block overflow-hidden">
                   <motion.span
                     initial={{ y: "110%" }}
                     animate={heroReady ? { y: 0 } : undefined}
                     transition={{ delay: 0.25 + i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className={`relative inline-block text-[19vw] sm:text-[13vw] lg:text-[7.5rem] ${line.className}`}
+                    className={`relative inline-block text-[26vw] sm:text-[17vw] lg:text-[10rem] ${line.className}`}
                   >
                     {line.text}
                     <motion.span
                       initial={{ x: "-120%" }}
-                      animate={heroReady ? { x: "120%" } : undefined}
+                      animate={heroReady ? { x: "120%", opacity: [0, 1, 1, 0] } : undefined}
                       transition={{ delay: 1.2 + i * 0.15, duration: 1.1, ease: "easeInOut" }}
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
                       style={{ mixBlendMode: "overlay" }}
@@ -171,9 +141,9 @@ export default function MonatsHits() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={heroReady ? { scale: 1, opacity: 1 } : undefined}
                   transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
-                  className="inline-block bg-green-600 text-white text-3xl sm:text-4xl lg:text-5xl px-4 py-1 rounded-lg -rotate-2"
+                  className="inline-flex items-baseline gap-2 bg-[#d61f26] text-white text-4xl sm:text-5xl lg:text-6xl px-5 py-1.5 rounded-xl -rotate-3 shadow-lg shadow-red-600/25"
                 >
-                  Plus
+                  21.90 <span className="text-xl sm:text-2xl lg:text-3xl">CHF</span>
                 </motion.span>
               </span>
             </h1>
@@ -184,11 +154,11 @@ export default function MonatsHits() {
               transition={{ delay: 0.75, duration: 0.6 }}
             >
               <p className="text-lg sm:text-xl font-extrabold text-[#c2410c] uppercase tracking-wide mb-4">
-                mit offenem Getränk
+                Poulet &amp; Rind
               </p>
               <p className="kopf-text max-w-lg mx-auto">
-                Vier neue Smash Burger, frisch auf der Plancha gepresst – jeder inklusive einem
-                offenen Getränk Ihrer Wahl.
+                Zwei Tacos – einer mit Poulet, einer mit Rindfleisch – mit Tomatenreis, Kartoffeln,
+                Salat und Saucen.
               </p>
             </motion.div>
           </div>
@@ -200,7 +170,7 @@ export default function MonatsHits() {
         <div className="flex w-max animate-scroll-right">
           {[0, 1].map((copy) => (
             <div key={copy} className="flex items-center shrink-0">
-              {["Smash Burger Plus", "Ab September", "Inkl. offenem Getränk", "Nur für kurze Zeit"].map(
+              {["Monats-Hit", "Tacos", "Poulet & Rind", "21.90 CHF", "Nur für kurze Zeit"].map(
                 (word) => (
                   <span
                     key={word}
@@ -216,170 +186,98 @@ export default function MonatsHits() {
         </div>
       </div>
 
-      {/* ━━━ BURGER LISTE ━━━ */}
-      <section className="px-4 pt-24">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="sr-only"
-        >
-          Unsere vier Monats-Hits
-        </motion.h2>
-        <div className="papel mit-picado max-w-3xl mx-auto space-y-5 px-4 pb-6 md:px-8 md:pb-8">
-          <Picado n={14} />
-          <p className="text-center !mt-0 !mb-7"><span className="papel-kicker">Unsere vier Monats-Hits</span></p>
-          {burgers.map((burger, i) => (
-            <motion.div
-              key={burger.name}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -4 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ delay: 0.08 * i, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className={`group relative rounded-2xl border p-5 md:p-6 transition-colors duration-300 ${
-                burger.premium
-                  ? "bg-[#fef3c7] border-amber-400/60 hover:border-amber-500"
-                  : "bg-white border-[rgba(29,20,16,0.08)] hover:border-[rgba(29,20,16,0.2)]"
-              }`}
-            >
-              {burger.premium && (
-                <motion.span
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-3 left-5 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-600 text-white text-[11px] font-bold uppercase tracking-[0.15em] shadow-lg shadow-red-600/30"
-                >
-                  <Crown className="w-3 h-3" />
-                  Premium
-                </motion.span>
-              )}
-
-              {/* Farbschimmer beim Hover */}
-              <div
-                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                  background: `radial-gradient(420px circle at 12% 50%, ${burger.color}1f, transparent 70%)`,
-                }}
-              />
-
-              <div className="relative flex items-center gap-4">
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
-                  style={{ background: `${burger.color}25` }}
-                >
-                  <burger.icon className="w-6 h-6" style={{ color: burger.color }} />
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <h2 className="pincel text-xl md:text-2xl text-white">
-                    {burger.name}
-                  </h2>
-                  <p className="text-gray-400 text-sm leading-relaxed">{burger.desc}</p>
-                </div>
-
-                <div className="flex-shrink-0 rounded-xl bg-red-600 px-3 py-2 md:px-4 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-red-600/30">
-                  <span className="text-white font-extrabold text-lg md:text-xl whitespace-nowrap">
-                    <AnimatedPrice value={burger.price} />
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ━━━ EXTRA: GESCHMOLZENER KÄSE ━━━ */}
-      <section className="px-4 pt-10">
+      {/* ━━━ DER TELLER ━━━ */}
+      <section className="px-4 pt-20 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="papel group max-w-3xl mx-auto overflow-hidden"
-        >
-          <div className="flex flex-col sm:flex-row">
-            {/* Hochformat: auf dem Handy hoch genug, damit das Kännchen im Bild bleibt */}
-            {cheeseLoaded && (
-              <div className="w-full aspect-[4/5] sm:aspect-auto sm:w-52 sm:h-auto flex-shrink-0 relative overflow-hidden">
-                <img
-                  src={CHEESE_IMAGE}
-                  alt="Geschmolzener Käse wird über einen Smash Burger gegossen"
-                  onError={() => setCheeseLoaded(false)}
-                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent sm:bg-gradient-to-r" />
-              </div>
-            )}
-
-            <div className="flex-1 p-6 md:p-7 relative">
-              {/* Käse, der langsam von oben tropft */}
-              <motion.div
-                animate={{ opacity: [0.25, 0.5, 0.25] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="pointer-events-none absolute top-0 right-8 w-24 h-24 rounded-full bg-amber-400/25 blur-2xl"
-              />
-
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-[11px] font-bold uppercase tracking-[0.15em] mb-3">
-                <motion.span
-                  animate={{ y: [0, 2, 0] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <Droplets className="w-3.5 h-3.5" />
-                </motion.span>
-                Extra
-              </span>
-
-              <h2 className="pincel text-2xl md:text-3xl text-white leading-tight mb-2">
-                Geschmolzener <span className="text-amber-400">Käse</span>
-              </h2>
-
-              <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                Sie möchten Ihren Burger mit geschmolzenem Käse? Wir bringen Ihnen heissen, flüssigen
-                Käse im Kännchen an den Tisch – zum Selbstübergiessen, direkt über Ihren Smash
-                Burger.
-              </p>
-
-              <div className="flex items-center gap-3">
-                <span className="inline-flex items-baseline rounded-xl bg-red-600 px-4 py-2 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-red-600/30">
-                  <span className="text-white font-extrabold text-lg">
-                    <AnimatedPrice value={4.5} prefix="+ " />
-                  </span>
-                </span>
-                <span className="text-gray-400 text-sm">Aufpreis pro Burger</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ━━━ GETRÄNK-HINWEIS ━━━ */}
-      <section className="px-4 py-12">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="papel mit-picado max-w-3xl mx-auto p-7 text-center"
+          className="papel mit-picado max-w-3xl mx-auto px-4 pb-6 md:px-8 md:pb-8"
         >
           <Picado n={14} />
-          <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="flex justify-center mb-3"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-amber-400/20 flex items-center justify-center">
-              <CupSoda className="w-7 h-7 text-amber-400" />
+          <p className="text-center !mb-6"><span className="papel-kicker">Der Monats-Hit</span></p>
+
+          {heroLoaded && (
+            <div className="group relative rounded-2xl overflow-hidden aspect-[5/4] sm:aspect-[16/11]">
+              <img
+                src={HERO_IMAGE}
+                alt="Zwei Tacos mit Poulet und Rind, Tomatenreis, Kartoffeln, Salat und Saucen"
+                onError={() => setHeroLoaded(false)}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              {/* Sello del precio, como en el cartel */}
+              <motion.div
+                initial={{ scale: 0.6, opacity: 0, rotate: -14 }}
+                whileInView={{ scale: 1, opacity: 1, rotate: -8 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, type: "spring", stiffness: 220, damping: 14 }}
+                className="absolute right-3 top-3 sm:right-5 sm:top-5 rounded-2xl bg-[#d61f26] px-4 py-2 sm:px-5 sm:py-3 text-center shadow-xl shadow-black/30"
+              >
+                <span className="block text-white font-extrabold text-2xl sm:text-4xl leading-none tabular-nums">21.90</span>
+                <span className="block text-white/90 font-bold text-xs sm:text-sm tracking-[0.2em] mt-0.5">CHF</span>
+              </motion.div>
             </div>
-          </motion.div>
-          <p className="text-xl md:text-2xl font-extrabold text-white uppercase">
-            Alle Smash Burger inkl.
-          </p>
-          <p className="text-xl md:text-2xl font-extrabold text-red-500 uppercase">
-            offenem Getränk!
-          </p>
-          <p className="text-gray-400 text-sm mt-3">
-            Preise in Schweizer Franken. Angebot gültig ab September.
-          </p>
+          )}
+
+          <h2 className="papel-titel text-center text-3xl md:text-4xl mt-7 mb-5">Zwei Tacos</h2>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {tacos.map((taco, i) => (
+              <motion.div
+                key={taco.name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -4 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ delay: 0.08 * i, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="group flex items-center gap-4 rounded-2xl border bg-white border-[rgba(29,20,16,0.08)] hover:border-[rgba(29,20,16,0.2)] p-4 md:p-5 transition-colors"
+              >
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6"
+                  style={{ background: `${taco.color}22` }}
+                >
+                  <taco.icon className="w-6 h-6" style={{ color: taco.color }} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="pincel text-xl md:text-2xl text-white">{taco.name}</h3>
+                  <p className="text-gray-400 text-sm">{taco.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <hr className="papel-trenner my-7" />
+
+          <p className="text-center !mb-4"><span className="papel-kicker">Dazu</span></p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {beilagen.map((b, i) => (
+              <motion.div
+                key={b.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.06 * i, duration: 0.4 }}
+                className="flex flex-col items-center gap-2 rounded-2xl bg-[#f6ead6] py-4"
+              >
+                <span className="papel-icon papel-icon--gruen w-11 h-11">
+                  <b.icon className="w-5 h-5" />
+                </span>
+                <span className="font-bold text-[15px]" style={{ color: "var(--tinta)" }}>{b.name}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="mt-7 flex items-center justify-between gap-4 rounded-2xl bg-[#fef3c7] border border-amber-300 px-5 py-4">
+            <div>
+              <p className="font-extrabold uppercase tracking-wide text-sm" style={{ color: "var(--tinta)" }}>Der ganze Teller</p>
+              <p className="text-gray-400 text-sm">Preis in Schweizer Franken</p>
+            </div>
+            <span className="flex-shrink-0 rounded-xl bg-red-600 px-4 py-2">
+              <span className="text-white font-extrabold text-xl md:text-2xl whitespace-nowrap">
+                <AnimatedPrice value={PREIS} /> <span className="text-base">CHF</span>
+              </span>
+            </span>
+          </div>
         </motion.div>
       </section>
 

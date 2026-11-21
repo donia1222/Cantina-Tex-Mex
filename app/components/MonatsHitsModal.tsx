@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Flame, ArrowRight, CalendarDays } from "lucide-react"
+import { X, Flame, Sparkles } from "lucide-react"
 import { Link } from "@remix-run/react"
 
 /* ─────────────────────────────────────────────
@@ -12,13 +12,13 @@ import { Link } from "@remix-run/react"
    eine neue `id` lässt das Modal erneut erscheinen.
    ───────────────────────────────────────────── */
 const OFFER = {
-  id: "2026-09-smash-burger-plus", // eindeutige ID pro Angebot → Modal erscheint erneut
-  name: "Smash Burger Plus",
-  desc: "Ab September neu bei uns: vier Smash Burger, frisch auf der Plancha gepresst – jeder inklusive einem offenen Getränk Ihrer Wahl.",
-  price: "25.50",
+  id: "2026-11-tacos", // eindeutige ID pro Angebot → Modal erscheint erneut
+  name: "Tacos",
+  desc: "Zwei Tacos – einer mit Poulet, einer mit Rindfleisch – mit Tomatenreis, Kartoffeln, Salat und Saucen.",
+  price: "21.90",
   currency: "CHF",
-  image: "/monats-hits-burger.jpg",
-  tags: ["El Diablo", "Trufa Loca", "Smoky BBQ", "La Mafiosa"],
+  image: "/monats-hits-tacos.jpg",
+  tags: ["Taco Pollo", "Taco Res", "Tomatenreis", "Kartoffeln", "Salat", "Saucen"],
 }
 
 /**
@@ -103,8 +103,8 @@ export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
 
               {/* Badge */}
               <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-black text-xs font-extrabold uppercase tracking-wide shadow-lg">
-                <CalendarDays className="w-3.5 h-3.5" />
-                Neu ab September
+                <Sparkles className="w-3.5 h-3.5" />
+                Neu
               </div>
 
               <div className="absolute bottom-4 left-5 right-5">
@@ -124,7 +124,7 @@ export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
             <div className="p-5 sm:p-6">
               <p className="text-gray-400 text-[15px] leading-relaxed mb-4">{OFFER.desc}</p>
 
-              {/* Die vier Burger */}
+              {/* Was auf dem Teller ist */}
               <div className="flex flex-wrap gap-2 mb-5">
                 {OFFER.tags.map((tag) => (
                   <span
@@ -139,7 +139,6 @@ export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
               {/* Preis + CTA */}
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-sm font-bold text-gray-400 mr-1">ab</span>
                   <span className="text-4xl font-extrabold bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400 bg-clip-text text-transparent">
                     {OFFER.price}
                   </span>
@@ -151,7 +150,7 @@ export default function MonatsHitsModal({ onReady }: { onReady?: () => void }) {
                   onClick={close}
                   className="btn-brocha"
                 >
-                  Burger ansehen
+                  Tacos ansehen
                 </Link>
               </div>
 
