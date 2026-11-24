@@ -30,10 +30,10 @@ const menuItems = [
   { to: "/monats-hits", icon: Flame, label: "Monats-Hits" },
   { to: "/drinks", icon: Beer, label: "Getränke" },
   { to: "/contact", icon: BookCheck, label: "Kontakt" },
-  { to: "/jobs", icon: ChefHat, label: "Jobs" },
+  // { to: "/jobs", icon: ChefHat, label: "Jobs" },   // 24/11/2026: escondido, ya no buscan a nadie (la página /jobs sigue existiendo)
   // "Reservierung" sigue quitada del menú: para reservar ya está el botón rojo (arriba en escritorio, abajo en el
   // móvil). La página sigue existiendo.
-  // "Jobs" vuelve al menú el 22/10/2026: buscan ayuda para la cocina.
+  // "Jobs" vuelve al menú el 22/10/2026: buscan ayuda para la cocina. Fuera otra vez el 24/11/2026.
 ]
 
 export default function Component({ children }: { children: React.ReactNode }) {
