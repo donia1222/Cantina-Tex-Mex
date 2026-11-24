@@ -5,6 +5,11 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Clock, Calendar, Mail, Share2, HandPlatter, CheckCircle2 } from "lucide-react"
 import PageLoader from "~/components/PageLoader"
 import Picado from "~/components/Picado"
+import { redirect } from "@remix-run/node"
+
+// 24/11/2026: ya no buscan a nadie. /jobs manda a la portada (302, temporal) en vez de enseñar la oferta.
+// Para volver a publicarla: borrar este loader y devolver «Jobs» al menú en components/Layout.tsx.
+export const loader = () => redirect("/", 302)
 
 export default function Jobs() {
   const [loading, setLoading] = useState(true)
